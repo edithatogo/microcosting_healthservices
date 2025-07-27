@@ -4,8 +4,10 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from nwau_py.data.loader import load_sas_table
+from nwau_py.utils import sas_ref_dir
 
-DATA_DIR = pathlib.Path(__file__).resolve().parents[1] / "archive/sas/NEP25_SAS_NWAU_calculator/calculators"
+BASE_DIR = pathlib.Path(__file__).resolve().parents[1]
+DATA_DIR = BASE_DIR / sas_ref_dir("2025")
 
 
 def test_load_sas_table_no_cache():
@@ -29,3 +31,9 @@ def test_load_multiple_tables(tmp_path):
     cache_file = tmp_path / "ahr_map_10.csv"
     assert cache_file.exists()
     assert len(df) > 0
+
+
+def test_sas_ref_dir_legacy():
+    """Ensure legacy directory structures are located."""
+    legacy_dir = BASE_DIR / sas_ref_dir("2024")
+    assert legacy_dir.exists()
