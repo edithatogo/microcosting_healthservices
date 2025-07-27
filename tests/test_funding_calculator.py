@@ -1,10 +1,17 @@
 import sys
 import pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
+
+# Ensure the package is importable when running tests from the source tree
+pkg_root = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(pkg_root))
 
 import pytest
 import pandas as pd
-from funding_calculator import load_weights, load_formula, calculate_funding
+from nwau_py.funding_calculator import (
+    load_weights,
+    load_formula,
+    calculate_funding,
+)
 
 
 def test_load_weights_normalises_columns(tmp_path):

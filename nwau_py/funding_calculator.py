@@ -1,4 +1,6 @@
 import json
+import sys
+import argparse
 import pandas as pd
 from pandas import DataFrame
 
@@ -36,3 +38,23 @@ def calculate_funding(weights_df: DataFrame, formula) -> pd.Series:
         expr = expr.strip()
         env[lhs] = pd.eval(expr, local_dict=env, engine="python")
     return env["NWAU25"]
+
+
+def main(argv=None):
+    """Command line entry point for funding calculation."""
+    parser = argparse.ArgumentParser(description="Calculate IHACPA NWAU values")
+    parser.add_argument("--weights", required=True, help="CSV containing weights")
+    parser.add_argument("--formula", required=True, help="Formula JSON file")
+    parser.add_argument("input_csv", help="Patient level CSV data")
+    args = parser.parse_args(argv)
+
+    weights = load_weights(args.weights)
+    formula = load_formula(args.formula)
+    patient_df = pd.read_csv(args.input_csv)
+    df = pd.concat([weights, patient_df], axis=1)
+    result = calculate_funding(df, formula)
+    result.to_csv(sys.stdout, index=False, header=True)
+
+
+if __name__ == "__main__":
+    main()
