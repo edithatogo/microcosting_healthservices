@@ -23,15 +23,11 @@ funding-calculator = "excel_calculator.src.funding_calculator:main"
 where = [".", "excel_calculator/src"]
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py311"
 line-length = 88
+exclude = ["archive/*"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
 ignore = []
-
-[tool.ruff]
-target-version = "py311"
-line-length = 88
-exclude = ["archive/*"]
 
