@@ -14,11 +14,11 @@ we will maintain year specific copies of these files.
   `extract_weights.py` script.
 
 ## CLI selection of year
-The Python CLI in `nwau_py.cli.main` will gain a `--year` option which selects
-the correct data directory. For example:
+The `funding-calculator` command line tool accepts a `--year` option to select
+the appropriate data directory. For example:
 
 ```bash
-nwau_py.cli.main acute patient.csv --year 2022 --output out.csv
+funding-calculator --params excel_calculator/data/2022 patient.csv > out.csv
 ```
 
 internally translates to:
