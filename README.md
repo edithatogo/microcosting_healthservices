@@ -49,7 +49,8 @@ python excel_calculator/src/funding_calculator.py \
 ```
 
 ### Tests
-There is no dedicated test suite. Syntax checks can be run with:
+Run the test suite with `pytest` from the repository root. Sample data for the
+tests resides in `tests/data`. Syntax checks can be run with:
 
 ```bash
 python -m py_compile excel_calculator/scripts/extract_weights.py
