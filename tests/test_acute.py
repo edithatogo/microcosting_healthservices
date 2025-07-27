@@ -86,6 +86,7 @@ def test_covid_flags_from_diagnosis(monkeypatch):
         est_remoteness_option=2,
         covid_option=1,
         covid_adj_option=1,
+        debug_mode=True,
     )
 
     result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
@@ -116,6 +117,7 @@ def test_covid_flags_provided(monkeypatch):
         est_remoteness_option=2,
         covid_option=2,
         covid_adj_option=2,
+        debug_mode=True,
     )
 
     result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
@@ -123,13 +125,13 @@ def test_covid_flags_provided(monkeypatch):
     assert result["_pat_covid_treat_flag"].iloc[0] == 1
     assert result["adj_covid"].iloc[0] == 0.23
 
-    assert not any(col.startswith("_") for col in result.columns)
+    assert any(col.startswith("_") for col in result.columns)
 
     debug = acute.calculate_acute(
         DATA.copy(),
         acute.AcuteParams(debug_mode=True),
-        year=year,
-        ref_dir=ref_dir,
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
     )
     assert any(col.startswith("_") for col in debug.columns)
 

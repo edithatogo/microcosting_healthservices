@@ -108,6 +108,74 @@ def calculate_subacute(
     except Exception:
         merged["adj_dialysis"] = 0
 
+    # --------------------------------------------------------------
+    # Remoteness calculations
+    # --------------------------------------------------------------
+    if params.est_remoteness_option == 1:
+        treat = np.nan
+        if "ESTID" in merged.columns:
+            try:
+                hosp_df = load_sas_table(
+                    ref_dir / f"nep{suffix}_hospital_ra2021.sas7bdat"
+                )
+                apc_col = next(
+                    (c for c in hosp_df.columns if c.lower().startswith("apcid")),
+                    None,
+                )
+                if apc_col:
+                    hosp_df = hosp_df.rename(columns={apc_col: "ESTID"})
+                merged = merged.merge(
+                    hosp_df[["ESTID", "_hosp_ra_2021"]], on="ESTID", how="left"
+                )
+                treat = merged["_hosp_ra_2021"]
+            except Exception:
+                treat = np.nan
+        merged["_treat_remoteness"] = treat.fillna(0)
+    else:
+        merged["_treat_remoteness"] = (
+            merged.get("EST_REMOTENESS", pd.Series(0, index=merged.index)).fillna(0)
+        )
+
+    pat_pc = next(
+        (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
+        None,
+    )
+    pat_sa2 = next((c for c in ["PAT_SA2", "SA2"] if c in merged.columns), None)
+    if params.est_remoteness_option == 1:
+        if pat_pc:
+            try:
+                pc_df = load_sas_table(ref_dir / "postcode_to_ra2021.sas7bdat")
+                pc_df = pc_df.rename(
+                    columns={"POSTCODE": pat_pc, "ra2021": "PAT_ra2021"}
+                )
+                merged = merged.merge(
+                    pc_df[[pat_pc, "PAT_ra2021"]], on=pat_pc, how="left"
+                )
+            except Exception:
+                merged["PAT_ra2021"] = np.nan
+        else:
+            merged["PAT_ra2021"] = np.nan
+
+        if pat_sa2:
+            try:
+                sa2_df = load_sas_table(ref_dir / "sa2_to_ra2021.sas7bdat")
+                sa2_df = sa2_df.rename(
+                    columns={"ASGS": pat_sa2, "ra2021": "SA2_ra2021"}
+                )
+                merged = merged.merge(
+                    sa2_df[[pat_sa2, "SA2_ra2021"]], on=pat_sa2, how="left"
+                )
+            except Exception:
+                merged["SA2_ra2021"] = np.nan
+        else:
+            merged["SA2_ra2021"] = np.nan
+
+        merged["_pat_remoteness"] = (
+            merged.get("SA2_ra2021").combine_first(merged.get("PAT_ra2021")).combine_first(merged["_treat_remoteness"])
+        )
+    else:
+        merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
+
     adm = pd.to_datetime(merged["ADM_DATE"])
     sep = pd.to_datetime(merged["SEP_DATE"])
     leave = merged.get("LEAVE_DAYS", 0).fillna(0)
@@ -125,6 +193,49 @@ def calculate_subacute(
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
     merged["_pat_private_flag"] = merged.get("PAT_PRIVATE_FLAG", 0)
     merged["_pat_public_flag"] = merged.get("PAT_PUBLIC_FLAG", 0)
+
+    # --------------------------------------------------------------
+    # Merge adjustment tables
+    # --------------------------------------------------------------
+    try:
+        ind_adj = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
+        )
+        merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+    except Exception:
+        merged["adj_indigenous"] = 0
+
+    try:
+        pat_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat")
+        merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
+    except Exception:
+        merged["adj_remoteness"] = 0
+
+    try:
+        treat_adj = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
+        )
+        merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
+    except Exception:
+        merged["adj_treat_remoteness"] = 0
+
+    # Private patient service adjustment
+    merged["_care"] = merged.get("CARE_TYPE", 0).fillna(0).astype(float).astype(int)
+    try:
+        ppsa = load_sas_table(ref_dir / f"nep{suffix}_sa_adj_priv_serv_state.sas7bdat")
+        ppsa = ppsa.rename(columns={"caretype": "_care", "state": "STATE"})
+        merged = merged.merge(ppsa, on=["STATE", "_care"], how="left")
+    except Exception:
+        merged["caretype_adj_privpat_serv_state"] = 0
+        merged["caretype_adj_privpat_serv_nat"] = 0
+
+    try:
+        acc = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_priv_acc.sas7bdat")
+        acc = acc.rename(columns={"state": "STATE"})
+        merged = merged.merge(acc, on="STATE", how="left")
+    except Exception:
+        merged["state_adj_privpat_accomm_sd"] = 0
+        merged["state_adj_privpat_accomm_on"] = 0
 
     error_code = np.select(
         [
