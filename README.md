@@ -26,31 +26,31 @@ Example project pages built using this template are:
 
 ## Data extraction and funding calculator
 
-### Regenerating `data/weights.csv`
+### Regenerating `excel_calculator/data/weights.csv`
 Run the following command from the repository root to rebuild the weights table:
 
 ```bash
-python scripts/extract_weights.py
+python excel_calculator/scripts/extract_weights.py
 ```
 
-This reads `archive/nwau25_calculator_for_acute_activity.xlsb` (found under `archive/excel/`) and writes the result to `data/weights.csv`.
+This reads `excel_calculator/archive/nwau25_calculator_for_acute_activity.xlsb` and writes the result to `excel_calculator/data/weights.csv`.
 
 ### Editing `formula.json`
-`data/formula.json` stores the pricing formula. The `variables` mapping links symbols used in the workbook to column names in `data/weights.csv`. The `steps` array lists the intermediate calculations that lead to the final `NWAU25` value. Adjust these entries if the source workbook changes.
+`excel_calculator/data/formula.json` stores the pricing formula. The `variables` mapping links symbols used in the workbook to column names in `excel_calculator/data/weights.csv`. The `steps` array lists the intermediate calculations that lead to the final `NWAU25` value. Adjust these entries if the source workbook changes.
 
 ### Example usage of `funding_calculator.py`
 `funding_calculator.py` applies the formula to patient level data. A typical invocation is:
 
 ```bash
-python funding_calculator.py --weights data/weights.csv \
-    --formula data/formula.json patient_data.csv > funding.csv
+python excel_calculator/src/funding_calculator.py --weights excel_calculator/data/weights.csv \
+    --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
 ```
 
 ### Tests
 There is no dedicated test suite. Syntax checks can be run with:
 
 ```bash
-python -m py_compile scripts/extract_weights.py
+python -m py_compile excel_calculator/scripts/extract_weights.py
 ```
 
 ## Start using the template

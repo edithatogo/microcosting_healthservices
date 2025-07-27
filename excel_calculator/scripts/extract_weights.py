@@ -1,9 +1,9 @@
 import pandas as pd
 from pathlib import Path
 
-INPUT_FILE = 'archive/nwau25_calculator_for_acute_activity.xlsb'
+INPUT_FILE = 'excel_calculator/archive/nwau25_calculator_for_acute_activity.xlsb'
 SHEET_NAME = 'Parameters'
-OUTPUT_PATH = Path('data/weights.csv')
+OUTPUT_PATH = Path('excel_calculator/data/weights.csv')
 
 def main():
     df = pd.read_excel(INPUT_FILE, sheet_name=SHEET_NAME, engine='pyxlsb')

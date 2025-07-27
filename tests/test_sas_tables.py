@@ -1,6 +1,9 @@
+import sys
 import pytest
 import pandas as pd
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "excel_calculator" / "src"))
 from funding_calculator import load_formula, calculate_funding
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
@@ -35,6 +38,6 @@ def test_calculate_nwau_from_sas_weights():
         "Readmission adjustment": [0.0],
         "National Efficient Price": [7258.0],
     })
-    formula = load_formula("data/formula.json")
+    formula = load_formula("excel_calculator/data/formula.json")
     result = calculate_funding(df, formula)
     assert result.iloc[0] == pytest.approx(67116.1776, rel=1e-4)
