@@ -1,0 +1,38 @@
+{
+  "variables": {
+    "PW": "Inlier",
+    "APaed": "Paediatric Adjustment",
+    "AInd": "Adj (Indigenous Status)",
+    "ARes": "Adjustment.1 (Patient Remoteness)",
+    "ART": "Treatment Remoteness Adjustment",
+    "ADia": "Dialysis Adjustment",
+    "ATreat": "Private Service Adjustment", 
+    "AC19": "COVID-19 Treatment Adjustment",
+    "AICU": "Bundled ICU",
+    "ICU_hours": "ICU Hours",
+    "APPS": "Private Service Percentage",
+    "LOS": "Length of Stay",
+    "AAcc": "Private Patient Accommodation Adjustment",
+    "AHAC": "HAC Adjustment",
+    "PWAHR": "Readmission weight",
+    "RAHR": "Readmission adjustment",
+    "NEP": "National Efficient Price"
+  },
+  "steps": [
+    "T1 = PW * APaed",
+    "T2 = 1 + AInd + ARes + ART + ADia",
+    "T3 = 1 + ATreat",
+    "T4 = 1 + AC19",
+    "T5 = T1 * T2 * T3 * T4",
+    "T6 = AICU * ICU_hours",
+    "T7 = T5 + T6",
+    "T8 = PW + AICU * ICU_hours",
+    "T9 = T8 * APPS",
+    "T10 = LOS * AAcc",
+    "T11 = T7 - (T9 + T10)",
+    "T12 = T11 - PW * AHAC",
+    "T13 = T12 - PWAHR * RAHR",
+    "NWAU25 = T13 * NEP"
+  ],
+  "excel_formula": "= {[PW x APaed x (1 + AInd + ARes + ART + ADia) x (1 + ATreat) x (1 + AC19) + (AICU x ICU hours)] - [(PW + AICU x ICU hours) x APPS + LOS x AAcc] - PW x AHAC - PWAHR x RAHR} x NEP"
+}
