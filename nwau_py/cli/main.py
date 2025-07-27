@@ -43,7 +43,7 @@ def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool) ->
 def common_options(func):
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
-        click.option("--params", default="data", show_default=True,
+        click.option("--params", default="excel_calculator/data", show_default=True,
                      type=click.Path(file_okay=False, dir_okay=True),
                      help="Directory containing weights.csv and formula.json"),
         click.option("--output", default="-", show_default=True,

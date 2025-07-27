@@ -39,10 +39,12 @@ This reads `excel_calculator/archive/nwau25_calculator_for_acute_activity.xlsb` 
 `excel_calculator/data/formula.json` stores the pricing formula. The `variables` mapping links symbols used in the workbook to column names in `excel_calculator/data/weights.csv`. The `steps` array lists the intermediate calculations that lead to the final `NWAU25` value. Adjust these entries if the source workbook changes.
 
 ### Example usage of `funding_calculator.py`
-`funding_calculator.py` applies the formula to patient level data. A typical invocation is:
+`excel_calculator/src/funding_calculator.py` applies the formula to patient level data. A typical invocation is:
 
 ```bash
-python excel_calculator/src/funding_calculator.py --weights excel_calculator/data/weights.csv \
+python excel_calculator/src/funding_calculator.py \
+    --weights excel_calculator/data/weights.csv \
+
     --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
 ```
 
