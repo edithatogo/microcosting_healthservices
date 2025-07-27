@@ -1,3 +1,6 @@
+"""Public scoring API."""
+
+from .scorer import score_readmission
 """Compatibility wrapper for the readmission scoring implementation.
 
 The actual scoring logic lives in :mod:`nwau_py.scoring.scorer`.  This module
@@ -31,6 +34,5 @@ except ImportError:  # pragma: no cover - fallback for source layout
     assert spec.loader is not None
     spec.loader.exec_module(_module)
     score_readmission = _module.score_readmission
-
 
 __all__ = ["score_readmission"]
