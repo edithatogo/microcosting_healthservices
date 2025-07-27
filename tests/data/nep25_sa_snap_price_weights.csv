@@ -1,0 +1,2 @@
+ansnap,description,ansnap_type,ansnap_inlier_lb,ansnap_inlier_ub,ansnap_samedaylist_flag,ansnap_pw_sd,ansnap_pw_sso_perdiem,ansnap_pw_inlier,ansnap_pw_lso_perdiem
+5AZ1,"Weighted FIM Motor score 13-18, Brain, Spine, MMT, Burns, Age >= 59",2.0,32.0,70.0,0.0,,0.4198,13.4327,0.2671
