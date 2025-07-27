@@ -34,6 +34,25 @@ def test_adjustment_basic_drop():
     assert result["nwau25_adjusted"].iloc[0] == 7.0
 
 
+def test_adjustment_no_drop():
+    df = pd.DataFrame({
+        "nwau25": [5.0],
+        "_w01": [2.0],
+        "hac_adj01": [0.1],
+        "hac_flag01": [1],
+    })
+
+    result = calculate_adjusted_nwau(
+        df,
+        hac_flag_cols=["hac_flag01"],
+        hac_adj_cols=["hac_adj01"],
+        drop_intermediate=False,
+    )
+
+    assert "hac_flag01" in result.columns
+    assert "riskAdjustment_HAC" in result.columns
+
+
 def test_covid_zeroes_adjustments():
     df = pd.DataFrame({
         "nwau25": [10.0],

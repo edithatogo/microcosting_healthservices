@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -15,6 +16,7 @@ class SubacuteParams:
     est_remoteness_option: int = 1
     debug_mode: bool = False
     clear_data: bool = False
+    ppsa_option: int = 1
 
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
@@ -45,8 +47,66 @@ def calculate_subacute(
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+    suffix = str(year)[-2:]
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="ANSNAP", how="left")
+
+    # --------------------------------------------------------------
+    # Radiotherapy and dialysis flags
+    # --------------------------------------------------------------
+    proc_cols = [
+        c for c in merged.columns
+        if "srg" in c.lower() or c.lower().startswith("proc")
+    ]
+
+    def _flag_procs(codes: set[str]) -> pd.Series:
+        if not proc_cols:
+            return pd.Series(0, index=merged.index)
+        proc_df = merged[proc_cols].fillna("").astype(str)
+        proc_df = proc_df.replace({"/": "", "-": "", " ": ""}, regex=True)
+        return proc_df.isin(codes).any(axis=1).astype(int)
+
+    try:
+        radio_codes = load_sas_table(
+            ref_dir / f"nep{suffix}_radio_codes.sas7bdat"
+        )
+        radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
+    except Exception:
+        radio_set = set()
+
+    try:
+        dialysis_codes = load_sas_table(
+            ref_dir / f"nep{suffix}_dialysis_codes.sas7bdat"
+        )
+        dialysis_set = set(dialysis_codes["code_ID"].astype(int).astype(str))
+    except Exception:
+        dialysis_set = set()
+
+    if params.radiotherapy_option == 2:
+        merged["_pat_radiotherapy_flag"] = (
+            merged.get("PAT_RADIOTHERAPY_FLAG", 0).fillna(0)
+        )
+    else:
+        merged["_pat_radiotherapy_flag"] = _flag_procs(radio_set)
+
+    if params.dialysis_option == 2:
+        merged["_pat_dialysis_flag"] = (
+            merged.get("PAT_DIALYSIS_FLAG", 0).fillna(0)
+        )
+    else:
+        merged["_pat_dialysis_flag"] = _flag_procs(dialysis_set)
+
+    try:
+        rt_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_rt.sas7bdat")
+        merged = merged.merge(rt_adj, on="_pat_radiotherapy_flag", how="left")
+    except Exception:
+        merged["adj_radiotherapy"] = 0
+
+    try:
+        ds_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_ds.sas7bdat")
+        merged = merged.merge(ds_adj, on="_pat_dialysis_flag", how="left")
+    except Exception:
+        merged["adj_dialysis"] = 0
 
     adm = pd.to_datetime(merged["ADM_DATE"])
     sep = pd.to_datetime(merged["SEP_DATE"])
@@ -138,9 +198,11 @@ def calculate_subacute(
         + merged.get("adj_dialysis", 0)
     ) * (1 + merged.get("adj_treat_remoteness", 0))
 
-    adj_priv_serv = merged["_pat_private_flag"] * merged.get(
-        "caretype_adj_privpat_serv_nat", 0
-    ) * merged["_w01"]
+    if params.ppsa_option == 1:
+        priv_serv_rate = merged.get("caretype_adj_privpat_serv_nat", 0)
+    else:
+        priv_serv_rate = merged.get("caretype_adj_privpat_serv_state", 0)
+    adj_priv_serv = merged["_pat_private_flag"] * priv_serv_rate * merged["_w01"]
     adj_priv_accomm = merged["_pat_private_flag"] * (
         merged["_pat_sameday_flag"] * merged.get("state_adj_privpat_accomm_sd", 0)
         + (1 - merged["_pat_sameday_flag"])
