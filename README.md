@@ -5,10 +5,7 @@ calculators.  Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
 logic.  A lightweight command line interface is available via the
 `funding-calculator` script.
-
-Historical SAS calculators from IHACPA are stored under
-`archive/sas/<year>_SAS_NWAU_calculator`. Each folder contains the
-original SAS programs and data tables for that pricing year.
+Historical SAS calculators from IHACPA should be extracted to `archive/sas/<YEAR>` (for example `archive/sas/2023`). Each folder contains the original SAS programs and data tables for that pricing year.
 
 ## Installation
 
@@ -17,6 +14,16 @@ Install the package and its dependencies using `pip`:
 ```bash
 pip install -e .
 ```
+
+## Historical data
+
+Place each year's SAS calculator under `archive/sas/<YEAR>` and extract it so the directory holds the SAS programs for that pricing year. If you also download the Excel workbook, copy it to `excel_calculator/archive/<year>` and run:
+
+```bash
+python excel_calculator/scripts/extract_weights.py
+```
+
+Move the resulting `weights.csv` into `excel_calculator/data/<year>` along with a matching `formula.json`.
 
 ## Usage
 Weights and the pricing formula are stored in `excel_calculator/data`.
@@ -45,10 +52,10 @@ After installation the `funding-calculator` entry point is available. You can
 select a specific pricing year with `--year`:
 
 ```bash
-funding-calculator --year 2025 patient_data.csv > funding.csv
+funding-calculator --year 2023 patient_data.csv > funding.csv
 ```
 
-`patient_data.csv` should contain the columns referenced in `excel_calculator/data/formula.json`. The output will include a `NWAU25` column with the calculated values.
+`patient_data.csv` should contain the columns referenced in `excel_calculator/data/formula.json`. The output will include a `NWAU23` column with the calculated values.
 
 ### Python modules
 
@@ -61,7 +68,7 @@ weights = load_weights('excel_calculator/data/weights.csv')
 formula = load_formula('excel_calculator/data/formula.json')
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-patient_df['NWAU25'] = calculate_funding(patient_df, formula)
+patient_df['NWAU23'] = calculate_funding(patient_df, formula)
 ```
 
 Replace `excel_calculator/data` with `excel_calculator/data/<year>` to use
