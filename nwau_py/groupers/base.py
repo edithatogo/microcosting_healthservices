@@ -1,3 +1,18 @@
-"""Grouping logic for NWAU project.
+"""Abstract interfaces for grouping algorithms."""
 
-This module is a placeholder for grouper implementations."""
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+
+import pandas as pd
+
+
+class BaseGrouper(ABC):
+    """Base class for activity groupers."""
+
+    @abstractmethod
+    def group(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Return grouped or annotated ``df`` data."""
+
+
+__all__ = ["BaseGrouper"]
