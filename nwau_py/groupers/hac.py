@@ -7,11 +7,11 @@ from typing import Iterable, Mapping
 import pandas as pd
 import pyreadstat
 
+from nwau_py.utils import sas_ref_dir
 
-_DATA_DIR = (
-    Path(__file__).resolve().parents[2]
-    / "archive/sas/NEP25_SAS_NWAU_calculator/calculators"
-)
+
+_DEFAULT_YEAR = "2025"
+_DATA_DIR = sas_ref_dir(_DEFAULT_YEAR)
 
 
 @lru_cache()

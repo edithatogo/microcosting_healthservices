@@ -46,7 +46,7 @@ The `funding-calculator` command line tool accepts a `--year` option to select
 the appropriate data directory. For example:
 
 ```bash
-funding-calculator --params excel_calculator/data/2022 patient.csv > out.csv
+funding-calculator --year 2022 patient.csv > out.csv
 ```
 
 internally translates to:

@@ -31,7 +31,9 @@ def calculate(input_csv: str, params: str, outfh, icu: bool, covid: bool) -> Non
     df.to_csv(outfh, index=False)
 
 
-def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool) -> None:
+def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool, year: str | None = None) -> None:
+    if year is not None and params == "excel_calculator/data":
+        params = str(Path("excel_calculator/data") / year)
     outfh = sys.stdout if output == "-" else open(output, "w", newline="")
     try:
         calculate(input_csv, params, outfh, icu, covid)
@@ -49,6 +51,11 @@ def common_options(func):
             show_default=True,
             type=click.Path(file_okay=False, dir_okay=True),
             help="Directory containing weights.csv and formula.json",
+        ),
+        click.option(
+            "--year",
+            default=None,
+            help="NEP/NWAU edition year",
         ),
         click.option(
             "--output",
