@@ -1,14 +1,10 @@
 import importlib.util
 import sys
-from pathlib import Path
-
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 import numpy as np
 import pandas as pd
 import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 spec = importlib.util.spec_from_file_location(
     "subacute",
@@ -23,6 +19,21 @@ EXPECTED = 13.4327
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
+    weights = pd.DataFrame({
+        "ANSNAP": ["5AZ1"],
+        "snap_pw": [EXPECTED],
+        "ansnap_samedaylist_flag": [1],
+        "ansnap_inlier_lb": [1],
+        "ansnap_inlier_ub": [10],
+        "caretype_adj_privpat_serv_nat": [0],
+        "state_adj_privpat_accomm_sd": [0],
+        "state_adj_privpat_accomm_on": [0],
+        "ansnap_pw_sd": [1.0],
+        "ansnap_pw_sso_perdiem": [0.0],
+        "ansnap_pw_inlier": [1.0],
+        "ansnap_pw_lso_perdiem": [0.0],
+    })
+
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
         df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
         df = df.rename(columns={"ansnap": "ANSNAP"})
@@ -44,11 +55,23 @@ def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
     )
 
     result = subacute.calculate_subacute(
+        DATA2.copy(),
         df,
         subacute.SubacuteParams(),
         year=year,
         ref_dir=Path("unused"),
     )
+    assert not any(c.startswith("_") for c in result.columns)
+
+    debug = subacute.calculate_subacute(
+        DATA2.copy(),
+        subacute.SubacuteParams(debug_mode=True),
+        year=year,
+        ref_dir=Path("unused"),
+    )
+    assert any(c.startswith("_") for c in debug.columns)
+
+DATA2 = pd.DataFrame(
 
     assert result["NWAU25"].iloc[0] == pytest.approx(13.4327, rel=1e-4)
 
@@ -69,6 +92,7 @@ DATA_WEIGHTS = pd.DataFrame(
         "adj_remoteness": [0.0],
     }
 )
+EXPECTED2 = np.array([13.4327])
 EXPECTED = 13.4327
 
 
@@ -122,6 +146,12 @@ def test_calculate_subacute_option_paths(monkeypatch):
     )
 
     result = subacute.calculate_subacute(
+        DATA2.copy(),
+        subacute.SubacuteParams(),
+        year="2025",
+        ref_dir=Path("."),
+    )
+    assert np.allclose(result["NWAU25"].values, EXPECTED2)
         data,
         params,
         year="2025",

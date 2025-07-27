@@ -1,5 +1,6 @@
 import importlib.util
 import sys
+
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -14,6 +15,16 @@ spec = importlib.util.spec_from_file_location(
 )
 outpatients = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(outpatients)
+
+DATA = pd.DataFrame({
+    "TIER2_CLINIC": [10.01],
+    "adj_indigenous": [0.0],
+    "adj_remoteness": [0.0],
+    "SERVICE_DATE": [pd.Timestamp("2024-07-01")],
+    "BIRTH_DATE": [pd.Timestamp("1990-01-01")],
+    "PAT_MULTIPROV_FLAG": [0],
+    "EST_ELIGIBLE_PAED_FLAG": [1],
+})
 
 WEIGHTS = pd.DataFrame(
     {
@@ -64,6 +75,18 @@ def test_calculate_outpatients_matches_sas_weights(monkeypatch, year):
         year=year,
         ref_dir=Path("unused"),
     )
+    assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
+    assert not any(c.startswith("_") for c in result.columns)
+
+    debug = outpatients.calculate_outpatients(
+        DATA.copy(),
+        outpatients.OutpatientParams(debug_mode=True),
+        year=year,
+        ref_dir=Path("unused"),
+    )
+    assert any(c.startswith("_") for c in debug.columns)
+
+DATA2 = pd.DataFrame(
 
     assert result["NWAU25"].iloc[0] == pytest.approx(0.0868, rel=1e-4)
 
@@ -95,6 +118,7 @@ BASE_DATA = pd.DataFrame(
         "EST_ELIGIBLE_PAED_FLAG": [1],
     }
 )
+
 EXPECTED_ARRAY = np.array([0.0868])
 
 
@@ -102,7 +126,6 @@ def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
     df = pd.read_csv("tests/data/nep25_op_price_weights.csv")
     df = df.rename(columns={"tier2_clinic": "TIER2_CLINIC"})
     return df
-
 
 def test_calculate_outpatients_basic(monkeypatch):
     monkeypatch.setattr(outpatients, "_load_weights", _basic_weights)
@@ -131,11 +154,14 @@ def test_calculate_outpatients_option_paths(monkeypatch):
     )
 
     result = outpatients.calculate_outpatients(
+        DATA2.copy(),
+        outpatients.OutpatientParams(),
         data,
         params,
         year="2025",
         ref_dir=Path("unused"),
     )
+    assert np.allclose(result["NWAU25"].values, EXPECTED2)
 
     assert np.allclose(result["NWAU25"].values, [0.0868])
     assert result["Error_Code"].iloc[0] == 0

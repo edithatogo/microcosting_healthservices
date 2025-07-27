@@ -14,6 +14,8 @@ class SubacuteParams:
     radiotherapy_option: int = 1
     dialysis_option: int = 1
     est_remoteness_option: int = 1
+    debug_mode: bool = False
+    clear_data: bool = False
     ppsa_option: int = 1
 
 
@@ -214,4 +216,12 @@ def calculate_subacute(
         np.maximum(0, gwau - adj_priv_serv - adj_priv_accomm),
     )
     merged["NWAU25"] = nwau
-    return merged
+
+    result = merged
+    if not params.debug_mode:
+        result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
+    if params.clear_data:
+        import shutil
+        shutil.rmtree(".cache", ignore_errors=True)
+
+    return result

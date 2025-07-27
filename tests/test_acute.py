@@ -52,6 +52,15 @@ def test_calculate_acute_matches_sas_weights(monkeypatch, year):
         ref_dir=ref_dir,
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+    assert not any(col.startswith("_") for col in result.columns)
+
+    debug = acute.calculate_acute(
+        DATA.copy(),
+        acute.AcuteParams(debug_mode=True),
+        year=year,
+        ref_dir=ref_dir,
+    )
+    assert any(col.startswith("_") for col in debug.columns)
 
 
 def test_calculate_acute_option_paths(monkeypatch):

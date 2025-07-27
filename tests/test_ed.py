@@ -26,6 +26,7 @@ DATA = pd.DataFrame(
         "adj_indigenous": [0.0],
         "adj_remoteness": [0.0],
         "adj_treat_remoteness": [0.0],
+        "FUNDSC": [1],
         "COMPENSABLE_STATUS": [2],
         "DVA_STATUS": [2],
     }
@@ -49,7 +50,7 @@ def test_calculate_ed_matches_sas_weights(monkeypatch, year):
 
     result = ed.calculate_ed(
         DATA.copy(),
-        ed.EDParams(classification_option=3),
+        ed.EDParams(classification_option=3, eligibility_option=2),
         year=year,
         ref_dir=Path("unused"),
     )
