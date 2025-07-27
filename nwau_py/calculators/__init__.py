@@ -1,3 +1,4 @@
+"""Funding calculators subpackage."""
 from .acute import calculate_acute, AcuteParams
 from .ed import calculate_ed, EDParams
 from .mh import calculate_mh, MHParams
