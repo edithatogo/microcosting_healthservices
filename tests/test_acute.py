@@ -165,3 +165,157 @@ def test_calculate_acute_option_paths(monkeypatch):
         ref_dir=Path("tests/data/2025"),
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+
+
+# ---------------------------------------------------------------------------
+# Additional helpers for adjustment testing
+# ---------------------------------------------------------------------------
+
+def _make_weights(*_, **overrides) -> pd.DataFrame:
+    data = {
+        "DRG": ["AAA"],
+        "drg_inlier_lb": [2],
+        "drg_inlier_ub": [10],
+        "drg_adj_paed": [1.2],
+        "drg_samedaylist_flag": [0],
+        "drg_bundled_icu_flag": [0],
+        "drg_pw_sd": [0.5],
+        "drg_pw_sso_base": [0.6],
+        "drg_pw_sso_perdiem": [0.1],
+        "drg_pw_inlier": [1.0],
+        "drg_pw_lso_perdiem": [0.2],
+        "drg_adj_privpat_serv": [0.1],
+        "state_adj_privpat_accomm_sd": [0.02],
+        "state_adj_privpat_accomm_on": [0.01],
+        "icu_rate": [0.05],
+        "adj_radiotherapy": [0.0],
+        "adj_dialysis": [0.0],
+        "adj_remoteness": [0.0],
+        "adj_treat_remoteness": [0.0],
+    }
+    for k, v in overrides.items():
+        data[k] = [v]
+    return pd.DataFrame(data)
+
+
+def _fake_load(path: Path, *_, **__):
+    name = path.name
+    if "radio_codes" in name:
+        return pd.DataFrame({"code_ID": [11111]})
+    if "dialysis_codes" in name:
+        return pd.DataFrame({"code_ID": [22222]})
+    if "icu_paed_eligibility_list" in name:
+        return pd.DataFrame(
+            {"APCID": ["HOSP"], "_est_eligible_icu_flag": [1], "_est_eligible_paed_flag": [1]}
+        )
+    if "postcode_to_ra2021" in name:
+        return pd.DataFrame({"POSTCODE": ["PC1"], "ra2021": [2]})
+    if "sa2_to_ra2021" in name:
+        return pd.DataFrame({"ASGS": [123], "ra2021": [3]})
+    if "hospital_ra2021" in name:
+        return pd.DataFrame({"APCID": ["HOSP"], "_hosp_ra_2021": [4]})
+    if "aa_adj_rt" in name:
+        return pd.DataFrame({"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]})
+    if "aa_adj_ds" in name:
+        return pd.DataFrame({"_pat_dialysis_flag": [0, 1], "adj_dialysis": [0.0, 0.2]})
+    return pd.DataFrame()
+
+
+def test_proc_adjustments(monkeypatch):
+    monkeypatch.setattr(acute, "_load_price_weights", lambda *_: _make_weights(adj_radiotherapy=0.1, adj_dialysis=0.2))
+    monkeypatch.setattr(acute, "load_sas_table", _fake_load)
+
+    df = pd.DataFrame(
+        {
+            "DRG": ["AAA"],
+            "LOS": [3],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PROC1": [11111],
+            "PROC2": [22222],
+        }
+    )
+
+    res = acute.calculate_acute(df, acute.AcuteParams(icu_paed_option=2), year="2025", ref_dir=Path("unused"))
+    assert res["adj_radiotherapy"].iloc[0] == 0.1
+    assert res["adj_dialysis"].iloc[0] == 0.2
+    assert res["NWAU25"].iloc[0] == pytest.approx(1.3, rel=1e-4)
+
+
+def test_icu_and_paediatric(monkeypatch):
+    monkeypatch.setattr(acute, "_load_price_weights", _make_weights)
+    monkeypatch.setattr(acute, "load_sas_table", _fake_load)
+
+    df = pd.DataFrame(
+        {
+            "DRG": ["AAA"],
+            "LOS": [5],
+            "ICU_HOURS": [48],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "APCID": ["HOSP"],
+        }
+    )
+
+    res = acute.calculate_acute(
+        df, acute.AcuteParams(debug_mode=True), year="2025", ref_dir=Path("unused")
+    )
+    assert res["_est_eligible_icu_flag"].iloc[0] == 1
+    assert res["_est_eligible_paed_flag"].iloc[0] == 1
+    assert res["NWAU25"].iloc[0] == pytest.approx(3.4, rel=1e-4)
+
+
+def test_private_patient_deductions(monkeypatch):
+    monkeypatch.setattr(acute, "_load_price_weights", _make_weights)
+    monkeypatch.setattr(acute, "load_sas_table", _fake_load)
+
+    base = pd.DataFrame(
+        {
+            "DRG": ["AAA"],
+            "LOS": [4],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [1],
+            "STATE": [1],
+        }
+    )
+
+    res1 = acute.calculate_acute(base.copy(), acute.AcuteParams(ppservadj=1), year="2025", ref_dir=Path("unused"))
+    assert res1["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
+
+    res2 = acute.calculate_acute(base.copy(), acute.AcuteParams(ppservadj=2), year="2025", ref_dir=Path("unused"))
+    assert res2["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
+
+
+def test_remoteness_adjustments(monkeypatch):
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda *_: _make_weights(adj_remoteness=0.2, adj_treat_remoteness=0.05),
+    )
+    monkeypatch.setattr(acute, "load_sas_table", _fake_load)
+
+    df = pd.DataFrame(
+        {
+            "DRG": ["AAA"],
+            "LOS": [3],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "APCID": ["HOSP"],
+            "PAT_POSTCODE": ["PC1"],
+            "PAT_SA2": [123],
+        }
+    )
+
+    res = acute.calculate_acute(
+        df, acute.AcuteParams(debug_mode=True), year="2025", ref_dir=Path("unused")
+    )
+    assert res["_pat_remoteness"].iloc[0] == 3
+    assert res["_treat_remoteness"].iloc[0] == 4
+    assert res["NWAU25"].iloc[0] == pytest.approx(1.26, rel=1e-4)
