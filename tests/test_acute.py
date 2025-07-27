@@ -52,3 +52,34 @@ def test_calculate_acute_matches_sas_weights(monkeypatch, year):
         ref_dir=ref_dir,
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+
+
+def test_calculate_acute_option_paths(monkeypatch):
+    def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
+        df["DRG"] = df["DRG"].str.strip("b'")
+        return df
+
+    monkeypatch.setattr(acute, "_load_price_weights", _load_csv)
+
+    data = DATA.copy()
+    data["PAT_RADIOTHERAPY_FLAG"] = 0
+    data["PAT_DIALYSIS_FLAG"] = 0
+    data["EST_ELIGIBLE_ICU_FLAG"] = 0
+    data["EST_ELIGIBLE_PAED_FLAG"] = 0
+    data["EST_REMOTENESS"] = 0
+
+    params = acute.AcuteParams(
+        icu_paed_option=2,
+        radiotherapy_option=2,
+        dialysis_option=2,
+        est_remoteness_option=2,
+    )
+
+    result = acute.calculate_acute(
+        data,
+        params,
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+    )
+    assert np.allclose(result["NWAU25"].values, EXPECTED)

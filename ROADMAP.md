@@ -70,3 +70,14 @@ today.
 
 This roadmap will allow researchers to easily compute funding using past
 NEP/NWAU definitions without altering the code base for each release.
+
+## SAS feature parity for the 2025 calculators
+The Python calculators aim to replicate all logic present in the official SAS implementation for NEP25. Achieving full parity ensures the open source tools produce identical results for the latest pricing year.
+
+Planned implementation tasks:
+- Cross-check each module against the SAS programs and identify missing steps.
+- Port remaining SAS macros and lookup tables used by the acute and ED calculators.
+- Integrate the readmission risk models and other adjustment factors.
+- Update unit tests to validate results against the SAS output.
+
+
