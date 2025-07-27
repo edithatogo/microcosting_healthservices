@@ -12,7 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from nwau_py.cli.main import cli
 
 
-def test_cli_runs_with_sample_data(tmp_path):
+@pytest.mark.parametrize("year", ["2024", "2025"])
+def test_cli_runs_with_sample_data(tmp_path, year):
     params_dir = tmp_path / "params"
     params_dir.mkdir()
     (params_dir / "weights.csv").write_text("dummy\n0\n")
@@ -34,6 +35,8 @@ def test_cli_runs_with_sample_data(tmp_path):
             str(input_csv),
             "--params",
             str(params_dir),
+            "--year",
+            year,
             "--output",
             str(output_csv),
         ],
@@ -53,7 +56,8 @@ CSV_DATA = (
     "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
 )
 
-def test_cli_outputs_nwau25(tmp_path):
+@pytest.mark.parametrize("year", ["2024", "2025"])
+def test_cli_outputs_nwau25(tmp_path, year):
     input_csv = tmp_path / "input.csv"
     csv_data = (
         "Inlier,Paediatric Adjustment,Adj (Indigenous Status),"
@@ -74,6 +78,8 @@ def test_cli_outputs_nwau25(tmp_path):
             str(input_csv),
             "--params",
             "excel_calculator/data",
+            "--year",
+            year,
             "--output",
             str(output_csv),
         ],

@@ -6,6 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
 import pandas as pd
+import pytest
 
 spec = importlib.util.spec_from_file_location(
     "acute",
@@ -32,6 +33,22 @@ DATA = pd.DataFrame(
 EXPECTED = np.array([6.8772, 9.2472, 11.3272])
 
 
-def test_calculate_acute_matches_sas_weights():
-    result = acute.calculate_acute(DATA.copy(), acute.AcuteParams())
+@pytest.mark.parametrize("year", ["2024", "2025"])
+def test_calculate_acute_matches_sas_weights(monkeypatch, year):
+    def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        suffix = str(year)[-2:]
+        path = ref_dir / f"nep{suffix}_aa_price_weights.csv"
+        df = pd.read_csv(path)
+        df["DRG"] = df["DRG"].str.strip("b'")
+        return df
+
+    monkeypatch.setattr(acute, "_load_price_weights", _load_csv)
+
+    ref_dir = Path("tests/data") / year
+    result = acute.calculate_acute(
+        DATA.copy(),
+        acute.AcuteParams(),
+        year=year,
+        ref_dir=ref_dir,
+    )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
