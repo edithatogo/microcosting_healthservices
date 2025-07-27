@@ -12,6 +12,8 @@ _DEFAULT_YEAR = "2025"
 class EDParams:
     """Configuration for the ED calculator."""
     classification_option: int = 3
+    eligibility_option: int = 1
+    inscope_funding_sources: tuple[int, ...] = (1, 2, 8)
 
 
 def _load_weights(ref_dir: Path, classification_option: int, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
@@ -29,6 +31,14 @@ def _load_weights(ref_dir: Path, classification_option: int, year: str = _DEFAUL
     return df
 
 
+def _load_udg_map(ref_dir: Path) -> pd.DataFrame:
+    path = ref_dir / 'ed_tov_tri_epi_to_udg.sas7bdat'
+    df = pd.read_sas(path)
+    if df['UDG'].dtype == object:
+        df['UDG'] = df['UDG'].str.decode('ascii')
+    return df
+
+
 def calculate_ed(
     df: pd.DataFrame,
     params: EDParams,
@@ -36,21 +46,57 @@ def calculate_ed(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Partial translation of ``NWAU25_CALCULATOR_ED.sas``."""
+    """Translate ``NWAU25_CALCULATOR_ED.sas`` using pandas."""
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+
+    df = df.copy()
+
+    if params.classification_option == 1:
+        udg_map = _load_udg_map(ref_dir)
+        df = df.merge(
+            udg_map,
+            left_on=['type_of_visit', 'triage_category', 'episode_end_status'],
+            right_on=['type_of_visit', 'triage_category', 'episode_end_status'],
+            how='left',
+        )
+
     weights = _load_weights(ref_dir, params.classification_option, year)
     key = 'UDG' if params.classification_option < 3 else 'AECC'
     merged = df.merge(weights, on=key, how='left')
 
     if params.classification_option < 3:
         w01 = merged['udg_pw']
-        gwau = w01 * (1 + merged.get('adj_treat_remoteness', 0))
+        gwau = (w01 * (1 + merged.get('adj_treat_remoteness', 0))).round(6)
     else:
-        w01 = merged['aecc_pw']
-        gwau = w01 * (1 + merged.get('adj_indigenous', 0) + merged.get('adj_remoteness', 0)) * (
-            1 + merged.get('adj_treat_remoteness', 0))
+        w01 = merged['AECC_pw']
+        gwau = (
+            w01
+            * (1 + merged.get('adj_indigenous', 0) + merged.get('adj_remoteness', 0))
+            * (1 + merged.get('adj_treat_remoteness', 0))
+        ).round(8)
 
-    nwau = gwau.round(8)
-    merged['NWAU25'] = np.where(merged.get('Error_Code', 0) > 0, 0, nwau)
+    weight_missing = w01.isna()
+    if params.eligibility_option == 1:
+        comp = merged.get('COMPENSABLE_STATUS')
+        dva = merged.get('DVA_STATUS')
+        missing_elig = comp.isna() | dva.isna()
+        not_in_scope = ~comp.isin([2, 9]) | ~dva.isin([2, 9])
+        merged['Error_Code'] = np.select(
+            [weight_missing, missing_elig, not_in_scope],
+            [3, 3, 2],
+            default=0,
+        )
+    else:
+        fund = merged.get('FUNDSC')
+        out_scope = ~fund.isin(params.inscope_funding_sources)
+        merged['Error_Code'] = np.select(
+            [weight_missing, out_scope],
+            [3, 2],
+            default=0,
+        )
+
+    merged['_w01'] = w01
+    merged['GWAU25'] = gwau
+    merged['NWAU25'] = np.where(merged['Error_Code'] > 0, 0, gwau.round(8))
     return merged
