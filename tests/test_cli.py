@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
+from click.testing import CliRunner
+from nwau_py.cli.main import cli
 
 
 def test_cli_runs_with_sample_data(tmp_path):
@@ -35,15 +37,6 @@ def test_cli_runs_with_sample_data(tmp_path):
     result = pd.read_csv(output_csv)
     assert result.loc[0, "NWAU25"] == pytest.approx(3.7184092)
 
-=======
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-import pandas as pd
-from click.testing import CliRunner
-from nwau_py.cli.main import cli
 
 CSV_DATA = (
     "Inlier,Paediatric Adjustment,Adj (Indigenous Status),"
