@@ -1,5 +1,6 @@
 import importlib.util
 import sys
+from pathlib import Path
 
 from pathlib import Path
 
@@ -16,25 +17,41 @@ spec = importlib.util.spec_from_file_location(
 subacute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(subacute)
 
+WEIGHTS = pd.DataFrame({"ANSNAP": ["5AZ1"], "ansnap_pw_inlier": [13.4327]})
 DATA = pd.DataFrame({"ANSNAP": ["5AZ1"], "adj_indigenous": [0.0], "adj_remoteness": [0.0]})
 EXPECTED = 13.4327
 
-
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
-    def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+    def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
         df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
-        return df.rename(columns={"ansnap": "ANSNAP"})
+        df = df.rename(columns={"ansnap": "ANSNAP"})
+        return df[df["ANSNAP"] == "5AZ1"].reset_index(drop=True)
 
     monkeypatch.setattr(subacute, "_load_weights", _load_csv)
 
+    df = pd.DataFrame(
+        {
+            "ANSNAP": ["5AZ1"],
+            "ADM_DATE": [pd.Timestamp("2024-07-01")],
+            "SEP_DATE": [pd.Timestamp("2024-08-10")],
+            "LEAVE_DAYS": [0],
+            "BIRTH_DATE": [pd.Timestamp("1980-01-01")],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_PUBLIC_FLAG": [1],
+            "STATE": [1],
+        }
+    )
+
     result = subacute.calculate_subacute(
-        DATA.copy(),
+        df,
         subacute.SubacuteParams(),
         year=year,
         ref_dir=Path("unused"),
     )
-    assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
+
+    assert result["NWAU25"].iloc[0] == pytest.approx(13.4327, rel=1e-4)
+
 
 DATA = pd.DataFrame(
 
@@ -67,8 +84,8 @@ BASE_DATA = pd.DataFrame(
         "STATE": [1],
     }
 )
-EXPECTED_ARRAY = np.array([13.4327])
 
+EXPECTED_ARRAY = np.array([13.4327])
 
 def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
     df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
@@ -76,7 +93,6 @@ def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
     df["caretype_adj_privpat_serv_nat"] = 0.1
     df["caretype_adj_privpat_serv_state"] = 0.2
     return df
-
 
 def test_calculate_subacute_basic(monkeypatch):
     monkeypatch.setattr(subacute, "_load_weights", _basic_weights)
@@ -111,8 +127,10 @@ def test_calculate_subacute_option_paths(monkeypatch):
         year="2025",
         ref_dir=Path("."),
     )
+
     assert np.allclose(result["NWAU25"].values, EXPECTED)
     assert result["Error_Code"].iloc[0] == 0
+
 def test_ppsa_option(monkeypatch):
     monkeypatch.setattr(subacute, "_load_weights", _basic_weights)
     data = BASE_DATA.copy()
