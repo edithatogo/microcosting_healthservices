@@ -82,7 +82,7 @@ def calculate_outpatients(
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
-            except Exception:
+            except (FileNotFoundError, KeyError, ValueError):
                 merged["_hosp_ra_2021"] = np.nan
         else:
             merged["_hosp_ra_2021"] = np.nan
