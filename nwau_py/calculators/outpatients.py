@@ -12,6 +12,8 @@ _DEFAULT_YEAR = "2025"
 class OutpatientParams:
     paed_option: int = 1
     est_remoteness_option: int = 1
+    debug_mode: bool = False
+    clear_data: bool = False
 
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
@@ -105,4 +107,12 @@ def calculate_outpatients(
 
     nwau = np.where(merged["Error_Code"] > 0, 0, gwau)
     merged["NWAU25"] = nwau
-    return merged
+
+    result = merged
+    if not params.debug_mode:
+        result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
+    if params.clear_data:
+        import shutil
+        shutil.rmtree(".cache", ignore_errors=True)
+
+    return result

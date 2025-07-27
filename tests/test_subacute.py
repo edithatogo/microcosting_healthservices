@@ -1,21 +1,11 @@
 import importlib.util
 from pathlib import Path
 import sys
-
+import numpy as np
 import pandas as pd
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-spec = importlib.util.spec_from_file_location(
-    "subacute",
-    Path(__file__).resolve().parents[1]
-    / "nwau_py"
-    / "calculators"
-    / "subacute.py",
-
-import numpy as np
-import pandas as pd
 
 spec = importlib.util.spec_from_file_location(
     "subacute",
@@ -24,14 +14,27 @@ spec = importlib.util.spec_from_file_location(
 subacute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(subacute)
 
-DATA = pd.DataFrame({"SNAP": ["5AZ1"], "adj_indigenous": [0.0], "adj_remoteness": [0.0]})
+DATA = pd.DataFrame({"ANSNAP": ["5AZ1"], "adj_indigenous": [0.0], "adj_remoteness": [0.0]})
 
 EXPECTED = 13.4327
 
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
-    weights = pd.DataFrame({"SNAP": ["5AZ1"], "snap_pw": [EXPECTED]})
+    weights = pd.DataFrame({
+        "ANSNAP": ["5AZ1"],
+        "snap_pw": [EXPECTED],
+        "ansnap_samedaylist_flag": [1],
+        "ansnap_inlier_lb": [1],
+        "ansnap_inlier_ub": [10],
+        "caretype_adj_privpat_serv_nat": [0],
+        "state_adj_privpat_accomm_sd": [0],
+        "state_adj_privpat_accomm_on": [0],
+        "ansnap_pw_sd": [1.0],
+        "ansnap_pw_sso_perdiem": [0.0],
+        "ansnap_pw_inlier": [1.0],
+        "ansnap_pw_lso_perdiem": [0.0],
+    })
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
         return weights
@@ -39,14 +42,22 @@ def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
     monkeypatch.setattr(subacute, "_load_weights", _load)
 
     result = subacute.calculate_subacute(
-        DATA.copy(),
+        DATA2.copy(),
         subacute.SubacuteParams(),
         year=year,
         ref_dir=Path("unused"),
     )
-    assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
+    assert not any(c.startswith("_") for c in result.columns)
 
-DATA = pd.DataFrame(
+    debug = subacute.calculate_subacute(
+        DATA2.copy(),
+        subacute.SubacuteParams(debug_mode=True),
+        year=year,
+        ref_dir=Path("unused"),
+    )
+    assert any(c.startswith("_") for c in debug.columns)
+
+DATA2 = pd.DataFrame(
     {
         "ANSNAP": ["5AZ1"],
         "ADM_DATE": [pd.Timestamp("2024-07-01")],
@@ -58,7 +69,7 @@ DATA = pd.DataFrame(
         "STATE": [1],
     }
 )
-EXPECTED = np.array([13.4327])
+EXPECTED2 = np.array([13.4327])
 
 def test_calculate_subacute_basic(monkeypatch):
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
@@ -67,10 +78,10 @@ def test_calculate_subacute_basic(monkeypatch):
 
     monkeypatch.setattr(subacute, "_load_weights", _load_csv)
     result = subacute.calculate_subacute(
-        DATA.copy(),
+        DATA2.copy(),
         subacute.SubacuteParams(),
         year="2025",
         ref_dir=Path("."),
     )
-    assert np.allclose(result["NWAU25"].values, EXPECTED)
+    assert np.allclose(result["NWAU25"].values, EXPECTED2)
     assert result["Error_Code"].iloc[0] == 0

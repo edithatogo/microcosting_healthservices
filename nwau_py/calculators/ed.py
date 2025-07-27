@@ -14,6 +14,8 @@ class EDParams:
     classification_option: int = 3
     eligibility_option: int = 1
     inscope_funding_sources: tuple[int, ...] = (1, 2, 8)
+    debug_mode: bool = False
+    clear_data: bool = False
 
 
 def _load_weights(ref_dir: Path, classification_option: int, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
@@ -99,4 +101,12 @@ def calculate_ed(
     merged['_w01'] = w01
     merged['GWAU25'] = gwau
     merged['NWAU25'] = np.where(merged['Error_Code'] > 0, 0, gwau.round(8))
-    return merged
+
+    result = merged
+    if not params.debug_mode:
+        result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
+    if params.clear_data:
+        import shutil
+        shutil.rmtree(".cache", ignore_errors=True)
+
+    return result

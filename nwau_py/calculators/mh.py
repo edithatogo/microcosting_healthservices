@@ -21,6 +21,8 @@ class MHParams:
     # behaviour.
     adm_sstream: int = 1
     cmty_sstream: int = 1
+    debug_mode: bool = False
+    clear_data: bool = False
 
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> dict[str, pd.DataFrame]:
@@ -190,4 +192,11 @@ def calculate_mh(
     nwau = np.where(result.get("Error_Code", 0) > 0, 0, nwau)
 
     result["NWAU25"] = nwau
+
+    if not params.debug_mode:
+        result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
+    if params.clear_data:
+        import shutil
+        shutil.rmtree(".cache", ignore_errors=True)
+
     return result
