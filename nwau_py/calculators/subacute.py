@@ -38,12 +38,12 @@ def calculate_subacute(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Partial translation of ``NWAU25_CALCULATOR_SUBACUTE.sas``.
+    """Calculate NWAU25 for subacute episodes.
 
-    Only a subset of the SAS logic is implemented.  ``df`` should contain at
-    least the columns ``ANSNAP``, ``ADM_DATE``, ``SEP_DATE``, ``LEAVE_DAYS`` and
-    ``BIRTH_DATE``.  Private/public flags are expected in ``PAT_PRIVATE_FLAG``
-    and ``PAT_PUBLIC_FLAG``.
+    This function mirrors ``NWAU25_CALCULATOR_SUBACUTE.sas``. ``df`` should
+    contain at least the columns ``ANSNAP``, ``ADM_DATE``, ``SEP_DATE``,
+    ``LEAVE_DAYS`` and ``BIRTH_DATE``. Private/public flags are expected in
+    ``PAT_PRIVATE_FLAG`` and ``PAT_PUBLIC_FLAG``.
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)

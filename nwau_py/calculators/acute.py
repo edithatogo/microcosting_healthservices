@@ -42,10 +42,9 @@ def calculate_acute(
 ) -> pd.DataFrame:
     """Calculate NWAU25 for acute admitted episodes.
 
-    This is a partial translation of ``NWAU25_CALCULATOR_ACUTE.sas`` using
-    pandas operations.
-    ``df`` is expected to contain columns ``DRG``, ``LOS``, ``ICU_HOURS``,
-    ``ICU_OTHER``, ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
+    This function mirrors ``NWAU25_CALCULATOR_ACUTE.sas`` using pandas
+    operations. ``df`` is expected to contain columns ``DRG``, ``LOS``,
+    ``ICU_HOURS``, ``ICU_OTHER``, ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)

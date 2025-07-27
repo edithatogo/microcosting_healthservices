@@ -70,7 +70,10 @@ def calculate_outpatients(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Partial translation of ``NWAU25_CALCULATOR_OUTPATIENTS.sas``."""
+    """Calculate NWAU25 for outpatient activity.
+
+    Mirrors ``NWAU25_CALCULATOR_OUTPATIENTS.sas``.
+    """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     weights = _load_weights(ref_dir, year)

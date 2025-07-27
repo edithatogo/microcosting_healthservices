@@ -1,10 +1,10 @@
 """Avoidable Hospital Readmission (AHR) Grouper in Python.
 
-This module provides a minimal implementation of the SAS script
-``Avoidable Hospital Readmission Grouper 030.sas``. It loads the
-ICD‑to‑AHR mappings distributed with the IHACPA SAS calculator and
-applies them to patient level data. The grouper also exposes an
-interface to the LightGBM based scorer used by IHACPA.
+This module mirrors the SAS script ``Avoidable Hospital Readmission
+Grouper 030.sas``. It loads the ICD‑to‑AHR mappings distributed with the
+IHACPA SAS calculator and applies them to patient level data. The
+grouper also exposes an interface to the LightGBM based scorer used by
+IHACPA.
 """
 from __future__ import annotations
 
