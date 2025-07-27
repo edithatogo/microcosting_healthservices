@@ -49,11 +49,11 @@ python excel_calculator/src/funding_calculator.py \
 ```
 
 ### Tests
-Run the test suite with `pytest` from the repository root. Sample data for the
-tests resides in `tests/data`. Syntax checks can be run with:
+Unit tests are provided under the `tests/` and `excel_calculator/tests/` folders.
+After installing the dependencies from `requirements.txt`, run them with:
 
 ```bash
-python -m py_compile excel_calculator/scripts/extract_weights.py
+pytest -v
 ```
 
 ## Start using the template
