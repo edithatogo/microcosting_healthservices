@@ -26,7 +26,7 @@ Example project pages built using this template are:
 
 ## Data extraction and funding calculator
 
-### Regenerating `data/weights.csv`
+### Regenerating `excel_calculator/data/weights.csv`
 Run the following command from the repository root to rebuild the weights table:
 
 ```bash
@@ -44,6 +44,7 @@ This reads `excel_calculator/archive/nwau25_calculator_for_acute_activity.xlsb` 
 ```bash
 python excel_calculator/src/funding_calculator.py \
     --weights excel_calculator/data/weights.csv \
+
     --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
 ```
 
