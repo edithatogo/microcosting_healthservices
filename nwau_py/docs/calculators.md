@@ -52,3 +52,20 @@ result = calculate_outpatients(op_df, OutpatientParams())
 from nwau_py.calculators import calculate_adjusted_nwau
 result = calculate_adjusted_nwau(weight_df)
 ```
+
+## Debugging and cleanup
+
+Each parameter dataclass includes two optional flags:
+
+* `debug_mode` – when ``True`` intermediate columns (those beginning with
+  underscores) are retained in the returned dataframe. The default ``False``
+  mimics the SAS calculators by dropping these helper fields.
+* `clear_data` – when ``True`` any cached reference tables under ``.cache`` are
+  removed after calculation completes.
+
+Example usage:
+
+```python
+params = AcuteParams(debug_mode=True)
+df = calculate_acute(data, params)
+```
