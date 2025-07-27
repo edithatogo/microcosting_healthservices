@@ -20,6 +20,9 @@ pip install -e .
 
 ## Usage
 Weights and the pricing formula are stored in `excel_calculator/data`.
+Each pricing year has its own subdirectory, e.g. `excel_calculator/data/2025`.
+The top-level files remain as the default for 2025 so existing scripts
+continue to work.
 To calculate funding for a CSV file of patient activity:
 
 ```bash
