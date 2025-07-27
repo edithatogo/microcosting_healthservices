@@ -203,6 +203,119 @@ def calculate_acute(
     merged["_pat_public_flag"] = 1 - merged["_pat_private_flag"]
     merged["_pat_acute_flag"] = 1
 
+    ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
+    merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
+
+    # ------------------------------------------------------------------
+    # Merge adjustment tables
+    # ------------------------------------------------------------------
+    try:
+        rt_df = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_sa_adj_rt.sas7bdat"
+        )
+        merged = merged.merge(rt_df, on="_pat_radiotherapy_flag", how="left")
+    except Exception:
+        merged["adj_radiotherapy"] = 0
+    merged["adj_radiotherapy"] = merged.get("adj_radiotherapy", 0).fillna(0)
+
+    try:
+        ds_df = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_sa_adj_ds.sas7bdat"
+        )
+        merged = merged.merge(ds_df, on="_pat_dialysis_flag", how="left")
+    except Exception:
+        merged["adj_dialysis"] = 0
+    merged["adj_dialysis"] = merged.get("adj_dialysis", 0).fillna(0)
+
+    try:
+        ind_adj = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
+        )
+        merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+    except Exception:
+        merged["adj_indigenous"] = 0
+    merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
+
+    try:
+        pat_adj = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_sa_na_adj_rem.sas7bdat"
+        )
+        merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
+    except Exception:
+        merged["adj_remoteness"] = 0
+    merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
+
+    try:
+        treat_adj = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_sa_na_adj_treat_rem.sas7bdat"
+        )
+        merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
+    except Exception:
+        merged["adj_treat_remoteness"] = 0
+    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
+
+    try:
+        if params.ppservadj == 1:
+            ppsa = load_sas_table(
+                ref_dir / f"nep{suffix}_aa_adj_privpat_serv_nat.sas7bdat"
+            )
+        else:
+            ppsa = load_sas_table(
+                ref_dir / f"nep{suffix}_aa_adj_privpat_serv_jur.sas7bdat"
+            )
+        merged = merged.merge(ppsa, on="DRG", how="left")
+    except Exception:
+        if params.ppservadj == 1:
+            merged["drg_adj_privpat_serv"] = 0
+        else:
+            for st in ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]:
+                merged[f"drg_adj_privpat_serv_{st}"] = 0
+
+    if params.ppservadj == 2 and "STATE" in merged.columns:
+        mapping = {
+            1: "NSW",
+            2: "VIC",
+            3: "QLD",
+            4: "SA",
+            5: "WA",
+            6: "TAS",
+            7: "NT",
+            8: "ACT",
+        }
+        merged["drg_adj_privpat_serv"] = 0
+        for idx, st in mapping.items():
+            col = f"drg_adj_privpat_serv_{st}"
+            if col in merged.columns:
+                merged.loc[merged["STATE"] == idx, "drg_adj_privpat_serv"] = (
+                    merged.loc[merged["STATE"] == idx, col]
+                )
+
+    merged["drg_adj_privpat_serv"] = merged.get("drg_adj_privpat_serv", 0).fillna(0)
+
+    try:
+        acc = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_sa_adj_priv_acc.sas7bdat"
+        )
+        acc = acc.rename(columns={"State": "STATE"})
+        merged = merged.merge(acc, on="STATE", how="left")
+    except Exception:
+        merged["state_adj_privpat_accomm_sd"] = 0
+        merged["state_adj_privpat_accomm_on"] = 0
+    merged["state_adj_privpat_accomm_sd"] = (
+        merged.get("state_adj_privpat_accomm_sd", 0).fillna(0)
+    )
+    merged["state_adj_privpat_accomm_on"] = (
+        merged.get("state_adj_privpat_accomm_on", 0).fillna(0)
+    )
+
+    try:
+        icu_df = load_sas_table(
+            ref_dir / f"nep{suffix}_aa_adj_icu.sas7bdat"
+        )
+        merged["icu_rate"] = float(icu_df.iloc[0, 0])
+    except Exception:
+        merged["icu_rate"] = 0
+
     # ------------------------------------------------------------------
     # Error code calculation
     # ------------------------------------------------------------------
@@ -229,7 +342,9 @@ def calculate_acute(
     )
     merged['_pat_eligible_icu_hours'] = eligible_icu
 
-    merged['_pat_los_icu_removed'] = (merged['LOS'] - (eligible_icu / 24).astype(int)).clip(lower=1)
+    merged["_pat_los_icu_removed"] = (
+        merged["LOS"] - (eligible_icu / 24).astype(int)
+    ).clip(lower=1)
 
     conds = [
         (merged['PAT_SAMEDAY_FLAG'] == 1) & (merged['drg_samedaylist_flag'] == 1),
@@ -244,19 +359,32 @@ def calculate_acute(
          merged['_pat_separation_category'] == 2,
          merged['_pat_separation_category'] == 3,
          merged['_pat_separation_category'] == 4],
-        [merged['drg_pw_sd'],
-         merged['drg_pw_sso_base'].fillna(0) + merged['_pat_los_icu_removed'] * merged['drg_pw_sso_perdiem'],
-         merged['drg_pw_inlier'],
-         merged['drg_pw_inlier'] + (merged['_pat_los_icu_removed'] - merged['drg_inlier_ub']) * merged['drg_pw_lso_perdiem'].fillna(0)],
+        [
+            merged['drg_pw_sd'],
+            merged['drg_pw_sso_base'].fillna(0)
+            + merged['_pat_los_icu_removed'] * merged['drg_pw_sso_perdiem'],
+            merged['drg_pw_inlier'],
+            merged['drg_pw_inlier']
+            + (merged['_pat_los_icu_removed'] - merged['drg_inlier_ub'])
+            * merged['drg_pw_lso_perdiem'].fillna(0),
+        ],
         default=0,
     )
     w01 = w01.round(4)
     w02 = np.where(merged.get('_pat_eligible_paed_flag', 0) == 1,
                    merged['drg_adj_paed'] * w01,
                    w01)
-    w03 = w02 * (1 + merged.get('adj_indigenous', 0) + merged.get('adj_remoteness', 0) +
-                 merged.get('adj_radiotherapy', 0) + merged.get('adj_dialysis', 0)) * (
-                     1 + merged.get('adj_treat_remoteness', 0))
+    w03 = (
+        w02
+        * (
+            1
+            + merged.get("adj_indigenous", 0)
+            + merged.get("adj_remoteness", 0)
+            + merged.get("adj_radiotherapy", 0)
+            + merged.get("adj_dialysis", 0)
+        )
+        * (1 + merged.get("adj_treat_remoteness", 0))
+    )
     w04 = w03 * (1 + merged.get('adj_covid', 0))
 
     adj_icu = merged.get('_pat_eligible_icu_hours', 0) * merged.get('icu_rate', 0)
@@ -264,9 +392,12 @@ def calculate_acute(
 
     drg_adj_serv = merged.get('drg_adj_privpat_serv', 0)
     adj_priv_serv = merged['PAT_PRIVATE_FLAG'] * drg_adj_serv * (w01 + adj_icu)
-    adj_priv_accomm = merged['PAT_PRIVATE_FLAG'] * (
-        merged['PAT_SAMEDAY_FLAG'] * merged.get('state_adj_privpat_accomm_sd', 0) +
-        (1 - merged['PAT_SAMEDAY_FLAG']) * merged['LOS'] * merged.get('state_adj_privpat_accomm_on', 0)
+    adj_priv_accomm = merged["PAT_PRIVATE_FLAG"] * (
+        merged["PAT_SAMEDAY_FLAG"]
+        * merged.get("state_adj_privpat_accomm_sd", 0)
+        + (1 - merged["PAT_SAMEDAY_FLAG"])
+        * merged["LOS"]
+        * merged.get("state_adj_privpat_accomm_on", 0)
     )
 
     nwau25 = np.maximum(0, gwau25 - adj_priv_serv - adj_priv_accomm)
