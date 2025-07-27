@@ -34,7 +34,7 @@ def test_adjustment_basic_drop():
     assert result["nwau25_adjusted"].iloc[0] == 7.0
 
 
-def test_adjustment_no_drop(monkeypatch):
+def test_adjustment_no_drop():
     df = pd.DataFrame({
         "nwau25": [5.0],
         "_w01": [2.0],
