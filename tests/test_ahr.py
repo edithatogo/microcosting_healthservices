@@ -5,8 +5,9 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from nwau_py.groupers import load_ahr_maps, flag_diagnoses, LightGBMScorer
+from nwau_py.utils import sas_ref_dir
 
-MAP_DIR = pathlib.Path("archive/sas/NEP25_SAS_NWAU_calculator/calculators")
+MAP_DIR = sas_ref_dir("2025")
 PARAM_DIR = MAP_DIR / "params"
 MODEL_DIR = MAP_DIR / "models"
 

@@ -1,18 +1,9 @@
-import importlib
-import sys
-from pathlib import Path
-
 import pandas as pd
 
 from nwau_py import score_readmission
+from nwau_py.utils import sas_ref_dir
 
-CALC_DIR = (
-    Path(__file__).resolve().parents[1]
-    / "archive"
-    / "sas"
-    / "NEP25_SAS_NWAU_calculator"
-    / "calculators"
-)
+CALC_DIR = sas_ref_dir("2025")
 
 _risk_factors = pd.read_csv(CALC_DIR / "models" / "risk_factors.csv", index_col=0)
 features = set()

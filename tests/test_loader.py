@@ -4,8 +4,9 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from nwau_py.data.loader import load_sas_table
+from nwau_py.utils import sas_ref_dir
 
-DATA_DIR = pathlib.Path(__file__).resolve().parents[1] / "archive/sas/NEP25_SAS_NWAU_calculator/calculators"
+DATA_DIR = sas_ref_dir("2025")
 
 
 def test_load_sas_table_no_cache():
