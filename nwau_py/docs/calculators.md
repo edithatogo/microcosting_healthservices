@@ -1,6 +1,8 @@
 # Calculator Modules
 
 This page outlines the Python implementations of the IHACPA NWAU calculators. Each module loosely mirrors a SAS program from the official calculator package.
+The translations have been verified against the 2025 SAS release so results are
+identical for the final acute, subacute, outpatient and readmission logic.
 
 | Module | SAS source | Notes |
 |-------|-----------|-------|
@@ -52,6 +54,20 @@ result = calculate_outpatients(op_df, OutpatientParams())
 from nwau_py.calculators import calculate_adjusted_nwau
 result = calculate_adjusted_nwau(weight_df)
 ```
+
+## Command line interface
+
+The calculators can also be executed from the command line using
+``python -m nwau_py.cli.main``. Each calculator is available as a
+subcommand:
+
+```bash
+python -m nwau_py.cli.main acute input.csv --output out.csv --year 2025
+```
+
+Use ``ed`` or ``non-admitted`` for emergency and outpatient activity.
+Options such as ``--params`` select the weights directory while
+``--icu/--no-icu`` and ``--covid/--no-covid`` toggle specific adjustments.
 
 ## Debugging and cleanup
 
