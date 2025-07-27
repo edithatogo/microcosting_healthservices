@@ -49,10 +49,11 @@ python excel_calculator/src/funding_calculator.py \
 ```
 
 ### Tests
-There is no dedicated test suite. Syntax checks can be run with:
+Unit tests are provided under the `tests/` and `excel_calculator/tests/` folders.
+After installing the dependencies from `requirements.txt`, run them with:
 
 ```bash
-python -m py_compile excel_calculator/scripts/extract_weights.py
+pytest -v
 ```
 
 ## Start using the template
