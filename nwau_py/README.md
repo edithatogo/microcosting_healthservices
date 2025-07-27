@@ -10,7 +10,7 @@ Install from source using `pip`:
 pip install .
 ```
 
-This requires Python 3.8+ and depends on `pandas` and `pyxlsb` for Excel parsing.
+This requires Python 3.8+ and depends on `pandas`, `pyxlsb`, `pyreadstat` and `lightgbm`.
 
 ## Data preparation
 
@@ -50,3 +50,7 @@ adjustments are applied, ICU hours are added, private patient adjustments and
 readmission penalties are subtracted and the result is multiplied by the
 National Efficient Price (`NEP`). The last step yields the overall `NWAU25`
 figure used for funding.
+
+## Documentation
+
+Detailed notes on each calculator module are available in [docs/calculators.md](docs/calculators.md).
