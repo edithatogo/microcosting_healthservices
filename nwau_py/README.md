@@ -26,12 +26,12 @@ The script reads `archive/nwau25_calculator_for_acute_activity.xlsb` and writes
 
 ## CLI usage
 
-Once installed you can calculate funding by running the module directly:
+Once installed you can calculate funding using the `funding-calculator`
+script:
 
 ```bash
-python -m nwau_py.funding_calculator --weights data/weights.csv \
+funding-calculator --weights data/weights.csv \
     --formula data/formula.json patient_data.csv > funding.csv
-```
 
 `patient_data.csv` should contain the columns referenced in the formula JSON
 file. The output is a CSV column named `NWAU25` with the calculated weights.
