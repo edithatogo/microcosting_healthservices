@@ -5,7 +5,7 @@ import pandas as pd
 
 # Make sure we can import from the src directory when running from the repository
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))
 
 from funding_calculator import load_weights, load_formula, calculate_funding
 
