@@ -1,5 +1,6 @@
 import importlib.util
 import sys
+
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -14,6 +15,28 @@ spec = importlib.util.spec_from_file_location(
 )
 subacute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(subacute)
+
+DATA = pd.DataFrame({"ANSNAP": ["5AZ1"], "adj_indigenous": [0.0], "adj_remoteness": [0.0]})
+EXPECTED = 13.4327
+
+
+@pytest.mark.parametrize("year", ["2024", "2025"])
+def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
+    def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
+        return df.rename(columns={"ansnap": "ANSNAP"})
+
+    monkeypatch.setattr(subacute, "_load_weights", _load_csv)
+
+    result = subacute.calculate_subacute(
+        DATA.copy(),
+        subacute.SubacuteParams(),
+        year=year,
+        ref_dir=Path("unused"),
+    )
+    assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
+
+DATA = pd.DataFrame(
 
 DATA_WEIGHTS = pd.DataFrame(
     {
@@ -66,7 +89,30 @@ def test_calculate_subacute_basic(monkeypatch):
     assert np.allclose(result["NWAU25"].values, EXPECTED_ARRAY)
     assert result["Error_Code"].iloc[0] == 0
 
+def test_calculate_subacute_option_paths(monkeypatch):
+    def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
+        return df.rename(columns={"ansnap": "ANSNAP"})
 
+    monkeypatch.setattr(subacute, "_load_weights", _load_csv)
+
+    data = DATA.copy()
+    data["EST_REMOTENESS"] = 0
+
+    params = subacute.SubacuteParams(
+        radiotherapy_option=2,
+        dialysis_option=2,
+        est_remoteness_option=2,
+    )
+
+    result = subacute.calculate_subacute(
+        data,
+        params,
+        year="2025",
+        ref_dir=Path("."),
+    )
+    assert np.allclose(result["NWAU25"].values, EXPECTED)
+    assert result["Error_Code"].iloc[0] == 0
 def test_ppsa_option(monkeypatch):
     monkeypatch.setattr(subacute, "_load_weights", _basic_weights)
     data = BASE_DATA.copy()
@@ -140,4 +186,3 @@ def test_procedure_flags(monkeypatch):
     assert res2["_pat_radiotherapy_flag"].iloc[0] == 0
     assert res2["_pat_dialysis_flag"].iloc[0] == 0
     assert res2["NWAU25"].iloc[0] == pytest.approx(13.4327, rel=1e-4)
-

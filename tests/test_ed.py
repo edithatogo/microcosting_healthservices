@@ -21,6 +21,8 @@ DATA = pd.DataFrame(
     {
         "AECC": ["E0110A"],
         "Error_Code": [0],
+        "COMPENSABLE_STATUS": [2],
+        "DVA_STATUS": [2],
         "adj_indigenous": [0.0],
         "adj_remoteness": [0.0],
         "adj_treat_remoteness": [0.0],
