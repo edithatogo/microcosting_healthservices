@@ -49,7 +49,15 @@ python excel_calculator/src/funding_calculator.py \
 ```
 
 ### Tests
-There is no dedicated test suite. Syntax checks can be run with:
+Unit tests live in the `tests/` directory and can be run with
+[pytest](https://docs.pytest.org/en/stable/):
+
+```bash
+pytest -v
+```
+
+This command discovers all tests under `tests/` and executes them. Syntax
+checks can still be run separately with:
 
 ```bash
 python -m py_compile excel_calculator/scripts/extract_weights.py
