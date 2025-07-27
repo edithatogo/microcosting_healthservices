@@ -48,6 +48,7 @@ EXPECTED = 0.0868
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_outpatients_matches_sas_weights(monkeypatch, year):
+    weights = pd.read_csv("tests/data/nep25_op_price_weights.csv")
     monkeypatch.setattr(outpatients, "_load_weights", lambda ref_dir, year: WEIGHTS)
     weights = pd.DataFrame({
         "TIER2_CLINIC": [10.01],
@@ -57,7 +58,7 @@ def test_calculate_outpatients_matches_sas_weights(monkeypatch, year):
     })
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return weights
+        return weights.rename(columns={"tier2_clinic": "TIER2_CLINIC"})
 
     df = pd.DataFrame(
         {
@@ -222,4 +223,3 @@ def test_calculate_outpatients_aggregate(monkeypatch):
     expected = 0.0868 * 1.1 * 1.2 * 6
     assert result["NWAU25"].iloc[0] == pytest.approx(expected)
     assert result["Error_Code"].iloc[0] == 0
-

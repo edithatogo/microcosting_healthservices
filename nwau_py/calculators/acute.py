@@ -56,6 +56,41 @@ def calculate_acute(
     merged["_drg_inscope_flag"] = np.where(merged["drg_pw_inlier"].isna(), 0, 1)
 
     # ------------------------------------------------------------------
+    # COVID flags
+    # ------------------------------------------------------------------
+    diag_cols = [c for c in merged.columns if "dx" in c.lower() or "diag" in c.lower()]
+
+    def _flag_diags(codes: set[str]) -> pd.Series:
+        if not diag_cols:
+            return pd.Series(0, index=merged.index)
+        diag_df = merged[diag_cols].fillna("").astype(str)
+        diag_df = diag_df.replace({"/": "", "-": "", " ": ""}, regex=True)
+        return diag_df.isin(codes).any(axis=1).astype(int)
+
+    covid_codes = {"U071", "U0711", "U0712", "U072"}
+    treat_codes = {"U071", "U0712", "U072"}
+    drg_list = {"T63A", "T63B"}
+
+    if params.covid_option == 2:
+        merged["_pat_covid_flag"] = merged.get("PAT_COVID_FLAG", 0).fillna(0)
+    else:
+        merged["_pat_covid_flag"] = _flag_diags(covid_codes)
+
+    if params.covid_adj_option == 2:
+        merged["_pat_covid_treat_flag"] = merged.get("COVID_ADJ_FLAG", 0).fillna(0)
+    else:
+        diag_flag = _flag_diags(treat_codes)
+        drg_flag = merged["DRG"].astype(str).str.upper().isin(drg_list)
+        merged["_pat_covid_treat_flag"] = (diag_flag & drg_flag).astype(int)
+
+    try:
+        covid_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_adj_covid.sas7bdat")
+        merged = merged.merge(covid_adj, on="_pat_covid_treat_flag", how="left")
+    except Exception:
+        merged["adj_covid"] = 0
+    merged["adj_covid"] = merged.get("adj_covid", 0).fillna(0)
+
+    # ------------------------------------------------------------------
     # Radiotherapy and dialysis procedure flags
     # ------------------------------------------------------------------
     proc_cols = [c for c in merged.columns if "srg" in c.lower() or c.lower().startswith("proc")]
@@ -186,7 +221,7 @@ def calculate_acute(
     icu_hours = merged.get('ICU_HOURS', 0)
     icu_other = merged.get('ICU_OTHER', 0)
     bundled = merged['drg_bundled_icu_flag'].fillna(0)
-    covid_flag = merged.get('PAT_COVID_FLAG', 0)
+    covid_flag = merged.get('_pat_covid_flag', merged.get('PAT_COVID_FLAG', 0))
 
     eligible_icu = np.where(
         covid_flag == 1,

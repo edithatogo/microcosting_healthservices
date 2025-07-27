@@ -39,12 +39,8 @@ EXPECTED = 0.2837
 def test_calculate_ed_matches_sas_weights(monkeypatch, year):
     weights = pd.DataFrame({"AECC": ["E0110A"], "AECC_pw": [EXPECTED]})
 
-    def _load(
-        ref_dir: Path,
-        classification_option: int,
-        year: str = "2025",
-    ) -> pd.DataFrame:
-        return weights
+    def _load(ref_dir: Path, classification_option: int, year: str = "2025") -> pd.DataFrame:
+        return weights.rename(columns={"aecc_pw": "AECC_pw"})
 
     monkeypatch.setattr(ed, "_load_weights", _load)
 
@@ -121,3 +117,5 @@ def test_calculate_ed_udg_mapping_and_errors():
 
     assert result.loc[2, "Error_Code"] == 2
     assert result.loc[2, "NWAU25"] == 0
+
+

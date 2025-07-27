@@ -1,5 +1,6 @@
 import importlib.util
 import sys
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -19,6 +20,10 @@ EXPECTED = 13.4327
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
+    weights = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
+
+    def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        return weights.rename(columns={"ansnap": "ANSNAP"})
     weights = pd.DataFrame({
         "ANSNAP": ["5AZ1"],
         "snap_pw": [EXPECTED],
