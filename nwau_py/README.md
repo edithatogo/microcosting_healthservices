@@ -35,3 +35,8 @@ funding-calculator --weights excel_calculator/data/weights.csv \
 
 `patient_data.csv` should contain the columns referenced in the formula JSON
 file. The output is a CSV column named `NWAU25` with the calculated weights.
+
+## Documentation
+
+Detailed notes on each calculator module are available in [docs/calculators.md](docs/calculators.md).
+
