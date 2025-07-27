@@ -9,6 +9,12 @@ Some of the helper scripts use Python. Install the required packages with:
 pip install pandas pyxlsb pyreadstat lightgbm
 ```
 
+For development, install the linting tools as well:
+
+```bash
+pip install ruff pre-commit
+```
+
 
 Example project pages built using this template are:
 - https://horwitz.ai/probex
