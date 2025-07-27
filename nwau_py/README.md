@@ -10,7 +10,7 @@ Install from source using `pip`:
 pip install .
 ```
 
-This requires Python 3.8+ and depends on `pandas` and `pyxlsb` for Excel parsing.
+This requires Python 3.8+ and depends on `pandas`, `pyxlsb`, `pyreadstat` and `lightgbm`.
 
 ## Data preparation
 
