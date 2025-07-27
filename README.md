@@ -1,6 +1,14 @@
 # Academic Project Page Template
 This is an academic paper project page template.
 
+## Installation
+
+Some of the helper scripts use Python. Install the required packages with:
+
+```bash
+pip install pandas pyxlsb
+```
+
 
 Example project pages built using this template are:
 - https://horwitz.ai/probex
