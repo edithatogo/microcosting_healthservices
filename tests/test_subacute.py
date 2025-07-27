@@ -2,20 +2,11 @@ import importlib.util
 from pathlib import Path
 import sys
 
+import numpy as np
 import pandas as pd
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-spec = importlib.util.spec_from_file_location(
-    "subacute",
-    Path(__file__).resolve().parents[1]
-    / "nwau_py"
-    / "calculators"
-    / "subacute.py",
-
-import numpy as np
-import pandas as pd
 
 spec = importlib.util.spec_from_file_location(
     "subacute",
@@ -31,10 +22,10 @@ EXPECTED = 13.4327
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_subacute_matches_sas_weights(monkeypatch, year):
-    weights = pd.DataFrame({"SNAP": ["5AZ1"], "snap_pw": [EXPECTED]})
+    weights = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return weights
+        return weights.rename(columns={"ansnap": "ANSNAP"})
 
     monkeypatch.setattr(subacute, "_load_weights", _load)
 
@@ -74,3 +65,4 @@ def test_calculate_subacute_basic(monkeypatch):
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
     assert result["Error_Code"].iloc[0] == 0
+

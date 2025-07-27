@@ -17,17 +17,53 @@ spec = importlib.util.spec_from_file_location(
 mh = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mh)
 
-DATA = pd.DataFrame({"AMHCC": ["111A"], "PAT_PRIVATE_FLAG": [0], "PAT_SAMEDAY_FLAG": [0], "LOS": [10]})
+DATA = pd.DataFrame({
+    "AMHCC": ["111A"],
+    "PAT_PRIVATE_FLAG": [0],
+    "PAT_SAMEDAY_FLAG": [0],
+    "LOS": [10],
+    "STATE": [0],
+    "_pat_specpaed": [0],
+    "_pat_ind_flag": [0],
+    "_pat_remoteness": [0],
+    "_treat_remoteness": [0],
+})
 
 EXPECTED = 7.0317
 
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_mh_matches_sas_weights(monkeypatch, year):
-    weights = pd.DataFrame({"AMHCC": ["111A"], "amhcc_pw_inlier": [EXPECTED]})
-
-    def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return weights
+    def _load(ref_dir: Path, year: str = "2025") -> dict[str, pd.DataFrame]:
+        weights = pd.DataFrame({
+            "AMHCC": ["111A"],
+            "amhcc_pw_sso_base": [0.0],
+            "amhcc_pw_sso_perdiem": [0.0],
+            "amhcc_pw_inlier": [EXPECTED],
+            "amhcc_pw_lso_perdiem": [0.0],
+            "amhcc_inlier_lb": [0],
+            "amhcc_inlier_ub": [20],
+            "priceCat": [1],
+            "amhcc_adj_privPat_servNat": [0.0],
+            "amhcc_adj_privPat_serv": [0.0],
+        })
+        cmty = pd.DataFrame({
+            "AMHCC": ["111A"],
+            "SC_PAT_PUB": [0],
+            "_cmty_sc_pat_pw": [0],
+            "SC_NOPAT_PUB": [0],
+            "_cmty_sc_nopat_pw": [0],
+        })
+        return {
+            "adm": weights,
+            "cmty": cmty,
+            "ppsa": pd.DataFrame({"AMHCC": ["111A"], "STATE": [0], "ppsa_adj": [0]}),
+            "priv_acc": pd.DataFrame({"STATE": [0], "adj_priv_acc": [0], "state_adj_privpat_accomm_sd": [0], "state_adj_privpat_accomm_on": [0]}),
+            "specpaed": pd.DataFrame({"_pat_specpaed": [0], "adj_specpaed": [1]}),
+            "adj_ind": pd.DataFrame({"_pat_ind_flag": [0], "adj_indigenous": [0]}),
+            "adj_rem": pd.DataFrame({"_pat_remoteness": [0], "adj_remoteness": [0]}),
+            "adj_treat": pd.DataFrame({"_treat_remoteness": [0], "adj_treat_remoteness": [0]}),
+        }
 
     monkeypatch.setattr(mh, "_load_weights", _load)
 
@@ -38,4 +74,8 @@ def test_calculate_mh_matches_sas_weights(monkeypatch, year):
         ref_dir=Path("unused"),
     )
     assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
+
+
+
+
 

@@ -52,3 +52,74 @@ def test_calculate_acute_matches_sas_weights(monkeypatch, year):
         ref_dir=ref_dir,
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+
+
+def _mock_load(path: Path, cache: bool = True, cache_format: str | None = None, cache_dir: Path | None = None) -> pd.DataFrame:
+    name = path.name
+    if "aa_price_weights" in name:
+        df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
+        df["DRG"] = df["DRG"].str.strip("b'")
+        return df
+    if "aa_adj_covid" in name:
+        return pd.DataFrame({"_pat_covid_treat_flag": [0, 1], "adj_covid": [0.0, 0.23]})
+    return pd.DataFrame()
+
+
+def test_covid_flags_from_diagnosis(monkeypatch):
+    monkeypatch.setattr(acute, "_load_price_weights", lambda r, year="2025": pd.read_csv("tests/data/nep25_aa_price_weights.csv").assign(DRG=lambda x: x["DRG"].str.strip("b'")))
+    monkeypatch.setattr(acute, "load_sas_table", _mock_load)
+
+    df = pd.DataFrame({
+        "DRG": ["T63A", "801A", "T63B"],
+        "LOS": [5, 5, 5],
+        "ICU_HOURS": [0, 0, 0],
+        "ICU_OTHER": [0, 0, 0],
+        "PAT_SAMEDAY_FLAG": [0, 0, 0],
+        "PAT_PRIVATE_FLAG": [0, 0, 0],
+        "DX1": ["U0712", "U0711", "A000"],
+    })
+
+    params = acute.AcuteParams(
+        icu_paed_option=2,
+        radiotherapy_option=1,
+        dialysis_option=1,
+        est_remoteness_option=2,
+        covid_option=1,
+        covid_adj_option=1,
+    )
+
+    result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
+    assert result["_pat_covid_flag"].tolist() == [1, 1, 0]
+    assert result["_pat_covid_treat_flag"].tolist() == [1, 0, 0]
+    assert result["adj_covid"].iloc[0] == 0.23
+
+
+def test_covid_flags_provided(monkeypatch):
+    monkeypatch.setattr(acute, "_load_price_weights", lambda r, year="2025": pd.read_csv("tests/data/nep25_aa_price_weights.csv").assign(DRG=lambda x: x["DRG"].str.strip("b'")))
+    monkeypatch.setattr(acute, "load_sas_table", _mock_load)
+
+    df = pd.DataFrame({
+        "DRG": ["T63A"],
+        "LOS": [5],
+        "ICU_HOURS": [0],
+        "ICU_OTHER": [0],
+        "PAT_SAMEDAY_FLAG": [0],
+        "PAT_PRIVATE_FLAG": [0],
+        "PAT_COVID_FLAG": [1],
+        "COVID_ADJ_FLAG": [1],
+    })
+
+    params = acute.AcuteParams(
+        icu_paed_option=2,
+        radiotherapy_option=1,
+        dialysis_option=1,
+        est_remoteness_option=2,
+        covid_option=2,
+        covid_adj_option=2,
+    )
+
+    result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
+    assert result["_pat_covid_flag"].iloc[0] == 1
+    assert result["_pat_covid_treat_flag"].iloc[0] == 1
+    assert result["adj_covid"].iloc[0] == 0.23
+

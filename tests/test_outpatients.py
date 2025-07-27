@@ -2,20 +2,11 @@ import importlib.util
 from pathlib import Path
 import sys
 
+import numpy as np
 import pandas as pd
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-spec = importlib.util.spec_from_file_location(
-    "outpatients",
-    Path(__file__).resolve().parents[1]
-    / "nwau_py"
-    / "calculators"
-    / "outpatients.py",
-
-import numpy as np
-import pandas as pd
 
 spec = importlib.util.spec_from_file_location(
     "outpatients",
@@ -31,10 +22,10 @@ EXPECTED = 0.0868
 
 @pytest.mark.parametrize("year", ["2024", "2025"])
 def test_calculate_outpatients_matches_sas_weights(monkeypatch, year):
-    weights = pd.DataFrame({"CLINIC_CODE": [10.01], "op_pw": [EXPECTED]})
+    weights = pd.read_csv("tests/data/nep25_op_price_weights.csv")
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return weights
+        return weights.rename(columns={"tier2_clinic": "TIER2_CLINIC"})
 
     monkeypatch.setattr(outpatients, "_load_weights", _load)
 
@@ -71,3 +62,4 @@ def test_calculate_outpatients_basic(monkeypatch):
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
     assert result["Error_Code"].iloc[0] == 0
+
