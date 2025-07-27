@@ -28,7 +28,7 @@ def test_clear_data_removes_cache(tmp_path, monkeypatch):
     (cache_dir / "dummy").write_text("x")
 
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        df = pd.read_csv("tests/data/nep25_op_price_weights.csv")
+        df = pd.read_csv(Path(__file__).resolve().parent / "data" / "nep25_op_price_weights.csv")
         return df.rename(columns={"tier2_clinic": "TIER2_CLINIC"})
 
     outpatients._load_weights = _load_csv  # monkeypatch without pytest fixture
