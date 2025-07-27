@@ -1,6 +1,8 @@
+import argparse
 import json
 import sys
-import argparse
+from pathlib import Path
+
 import pandas as pd
 from pandas import DataFrame
 
@@ -13,13 +15,16 @@ def load_weights(csv_path: str) -> DataFrame:
     defined in ``formula.json``.
     """
     df = pd.read_csv(csv_path, engine="python")
-    df.columns = [c.replace("\n", " ").strip() if isinstance(c, str) else c for c in df.columns]
+    df.columns = [
+        c.replace("\n", " ").strip() if isinstance(c, str) else c
+        for c in df.columns
+    ]
     return df
 
 
 def load_formula(json_path: str):
     """Load and return the formula description from ``json_path``."""
-    with open(json_path, "r") as fh:
+    with open(json_path) as fh:
         return json.load(fh)
 
 
@@ -49,7 +54,9 @@ def main(argv=None):
     parser.add_argument("input_csv", help="Patient level CSV data")
     args = parser.parse_args(argv)
 
-    data_dir = Path("excel_calculator/data") / args.year
+    data_dir = Path("excel_calculator/data")
+    if args.year and args.year != "2025":
+        data_dir = data_dir / args.year
     if args.weights is None:
         args.weights = str(data_dir / "weights.csv")
     if args.formula is None:

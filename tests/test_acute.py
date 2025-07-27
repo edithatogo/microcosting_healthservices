@@ -1,12 +1,19 @@
 import importlib.util
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
 import pandas as pd
 import pytest
 
 spec = importlib.util.spec_from_file_location(
-    "acute", Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py"
+    "acute",
+    Path(__file__).resolve().parents[1]
+    / "nwau_py"
+    / "calculators"
+    / "acute.py",
 )
 acute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(acute)
