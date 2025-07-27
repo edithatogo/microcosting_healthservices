@@ -5,7 +5,7 @@ import pandas as pd
 
 # Make sure we can import from the src directory when running from the repository
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))
 
 from funding_calculator import load_weights, load_formula, calculate_funding
 
@@ -43,7 +43,7 @@ def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool) ->
 def common_options(func):
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
-        click.option("--params", default="data", show_default=True,
+        click.option("--params", default="excel_calculator/data", show_default=True,
                      type=click.Path(file_okay=False, dir_okay=True),
                      help="Directory containing weights.csv and formula.json"),
         click.option("--output", default="-", show_default=True,

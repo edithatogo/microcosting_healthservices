@@ -3,12 +3,15 @@
 
 from pathlib import Path
 import pandas as pd
+import sys
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "excel_calculator" / "src"))
 from funding_calculator import load_weights, load_formula, calculate_funding
 
 
 def main():
-    weights = load_weights(Path("data/weights.csv"))
-    formula = load_formula(Path("data/formula.json"))
+    weights = load_weights(Path("excel_calculator/data/weights.csv"))
+    formula = load_formula(Path("excel_calculator/data/formula.json"))
 
     # Use the first DRG as a demonstration with no additional adjustments
     row = weights.iloc[0]

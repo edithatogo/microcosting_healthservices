@@ -7,9 +7,9 @@ sheet **Formula breakdown** cell `B49`:
 = {[PW x APaed x (1 + AInd + ARes + ART + ADia) x (1 + ATreat) x (1 + AC19) + (AICU x ICU hours)] - [(PW + AICU x ICU hours) x APPS + LOS x AAcc] - PW x AHAC - PWAHR x RAHR} x NEP
 ```
 
-`data/formula.json` captures this expression in a structured way. The `variables`
+`excel_calculator/data/formula.json` captures this expression in a structured way. The `variables`
 object lists each symbol used in the formula and the corresponding column name
-in `data/weights.csv`. The `steps` array lists the operations in order so that
+in `excel_calculator/data/weights.csv`. The `steps` array lists the operations in order so that
 the formula can be recomputed programmatically.
 
 For example `PW` references the **Inlier** column in the weights table and the
