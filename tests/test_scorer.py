@@ -4,12 +4,15 @@ from pathlib import Path
 
 import pandas as pd
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-nwau_py = importlib.import_module("nwau_py")  # noqa: E402
-importlib.reload(nwau_py)
-from nwau_py import score_readmission  # noqa: E402
+from nwau_py import score_readmission
 
-CALC_DIR = Path(__file__).resolve().parents[1] / "archive" / "sas" / "NEP25_SAS_NWAU_calculator" / "calculators"
+CALC_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "archive"
+    / "sas"
+    / "NEP25_SAS_NWAU_calculator"
+    / "calculators"
+)
 
 _risk_factors = pd.read_csv(CALC_DIR / "models" / "risk_factors.csv", index_col=0)
 features = set()
@@ -35,5 +38,9 @@ def test_score_readmission_runs():
     df = pd.DataFrame(example)
     result = score_readmission(df)
     assert result.shape[1] == 24
-    assert set(result.columns) == {f"risk_category{i}" for i in range(1, 13)} | {f"dampening{i}" for i in range(1, 13)}
+    expected_cols = {
+        *(f"risk_category{i}" for i in range(1, 13)),
+        *(f"dampening{i}" for i in range(1, 13)),
+    }
+    assert set(result.columns) == expected_cols
     assert not result.isna().all().all()
