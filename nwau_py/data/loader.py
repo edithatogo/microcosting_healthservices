@@ -1,3 +1,4 @@
+"""Data loading utilities for NWAU project"""
 from __future__ import annotations
 
 from pathlib import Path
