@@ -1,0 +1,52 @@
+import pathlib
+import pandas as pd
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
+from nwau_py.groupers import load_ahr_maps, flag_diagnoses, LightGBMScorer
+
+MAP_DIR = pathlib.Path('archive/sas/NEP25_SAS_NWAU_calculator/calculators')
+PARAM_DIR = MAP_DIR / 'params'
+MODEL_DIR = MAP_DIR / 'models'
+
+
+def test_load_maps():
+    maps = load_ahr_maps(MAP_DIR)
+    assert '08' in maps
+    assert 'DDX' in maps['08'].columns
+
+
+def test_flagging_example():
+    maps = load_ahr_maps(MAP_DIR)
+    df = pd.DataFrame({
+        'ddx1': ['A021'],
+        'onset1': ['2'],
+        'ddx2': ['Z999'],
+        'onset2': ['1'],
+    })
+    flagged = flag_diagnoses(df, maps, '08')
+    assert 'AHR030c01p01' in flagged.columns
+    # A021 is flagged for category 1 in mapping table
+    assert flagged.loc[0, 'AHR030c01p01'] in {0, 1}
+
+
+def test_scorer_runs():
+    scorer = LightGBMScorer(PARAM_DIR, MODEL_DIR)
+    features = ['adm_past_year', 'agegroup_rm', 'an110mdc_ra',
+                'cc_acute_myocardial_function', 'cc_arthritis_and_osteoarthritis',
+                'cc_cerebral_palsy', 'cc_chronic_heart_failure',
+                'cc_chronic_kidney_disease', 'cc_chronic_respiratory_failure',
+                'cc_congestive_heart_failure', 'cc_copd', 'cc_crohns_disease',
+                'cc_dementia', 'cc_depression', 'cc_diabetes',
+                'cc_diabetes_complications', 'cc_disorder_of_intellectual',
+                'cc_downs_syndrome', 'cc_hypertension',
+                'cc_ischaemic_heart_disease', 'cc_obesity', 'cc_osteoporosis',
+                'cc_pulmonary_disease', 'cc_renal_disease',
+                'cc_severe_liver_disease', 'cc_spina_bifida',
+                'cc_tetplg_prplg_dplg_hmplg_dt', 'count_proc', 'drg11_type_m',
+                'drug_use', 'flag_admtransfer', 'flag_emergency', 'flag_icu24',
+                'indstat_flag', 'low_los_flag', 'malnutrition', 'pacemaker',
+                'pat_remoteness', 'post_transplant', 'sex_cat']
+    data = pd.DataFrame({c: [0] for c in features})
+    scores = scorer.score(data)
+    assert scores.filter(like='readm_points').shape[1] == 12
