@@ -49,8 +49,15 @@ python excel_calculator/src/funding_calculator.py \
 ```
 
 ### Tests
-Unit tests are provided under the `tests/` and `excel_calculator/tests/` folders.
-After installing the dependencies from `requirements.txt`, run them with:
+Unit tests live in the `tests/` directory and can be run with
+[pytest](https://docs.pytest.org/en/stable/):
+
+```bash
+pytest -v
+```
+
+This command discovers all tests under `tests/` and executes them. Syntax
+checks can still be run separately with:
 
 ```bash
 pytest -v
