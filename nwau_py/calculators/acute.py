@@ -3,7 +3,11 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-_DEFAULT_REF_DIR = Path('archive/sas/NEP25_SAS_NWAU_calculator/calculators')
+from nwau_py.utils import sas_ref_dir
+
+
+_DEFAULT_YEAR = "2025"
+
 
 @dataclass
 class AcuteParams:
@@ -16,14 +20,21 @@ class AcuteParams:
     ppservadj: int = 1
 
 
-def _load_price_weights(ref_dir: Path) -> pd.DataFrame:
-    df = pd.read_sas(ref_dir / 'nep25_aa_price_weights.sas7bdat')
+def _load_price_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    suffix = str(year)[-2:]
+    df = pd.read_sas(ref_dir / f'nep{suffix}_aa_price_weights.sas7bdat')
     if df['DRG'].dtype == object:
         df['DRG'] = df['DRG'].str.decode('ascii')
     return df
 
 
-def calculate_acute(df: pd.DataFrame, params: AcuteParams, ref_dir: Path = _DEFAULT_REF_DIR) -> pd.DataFrame:
+def calculate_acute(
+    df: pd.DataFrame,
+    params: AcuteParams,
+    *,
+    year: str = _DEFAULT_YEAR,
+    ref_dir: Path | None = None,
+) -> pd.DataFrame:
     """Calculate NWAU25 for acute admitted episodes.
 
     This is a partial translation of ``NWAU25_CALCULATOR_ACUTE.sas`` using
@@ -31,7 +42,9 @@ def calculate_acute(df: pd.DataFrame, params: AcuteParams, ref_dir: Path = _DEFA
     ``df`` is expected to contain columns ``DRG``, ``LOS``, ``ICU_HOURS``,
     ``ICU_OTHER``, ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
     """
-    weights = _load_price_weights(ref_dir)
+    if ref_dir is None:
+        ref_dir = sas_ref_dir(year)
+    weights = _load_price_weights(ref_dir, year)
     merged = df.merge(weights, on='DRG', how='left')
 
     icu_hours = merged.get('ICU_HOURS', 0)

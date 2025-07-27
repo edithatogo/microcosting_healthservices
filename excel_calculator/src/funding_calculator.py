@@ -43,10 +43,17 @@ def calculate_funding(weights_df: DataFrame, formula) -> pd.Series:
 def main(argv=None):
     """Command line entry point for funding calculation."""
     parser = argparse.ArgumentParser(description="Calculate IHACPA NWAU values")
-    parser.add_argument("--weights", required=True, help="CSV containing weights")
-    parser.add_argument("--formula", required=True, help="Formula JSON file")
+    parser.add_argument("--weights", help="CSV containing weights")
+    parser.add_argument("--formula", help="Formula JSON file")
+    parser.add_argument("--year", default="2025", help="NWAU edition year")
     parser.add_argument("input_csv", help="Patient level CSV data")
     args = parser.parse_args(argv)
+
+    data_dir = Path("excel_calculator/data") / args.year
+    if args.weights is None:
+        args.weights = str(data_dir / "weights.csv")
+    if args.formula is None:
+        args.formula = str(data_dir / "formula.json")
 
     weights = load_weights(args.weights)
     formula = load_formula(args.formula)

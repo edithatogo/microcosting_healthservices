@@ -6,6 +6,10 @@ subacute and outpatient activity along with HAC and AHR adjustment
 logic.  A lightweight command line interface is available via the
 `funding-calculator` script.
 
+Historical SAS calculators from IHACPA are stored under
+`archive/sas/<year>_SAS_NWAU_calculator`. Each folder contains the
+original SAS programs and data tables for that pricing year.
+
 ## Installation
 
 Install the package and its dependencies using `pip`:
@@ -37,10 +41,11 @@ The `nwau_py` package exposes both a command line interface and functions for us
 
 ### Command line
 
-After installation the `funding-calculator` entry point is available:
+After installation the `funding-calculator` entry point is available. You can
+select a specific pricing year with `--year`:
 
 ```bash
-funding-calculator --params excel_calculator/data patient_data.csv > funding.csv
+funding-calculator --year 2025 patient_data.csv > funding.csv
 ```
 
 `patient_data.csv` should contain the columns referenced in `excel_calculator/data/formula.json`. The output will include a `NWAU25` column with the calculated values.
@@ -58,5 +63,8 @@ formula = load_formula('excel_calculator/data/formula.json')
 patient_df = ...  # pandas DataFrame containing your episode level data
 patient_df['NWAU25'] = calculate_funding(patient_df, formula)
 ```
+
+Replace `excel_calculator/data` with `excel_calculator/data/<year>` to use
+weights and formulae from another pricing year.
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.

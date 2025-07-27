@@ -7,10 +7,10 @@ multiple editions.
 
 ## Planned approach
 
-1. Store each year's SAS tables and workbook extracts under
-   `archive/` using a `YYYY` directory name.
-2. Add a `--year` option to the CLI to select which set of weights and
-   formula to load.
+1. Store each year's SAS modules under `archive/sas/` using the
+   naming pattern `NEP<YY>_SAS_NWAU_calculator`.
+2. Add a `--year` option to the CLI so the engine loads weights and
+   formulae from the selected year's directory.
 3. Provide helper functions to read the appropriate tables based on the
    chosen year.
 4. Update documentation and tests to cover at least one previous year
@@ -38,7 +38,7 @@ The `funding-calculator` command line tool accepts a `--year` option to select
 the appropriate data directory. For example:
 
 ```bash
-funding-calculator --params excel_calculator/data/2022 patient.csv > out.csv
+funding-calculator --year 2022 patient.csv > out.csv
 ```
 
 internally translates to:
