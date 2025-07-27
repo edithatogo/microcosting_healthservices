@@ -55,7 +55,7 @@ select a specific pricing year with `--year`:
 funding-calculator --year 2023 patient_data.csv > funding.csv
 ```
 
-`patient_data.csv` should contain the columns referenced in `excel_calculator/data/formula.json`. The output will include a `NWAU23` column with the calculated values.
+`patient_data.csv` should contain the columns referenced in `excel_calculator/data/2023/formula.json`. The output will include a `NWAU23` column with the calculated values.
 
 ### Python modules
 
