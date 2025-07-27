@@ -21,7 +21,8 @@ DATA = pd.DataFrame({
 })
 
 
-def test_clear_data_removes_cache(tmp_path):
+def test_clear_data_removes_cache(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
     cache_dir = Path(".cache")
     cache_dir.mkdir(exist_ok=True)
     (cache_dir / "dummy").write_text("x")
