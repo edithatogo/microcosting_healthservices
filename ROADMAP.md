@@ -7,14 +7,20 @@ multiple editions.
 
 ## Planned approach
 
-1. Store each year's SAS modules under `archive/sas/` using the
-   naming pattern `NEP<YY>_SAS_NWAU_calculator`.
-2. Add a `--year` option to the CLI so the engine loads weights and
-   formulae from the selected year's directory.
+1. For each year download the SAS calculator zip from
+   <https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators>.
+   Keep the archive as `archive/sas/<YEAR>.zip` and extract it to
+   `archive/sas/<YEAR>/` alongside the workbook extracts.
+2. Add a `--year` option to the CLI to select which set of weights and
+   formula to load.
 3. Provide helper functions to read the appropriate tables based on the
    chosen year.
 4. Update documentation and tests to cover at least one previous year
    once data is available.
+
+The extracted SAS programs will be referenced when extending the
+Python-based engine so NEP/NWAU calculations can be performed for
+multiple years.
 
 Contributions are welcome.
 
@@ -32,6 +38,8 @@ we will maintain year specific copies of these files.
 - Archive copies of the official calculators (xlsb workbooks) will live under
   `excel_calculator/archive/<year>/` to allow regeneration of CSV files via the
   `extract_weights.py` script.
+- Keep each year's SAS calculator under `archive/sas/<YEAR>.zip` and extract
+  it to `archive/sas/<YEAR>/` for reference when extending the Python engine.
 
 ## CLI selection of year
 The `funding-calculator` command line tool accepts a `--year` option to select
