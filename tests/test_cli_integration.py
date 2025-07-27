@@ -1,12 +1,12 @@
 import csv
 import subprocess
-import sys
 from io import StringIO
 from pathlib import Path
 import shutil
 import pytest
 
 CLI = shutil.which("funding-calculator")
+
 
 def _run_cli(input_csv: Path) -> str:
     cmd = [
@@ -25,6 +25,7 @@ def _run_cli(input_csv: Path) -> str:
         check=True,
     )
     return result.stdout
+
 
 @pytest.mark.skipif(CLI is None, reason="funding-calculator not installed")
 def test_cli_integration():

@@ -9,7 +9,7 @@ interface to the LightGBM based scorer used by IHACPA.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, List
 
 import pandas as pd
 
@@ -205,7 +205,6 @@ def group_readmissions(
     df["ahr_time"] = pd.NaT
     flags = {c: [] for c in AHR_THRESHOLD_DAYS}
     prev_sep = None
-    prev_idx = None
     prev_pid = None
     for idx, row in df.iterrows():
         pid = row[patient_col]
