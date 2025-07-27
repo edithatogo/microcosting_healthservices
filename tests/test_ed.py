@@ -1,7 +1,7 @@
 import importlib.util
-from pathlib import Path
 import sys
-import numpy as np
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -26,6 +26,8 @@ DATA = pd.DataFrame(
         "adj_indigenous": [0.0],
         "adj_remoteness": [0.0],
         "adj_treat_remoteness": [0.0],
+        "COMPENSABLE_STATUS": [2],
+        "DVA_STATUS": [2],
     }
 )
 
@@ -36,7 +38,11 @@ EXPECTED = 0.2837
 def test_calculate_ed_matches_sas_weights(monkeypatch, year):
     weights = pd.DataFrame({"AECC": ["E0110A"], "AECC_pw": [EXPECTED]})
 
-    def _load(ref_dir: Path, classification_option: int, year: str = "2025") -> pd.DataFrame:
+    def _load(
+        ref_dir: Path,
+        classification_option: int,
+        year: str = "2025",
+    ) -> pd.DataFrame:
         return weights
 
     monkeypatch.setattr(ed, "_load_weights", _load)

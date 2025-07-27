@@ -1,6 +1,6 @@
 import importlib.util
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import pandas as pd
 import pytest
@@ -17,17 +17,21 @@ spec = importlib.util.spec_from_file_location(
 mh = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mh)
 
-DATA = pd.DataFrame({
-    "AMHCC": ["111A"],
-    "PAT_PRIVATE_FLAG": [0],
-    "PAT_SAMEDAY_FLAG": [0],
-    "LOS": [10],
-    "STATE": [0],
-    "_pat_specpaed": [0],
-    "_pat_ind_flag": [0],
-    "_pat_remoteness": [0],
-    "_treat_remoteness": [0],
-})
+DATA = pd.DataFrame(
+    {
+        "AMHCC": ["111A"],
+        "PAT_PRIVATE_FLAG": [0],
+        "PAT_SAMEDAY_FLAG": [0],
+        "LOS": [10],
+        "STATE": [1],
+        "_pat_specpaed": [0],
+        "_pat_ind_flag": [0],
+        "_pat_remoteness": [0],
+        "_treat_remoteness": [0],
+        "SC_PAT_PUB": [0],
+        "SC_NOPAT_PUB": [0],
+    }
+)
 
 EXPECTED = 7.0317
 
@@ -63,6 +67,7 @@ def test_calculate_mh_matches_sas_weights(monkeypatch, year):
         "adj_ind": pd.DataFrame({"_pat_ind_flag": [0], "adj_indigenous": [0]}),
         "adj_rem": pd.DataFrame({"_pat_remoteness": [0], "adj_remoteness": [0]}),
         "adj_treat": pd.DataFrame({"_treat_remoteness": [0], "adj_treat_remoteness": [0]}),
+
     }
 
     def _load(ref_dir: Path, year: str = "2025") -> dict[str, pd.DataFrame]:
