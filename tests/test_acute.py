@@ -1,9 +1,9 @@
 import importlib.util
 from pathlib import Path
-import pandas as pd
-import numpy as np
 
-# Load the acute calculator module without importing the package
+import numpy as np
+import pandas as pd
+
 spec = importlib.util.spec_from_file_location(
     "acute", Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py"
 )
@@ -23,6 +23,7 @@ DATA = pd.DataFrame(
 )
 
 EXPECTED = np.array([6.8772, 9.2472, 11.3272])
+
 
 def test_calculate_acute_matches_sas_weights():
     result = acute.calculate_acute(DATA.copy(), acute.AcuteParams())

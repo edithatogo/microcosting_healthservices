@@ -1,3 +1,5 @@
-"""Scoring helpers for NWAU project.
+"""Public scoring API."""
 
-This module is a placeholder for scoring routines."""
+from .scorer import score_readmission
+
+__all__ = ["score_readmission"]

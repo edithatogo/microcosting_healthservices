@@ -1,19 +1,19 @@
 import sys
 from pathlib import Path
+
 import click
 import pandas as pd
 
-# Make sure we can import from the src directory when running from the repository
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))
+sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))  # noqa: E402
 
-from funding_calculator import load_weights, load_formula, calculate_funding
+from funding_calculator import load_weights, load_formula, calculate_funding  # noqa: E402
 
 
 def calculate(input_csv: str, params: str, outfh, icu: bool, covid: bool) -> None:
     """Load data, apply the formula and write the output CSV."""
     params_path = Path(params)
-    weights_df = load_weights(params_path / "weights.csv")
+    load_weights(params_path / "weights.csv")
     formula = load_formula(params_path / "formula.json")
 
     df = pd.read_csv(input_csv)
@@ -43,15 +43,31 @@ def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool) ->
 def common_options(func):
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
-        click.option("--params", default="excel_calculator/data", show_default=True,
-                     type=click.Path(file_okay=False, dir_okay=True),
-                     help="Directory containing weights.csv and formula.json"),
-        click.option("--output", default="-", show_default=True,
-                     help="Output CSV path ('-' for stdout)"),
-        click.option("--icu/--no-icu", default=True, show_default=True,
-                     help="Include ICU adjustments"),
-        click.option("--covid/--no-covid", default=True, show_default=True,
-                     help="Include COVID adjustments"),
+        click.option(
+            "--params",
+            default="excel_calculator/data",
+            show_default=True,
+            type=click.Path(file_okay=False, dir_okay=True),
+            help="Directory containing weights.csv and formula.json",
+        ),
+        click.option(
+            "--output",
+            default="-",
+            show_default=True,
+            help="Output CSV path ('-' for stdout)",
+        ),
+        click.option(
+            "--icu/--no-icu",
+            default=True,
+            show_default=True,
+            help="Include ICU adjustments",
+        ),
+        click.option(
+            "--covid/--no-covid",
+            default=True,
+            show_default=True,
+            help="Include COVID adjustments",
+        ),
     ]
     for opt in reversed(options):
         func = opt(func)
