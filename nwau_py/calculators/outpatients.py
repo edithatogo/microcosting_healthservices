@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
 import pandas as pd
-import numpy as np
 
 _DEFAULT_REF_DIR = Path('archive/sas/NEP25_SAS_NWAU_calculator/calculators')
 

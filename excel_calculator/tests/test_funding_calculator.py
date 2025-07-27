@@ -1,17 +1,13 @@
-import sys
 import pathlib
+import sys
 
-# Ensure the package is importable when running tests from the source tree
 pkg_root = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(pkg_root / "excel_calculator" / "src"))
 
-import pytest
 import pandas as pd
-from funding_calculator import (
-    load_weights,
-    load_formula,
-    calculate_funding,
-)
+import pytest
+
+from funding_calculator import load_weights, load_formula, calculate_funding  # noqa: E402
 
 
 def test_load_weights_normalises_columns(tmp_path):
