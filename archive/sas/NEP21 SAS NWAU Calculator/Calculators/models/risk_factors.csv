@@ -1,0 +1,17 @@
+,1,2,3,4,5,6,7,8,9,10,11,12
+0,cc_depression,an100mdc_ra,count_proc,adm_past_year,an100mdc_ra,count_proc,pat_remoteness,indstat_flag,adm_past_year,an100mdc_ra,an100mdc_ra,adm_past_year
+1,cc_spina_bifida,adm_past_year,cc_asthma_without_copd,cc_cerebral_palsy,agegroup_rm,malnutrition,cc_diabetes_complications,cc_diabetes,cc_peripheral_vascular_disease,cc_congestive_heart_failure,flag_emergency,malnutrition
+2,flag_emergency,count_proc,cc_downs_syndrome,cc_copd,adm_past_year,gender,cc_diabetes,adm_past_year,count_proc,agegroup_rm,adm_past_year,cc_arthritis_and_osteoarthritis
+3,cc_tetplg_prplg_dplg_hmplg_dt,agegroup_rm,drg10_type_m,an100mdc_ra,count_proc,drg10_type_m,gender,flag_emergency,flag_admtransfer,adm_past_year,agegroup_rm,an100mdc_ra
+4,count_proc,flag_emergency,pat_remoteness,cc_dementia,flag_emergency,adm_past_year,count_proc,pat_remoteness,flag_icu24,cc_acute_myocardial_function,count_proc,agegroup_rm
+5,an100mdc_ra,drg10_type_m,an100mdc_ra,count_proc,cc_pulmonary_disease,low_los_flag,adm_past_year,count_proc,pat_remoteness,flag_emergency,pat_remoteness,flag_emergency
+6,agegroup_rm,pat_remoteness,agegroup_rm,cc_epilepsy,low_los_flag,flag_emergency,an100mdc_ra,gender,agegroup_rm,drg10_type_m,drg10_type_m,pat_remoteness
+7,pat_remoteness,indstat_flag,flag_emergency,agegroup_rm,pat_remoteness,cc_hypertension,agegroup_rm,cc_diabetes_complications,indstat_flag,cc_chronic_heart_failure,cc_cerebral_palsy,indstat_flag
+8,indstat_flag,low_los_flag,indstat_flag,cc_chronic_respiratory_failure,cc_obesity,cc_asthma_without_copd,flag_emergency,cc_ischaemic_heart_disease,cc_dementia,cc_ischaemic_heart_disease,cc_crohns_disease,count_proc
+9,adm_past_year,cc_pulmonary_disease,adm_past_year,gender,gender,pat_remoteness,indstat_flag,cc_renal_disease,drug_use,count_proc,cc_connective_tissue_disorder,
+10,,gender,,malnutrition,flag_icu24,agegroup_rm,,malnutrition,cc_liver_disease,cc_diabetes_complications,gender,
+11,,cc_obesity,,cc_tetplg_prplg_dplg_hmplg_dt,cc_depression,cc_renal_disease,,flag_admtransfer,flag_emergency,pat_remoteness,cc_disorder_of_intellectual,
+12,,,,flag_emergency,cc_diabetes,an100mdc_ra,,low_los_flag,an100mdc_ra,cc_rheumatoid_arthritis,cc_hypertension,
+13,,,,pat_remoteness,cc_ischaemic_heart_disease,indstat_flag,,cc_hypertension,,indstat_flag,cc_depression,
+14,,,,indstat_flag,cc_hypertension,,,an100mdc_ra,,,indstat_flag,
+15,,,,,indstat_flag,,,agegroup_rm,,,,

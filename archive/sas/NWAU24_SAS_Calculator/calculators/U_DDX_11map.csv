@@ -1,0 +1,253 @@
+u_group,U_code,U_description,icd_code,ICD_description
+1,U781,Obesity,E6693,"Obesity, not elsewhere classified, body mass index [BMI] >= 40 kg/m2"
+1,U781,Obesity,E6692,"Obesity, not elsewhere classified, body mass index [BMI] >= 35 kg/m2 to <= 39.99 kg/m2"
+1,U781,Obesity,E6691,"Obesity, not elsewhere classified, body mass index [BMI] >= 30 kg/m2 to <= 34.99 kg/m2"
+1,U781,Obesity,E6690,"Obesity, not elsewhere classified, body mass index [BMI] not elsewhere classified"
+2,U782,Cystic fibrosis,E84,Cystic fibrosis
+3,U791,Dementia (including in Alzheimer's disease),F010,Vascular dementia of acute onset
+3,U791,Dementia (including in Alzheimer's disease),F018,Other vascular dementia
+3,U791,Dementia (including in Alzheimer's disease),F020,Dementia in Pick's disease (G31.0+)
+3,U791,Dementia (including in Alzheimer's disease),F019,"Vascular dementia, unspecified"
+3,U791,Dementia (including in Alzheimer's disease),F002,"Dementia in Alzheimer's disease, atypical or mixed type (G30.8+)"
+3,U791,Dementia (including in Alzheimer's disease),F013,Mixed cortical and subcortical vascular dementia
+3,U791,Dementia (including in Alzheimer's disease),F011,Multi-infarct dementia
+3,U791,Dementia (including in Alzheimer's disease),F024,Dementia in human immunodeficiency virus [HIV] disease (B22+)
+3,U791,Dementia (including in Alzheimer's disease),F000,Dementia in Alzheimer's disease with early onset (G30.0+)
+3,U791,Dementia (including in Alzheimer's disease),F001,Dementia in Alzheimer's disease with late onset (G30.1+)
+3,U791,Dementia (including in Alzheimer's disease),F012,Subcortical vascular dementia
+3,U791,Dementia (including in Alzheimer's disease),F009,"Dementia in Alzheimer's disease, unspecified (G30.9+)"
+3,U791,Dementia (including in Alzheimer's disease),F023,Dementia in Parkinson's disease (G20+)
+3,U791,Dementia (including in Alzheimer's disease),F022,Dementia in Huntington's disease (G10+)
+3,U791,Dementia (including in Alzheimer's disease),F03,Unspecified dementia
+3,U791,Dementia (including in Alzheimer's disease),F028,Dementia in other specified diseases classified elsewhere
+3,U791,Dementia (including in Alzheimer's disease),F021,Dementia in Creutzfeldt-Jakob disease (A81.0+)
+4,U792,Schizophrenia,F208,Other schizophrenia
+4,U792,Schizophrenia,F200,Paranoid schizophrenia
+4,U792,Schizophrenia,F206,Simple schizophrenia
+4,U792,Schizophrenia,F205,Residual schizophrenia
+4,U792,Schizophrenia,F209,"Schizophrenia, unspecified"
+4,U792,Schizophrenia,F201,Hebephrenic schizophrenia
+4,U792,Schizophrenia,F203,Undifferentiated schizophrenia
+4,U792,Schizophrenia,F202,Catatonic schizophrenia
+4,U792,Schizophrenia,F204,Post-schizophrenic depression
+5,U793,Depression,F3291,"Depressive episode, unspecified, arising in the postnatal period"
+5,U793,Depression,F338,Other recurrent depressive disorders
+5,U793,Depression,F334,"Recurrent depressive disorder, currently in remission"
+5,U793,Depression,F3280,"Other depressive episodes, not specified as arising in the postnatal period"
+5,U793,Depression,F3281,"Other depressive episodes, arising in the postnatal period"
+5,U793,Depression,F3290,"Depressive episode, unspecified, not specified as arising in the postnatal period"
+5,U793,Depression,F3210,"Moderate depressive episode, not specified as arising in the postnatal period"
+5,U793,Depression,F3230,"Severe depressive episode with psychotic symptoms, not specified as arising in the postnatal period"
+5,U793,Depression,F3221,"Severe depressive episode without psychotic symptoms, arising in the postnatal period"
+5,U793,Depression,F3220,"Severe depressive episode without psychotic symptoms, not specified as arising in the postnatal period"
+5,U793,Depression,F339,"Recurrent depressive disorder, unspecified"
+5,U793,Depression,F3231,"Severe depressive episode with psychotic symptoms, arising in the postnatal period"
+5,U793,Depression,F3211,"Moderate depressive episode, arising in the postnatal period"
+5,U793,Depression,F3200,"Mild depressive episode, not specified as arising in the postnatal period"
+5,U793,Depression,F3201,"Mild depressive episode, arising in the postnatal period"
+6,U794,Disorder of intellectual development,F731,"Profound mental retardation, significant impairment of behaviour requiring attention or treatment"
+6,U794,Disorder of intellectual development,F730,"Profound mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F721,"Severe mental retardation, significant impairment of behaviour requiring attention or treatment"
+6,U794,Disorder of intellectual development,F720,"Severe mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F729,Severe mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F738,"Profound mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F718,"Moderate mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F728,"Severe mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F739,Profound mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F711,"Moderate mental retardation, significant impairment of behaviour requiring attention or treatment"
+6,U794,Disorder of intellectual development,F710,"Moderate mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F780,"Other mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F708,"Mild mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F701,"Mild mental retardation, significant impairment of behaviour requiring attention or treatment"
+6,U794,Disorder of intellectual development,F700,"Mild mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F719,Moderate mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F709,Mild mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F799,Unspecified mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F798,"Unspecified mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F791,"Unspecified mental retardation, significant impairment of behaviour requiring attention or treatment"
+6,U794,Disorder of intellectual development,F790,"Unspecified mental retardation with the statement of no, or minimal, impairment of behaviour"
+6,U794,Disorder of intellectual development,F789,Other mental retardation without mention of impairment of behaviour
+6,U794,Disorder of intellectual development,F788,"Other mental retardation, other impairments of behaviour"
+6,U794,Disorder of intellectual development,F781,"Other mental retardation, significant impairment of behaviour requiring attention or treatment"
+7,U801,Parkinson's disease,G20,Parkinson's disease
+8,U802,Multiple sclerosis,G35,Multiple sclerosis
+9,U803,Epilepsy,G4091,"Epilepsy, unspecified, with intractable epilepsy"
+9,U803,Epilepsy,G4081,"Other epilepsy, with intractable epilepsy"
+9,U803,Epilepsy,G4080,"Other epilepsy, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4071,"Petit mal, unspecified, without grand mal seizures, with intractable epilepsy"
+9,U803,Epilepsy,G4061,"Grand mal seizures, unspecified (with or without petit mal), with intractable epilepsy"
+9,U803,Epilepsy,G4060,"Grand mal seizures, unspecified (with or without petit mal), without mention of intractable epilepsy"
+9,U803,Epilepsy,G4051,"Special epileptic syndromes, with intractable epilepsy"
+9,U803,Epilepsy,G4041,"Other generalised epilepsy and epileptic syndromes, with intractable epilepsy"
+9,U803,Epilepsy,G4040,"Other generalised epilepsy and epileptic syndromes, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4050,"Special epileptic syndromes, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4031,"Generalised idiopathic epilepsy and epileptic syndromes, with intractable epilepsy"
+9,U803,Epilepsy,G4070,"Petit mal, unspecified, without grand mal seizures, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4090,"Epilepsy, unspecified, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4030,"Generalised idiopathic epilepsy and epileptic syndromes, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4021,"Localisation-related (focal)(partial) symptomatic epilepsy and epileptic syndromes with complex partial seizures, with intractable epilepsy"
+9,U803,Epilepsy,G4020,"Localisation-related (focal)(partial) symptomatic epilepsy and epileptic syndromes with complex partial seizures, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4011,"Localisation-related (focal)(partial) symptomatic epilepsy and epileptic syndromes with simple partial seizures, with intractable epilepsy"
+9,U803,Epilepsy,G4010,"Localisation-related (focal)(partial) symptomatic epilepsy and epileptic syndromes with simple partial seizures, without mention of intractable epilepsy"
+9,U803,Epilepsy,G4001,"Localisation-related (focal)(partial) idiopathic epilepsy and epileptic syndromes with seizures of localised onset, with intractable epilepsy"
+9,U803,Epilepsy,G4000,"Localisation-related (focal)(partial) idiopathic epilepsy and epileptic syndromes with seizures of localised onset, without mention of intractable epilepsy"
+10,U804,Cerebral palsy,G8009,Other spastic cerebral palsy
+10,U804,Cerebral palsy,G8003,Spastic quadriplegic cerebral palsy
+10,U804,Cerebral palsy,G8000,"Spastic cerebral palsy, unspecified"
+10,U804,Cerebral palsy,G8001,Spastic diplegic cerebral palsy
+10,U804,Cerebral palsy,G8002,Spastic hemiplegic cerebral palsy
+10,U804,Cerebral palsy,G809,"Cerebral palsy, unspecified (Palsy/cerebral)"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G830,Diplegia of upper limbs
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8256,"Tetraplegia, unspecified, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8254,"Tetraplegia, unspecified, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8244,"Spastic tetraplegia, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8240,"Spastic tetraplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8236,"Flaccid tetraplegia, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8234,"Flaccid tetraplegia, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8230,"Flaccid tetraplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8226,"Paraplegia, unspecified, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8242,"Spastic tetraplegia, unspecified, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8250,"Tetraplegia, unspecified, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8224,"Paraplegia, unspecified, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8232,"Flaccid tetraplegia, unspecified, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8246,"Spastic tetraplegia, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8222,"Paraplegia, unspecified, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8220,"Paraplegia, unspecified, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8252,"Tetraplegia, unspecified, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8216,"Spastic paraplegia, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8214,"Spastic paraplegia, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8210,"Spastic paraplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8206,"Flaccid paraplegia, incomplete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8212,"Spastic paraplegia, unspecified chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8204,"Flaccid paraplegia, complete, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G831,Monoplegia of lower limb
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8202,"Flaccid paraplegia, unspecified, chronic"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G8200,"Flaccid paraplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G819,"Hemiplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G811,Spastic hemiplegia
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G810,Flaccid hemiplegia
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G833,"Monoplegia, unspecified"
+11,U805,"Tetraplegia, paraplegia, diplegia, monoplegia and hemiplegia, due to any cause",G832,Monoplegia of upper limb
+12,U821,Ischaemic heart disease,I259,"Chronic ischaemic heart disease, unspecified (Disease/heart/ischaemic)"
+12,U821,Ischaemic heart disease,I2513,"Atherosclerotic heart disease, of nonautologous bypass graft"
+12,U821,Ischaemic heart disease,I2512,"Atherosclerotic heart disease, of autologous bypass graft"
+12,U821,Ischaemic heart disease,I2511,"Atherosclerotic heart disease, of native coronary artery"
+12,U821,Ischaemic heart disease,I2510,"Atherosclerotic heart disease, of unspecified vessel"
+13,U822,Chronic heart failure,I509,"Heart failure, unspecified"
+13,U822,Chronic heart failure,I500,Congestive heart failure
+14,U823,Hypertension,I10,Essential (primary) hypertension
+15,U831,"Emphysema, without mention of chronic obstructive pulmonary disease",J439,"Emphysema, unspecified"
+16,U832,Chronic obstructive pulmonary disease,J449,"Chronic obstructive pulmonary disease, unspecified"
+17,U833,"Asthma, without mention of chronic obstructive pulmonary disease",J459,"Asthma, unspecified"
+17,U833,"Asthma, without mention of chronic obstructive pulmonary disease",J458,Mixed asthma
+17,U833,"Asthma, without mention of chronic obstructive pulmonary disease",J451,Nonallergic asthma
+17,U833,"Asthma, without mention of chronic obstructive pulmonary disease",J450,Predominantly allergic asthma
+18,U834,"Bronchiectasis, without mention of cystic fibrosis",J47,Bronchiectasis
+19,U835,Chronic respiratory failure,J9619,"Chronic respiratory failure, type unspecified"
+19,U835,Chronic respiratory failure,J9611,"Chronic respiratory failure, type II"
+19,U835,Chronic respiratory failure,J9610,"Chronic respiratory failure, type I"
+20,U841,Crohn's disease,K509,"Crohn's disease, unspecified"
+20,U841,Crohn's disease,K508,Other Crohn's disease
+20,U841,Crohn's disease,K501,Crohn's disease of large intestine
+20,U841,Crohn's disease,K500,Crohn's disease of small intestine
+21,U842,Ulcerative colitis,K519,"Ulcerative colitis, unspecified"
+21,U842,Ulcerative colitis,K518,Other ulcerative colitis
+21,U842,Ulcerative colitis,K513,Ulcerative (chronic) rectosigmoiditis
+21,U842,Ulcerative colitis,K512,Ulcerative (chronic) proctitis
+21,U842,Ulcerative colitis,K510,Ulcerative (chronic) pancolitis
+22,U843,Chronic liver failure,K721,Chronic hepatic failure
+23,U861,Rheumatoid arthritis,M0698,"Rheumatoid arthritis, unspecified, other site"
+23,U861,Rheumatoid arthritis,M0697,"Rheumatoid arthritis, unspecified, ankle and foot"
+23,U861,Rheumatoid arthritis,M0696,"Rheumatoid arthritis, unspecified, lower leg"
+23,U861,Rheumatoid arthritis,M0699,"Rheumatoid arthritis, unspecified, site unspecified"
+23,U861,Rheumatoid arthritis,M0695,"Rheumatoid arthritis, unspecified, pelvic region and thigh"
+23,U861,Rheumatoid arthritis,M0694,"Rheumatoid arthritis, unspecified, hand"
+23,U861,Rheumatoid arthritis,M0693,"Rheumatoid arthritis, unspecified, forearm"
+23,U861,Rheumatoid arthritis,M0692,"Rheumatoid arthritis, unspecified, upper arm"
+23,U861,Rheumatoid arthritis,M0691,"Rheumatoid arthritis, unspecified, shoulder region"
+23,U861,Rheumatoid arthritis,M0690,"Rheumatoid arthritis, unspecified, multiple sites"
+24,U862,Arthritis and osteoarthritis,M4799,"Unspecified spondylosis, site unspecified"
+24,U862,Arthritis and osteoarthritis,M4798,"Unspecified spondylosis, sacral and sacrococcygeal region"
+24,U862,Arthritis and osteoarthritis,M4796,"Unspecified spondylosis, lumbar region"
+24,U862,Arthritis and osteoarthritis,M4795,"Unspecified spondylosis, thoracolumbar region"
+24,U862,Arthritis and osteoarthritis,M4794,"Unspecified spondylosis, thoracic region"
+24,U862,Arthritis and osteoarthritis,M4793,"Unspecified spondylosis, cervicothoracic region"
+24,U862,Arthritis and osteoarthritis,M4792,"Unspecified spondylosis, cervical region"
+24,U862,Arthritis and osteoarthritis,M4791,"Unspecified spondylosis, occipito-atlanto-axial region"
+24,U862,Arthritis and osteoarthritis,M4790,"Unspecified spondylosis, multiple sites in spine"
+24,U862,Arthritis and osteoarthritis,M1908,"Primary arthrosis of other joints, other site"
+24,U862,Arthritis and osteoarthritis,M1907,"Primary arthrosis of other joints, ankle and foot"
+24,U862,Arthritis and osteoarthritis,M1904,"Primary arthrosis of other joints, hand"
+24,U862,Arthritis and osteoarthritis,M1903,"Primary arthrosis of other joints, forearm"
+24,U862,Arthritis and osteoarthritis,M1902,"Primary arthrosis of other joints, upper arm"
+24,U862,Arthritis and osteoarthritis,M1901,"Primary arthrosis of other joints, shoulder region"
+24,U862,Arthritis and osteoarthritis,M181,Other primary arthrosis of first carpometacarpal joint
+24,U862,Arthritis and osteoarthritis,M1909,"Primary arthrosis of other joints, site unspecified"
+24,U862,Arthritis and osteoarthritis,M180,"Primary arthrosis of first carpometacarpal joints, bilateral"
+24,U862,Arthritis and osteoarthritis,M171,Other primary gonarthrosis
+24,U862,Arthritis and osteoarthritis,M170,"Primary gonarthrosis, bilateral"
+24,U862,Arthritis and osteoarthritis,M161,Other primary coxarthrosis
+24,U862,Arthritis and osteoarthritis,M160,"Primary coxarthrosis, bilateral"
+24,U862,Arthritis and osteoarthritis,M150,Primary generalised (osteo)arthrosis
+24,U862,Arthritis and osteoarthritis,M1399,"Arthritis, unspecified, site unspecified"
+24,U862,Arthritis and osteoarthritis,M1398,"Arthritis, unspecified, other site"
+24,U862,Arthritis and osteoarthritis,M4797,"Unspecified spondylosis, lumbosacral region"
+24,U862,Arthritis and osteoarthritis,M1397,"Arthritis, unspecified, ankle and foot"
+24,U862,Arthritis and osteoarthritis,M1396,"Arthritis, unspecified, lower leg"
+24,U862,Arthritis and osteoarthritis,M1395,"Arthritis, unspecified, pelvic region and thigh"
+24,U862,Arthritis and osteoarthritis,M1394,"Arthritis, unspecified, hand"
+24,U862,Arthritis and osteoarthritis,M1393,"Arthritis, unspecified, forearm"
+24,U862,Arthritis and osteoarthritis,M1392,"Arthritis, unspecified, upper arm"
+24,U862,Arthritis and osteoarthritis,M1391,"Arthritis, unspecified, shoulder region"
+24,U862,Arthritis and osteoarthritis,M1390,"Arthritis, unspecified, multiple sites"
+25,U863,Systemic lupus erythematosus,M329,"Systemic lupus erythematosus, unspecified"
+25,U863,Systemic lupus erythematosus,M328,Other forms of systemic lupus erythematosus
+25,U863,Systemic lupus erythematosus,M321,Systemic lupus erythematosus with organ or system involvement
+25,U863,Systemic lupus erythematosus,M320,Drug-induced systemic lupus erythematosus
+26,U864,Osteoporosis,M8198,"Unspecified osteoporosis, other site"
+26,U864,Osteoporosis,M8197,"Unspecified osteoporosis, ankle and foot"
+26,U864,Osteoporosis,M8196,"Unspecified osteoporosis, lower leg"
+26,U864,Osteoporosis,M8199,"Unspecified osteoporosis, site unspecified"
+26,U864,Osteoporosis,M8195,"Unspecified osteoporosis, pelvic region and thigh"
+26,U864,Osteoporosis,M8194,"Unspecified osteoporosis, hand"
+26,U864,Osteoporosis,M8193,"Unspecified osteoporosis, forearm"
+26,U864,Osteoporosis,M8192,"Unspecified osteoporosis, upper arm"
+26,U864,Osteoporosis,M8191,"Unspecified osteoporosis, shoulder region"
+26,U864,Osteoporosis,M8190,"Unspecified osteoporosis, multiple sites"
+27,U871,"Chronic kidney disease, stage 3 to 5",N185,"Chronic kidney disease, stage 5"
+27,U871,"Chronic kidney disease, stage 3 to 5",N184,"Chronic kidney disease, stage 4"
+27,U871,"Chronic kidney disease, stage 3 to 5",N183,"Chronic kidney disease, stage 3"
+28,U881,Spina bifida,Q0592,"Spina bifida, unspecified, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0590,"Spina bifida, unspecified, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0582,"Sacral spina bifida without hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0581,"Sacral spina bifida without hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0580,"Sacral spina bifida without hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0572,"Lumbar spina bifida without hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0571,"Lumbar spina bifida without hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0570,"Lumbar spina bifida without hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0561,"Thoracic spina bifida without hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0560,"Thoracic spina bifida without hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0552,"Cervical spina bifida without hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0551,"Cervical spina bifida without hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0550,"Cervical spina bifida without hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0542,"Unspecified spina bifida with hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0541,"Unspecified spina bifida with hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0562,"Thoracic spina bifida without hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0540,"Unspecified spina bifida with hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0532,"Sacral spina bifida with hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0531,"Sacral spina bifida with hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0530,"Sacral spina bifida with hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0522,"Lumbar spina bifida with hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0521,"Lumbar spina bifida with hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0520,"Lumbar spina bifida with hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0512,"Thoracic spina bifida with hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0591,"Spina bifida, unspecified, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0511,"Thoracic spina bifida with hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0510,"Thoracic spina bifida with hydrocephalus, unspecified whether lesion is open or closed"
+28,U881,Spina bifida,Q0502,"Cervical spina bifida with hydrocephalus, closed, cystica, covered with skin or membrane"
+28,U881,Spina bifida,Q0501,"Cervical spina bifida with hydrocephalus, open, aperta, not covered with skin or membrane"
+28,U881,Spina bifida,Q0500,"Cervical spina bifida with hydrocephalus, unspecified whether lesion is open or closed"
+29,U882,Down's syndrome,Q909,"Down's syndrome, unspecified"
+29,U882,Down's syndrome,Q902,"Trisomy 21, translocation"
+29,U882,Down's syndrome,Q901,"Trisomy 21, mosaicism"
+29,U882,Down's syndrome,Q900,"Trisomy 21, meiotic nondisjunction"

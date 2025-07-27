@@ -1,0 +1,324 @@
+su_code,su_group,su_desc,cc_code,cc_desc
+U781 ,1,Obesity ,E669 ,Obesity unspecified 
+U782 ,2,Cystic fibrosis ,E84 ,Cystic fibrosis 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F000 ,Early dementia in Alzheimer's dis 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F001 ,Late dementia in Alzheimer's dis 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F002 ,Alzheimer's dementia atypic / mixed 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F009 ,Alzheimer's dementia unsp 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F010 ,Vascular dementia of acute onset 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F011 ,Multi-infarct dementia 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F012 ,Subcortical vascular dementia 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F013 ,Mx cortical & subcortical vasc dementia 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F018 ,Other vascular dementia 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F019 ,Vascular dementia unspecified 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F020 ,Dementia in Pick's disease 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F021 ,Dementia in Creutzfeldt-Jakob dis 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F022 ,Dementia in Huntington's disease 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F023 ,Dementia in Parkinson's disease 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F024 ,Dementia in HIV disease 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F028 ,Dementia in oth spec dis class elsewhere 
+U791 ,3,Dementia (incl in Alzheimer's dis) ,F03 ,Unspecified dementia 
+U792 ,4,Schizophrenia ,F200 ,Paranoid schizophrenia 
+U792 ,4,Schizophrenia ,F201 ,Hebephrenic schizophrenia 
+U792 ,4,Schizophrenia ,F202 ,Catatonic schizophrenia 
+U792 ,4,Schizophrenia ,F203 ,Undifferentiated schizophrenia 
+U792 ,4,Schizophrenia ,F204 ,Post-schizophrenic depression 
+U792 ,4,Schizophrenia ,F205 ,Residual schizophrenia 
+U792 ,4,Schizophrenia ,F206 ,Simple schizophrenia 
+U792 ,4,Schizophrenia ,F208 ,Other schizophrenia 
+U792 ,4,Schizophrenia ,F209 ,Schizophrenia unspecified 
+U793 ,5,Depression ,F3200 ,Mild depres ep not in postnatal period 
+U793 ,5,Depression ,F3201 ,Mild depres ep in postnatal period 
+U793 ,5,Depression ,F3210 ,Mod depres ep not in postnatal period 
+U793 ,5,Depression ,F3211 ,Mod depres ep in postnatal period 
+U793 ,5,Depression ,F3220 ,Sev depres ep wo psych sym not postnatal 
+U793 ,5,Depression ,F3221 ,Sev depres ep wo psych sym in postnatal 
+U793 ,5,Depression ,F3230 ,Sev depres ep w psych sym not postnatal 
+U793 ,5,Depression ,F3231 ,Sev depres ep w psych sym in postnatal 
+U793 ,5,Depression ,F3280 ,Other depres ep not in postnatal period 
+U793 ,5,Depression ,F3281 ,Other depres ep in postnatal period 
+U793 ,5,Depression ,F3290 ,Depres ep not in the postnatal period 
+U793 ,5,Depression ,F3291 ,Depres ep unsp in the postnatal period 
+U793 ,5,Depression ,F334 ,Rec depres disrd currently in remission 
+U793 ,5,Depression ,F338 ,Other recurrent depressive disorders 
+U793 ,5,Depression ,F339 ,Recurrent depressive disorder unsp 
+U794 ,6,Disorder of intellectual development ,F700 ,Mild mental retard no / min impair beh 
+U794 ,6,Disorder of intellectual development ,F701 ,Mild mental retard signif impair beh 
+U794 ,6,Disorder of intellectual development ,F708 ,Mild mental retard other impaired beh 
+U794 ,6,Disorder of intellectual development ,F709 ,Mild mental retard wo impaired beh 
+U794 ,6,Disorder of intellectual development ,F710 ,Mod mental retard no / min impair beh 
+U794 ,6,Disorder of intellectual development ,F711 ,Mod mental retard signif impair beh 
+U794 ,6,Disorder of intellectual development ,F718 ,Mod mental retard other impairment beh 
+U794 ,6,Disorder of intellectual development ,F719 ,Mod mental retard wo impairment beh 
+U794 ,6,Disorder of intellectual development ,F720 ,Sev mental retard w no or min impair beh 
+U794 ,6,Disorder of intellectual development ,F721 ,Severe mental retard signif impair beh 
+U794 ,6,Disorder of intellectual development ,F728 ,Sev mental retard other impair behaviour 
+U794 ,6,Disorder of intellectual development ,F729 ,Severe mental retard wo impair behaviour 
+U794 ,6,Disorder of intellectual development ,F730 ,Profound ment retard no min impair beh 
+U794 ,6,Disorder of intellectual development ,F731 ,Profound mental retard signif impair beh 
+U794 ,6,Disorder of intellectual development ,F738 ,Profound mental retard w oth impair beh 
+U794 ,6,Disorder of intellectual development ,F739 ,Profound mental retard wo impair beh 
+U794 ,6,Disorder of intellectual development ,F780 ,Other mental retard no or min impair beh 
+U794 ,6,Disorder of intellectual development ,F781 ,Other mental retard w signif impair beh 
+U794 ,6,Disorder of intellectual development ,F788 ,Other mental retard w other impair beh 
+U794 ,6,Disorder of intellectual development ,F789 ,Other mental retard wo impair behaviour 
+U794 ,6,Disorder of intellectual development ,F790 ,Unsp ment retard no or min impair beh 
+U794 ,6,Disorder of intellectual development ,F791 ,Unsp mental retard w signif impair beh 
+U794 ,6,Disorder of intellectual development ,F798 ,Unsp mental retard w other impair beh 
+U794 ,6,Disorder of intellectual development ,F799 ,Unsp mental retard wo impairment beh 
+U801 ,7,Parkinson's disease ,G20 ,Parkinson's disease 
+U802 ,8,Multiple sclerosis ,G35 ,Multiple sclerosis 
+U803 ,9,Epilepsy ,G4000 ,Local-rel idiopath epil local sez wo IE 
+U803 ,9,Epilepsy ,G4001 ,Local-rel idiopath epil local sez w IE 
+U803 ,9,Epilepsy ,G4010 ,Local-rel sym epil simp prt sez wo IE 
+U803 ,9,Epilepsy ,G4011 ,Local-rel sym epil simp prt sez w IE 
+U803 ,9,Epilepsy ,G4020 ,Local-rel sym epil complx prt sez wo IE 
+U803 ,9,Epilepsy ,G4021 ,Local-rel sym epil complx prt sez w IE 
+U803 ,9,Epilepsy ,G4030 ,Genl idiopath epil & epil synd wo IE 
+U803 ,9,Epilepsy ,G4031 ,Genl idiopath epil & epil synd w IE 
+U803 ,9,Epilepsy ,G4040 ,Oth genl epil & epil synd wo IE 
+U803 ,9,Epilepsy ,G4041 ,Oth genl epil & epil synd w IE 
+U803 ,9,Epilepsy ,G4050 ,Special epil synd wo IE 
+U803 ,9,Epilepsy ,G4051 ,Special epil synd w IE 
+U803 ,9,Epilepsy ,G4060 ,Gr mal sez unsp w / wo pet mal wo IE 
+U803 ,9,Epilepsy ,G4061 ,Gr mal sez unsp w / wo pet mal w IE 
+U803 ,9,Epilepsy ,G4070 ,Pet mal unsp wo gr mal sez wo IE 
+U803 ,9,Epilepsy ,G4071 ,Pet mal unsp wo gr mal sez w IE 
+U803 ,9,Epilepsy ,G4080 ,Other epil wo IE 
+U803 ,9,Epilepsy ,G4081 ,Other epil w IE 
+U803 ,9,Epilepsy ,G4090 ,Epil unspecified wo IE 
+U803 ,9,Epilepsy ,G4091 ,Epil unspecified w IE 
+U804 ,10,Cerebral palsy ,G8000 ,"Spastic cerebral palsy, unspecified "
+U804 ,10,Cerebral palsy ,G8001 ,Spastic diplegic cerebral palsy 
+U804 ,10,Cerebral palsy ,G8002 ,Spastic hemiplegic cerebral palsy 
+U804 ,10,Cerebral palsy ,G8003 ,Spastic quadriplegic cerebral palsy 
+U804 ,10,Cerebral palsy ,G8009 ,Other spastic cerebral palsy 
+U804 ,10,Cerebral palsy ,G803 ,Dyskinetic cerebral palsy 
+U804 ,10,Cerebral palsy ,G804 ,Ataxic cerebral palsy 
+U804 ,10,Cerebral palsy ,G808 ,Other cerebral palsy 
+U804 ,10,Cerebral palsy ,G809 ,"Cerebral palsy, unspecified "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G810 ,Flaccid hemiplegia 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G811 ,Spastic hemiplegia 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G819 ,Hemiplegia unspecified 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8200 ,Flaccid paraplegia unspecified 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8202 ,"Flaccid paraplegia, unspecified, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8204 ,"Flaccid paraplegia, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8206 ,"Flaccid paraplegia, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8210 ,Spastic paraplegia unspecified 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8212 ,"Spastic paraplegia, unspecified chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8214 ,"Spastic paraplegia, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8216 ,"Spastic paraplegia, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8220 ,"Paraplegia, unspecified, unspecified "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8222 ,"Paraplegia, unspecified, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8224 ,"Paraplegia, unsp, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8226 ,"Paraplegia, unsp, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8230 ,Flaccid tetraplegia unspecified 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8232 ,"Flaccid tetraplegia, unsp, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8234 ,"Flaccid tetraplegia, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8236 ,"Flaccid tetraplegia, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8240 ,Spastic tetraplegia unspecified 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8242 ,"Spastic tetraplegia, unsp, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8244 ,"Spastic tetraplegia, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8246 ,"Spastic tetraplegia, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8250 ,"Tetraplegia, unspecified, unspecified "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8252 ,"Tetraplegia, unspecified, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8254 ,"Tetraplegia, unsp, complete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G8256 ,"Tetraplegia, unsp, incomplete, chronic "
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G830 ,Diplegia of upper limbs 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G831 ,Monoplegia of lower limb 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G832 ,Monoplegia of upper limb 
+U805 ,11,Tetplg prplg dplg & hmplg dt any cause ,G833 ,Monoplegia unspecified 
+U821 ,12,Ischaemic heart disease ,I2510 ,Atherosclerotic heart dis unsp vessel 
+U821 ,12,Ischaemic heart disease ,I2511 ,Atheroscl heart dis native coron artery 
+U821 ,12,Ischaemic heart disease ,I2512 ,Atheroscl heart dis autolgs byps graft 
+U821 ,12,Ischaemic heart disease ,I2513 ,Atheroscl heart dis nonautolgs byps gft 
+U821 ,12,Ischaemic heart disease ,I259 ,Chronic IHD unspecified 
+U822 ,13,Chronic heart failure ,I500 ,Congestive heart failure 
+U822 ,13,Chronic heart failure ,I509 ,Heart failure unspecified 
+U823 ,14,Hypertension ,I10 ,Essential (primary) hypertension 
+U831 ,15,Emphysema without mention of COPD ,J439 ,Emphysema unspecified 
+U832 ,16,Chronic obstructive pulmonary disease ,J449 ,COPD unspecified 
+U833 ,17,"Asthma, without mention of COPD ",J450 ,Predominantly allergic asthma 
+U833 ,17,"Asthma, without mention of COPD ",J451 ,Nonallergic asthma 
+U833 ,17,"Asthma, without mention of COPD ",J458 ,Mixed asthma 
+U833 ,17,"Asthma, without mention of COPD ",J459 ,Asthma unspecified 
+U834 ,18,Bronchiectasis without mention of CF ,J47 ,Bronchiectasis 
+U835 ,19,Chronic respiratory failure ,J9610 ,Chronic respiratory failure type I 
+U835 ,19,Chronic respiratory failure ,J9611 ,Chronic respiratory failure type II 
+U835 ,19,Chronic respiratory failure ,J9619 ,Chronic respiratory failure type unsp 
+U841 ,20,Crohn's disease ,K500 ,Crohn's disease of small intestine 
+U841 ,20,Crohn's disease ,K501 ,Crohn's disease of large intestine 
+U841 ,20,Crohn's disease ,K508 ,Other Crohn's disease 
+U841 ,20,Crohn's disease ,K509 ,Crohn's disease unspecified 
+U842 ,21,Ulcerative colitis ,K510 ,Ulcerative (chronic) pancolitis 
+U842 ,21,Ulcerative colitis ,K512 ,Ulcerative (chronic) proctitis 
+U842 ,21,Ulcerative colitis ,K513 ,Ulcerative (chronic) rectosigmoiditis 
+U842 ,21,Ulcerative colitis ,K518 ,Other ulcerative colitis 
+U842 ,21,Ulcerative colitis ,K519 ,Ulcerative colitis unspecified 
+U843 ,22,Chronic liver failure ,K721 ,Chronic hepatic failure 
+U861 ,23,Rheumatoid arthritis ,M0690 ,Rheumatoid arthritis unsp multiple sites 
+U861 ,23,Rheumatoid arthritis ,M0691 ,Rheumatoid arthritis unsp shoulder 
+U861 ,23,Rheumatoid arthritis ,M0692 ,Rheumatoid arthritis unsp upper arm 
+U861 ,23,Rheumatoid arthritis ,M0693 ,Rheumatoid arthritis unsp forearm 
+U861 ,23,Rheumatoid arthritis ,M0694 ,Rheumatoid arthritis unsp hand 
+U861 ,23,Rheumatoid arthritis ,M0695 ,Rheumatoid arthr unsp pelv rgn & thgh 
+U861 ,23,Rheumatoid arthritis ,M0696 ,Rheumatoid arthritis unsp lower leg 
+U861 ,23,Rheumatoid arthritis ,M0697 ,Rheumatoid arthritis unsp ankle foot 
+U861 ,23,Rheumatoid arthritis ,M0698 ,Rheumatoid arthritis unsp other 
+U861 ,23,Rheumatoid arthritis ,M0699 ,Rheumatoid arthritis unsp unsp site 
+U861 ,23,Rheumatoid arthritis ,M0800 ,Juvenile rheumatoid arthritis mult sites 
+U861 ,23,Rheumatoid arthritis ,M0801 ,Juvenile rheumatoid arthritis shoulder 
+U861 ,23,Rheumatoid arthritis ,M0802 ,Juvenile rheumatoid arthritis upper arm 
+U861 ,23,Rheumatoid arthritis ,M0803 ,Juvenile rheumatoid arthritis forearm 
+U861 ,23,Rheumatoid arthritis ,M0804 ,Juvenile rheumatoid arthritis hand 
+U861 ,23,Rheumatoid arthritis ,M0805 ,Juvenile rheum arthritis pelv rgn & thgh 
+U861 ,23,Rheumatoid arthritis ,M0806 ,Juvenile rheumatoid arthritis lower leg 
+U861 ,23,Rheumatoid arthritis ,M0807 ,Juvenile rheum arthritis ankle foot 
+U861 ,23,Rheumatoid arthritis ,M0808 ,Juvenile rheumatoid arthritis other 
+U861 ,23,Rheumatoid arthritis ,M0809 ,Juvenile rheumatoid arthritis site unsp 
+U861 ,23,Rheumatoid arthritis ,M0810 ,Juvnle ankylosing spondylitis mult sites 
+U861 ,23,Rheumatoid arthritis ,M0811 ,Juvnle ankylosing spondylitis shoulder 
+U861 ,23,Rheumatoid arthritis ,M0812 ,Juvnle ankylosing spondylitis upper arm 
+U861 ,23,Rheumatoid arthritis ,M0813 ,Juvnle ankylosing spondylitis forearm 
+U861 ,23,Rheumatoid arthritis ,M0814 ,Juvenile ankylosing spondylitis hand 
+U861 ,23,Rheumatoid arthritis ,M0815 ,Juvnle ankylosing spondylitis pelv thigh 
+U861 ,23,Rheumatoid arthritis ,M0816 ,Juvenile ankylosing spondylitis low leg 
+U861 ,23,Rheumatoid arthritis ,M0817 ,Juvnle ankylosing spondylitis ankle foot 
+U861 ,23,Rheumatoid arthritis ,M0818 ,Juvenile ankylosing spondylitis other 
+U861 ,23,Rheumatoid arthritis ,M0819 ,Juvnle ankylosing spondylitis site unsp 
+U861 ,23,Rheumatoid arthritis ,M0820 ,Juvnle arthritis w systc onset mult site 
+U861 ,23,Rheumatoid arthritis ,M0821 ,Juvnle arthritis w systc onset shoulder 
+U861 ,23,Rheumatoid arthritis ,M0822 ,Juvnle arthritis w systc onset upper arm 
+U861 ,23,Rheumatoid arthritis ,M0823 ,Juvenile arthritis w systc onset forearm 
+U861 ,23,Rheumatoid arthritis ,M0824 ,Juvenile arthritis w systemic onset hand 
+U861 ,23,Rheumatoid arthritis ,M0825 ,Juvnle arthr w systc onset pelv rgn thgh 
+U861 ,23,Rheumatoid arthritis ,M0826 ,Juvenile arthritis w systc onset low leg 
+U861 ,23,Rheumatoid arthritis ,M0827 ,Juvnle arthr w systc onset ankle foot 
+U861 ,23,Rheumatoid arthritis ,M0828 ,Juvenile arthritis w systc onset other 
+U861 ,23,Rheumatoid arthritis ,M0829 ,Juvnle arthritis w systc onset site unsp 
+U861 ,23,Rheumatoid arthritis ,M083 ,Juvenile polyarthritis (seronegative) 
+U861 ,23,Rheumatoid arthritis ,M0840 ,Pauciartclr juvnle arthritis mult sites 
+U861 ,23,Rheumatoid arthritis ,M0841 ,Pauciarticular juvnle arthritis shoulder 
+U861 ,23,Rheumatoid arthritis ,M0842 ,Pauciarticular juvnle arthritis upp arm 
+U861 ,23,Rheumatoid arthritis ,M0843 ,Pauciarticular juvnle arthritis forearm 
+U861 ,23,Rheumatoid arthritis ,M0844 ,Pauciarticular juvenile arthritis hand 
+U861 ,23,Rheumatoid arthritis ,M0845 ,Pauciartclr juvnle arthr pelv rgn & thgh 
+U861 ,23,Rheumatoid arthritis ,M0846 ,Pauciarticular juvnle arthritis low leg 
+U861 ,23,Rheumatoid arthritis ,M0847 ,Pauciarticular juvnle arthritis ankle ft 
+U861 ,23,Rheumatoid arthritis ,M0848 ,Pauciarticular juvenile arthritis other 
+U861 ,23,Rheumatoid arthritis ,M0849 ,Pauciartclr juvenile arthritis site unsp 
+U861 ,23,Rheumatoid arthritis ,M0880 ,Other juvenile arthritis multiple sites 
+U861 ,23,Rheumatoid arthritis ,M0881 ,Other juvenile arthritis shoulder 
+U861 ,23,Rheumatoid arthritis ,M0882 ,Other juvenile arthritis upper arm 
+U861 ,23,Rheumatoid arthritis ,M0883 ,Other juvenile arthritis forearm 
+U861 ,23,Rheumatoid arthritis ,M0884 ,Other juvenile arthritis hand 
+U861 ,23,Rheumatoid arthritis ,M0885 ,Other juvenile arthritis pelv rgn & thgh 
+U861 ,23,Rheumatoid arthritis ,M0886 ,Other juvenile arthritis lower leg 
+U861 ,23,Rheumatoid arthritis ,M0887 ,Other juvenile arthritis ankle and foot 
+U861 ,23,Rheumatoid arthritis ,M0888 ,Other juvenile arthritis other 
+U861 ,23,Rheumatoid arthritis ,M0889 ,Other juvenile arthritis site unsp 
+U861 ,23,Rheumatoid arthritis ,M0890 ,Juvenile arthritis unsp multiple sites 
+U861 ,23,Rheumatoid arthritis ,M0891 ,Juvenile arthritis unsp shoulder 
+U861 ,23,Rheumatoid arthritis ,M0892 ,Juvenile arthritis unsp upper arm 
+U861 ,23,Rheumatoid arthritis ,M0893 ,Juvenile arthritis unspecified forearm 
+U861 ,23,Rheumatoid arthritis ,M0894 ,Juvenile arthritis unspecified hand 
+U861 ,23,Rheumatoid arthritis ,M0895 ,Juvenile arthritis unsp pelv rgn & thgh 
+U861 ,23,Rheumatoid arthritis ,M0896 ,Juvenile arthritis unsp lower leg 
+U861 ,23,Rheumatoid arthritis ,M0897 ,Juvenile arthritis unsp ankle foot 
+U861 ,23,Rheumatoid arthritis ,M0898 ,Juvenile arthritis unspecified other 
+U861 ,23,Rheumatoid arthritis ,M0899 ,Juvenile arthritis unsp site unspecified 
+U861 ,23,Rheumatoid arthritis ,M4500 ,Ankylosing spondylitis mult sites spine 
+U861 ,23,Rheumatoid arthritis ,M4501 ,Ankylosing spondylitis ocpt-atlnt-axl 
+U861 ,23,Rheumatoid arthritis ,M4502 ,"Ankylosing spondylitis, cervical region "
+U861 ,23,Rheumatoid arthritis ,M4503 ,Ankylosing spondylitis cervicothoracic 
+U861 ,23,Rheumatoid arthritis ,M4504 ,Ankylosing spondylitis thoracic region 
+U861 ,23,Rheumatoid arthritis ,M4505 ,Ankylosing spondylitis thoracolumbar 
+U861 ,23,Rheumatoid arthritis ,M4506 ,Ankylosing spondylitis lumbar region 
+U861 ,23,Rheumatoid arthritis ,M4507 ,Ankylosing spondylitis lumbosacral rgn 
+U861 ,23,Rheumatoid arthritis ,M4508 ,Ankylosing spondylitis sacr & sacrcocygl 
+U861 ,23,Rheumatoid arthritis ,M4509 ,Ankylosing spondylitis site unspecified 
+U862 ,24,Arthritis and osteoarthritis ,M1390 ,Arthritis unspecified multiple sites 
+U862 ,24,Arthritis and osteoarthritis ,M1391 ,Arthritis unspecified shoulder region 
+U862 ,24,Arthritis and osteoarthritis ,M1392 ,Arthritis unspecified upper arm 
+U862 ,24,Arthritis and osteoarthritis ,M1393 ,Arthritis unspecified forearm 
+U862 ,24,Arthritis and osteoarthritis ,M1394 ,Arthritis unspecified hand 
+U862 ,24,Arthritis and osteoarthritis ,M1395 ,Arthritis unspecified pelv rgn & thgh 
+U862 ,24,Arthritis and osteoarthritis ,M1396 ,Arthritis unspecified lower leg 
+U862 ,24,Arthritis and osteoarthritis ,M1397 ,Arthritis unspecified ankle and foot 
+U862 ,24,Arthritis and osteoarthritis ,M1398 ,Arthritis unspecified other 
+U862 ,24,Arthritis and osteoarthritis ,M1399 ,Arthritis unspecified site unspecified 
+U862 ,24,Arthritis and osteoarthritis ,M150 ,Primary generalised (osteo)arthrosis 
+U862 ,24,Arthritis and osteoarthritis ,M160 ,Primary coxarthrosis bilateral 
+U862 ,24,Arthritis and osteoarthritis ,M161 ,Other primary coxarthrosis 
+U862 ,24,Arthritis and osteoarthritis ,M170 ,Primary gonarthrosis bilateral 
+U862 ,24,Arthritis and osteoarthritis ,M171 ,Other primary gonarthrosis 
+U862 ,24,Arthritis and osteoarthritis ,M180 ,Prim arthrs bil 1st carpometacarpal jt 
+U862 ,24,Arthritis and osteoarthritis ,M181 ,Oth prim arthrs 1st carpometacarpal jt 
+U862 ,24,Arthritis and osteoarthritis ,M1901 ,Primary arthrosis other joints shoulder 
+U862 ,24,Arthritis and osteoarthritis ,M1902 ,Primary arthrosis other joints upp arm 
+U862 ,24,Arthritis and osteoarthritis ,M1903 ,Primary arthrosis other joints forearm 
+U862 ,24,Arthritis and osteoarthritis ,M1904 ,Primary arthrosis of other joints hand 
+U862 ,24,Arthritis and osteoarthritis ,M1907 ,Primary arthrosis oth joints ankle foot 
+U862 ,24,Arthritis and osteoarthritis ,M1908 ,Primary arthrosis of other joints other 
+U862 ,24,Arthritis and osteoarthritis ,M1909 ,Primary arthrosis other joints site unsp 
+U862 ,24,Arthritis and osteoarthritis ,M4790 ,Unsp spondylosis multiple sites in spine 
+U862 ,24,Arthritis and osteoarthritis ,M4791 ,Unsp spondylosis occipito-atlanto-axial 
+U862 ,24,Arthritis and osteoarthritis ,M4792 ,Unspecified spondylosis cervical region 
+U862 ,24,Arthritis and osteoarthritis ,M4793 ,Unsp spondylosis cervicothoracic region 
+U862 ,24,Arthritis and osteoarthritis ,M4794 ,Unspecified spondylosis thoracic region 
+U862 ,24,Arthritis and osteoarthritis ,M4795 ,Unsp spondylosis thoracolumbar region 
+U862 ,24,Arthritis and osteoarthritis ,M4796 ,Unspecified spondylosis lumbar region 
+U862 ,24,Arthritis and osteoarthritis ,M4797 ,Unsp spondylosis lumbosacral region 
+U862 ,24,Arthritis and osteoarthritis ,M4798 ,Unsp spondylosis sacral & sacrococcygeal 
+U862 ,24,Arthritis and osteoarthritis ,M4799 ,Unsp spondylosis site unspecified 
+U863 ,25,Systemic lupus erythematosus ,M320 ,Drug-induced SLE 
+U863 ,25,Systemic lupus erythematosus ,M321 ,SLE with organ or system involvement 
+U863 ,25,Systemic lupus erythematosus ,M328 ,Other forms of SLE 
+U863 ,25,Systemic lupus erythematosus ,M329 ,Systemic lupus erythematosus unsp 
+U863 ,25,Systemic lupus erythematosus ,M8190 ,Unspecified osteoporosis multiple sites 
+U863 ,25,Systemic lupus erythematosus ,M8191 ,Unspecified osteoporosis shoulder 
+U863 ,25,Systemic lupus erythematosus ,M8192 ,Unspecified osteoporosis upper arm 
+U863 ,25,Systemic lupus erythematosus ,M8193 ,Unspecified osteoporosis forearm 
+U863 ,25,Systemic lupus erythematosus ,M8194 ,Unspecified osteoporosis hand 
+U863 ,25,Systemic lupus erythematosus ,M8195 ,Unspecified osteoporosis pelv rgn & thgh 
+U864 ,26,Osteoporosis ,M8196 ,Unspecified osteoporosis lower leg 
+U864 ,26,Osteoporosis ,M8197 ,Unspecified osteoporosis ankle and foot 
+U864 ,26,Osteoporosis ,M8198 ,Unspecified osteoporosis other 
+U864 ,26,Osteoporosis ,M8199 ,Unspecified osteoporosis site unsp 
+U871 ,27,Chronic kidney disease stage 3 to 5 ,N183 ,Chronic kidney disease stage 3 
+U871 ,27,Chronic kidney disease stage 3 to 5 ,N184 ,Chronic kidney disease stage 4 
+U871 ,27,Chronic kidney disease stage 3 to 5 ,N185 ,"Chronic kidney disease, stage 5 "
+U881 ,28,Spina bifida ,Q0500 ,Cerv spina bifida w hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0501 ,Cerv spina bifida w hydrocephalus open 
+U881 ,28,Spina bifida ,Q0502 ,Cerv spina bifida w hydrocephalus closed 
+U881 ,28,Spina bifida ,Q0510 ,Thor spina bifida w hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0511 ,Thor spina bifida w hydrocephalus open 
+U881 ,28,Spina bifida ,Q0512 ,Thor spina bifida w hydrocephalus closed 
+U881 ,28,Spina bifida ,Q0520 ,Lmbr spina bifida w hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0521 ,Lmbr spina bifida w hydrocephalus open 
+U881 ,28,Spina bifida ,Q0522 ,Lmbr spina bifida w hydrocephalus closed 
+U881 ,28,Spina bifida ,Q0530 ,Sacr spina bifida w hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0531 ,Sacr spina bifida w hydrocephalus open 
+U881 ,28,Spina bifida ,Q0532 ,Sacr spina bifida w hydrocephalus closed 
+U881 ,28,Spina bifida ,Q0540 ,Unsp spina bifida w hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0541 ,Unsp spina bifida w hydrocephalus open 
+U881 ,28,Spina bifida ,Q0542 ,Unsp spina bifida w hydrocephalus closed 
+U881 ,28,Spina bifida ,Q0550 ,Cerv spina bifida wo hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0551 ,Cerv spina bifida wo hydrocephalus open 
+U881 ,28,Spina bifida ,Q0552 ,Cerv spina bifida wo hydrocephalus clsd 
+U881 ,28,Spina bifida ,Q0560 ,Thor spina bifida wo hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0561 ,Thor spina bifida wo hydrocephalus open 
+U881 ,28,Spina bifida ,Q0562 ,Thor spina bifida wo hydrocephalus clsd 
+U881 ,28,Spina bifida ,Q0570 ,Lmbr spina bifida wo hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0571 ,Lmbr spina bifida wo hydrocephalus open 
+U881 ,28,Spina bifida ,Q0572 ,Lmbr spina bifida wo hydrocephalus clsd 
+U881 ,28,Spina bifida ,Q0580 ,Sacr spina bifida wo hydrocephalus unsp 
+U881 ,28,Spina bifida ,Q0581 ,Sacr spina bifida wo hydrocephalus open 
+U881 ,28,Spina bifida ,Q0582 ,Sacr spina bifida wo hydrocephalus clsd 
+U881 ,28,Spina bifida ,Q0590 ,"Spina bifida, unspecified unsp "
+U881 ,28,Spina bifida ,Q0591 ,"Spina bifida, unspecified open "
+U881 ,28,Spina bifida ,Q0592 ,Spina bifida unspecified closed 
+U882 ,29,Down's syndrome ,Q900 ,Trisomy 21 meiotic nondisjunction 
+U882 ,29,Down's syndrome ,Q901 ,Trisomy 21 mosaicism 
+U882 ,29,Down's syndrome ,Q902 ,Trisomy 21 translocation 
+U882 ,29,Down's syndrome ,Q909 ,Down's syndrome unspecified 

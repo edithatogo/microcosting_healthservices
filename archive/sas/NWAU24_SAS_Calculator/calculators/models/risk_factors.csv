@@ -1,0 +1,17 @@
+,1,2,3,4,5,6,7,8,9,10,11,12
+0,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year,adm_past_year
+1,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm,agegroup_rm
+2,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra,an110mdc_ra
+3,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc,count_proc
+4,flag_emergency,drg11_type_m,drg11_type_m,flag_emergency,flag_emergency,drg11_type_m,drg11_type_m,drg11_type_m,drg11_type_m,drg11_type_m,drg11_type_m,drg11_type_m
+5,indstat_flag,flag_emergency,flag_emergency,gender,flag_icu24,flag_emergency,flag_emergency,flag_emergency,flag_emergency,flag_emergency,flag_emergency,flag_emergency
+6,pacemaker,gender,indstat_flag,indstat_flag,gender,gender,gender,indstat_flag,gender,indstat_flag,gender,gender
+7,pat_remoteness,indstat_flag,pat_remoteness,pat_remoteness,indstat_flag,indstat_flag,indstat_flag,pat_remoteness,indstat_flag,pat_remoteness,indstat_flag,indstat_flag
+8,cc_copd,low_los_flag,cc_downs_syndrome,cc_cerebral_palsy,low_los_flag,pat_remoteness,pat_remoteness,cc_diabetes_complications,pat_remoteness,cc_acute_myocardial_function,pat_remoteness,malnutrition
+9,cc_spina_bifida,pat_remoteness,,cc_dementia,pat_remoteness,post_transplant,cc_hypertension,cc_renal_disease,cc_dementia,cc_chronic_heart_failure,cc_cerebral_palsy,pat_remoteness
+10,cc_tetplg_prplg_dplg_hmplg_dt,cc_diabetes_complications,,cc_tetplg_prplg_dplg_hmplg_dt,cc_depression,cc_chronic_kidney_disease,cc_osteoporosis,cc_diabetes,cc_depression,cc_congestive_heart_failure,cc_crohns_disease,cc_arthritis_and_osteoarthritis
+11,,cc_obesity,,cc_copd,cc_diabetes,cc_congestive_heart_failure,,flag_admtransfer,flag_icu24,cc_diabetes_complications,cc_disorder_of_intellectual,cc_cerebral_palsy
+12,,cc_pulmonary_disease,,cc_chronic_respiratory_failure,cc_hypertension,cc_diabetes_complications,,,drug_use,cc_ischaemic_heart_disease,,cc_crohns_disease
+13,,cc_tetplg_prplg_dplg_hmplg_dt,,,cc_ischaemic_heart_disease,cc_hypertension,,,,cc_renal_disease,,
+14,,,,,cc_obesity,cc_renal_disease,,,,,,
+15,,,,,cc_pulmonary_disease,cc_severe_liver_disease,,,,,,

@@ -1,0 +1,123 @@
+
+/******************************************************************************************************
+	This program sets up the variables required to calculate a complexity score
+	These are:
+		-	Gender
+		-	Age (5 year age bands)
+		-	Charlson Score (1 to 10)
+		-	drg9 type (Surgical, medical or other)
+		- 	MDC	
+		-	Admission Transfer flag (0 or 1)
+		-	ICU hours flag (0 or 1)
+		-	Emergency election status terms
+
+******************************************************************************************************/
+
+data drg9_MASTERLIST_RA (index=(_drg9)); 
+	set CALCREF.drg9_MASTERLIST (rename=(drg9=_drg9));
+run; 
+
+data &output. (drop=_drg9);
+	set &input. (rename=(&sex.=gender mdc_ra=an90mdc_ra));
+
+	sex=gender;
+	if gender in (3,9) then do;
+		gender = 1;
+	end;
+
+	/*Create drg9 type*/
+	_drg9 = &drg.;
+	set drg9_MASTERLIST_RA (keep=_drg9 drg9_type) key=_drg9 / unique;
+	if _error_ ne 0 then do;
+	_error_=0; 
+	drg9_type = "";
+	end;
+
+	/*Age group*/
+	age_years = min(FLOOR((INTCK('month',&BIRTH_DATE.,&ADM_DATE.) - (day(&ADM_DATE.) < day(&BIRTH_DATE.))) / 12), 99);
+	agegroup = floor(age_years/5);
+
+	format agegroupc $15.;
+	agegroupc = put(agegroup, agegrpb.);
+
+	/*Flag ICU hours*/
+	flag_ICUHours = (&ICU_HOURS. gt 0);
+
+	/*Flag admission transfer*/
+	flag_AdmTransfer = (&admmode. eq '1');	*SET TO 1 IF THE ADMISSION WAS A TRANSFER FROM ANOTHER HOSPITAL;
+
+	/*set up arrays*/
+	array SRGARRAY &PROC_PREFIX:;
+	array ONSETARRAY &ONSET_PREFIX:;
+	array ddxarray &DIAG_PREFIX:;
+
+	MAXDDXVAR=dim(DDXARRAY)-cmiss(of  &DIAG_PREFIX:);
+	MAXSRGVAR=max(1,dim(SRGARRAY)-cmiss(of  &PROC_PREFIX:));
+
+	
+	do i=1 to MAXDDXVAR;
+		if missing(DDXARRAY[i]) = 1 then MAXDDXVAR=dim(DDXARRAY); 
+	end;
+
+	do i=1 to MAXDDXVAR;
+
+		onset=ONSETARRAY[i]; 
+		ddx=DDXARRAY[i];
+
+
+	*CHARLSON COMORBIDITY INDEX;
+	 		if DDX in: 	('I21','I22','I252')	then cc_Acute_myocardial_function = 1;
+			else if DDX in: 	('I50')	then cc_Congestive_heart_failure = 1;
+			else if DDX in: 	('I71','I790','I739','R02','Z958','Z959')	then cc_Peripheral_vascular_disease = 1;
+			else if DDX in: 	('I60','I61','I62','I63','I65','I66','G450','G451','G452','G458','G459','G46','I64',
+								 'G454','I670','I671','I672','I674','I675','I676','I677','I678','I679','I681','I682','I688','I69')	then cc_Cerebral_vascular_accident = 1;
+			else if DDX in: 	('F00','F01','F02','F051')	then cc_Dementia = 1;
+			else if DDX in: 	('J40','J41','J42','J44','J43','J45','J46','J47','J67','J60','J61','J62','J63','J66','J64','J65')	then cc_Pulmonary_disease = 1;
+			else if DDX in: 	('M32','M34','M332','M053','M058','M059','M060','M063','M069','M050','M052','M051','M353')	then cc_Connective_tissue_disorder = 1;
+			else if DDX in: 	('K25','K26','K27','K28')	then cc_Peptic_ulcer = 1;
+			else if DDX in: 	('K702','K703','K73','K717','K740','K742','K746','K743','K744','K745')	then cc_Liver_disease = 1;
+			else if DDX in: 	('E109','E119','E139','E149','E101','E111','E131','E141','E105','E115','E135','E145')	then cc_Diabetes = 1;
+			else if DDX in: 	('E102','E112','E132','E142','E103','E113','E133','E143','E104','E114','E134','E144')	then cc_Diabetes_complications = 2;
+			else if DDX in: 	('G81','G041','G820','G821','G822')	then cc_Paraplegia = 2;
+			else if DDX in: 	('N03','N052','N053','N054','N055','N056','N072','N073','N074','N01','N18','N19','N25')	then cc_Renal_disease = 2;
+			else if DDX in: 	('C0','C1','C2','C3','C40','C41','C43','C45','C46','C47','C48','C49','C5','C6','C70',
+								 'C71','C72','C73','C74','C75','C76','C80','C81','C82','C83','C84','C85','C883','C887',
+								 'C889','C900','C901','C91','C92','C93','C940','C941','C942','C943','C9451','C947','C95','C96')	then cc_Cancer = 2;
+			else if DDX in: 	('C77','C78','C79','C80')	then cc_Metastatic_cancer = 3;
+			else if DDX in: 	('K729','K766','K767','K721')	then cc_Severe_liver_disease = 3;
+			else if DDX in: 	('B20','B21','B22','B23','B24')	then cc_HIV = 6;
+
+		end;
+
+		array charlson{*} 	cc_Acute_myocardial_function
+							cc_Congestive_heart_failure
+							cc_Peripheral_vascular_disease
+							cc_Cerebral_vascular_accident
+							cc_Dementia
+							cc_Pulmonary_disease
+							cc_Connective_tissue_disorder
+							cc_Peptic_ulcer
+							cc_Liver_disease
+							cc_Diabetes
+							cc_Diabetes_complications
+							cc_Paraplegia
+							cc_Renal_disease
+							cc_Cancer
+							cc_Metastatic_cancer
+							cc_Severe_liver_disease
+							cc_HIV;
+
+		charlson_score = 0;
+		do k=1 to 17;
+			charlson[k] = sum(0, charlson[k]);
+			charlson_score = sum(charlson_score, charlson[k]);
+		end;
+		charlson_score = min(charlson_score,16);
+		drop cc_:;
+	
+	*Create flag for Emergency, Treat Emergency, Not assigned and Not Known as Emergency;
+	attrib flag_emergency length=3.;
+	if &urgadm. eq '2' then flag_emergency = 0;
+	else flag_emergency = 1;
+
+run;
