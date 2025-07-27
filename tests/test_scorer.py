@@ -5,8 +5,9 @@ import pandas as pd
 
 # ensure src is on path and reload package to pick up the correct module
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+for mod in [m for m in list(sys.modules) if m.startswith("nwau_py")]:
+    sys.modules.pop(mod, None)
 nwau_py = importlib.import_module("nwau_py")
-importlib.reload(nwau_py)
 from nwau_py import score_readmission
 
 CALC_DIR = Path(__file__).resolve().parents[1] / "archive" / "sas" / "NEP25_SAS_NWAU_calculator" / "calculators"

@@ -6,6 +6,9 @@ from pathlib import Path
 import pandas as pd
 import pytest
 from click.testing import CliRunner
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from nwau_py.cli.main import cli
 
 
@@ -40,13 +43,14 @@ def test_cli_runs_with_sample_data(tmp_path):
 
 CSV_DATA = (
     "Inlier,Paediatric Adjustment,Adj (Indigenous Status),"
-    "Adjustment.1 (Patient Remoteness),Treatment Remoteness Adjustment," 
-    "Dialysis Adjustment,Private Service Adjustment,COVID-19 Treatment Adjustment," 
-    "Bundled ICU,ICU Hours,Private Service Percentage,Length of Stay," 
-    "Private Patient Accommodation Adjustment,HAC Adjustment,Readmission weight," 
+    "Adjustment.1 (Patient Remoteness),Treatment Remoteness Adjustment,"
+    "Dialysis Adjustment,Private Service Adjustment,COVID-19 Treatment Adjustment,"
+    "Bundled ICU,ICU Hours,Private Service Percentage,Length of Stay,"
+    "Private Patient Accommodation Adjustment,HAC Adjustment,Readmission weight,"
     "Readmission adjustment,National Efficient Price\n"
     "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
 )
+
 
 def test_cli_outputs_nwau25(tmp_path):
     input_csv = tmp_path / "input.csv"

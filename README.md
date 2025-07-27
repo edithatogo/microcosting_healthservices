@@ -1,12 +1,21 @@
-# Academic Project Page Template
-This is an academic paper project page template.
+# IHACPA NWAU Calculators
+
+This repository contains Python translations of the National Weighted Activity Unit (NWAU) calculators published by the Independent Health and Aged Care Pricing Authority (IHACPA). The calculators reproduce the logic from the official Excel and SAS tools so that NWAU values can be generated programmatically.
 
 ## Installation
 
-Some of the helper scripts use Python. Install the required packages with:
+The project requires Python 3.8 or later. Clone the repository and install the package with its dependencies:
 
 ```bash
-pip install pandas pyxlsb pyreadstat lightgbm
+pip install -r requirements.txt
+pip install .
+```
+
+The weights and pricing formula used by the calculators are stored under `excel_calculator/data`. If you need to recreate the `weights.csv` file from the original workbook run:
+For development, install the linting tools as well:
+
+```bash
+pip install ruff pre-commit
 ```
 
 
@@ -33,66 +42,34 @@ Run the following command from the repository root to rebuild the weights table:
 python excel_calculator/scripts/extract_weights.py
 ```
 
-This reads `excel_calculator/archive/nwau25_calculator_for_acute_activity.xlsb` and writes the result to `excel_calculator/data/weights.csv`.
+## Usage
 
-### Editing `formula.json`
-`excel_calculator/data/formula.json` stores the pricing formula. The `variables` mapping links symbols used in the workbook to column names in `excel_calculator/data/weights.csv`. The `steps` array lists the intermediate calculations that lead to the final `NWAU25` value. Adjust these entries if the source workbook changes.
+The main functionality is provided by the `nwau_py` package. It includes a command line interface and Python functions for programmatic use.
 
-### Example usage of `funding_calculator.py`
-`excel_calculator/src/funding_calculator.py` applies the formula to patient level data. A typical invocation is:
+### Command line
 
-```bash
-python excel_calculator/src/funding_calculator.py \
-    --weights excel_calculator/data/weights.csv \
-
-    --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
-```
-
-### Tests
-Unit tests live in the `tests/` directory and can be run with
-[pytest](https://docs.pytest.org/en/stable/):
+After installation the `funding-calculator` entry point becomes available:
 
 ```bash
-pytest -v
+funding-calculator --params excel_calculator/data patient_data.csv > funding.csv
 ```
 
-This command discovers all tests under `tests/` and executes them. Syntax
-checks can still be run separately with:
+`patient_data.csv` should contain the columns referenced in `excel_calculator/data/formula.json`. The output CSV will include a `NWAU25` column with the calculated values.
 
-```bash
-pytest -v
+### Python modules
+
+You can also import the calculator functions directly:
+
+```python
+from funding_calculator import load_weights, load_formula, calculate_funding
+
+weights = load_weights('excel_calculator/data/weights.csv')
+formula = load_formula('excel_calculator/data/formula.json')
+
+patient_df = ...  # pandas DataFrame containing your episode level data
+patient_df['NWAU25'] = calculate_funding(patient_df, formula)
 ```
 
-## Start using the template
-To start using the template click on `Use this Template`.
+Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. The `nwau_py.scoring` module includes `score_readmission` for applying the readmission risk model.
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
-
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
-
-## Components
-- Teaser video
-- Images Carousel
-- Youtube embedding
-- Video Carousel
-- PDF Poster
-- Bibtex citation
-
-## Tips:
-- The `index.html` file contains comments instructing you what to replace, you should follow these comments.
-- The `meta` tags in the `index.html` file are used to provide metadata about your paper 
-(e.g. helping search engine index the website, showing a preview image when sharing the website, etc.)
-- The resolution of images and videos can usually be around 1920-2048, there rarely a need for better resolution that take longer to load. 
-- All the images and videos you use should be compressed to allow for fast loading of the website (and thus better indexing by search engines). For images, you can use [TinyPNG](https://tinypng.com), for videos you can need to find the tradeoff between size and quality.
-- When using large video files (larger than 10MB), it's better to use youtube for hosting the video as serving the video from the website can take time.
-- Using a tracker can help you analyze the traffic and see where users came from. [statcounter](https://statcounter.com) is a free, easy to use tracker that takes under 5 minutes to set up. 
-- This project page can also be made into a github pages website.
-- Replace the favicon to one of your choosing (the default one is of the Hebrew University). 
-- Suggestions, improvements and comments are welcome, simply open an issue or contact me. You can find my contact information at [https://horwitz.ai](https://horwitz.ai)
-
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
-
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+Refer to `examples/run_acute.py` for a minimal demonstration.
