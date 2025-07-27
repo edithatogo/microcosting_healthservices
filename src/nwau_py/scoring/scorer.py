@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from pathlib import Path
 from typing import List
 
@@ -8,11 +7,10 @@ import lightgbm as lgb
 import numpy as np
 import pandas as pd
 
+from nwau_py.utils import sas_ref_dir
 
-# Paths to model and parameter files relative to repository root
-_BASE_DIR = Path(__file__).resolve().parents[3] / 'archive' / 'sas' / 'NEP25_SAS_NWAU_calculator' / 'calculators'
-_MODELS_DIR = _BASE_DIR / 'models'
-_PARAMS_DIR = _BASE_DIR / 'params'
+
+_DEFAULT_YEAR = "2025"
 
 
 def _model_vars(n: int, risk_factors_df: pd.DataFrame) -> List[str]:
@@ -38,20 +36,23 @@ def _rescale_to_points(x: pd.Series, data_min: float, data_max: float) -> pd.Ser
     return (((x - data_min) / (data_max - data_min)) * 99 + 1).clip(1, 100)
 
 
-# Load model resources on import
-_risk_factors = pd.read_csv(_MODELS_DIR / 'risk_factors.csv', index_col=0)
-_models = {i: lgb.Booster(model_file=str(_MODELS_DIR / f'model_4year_sta_readm{i}_90_limited.txt')) for i in range(1, 13)}
-_scaling_params = pd.read_csv(_PARAMS_DIR / 'scaling_params.csv', index_col=0)
-_cutoffs = pd.read_csv(_PARAMS_DIR / 'cutoffs.csv', index_col=0)
-_dampening = pd.read_csv(_PARAMS_DIR / 'dampening.csv', index_col=0)
+def _load_resources(year: str = _DEFAULT_YEAR):
+    base_dir = sas_ref_dir(year)
+    models_dir = base_dir / 'models'
+    params_dir = base_dir / 'params'
+    risk_factors = pd.read_csv(models_dir / 'risk_factors.csv', index_col=0)
+    models = {
+        i: lgb.Booster(model_file=str(models_dir / f'model_4year_sta_readm{i}_90_limited.txt'))
+        for i in range(1, 13)
+    }
+    scaling_params = pd.read_csv(params_dir / 'scaling_params.csv', index_col=0)
+    cutoffs = pd.read_csv(params_dir / 'cutoffs.csv', index_col=0)
+    dampening = pd.read_csv(params_dir / 'dampening.csv', index_col=0)
+    model_vars_union = set().union(*(risk_factors[str(i)].dropna().tolist() for i in range(1, 13)))
+    return risk_factors, models, scaling_params, cutoffs, dampening, model_vars_union
 
-# Union of all required variables
-_model_vars_union = set().union(*(
-    _risk_factors[str(i)].dropna().tolist() for i in range(1, 13)
-))
 
-
-def score_readmission(df: pd.DataFrame) -> pd.DataFrame:
+def score_readmission(df: pd.DataFrame, *, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     """Score readmission risk for ``df``.
 
     Parameters
@@ -65,6 +66,15 @@ def score_readmission(df: pd.DataFrame) -> pd.DataFrame:
         Dataframe containing ``risk_category1`` .. ``risk_category12`` and
         ``dampening1`` .. ``dampening12`` columns.
     """
+    (
+        risk_factors,
+        models,
+        scaling_params,
+        cutoffs,
+        dampening,
+        model_vars_union,
+    ) = _load_resources(year)
+
     data = df.copy()
     data.columns = data.columns.str.lower()
 
@@ -73,7 +83,7 @@ def score_readmission(df: pd.DataFrame) -> pd.DataFrame:
     if 'an110mdc_ra' in data.columns:
         data['an110mdc_ra'] = data['an110mdc_ra'].replace('.', '99')
 
-    for col in _model_vars_union:
+    for col in model_vars_union:
         if col not in data.columns:
             data[col] = 0
         data[col] = data[col].astype(np.int64)
@@ -87,23 +97,23 @@ def score_readmission(df: pd.DataFrame) -> pd.DataFrame:
     results = pd.DataFrame(index=data.index)
 
     for i in range(1, 13):
-        vars_i = _model_vars(i, _risk_factors)
-        probs = _models[i].predict(data[vars_i])
+        vars_i = _model_vars(i, risk_factors)
+        probs = models[i].predict(data[vars_i])
         log_probs = np.log(probs)
         points = _rescale_to_points(
             x=log_probs,
-            data_min=_scaling_params.loc[i, 'mins'],
-            data_max=_scaling_params.loc[i, 'maxs'],
+            data_min=scaling_params.loc[i, 'mins'],
+            data_max=scaling_params.loc[i, 'maxs'],
         )
         conditions = [
-            points < _cutoffs.iloc[0, i - 1],
-            (points >= _cutoffs.iloc[0, i - 1]) & (points < _cutoffs.iloc[1, i - 1]),
-            points >= _cutoffs.iloc[1, i - 1],
+            points < cutoffs.iloc[0, i - 1],
+            (points >= cutoffs.iloc[0, i - 1]) & (points < cutoffs.iloc[1, i - 1]),
+            points >= cutoffs.iloc[1, i - 1],
         ]
         choices = [
-            _dampening.iloc[0, i - 1],
-            _dampening.iloc[1, i - 1],
-            _dampening.iloc[2, i - 1],
+            dampening.iloc[0, i - 1],
+            dampening.iloc[1, i - 1],
+            dampening.iloc[2, i - 1],
         ]
         choices_cat = [0, 1, 2]
         results[f'dampening{i}'] = np.select(conditions, choices, default=np.nan)

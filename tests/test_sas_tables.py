@@ -1,9 +1,9 @@
-import sys
-import pytest
 import pandas as pd
 from pathlib import Path
 import sys
 import pathlib
+import pytest
+
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "excel_calculator" / "src"))
 
 from funding_calculator import load_formula, calculate_funding

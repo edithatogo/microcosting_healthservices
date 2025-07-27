@@ -1,3 +1,29 @@
+# Roadmap
+
+The current pricing formula is based on the IHACPA 2025 workbook.
+Earlier years use similar calculators with different weights and
+parameters.  Future work will allow the project to load formulae from
+multiple editions.
+
+## Planned approach
+
+1. For each year download the SAS calculator zip from
+   <https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators>.
+   Keep the archive as `archive/sas/<YEAR>.zip` and extract it to
+   `archive/sas/<YEAR>/` alongside the workbook extracts.
+2. Add a `--year` option to the CLI to select which set of weights and
+   formula to load.
+3. Provide helper functions to read the appropriate tables based on the
+   chosen year.
+4. Update documentation and tests to cover at least one previous year
+   once data is available.
+
+The extracted SAS programs will be referenced when extending the
+Python-based engine so NEP/NWAU calculations can be performed for
+multiple years.
+
+Contributions are welcome.
+
 # Roadmap for Historical NEP/NWAU Support
 
 This project currently ships a single set of weights and the formula for the NEP25
@@ -12,13 +38,15 @@ we will maintain year specific copies of these files.
 - Archive copies of the official calculators (xlsb workbooks) will live under
   `excel_calculator/archive/<year>/` to allow regeneration of CSV files via the
   `extract_weights.py` script.
+- Keep each year's SAS calculator under `archive/sas/<YEAR>.zip` and extract
+  it to `archive/sas/<YEAR>/` for reference when extending the Python engine.
 
 ## CLI selection of year
-The Python CLI in `nwau_py.cli.main` will gain a `--year` option which selects
-the correct data directory. For example:
+The `funding-calculator` command line tool accepts a `--year` option to select
+the appropriate data directory. For example:
 
 ```bash
-nwau_py.cli.main acute patient.csv --year 2022 --output out.csv
+funding-calculator --year 2022 patient.csv > out.csv
 ```
 
 internally translates to:
@@ -42,4 +70,3 @@ today.
 
 This roadmap will allow researchers to easily compute funding using past
 NEP/NWAU definitions without altering the code base for each release.
-

@@ -3,7 +3,10 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-_DEFAULT_REF_DIR = Path('archive/sas/NEP25_SAS_NWAU_calculator/calculators')
+from nwau_py.utils import sas_ref_dir
+
+
+_DEFAULT_YEAR = "2025"
 
 @dataclass
 class MHParams:
@@ -12,17 +15,26 @@ class MHParams:
     cmty_sstream: int = 1
 
 
-def _load_weights(ref_dir: Path) -> pd.DataFrame:
-    path = ref_dir / 'nep25_mh_adm_price_weights.sas7bdat'
+def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    suffix = str(year)[-2:]
+    path = ref_dir / f'nep{suffix}_mh_adm_price_weights.sas7bdat'
     df = pd.read_sas(path)
     if df['amhcc'].dtype == object:
         df['amhcc'] = df['amhcc'].str.decode('ascii')
     return df
 
 
-def calculate_mh(df: pd.DataFrame, params: MHParams, ref_dir: Path = _DEFAULT_REF_DIR) -> pd.DataFrame:
+def calculate_mh(
+    df: pd.DataFrame,
+    params: MHParams,
+    *,
+    year: str = _DEFAULT_YEAR,
+    ref_dir: Path | None = None,
+) -> pd.DataFrame:
     """Simplified translation of ``NWAU25_CALCULATOR_MH.sas``."""
-    weights = _load_weights(ref_dir)
+    if ref_dir is None:
+        ref_dir = sas_ref_dir(year)
+    weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on='AMHCC', how='left')
 
     w01 = merged['amhcc_pw_inlier']

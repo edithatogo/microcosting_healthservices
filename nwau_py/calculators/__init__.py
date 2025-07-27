@@ -1,6 +1,22 @@
-"""Funding calculators subpackage."""
-from .acute import calculate_acute, AcuteParams
-from .ed import calculate_ed, EDParams
-from .mh import calculate_mh, MHParams
-from .outpatients import calculate_outpatients, OutpatientParams
-from .subacute import calculate_subacute, SubacuteParams
+"""Funding calculators."""
+
+from .acute import AcuteParams, calculate_acute
+from .ed import EDParams, calculate_ed
+from .mh import MHParams, calculate_mh
+from .outpatients import OutpatientParams, calculate_outpatients
+from .subacute import SubacuteParams, calculate_subacute
+from .adjust import calculate_adjusted_nwau
+
+__all__ = [
+    "calculate_acute",
+    "AcuteParams",
+    "calculate_ed",
+    "EDParams",
+    "calculate_mh",
+    "MHParams",
+    "calculate_outpatients",
+    "OutpatientParams",
+    "calculate_subacute",
+    "SubacuteParams",
+    "calculate_adjusted_nwau",
+]
