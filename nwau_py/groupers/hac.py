@@ -1,0 +1,72 @@
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+from typing import Iterable, Mapping
+
+import pandas as pd
+import pyreadstat
+
+
+_DATA_DIR = (
+    Path(__file__).resolve().parents[2]
+    / "archive/sas/NEP25_SAS_NWAU_calculator/calculators"
+)
+
+
+@lru_cache()
+def load_hac_mapping(edition: str = "07") -> pd.DataFrame:
+    """Return diagnosis-to-HAC mapping for the given ICD edition."""
+    path = _DATA_DIR / f"hac_map_{edition}.sas7bdat"
+    df, _ = pyreadstat.read_sas7bdat(str(path))
+    df["DDX"] = df["DDX"].astype(str)
+    return df
+
+
+def count_hac_diagnoses(
+    diagnoses: Iterable[str], *, edition: str = "07"
+) -> Mapping[str, int]:
+    """Count HAC sub-condition occurrences for ``diagnoses``.
+
+    Parameters
+    ----------
+    diagnoses:
+        Iterable of diagnosis codes.
+    edition:
+        ICD-10-AM edition number used to select the mapping table.
+    """
+    df = load_hac_mapping(edition).set_index("DDX")
+    counts = {col: 0 for col in df.columns if col != "DDX"}
+    for code in diagnoses:
+        if code in df.index:
+            row = df.loc[code]
+            for col, val in row.items():
+                if pd.notna(val) and int(val) == 1:
+                    counts[col] += 1
+    return counts
+
+
+def create_hac_flags(counts: Mapping[str, int]) -> Mapping[str, int]:
+    """Aggregate sub-condition ``counts`` into HAC flags."""
+    categories: dict[str, int] = {}
+    for cond, val in counts.items():
+        cat = cond[:9]  # e.g. ``hac032c04``
+        categories[cat] = categories.get(cat, 0) + val
+    flags = {f"{cat}_flag": int(total > 0) for cat, total in categories.items()}
+    flags["hac032_flag"] = int(any(flags.values()))
+    return flags
+
+
+def flag_hacs(
+    diagnoses: Iterable[str],
+    procedures: Iterable[str] | None = None,
+    *,
+    edition: str = "07",
+) -> Mapping[str, int]:
+    """Return HAC flags for ``diagnoses``.
+
+    ``procedures`` is accepted for API compatibility but is not used as
+    the current implementation only relies on diagnosis codes.
+    """
+    counts = count_hac_diagnoses(diagnoses, edition=edition)
+    return create_hac_flags(counts)
