@@ -12,6 +12,31 @@ pip install .
 ```
 
 The weights and pricing formula used by the calculators are stored under `excel_calculator/data`. If you need to recreate the `weights.csv` file from the original workbook run:
+For development, install the linting tools as well:
+
+```bash
+pip install ruff pre-commit
+```
+
+
+Example project pages built using this template are:
+- https://horwitz.ai/probex
+- https://vision.huji.ac.il/probegen
+- https://horwitz.ai/mother
+- https://horwitz.ai/spectral_detuning
+- https://vision.huji.ac.il/ladeda
+- https://vision.huji.ac.il/dsire
+- https://horwitz.ai/podd
+- https://dreamix-video-editing.github.io
+- https://horwitz.ai/conffusion
+- https://horwitz.ai/3d_ads/
+- https://vision.huji.ac.il/ssrl_ad
+- https://vision.huji.ac.il/deepsim
+
+## Data extraction and funding calculator
+
+### Regenerating `excel_calculator/data/weights.csv`
+Run the following command from the repository root to rebuild the weights table:
 
 ```bash
 python excel_calculator/scripts/extract_weights.py
