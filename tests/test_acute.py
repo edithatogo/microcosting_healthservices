@@ -2,17 +2,13 @@ import importlib.util
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 import numpy as np
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from nwau_py.utils import sas_ref_dir
-
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix, sas_ref_dir
 
 YEARS = sorted(RA_VERSION.keys())
 

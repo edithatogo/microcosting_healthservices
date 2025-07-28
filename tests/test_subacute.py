@@ -5,12 +5,11 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
-from nwau_py.utils import RA_VERSION
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from nwau_py.utils import RA_VERSION, ra_suffix
 
 YEARS = sorted(RA_VERSION.keys())
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 spec = importlib.util.spec_from_file_location(
     "subacute",
