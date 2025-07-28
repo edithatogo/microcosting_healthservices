@@ -95,7 +95,13 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return float(df.loc[0, "adj_multiprov"])
-    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+    except (
+        FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
+        KeyError,
+        ValueError,
+    ):
         return 0.0
 
 
@@ -107,7 +113,13 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+    except (
+        FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 
@@ -119,7 +131,13 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+    except (
+        FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 
@@ -131,7 +149,13 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+    except (
+        FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 def calculate_outpatients(
@@ -152,18 +176,14 @@ def calculate_outpatients(
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
     try:
-        adj_multi = _load_multi_prov_adj(ref_dir, year)
+        adj_multi_val = _load_multi_prov_adj(ref_dir, year)
     except (FileNotFoundError, KeyError, ValueError):
-        adj_multi = 0.0
-
-    try:
-        adj_df = _load_multi_prov_adj(ref_dir, year)
-        adj_multi_val = float(adj_df["adj_multiprov"].iloc[0])
-    except (FileNotFoundError, KeyError, ValueError, IndexError):
         adj_multi_val = 0.0
+    adj_multi = adj_multi_val
     ind_df = _load_ind_adj(ref_dir, year)
-    pat_rem = _load_pat_rem_adj(ref_dir, year)
-    treat_rem = _load_treat_rem_adj(ref_dir, year)
+    # Preload adjustment tables so they are cached for later use
+    _load_pat_rem_adj(ref_dir, year)
+    _load_treat_rem_adj(ref_dir, year)
     merged["adj_multiprov"] = adj_multi_val
 
     # --------------------------------------------------------------
@@ -345,10 +365,18 @@ def calculate_outpatients(
     else:
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
-            merged.get("GROUP_EVENT_COUNT", 0).fillna(0)
-            + merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
+            merged.get(
+                "GROUP_EVENT_COUNT",
+                pd.Series(0, index=merged.index),
+            ).fillna(0)
+            + merged.get(
+                "INDIV_EVENT_COUNT",
+                pd.Series(0, index=merged.index),
+            ).fillna(0)
         )
-        counts_multi = counts + merged.get("MULTI_DISP_CONF_COUNT", 0).fillna(0)
+        counts_multi = counts + merged.get(
+            "MULTI_DISP_CONF_COUNT", pd.Series(0, index=merged.index)
+        ).fillna(0)
 
         gwau = np.select(
             [
