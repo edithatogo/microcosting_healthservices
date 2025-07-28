@@ -1,0 +1,6 @@
+pytest
+numpy
+pandas
+pyxlsb
+pyreadstat
+lightgbm
