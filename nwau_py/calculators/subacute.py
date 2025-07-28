@@ -223,7 +223,9 @@ def calculate_subacute(
         merged["adj_treat_remoteness"] = 0
 
     # Private patient service adjustment
-    merged["_care"] = merged.get("CARE_TYPE", 0).fillna(0).astype(float).astype(int)
+    merged["_care"] = (
+        merged.get("CARE_TYPE", pd.Series(0, index=merged.index)).fillna(0).astype(float).astype(int)
+    )
     try:
         ppsa = load_sas_table(ref_dir / f"nep{suffix}_sa_adj_priv_serv_state.sas7bdat")
         ppsa = ppsa.rename(columns={"caretype": "_care", "state": "STATE"})

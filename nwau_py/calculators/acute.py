@@ -215,8 +215,19 @@ def calculate_acute(
         )
         merged = merged.merge(rt_df, on="_pat_radiotherapy_flag", how="left")
     except Exception:
-        merged["adj_radiotherapy"] = 0
-    merged["adj_radiotherapy"] = merged.get("adj_radiotherapy", 0).fillna(0)
+        pass
+    if "adj_radiotherapy_y" in merged.columns:
+        merged["adj_radiotherapy"] = merged["adj_radiotherapy_y"]
+    elif "adj_radiotherapy_x" in merged.columns:
+        merged["adj_radiotherapy"] = merged["adj_radiotherapy_x"]
+    else:
+        merged["adj_radiotherapy"] = merged.get(
+            "adj_radiotherapy", pd.Series(0, index=merged.index)
+        )
+    merged["adj_radiotherapy"] = merged["adj_radiotherapy"].fillna(0)
+    merged = merged.drop(
+        columns=[c for c in ["adj_radiotherapy_x", "adj_radiotherapy_y"] if c in merged.columns]
+    )
 
     try:
         ds_df = load_sas_table(
@@ -224,8 +235,19 @@ def calculate_acute(
         )
         merged = merged.merge(ds_df, on="_pat_dialysis_flag", how="left")
     except Exception:
-        merged["adj_dialysis"] = 0
-    merged["adj_dialysis"] = merged.get("adj_dialysis", 0).fillna(0)
+        pass
+    if "adj_dialysis_y" in merged.columns:
+        merged["adj_dialysis"] = merged["adj_dialysis_y"]
+    elif "adj_dialysis_x" in merged.columns:
+        merged["adj_dialysis"] = merged["adj_dialysis_x"]
+    else:
+        merged["adj_dialysis"] = merged.get(
+            "adj_dialysis", pd.Series(0, index=merged.index)
+        )
+    merged["adj_dialysis"] = merged["adj_dialysis"].fillna(0)
+    merged = merged.drop(
+        columns=[c for c in ["adj_dialysis_x", "adj_dialysis_y"] if c in merged.columns]
+    )
 
     try:
         ind_adj = load_sas_table(
@@ -242,7 +264,9 @@ def calculate_acute(
         )
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
     except Exception:
-        merged["adj_remoteness"] = 0
+        merged["adj_remoteness"] = merged.get(
+            "adj_remoteness", pd.Series(0, index=merged.index)
+        )
     merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
 
     try:
@@ -251,8 +275,12 @@ def calculate_acute(
         )
         merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
     except Exception:
-        merged["adj_treat_remoteness"] = 0
-    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
+        merged["adj_treat_remoteness"] = merged.get(
+            "adj_treat_remoteness", pd.Series(0, index=merged.index)
+        )
+    merged["adj_treat_remoteness"] = merged.get(
+        "adj_treat_remoteness", 0
+    ).fillna(0)
 
     try:
         if params.ppservadj == 1:
@@ -266,10 +294,11 @@ def calculate_acute(
         merged = merged.merge(ppsa, on="DRG", how="left")
     except Exception:
         if params.ppservadj == 1:
-            merged["drg_adj_privpat_serv"] = 0
+            merged["drg_adj_privpat_serv"] = merged.get(
+                "drg_adj_privpat_serv", pd.Series(0, index=merged.index)
+            )
         else:
-            for st in ["NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT"]:
-                merged[f"drg_adj_privpat_serv_{st}"] = 0
+            pass
 
     if params.ppservadj == 2 and "STATE" in merged.columns:
         mapping = {
@@ -282,7 +311,9 @@ def calculate_acute(
             7: "NT",
             8: "ACT",
         }
-        merged["drg_adj_privpat_serv"] = 0
+        merged["drg_adj_privpat_serv"] = merged.get(
+            "drg_adj_privpat_serv", pd.Series(0, index=merged.index)
+        )
         for idx, st in mapping.items():
             col = f"drg_adj_privpat_serv_{st}"
             if col in merged.columns:
@@ -299,8 +330,12 @@ def calculate_acute(
         acc = acc.rename(columns={"State": "STATE"})
         merged = merged.merge(acc, on="STATE", how="left")
     except Exception:
-        merged["state_adj_privpat_accomm_sd"] = 0
-        merged["state_adj_privpat_accomm_on"] = 0
+        merged["state_adj_privpat_accomm_sd"] = merged.get(
+            "state_adj_privpat_accomm_sd", pd.Series(0, index=merged.index)
+        )
+        merged["state_adj_privpat_accomm_on"] = merged.get(
+            "state_adj_privpat_accomm_on", pd.Series(0, index=merged.index)
+        )
     merged["state_adj_privpat_accomm_sd"] = (
         merged.get("state_adj_privpat_accomm_sd", 0).fillna(0)
     )
@@ -314,7 +349,7 @@ def calculate_acute(
         )
         merged["icu_rate"] = float(icu_df.iloc[0, 0])
     except Exception:
-        merged["icu_rate"] = 0
+        merged["icu_rate"] = merged.get("icu_rate", 0)
 
     # ------------------------------------------------------------------
     # Error code calculation

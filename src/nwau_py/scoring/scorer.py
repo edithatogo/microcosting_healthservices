@@ -125,6 +125,7 @@ def score_readmission(df: pd.DataFrame, *, year: str = _DEFAULT_YEAR) -> pd.Data
             dampening.iloc[2, i - 1],
         ]
         choices_cat = [0, 1, 2]
+        results[f'readm_points{i}'] = points
         results[f'dampening{i}'] = np.select(conditions, choices, default=np.nan)
         results[f'risk_category{i}'] = np.select(conditions, choices_cat, default=np.nan)
 
