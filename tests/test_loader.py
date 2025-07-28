@@ -1,6 +1,8 @@
 import pathlib
 import sys
 
+import pytest
+
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from nwau_py.data.loader import load_sas_table
@@ -8,6 +10,8 @@ from nwau_py.utils import sas_ref_dir
 
 BASE_DIR = pathlib.Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / sas_ref_dir("2025")
+
+YEARS = [str(y) for y in range(2013, 2026)]
 
 
 def test_load_sas_table_no_cache():
@@ -33,7 +37,7 @@ def test_load_multiple_tables(tmp_path):
     assert len(df) > 0
 
 
-def test_sas_ref_dir_legacy():
-    """Ensure legacy directory structures are located."""
-    legacy_dir = BASE_DIR / sas_ref_dir("2024")
-    assert legacy_dir.exists()
+@pytest.mark.parametrize("year", YEARS)
+def test_sas_ref_dir_all_years(year):
+    """Ensure SAS directories are located for all supported years."""
+    assert (BASE_DIR / sas_ref_dir(year)).exists()
