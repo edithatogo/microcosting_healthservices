@@ -16,6 +16,15 @@ Install the package and its dependencies using `pip`:
 pip install -e .
 ```
 
+To run the tests, install the additional development requirements and then run
+`pytest`:
+
+```bash
+pip install -r requirements-dev.txt
+```
+These packages include `pytest`, `numpy`, `pandas`, `pyxlsb`, `pyreadstat` and
+`lightgbm`.
+
 ## Historical data
 
 Place each year's SAS calculator under `archive/sas/<YEAR>` and extract it so the directory holds the SAS programs for that pricing year. If you also download the Excel workbook, copy it to `excel_calculator/archive/<year>` and run:
@@ -38,8 +47,8 @@ funding-calculator --weights excel_calculator/data/weights.csv \
     --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
 ```
 
-Unit tests can be run with `pytest` and linting is performed by
-[Ruff](https://docs.astral.sh/ruff/):
+After installing the development requirements, unit tests can be run with
+`pytest` and linting is performed by [Ruff](https://docs.astral.sh/ruff/):
 
 ```bash
 pytest
