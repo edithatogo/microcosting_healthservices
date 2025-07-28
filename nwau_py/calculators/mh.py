@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from nwau_py.utils import sas_ref_dir
+from nwau_py.utils import impute_adjustment, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
@@ -21,6 +21,8 @@ class MHParams:
     # behaviour.
     adm_sstream: int = 1
     cmty_sstream: int = 1
+    remoteness_distribution: dict[str, float] | None = None
+    indigenous_distribution: dict[int, float] | None = None
     debug_mode: bool = False
     clear_data: bool = False
 
@@ -88,6 +90,30 @@ def calculate_mh(
     result = result.merge(tables["adj_ind"], on="_pat_ind_flag", how="left")
     result = result.merge(tables["adj_rem"], on="_pat_remoteness", how="left")
     result = result.merge(tables["adj_treat"], on="_treat_remoteness", how="left")
+
+    if params.indigenous_distribution:
+        imputed = impute_adjustment(
+            tables["adj_ind"],
+            "_pat_ind_flag",
+            "adj_indigenous",
+            params.indigenous_distribution,
+        )
+        result["adj_indigenous"] = result["adj_indigenous"].fillna(imputed)
+    if params.remoteness_distribution:
+        imputed = impute_adjustment(
+            tables["adj_rem"],
+            "_pat_remoteness",
+            "adj_remoteness",
+            params.remoteness_distribution,
+        )
+        result["adj_remoteness"] = result["adj_remoteness"].fillna(imputed)
+        imputed = impute_adjustment(
+            tables["adj_treat"],
+            "_treat_remoteness",
+            "adj_treat_remoteness",
+            params.remoteness_distribution,
+        )
+        result["adj_treat_remoteness"] = result["adj_treat_remoteness"].fillna(imputed)
 
     # Fill missing adjustment values with defaults
     result["adj_specpaed"] = result["adj_specpaed"].fillna(1)

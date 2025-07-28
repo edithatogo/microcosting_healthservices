@@ -6,7 +6,7 @@ import pandas as pd
 import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
-from nwau_py.utils import ra_suffix, sas_ref_dir
+from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
@@ -15,6 +15,8 @@ _DEFAULT_YEAR = "2025"
 class OutpatientParams:
     paed_option: int = 1
     est_remoteness_option: int = 1
+    remoteness_distribution: dict[str, float] | None = None
+    indigenous_distribution: dict[int, float] | None = None
     debug_mode: bool = False
     clear_data: bool = False
     data_type: int = 1
@@ -94,7 +96,6 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return float(df.loc[0, "adj_multiprov"])
-    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -114,7 +115,6 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -134,7 +134,6 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -154,7 +153,6 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
-    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -379,6 +377,30 @@ def calculate_outpatients(
     except Exception:
         if "adj_treat_remoteness" not in merged.columns:
             merged["adj_treat_remoteness"] = 0
+    if params.indigenous_distribution and not ind_df.empty:
+        imputed = impute_adjustment(
+            ind_df,
+            "_pat_ind_flag",
+            "adj_indigenous",
+            params.indigenous_distribution,
+        )
+        merged["adj_indigenous"] = merged["adj_indigenous"].fillna(imputed)
+    if params.remoteness_distribution and not pat_rem_df.empty:
+        imputed = impute_adjustment(
+            pat_rem_df,
+            "_pat_remoteness",
+            "adj_remoteness",
+            params.remoteness_distribution,
+        )
+        merged["adj_remoteness"] = merged["adj_remoteness"].fillna(imputed)
+    if params.remoteness_distribution and not treat_rem_df.empty:
+        imputed = impute_adjustment(
+            treat_rem_df,
+            "_treat_remoteness",
+            "adj_treat_remoteness",
+            params.remoteness_distribution,
+        )
+        merged["adj_treat_remoteness"] = merged["adj_treat_remoteness"].fillna(imputed)
     for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
         merged[col] = merged[col].fillna(0)
 
@@ -431,12 +453,12 @@ def calculate_outpatients(
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
             merged.get("GROUP_EVENT_COUNT", 0).fillna(0)
-            merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
-            merged.get(
+            + merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
+            + merged.get(
                 "GROUP_EVENT_COUNT",
                 pd.Series(0, index=merged.index),
             ).fillna(0)
-            merged.get(
+            + merged.get(
                 "INDIV_EVENT_COUNT",
                 pd.Series(0, index=merged.index),
             ).fillna(0)
