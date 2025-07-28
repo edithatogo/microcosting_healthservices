@@ -70,6 +70,16 @@ funding-calculator --year 2023 patient_data.csv > funding.csv
 
 `patient_data.csv` should contain the columns referenced in `excel_calculator/data/2023/formula.json`. The output will include a `NWAU23` column with the calculated values.
 
+To calculate funding using an older edition simply pass the relevant year,
+for example:
+
+```bash
+funding-calculator --year 2022 patient_data.csv > funding.csv
+```
+
+This instructs the tool to load weights and the formula from
+`excel_calculator/data/2022/`.
+
 The `nwau_py` package also exposes a lightweight command line interface via
 `python -m nwau_py.cli.main`. The subcommands `acute`, `ed` and
 `non-admitted` mirror the SAS calculators:
