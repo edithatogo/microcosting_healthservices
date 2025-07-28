@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from nwau_py.utils import ra_suffix
 from nwau_py.utils import RA_VERSION
 
 YEARS = sorted(RA_VERSION.keys())
@@ -41,12 +42,14 @@ def _fake_load(path: Path, *_, **__):
         return pd.DataFrame({"code_ID": [12345]})
     if "dialysis_codes" in name:
         return pd.DataFrame({"code_ID": [22222]})
-    if "postcode_to_ra2021" in name:
-        return pd.DataFrame({"POSTCODE": ["PC0001"], "ra2021": [1]})
-    if "sa2_to_ra2021" in name:
-        return pd.DataFrame({"ASGS": [100000001], "ra2021": [1]})
-    if "hospital_ra2021" in name:
-        return pd.DataFrame({"ESTID": ["H1"], "_hosp_ra_2021": [1]})
+    ra = ra_suffix("2025")
+    ra_year = ra[2:]
+    if f"postcode_to_{ra}" in name:
+        return pd.DataFrame({"POSTCODE": ["PC0001"], ra: [1]})
+    if any(x in name for x in [f"sa2_to_{ra}", f"asgs_to_{ra}", f"sla_to_{ra}"]):
+        return pd.DataFrame({"ASGS": [100000001], ra: [1]})
+    if f"hospital_{ra}" in name:
+        return pd.DataFrame({"ESTID": ["H1"], f"_hosp_ra_{ra_year}": [1]})
     if "aa_mh_sa_na_ed_adj_ind" in name:
         return pd.DataFrame({"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.05]})
     if "aa_mh_sa_na_adj_rem" in name:

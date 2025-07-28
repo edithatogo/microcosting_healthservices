@@ -51,6 +51,7 @@ def calculate_acute(
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]
     ra = ra_suffix(year)
+    ra_year = ra[2:]
 
     weights = _load_price_weights(ref_dir, year)
     merged = df.merge(weights, on="DRG", how="left")
@@ -165,98 +166,105 @@ def calculate_acute(
             (c for c in ["PAT_SA2", "SA2"] if c in merged.columns),
             None,
         )
+        pat_sa2 = next(
+            (
+                c
+                for c in ["PAT_SA2", "SA2", "PAT_ASGS", "ASGS", "PAT_SLA", "SLA"]
+                if c in merged.columns
+            ),
+            None,
+        )
+        pat_ra_col = f"PAT_{ra}"
+        sa2_ra_col = f"SA2_{ra}"
+        hosp_ra_col = f"_hosp_ra_{ra_year}"
 
         if pat_pc:
             try:
                 pc_df = load_sas_table(ref_dir / f"postcode_to_{ra}.sas7bdat")
                 ra_col = next(
-                    (c for c in pc_df.columns if ra.lower() in c.lower()),
-                    ra,
+                    (c for c in pc_df.columns if c.lower() == ra.lower()), ra
                 )
                 pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, ra_col: f"PAT_{ra}"}
+                    columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
                 )
                 merged = merged.merge(
-                    pc_df[[pat_pc, f"PAT_{ra}"]],
-                    on=pat_pc,
-                    how="left",
+                    pc_df[[pat_pc, pat_ra_col]], on=pat_pc, how="left"
                 )
             except Exception:
-                merged[f"PAT_{ra}"] = np.nan
+                merged[pat_ra_col] = np.nan
         else:
-            merged[f"PAT_{ra}"] = np.nan
+            merged[pat_ra_col] = np.nan
 
         if pat_sa2:
             try:
-                try:
-                    sa2_df = load_sas_table(ref_dir / f"sa2_to_{ra}.sas7bdat")
-                except FileNotFoundError:
-                    if ra == "ra2011":
-                        sa2_df = load_sas_table(ref_dir / "asgs_to_ra2011.sas7bdat")
-                    elif ra == "ra2006":
-                        sa2_df = load_sas_table(ref_dir / "sla_to_ra2006.sas7bdat")
-                    else:
-                        raise
+                paths = [
+                    ref_dir / f"sa2_to_{ra}.sas7bdat",
+                    ref_dir / f"asgs_to_{ra}.sas7bdat",
+                    ref_dir / f"sla_to_{ra}.sas7bdat",
+                ]
+                for path in paths:
+                    try:
+                        sa2_df = load_sas_table(path)
+                        break
+                    except FileNotFoundError:
+                        continue
+                else:
+                    raise FileNotFoundError(paths[0])
                 key_col = next(
                     (
                         c
-                        for c in sa2_df.columns
-                        if c.lower().startswith("asgs")
-                        or c.lower().startswith("sa2")
-                        or c.lower().startswith("sla")
+                        for c in ["SA2", "ASGS", "SLA"]
+                        if c in sa2_df.columns
                     ),
-                    pat_sa2,
+                    None,
                 )
                 ra_col = next(
-                    (c for c in sa2_df.columns if ra.lower() in c.lower()),
-                    ra,
+                    (c for c in sa2_df.columns if c.lower() == ra.lower()), ra
                 )
-                sa2_df = sa2_df.rename(
-                    columns={key_col: pat_sa2, ra_col: f"SA2_{ra}"}
-                )
-                merged = merged.merge(
-                    sa2_df[[pat_sa2, f"SA2_{ra}"]],
-                    on=pat_sa2,
-                    how="left",
-                )
+                if key_col:
+                    sa2_df = sa2_df.rename(
+                        columns={key_col: pat_sa2, ra_col: sa2_ra_col}
+                    )
+                    merged = merged.merge(
+                        sa2_df[[pat_sa2, sa2_ra_col]], on=pat_sa2, how="left"
+                    )
+                else:
+                    merged[sa2_ra_col] = np.nan
             except Exception:
-                merged[f"SA2_{ra}"] = np.nan
+                merged[sa2_ra_col] = np.nan
         else:
-            merged[f"SA2_{ra}"] = np.nan
+            merged[sa2_ra_col] = np.nan
 
-        hosp_col = f"_hosp_{ra.replace('ra', 'ra_')}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = load_sas_table(
                     ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat"
+
                 )
-                apc_col = next(
-                    (c for c in hosp_df.columns if c.upper().startswith("APCID")),
-                    "APCID",
-                )
+                apc_col = [c for c in hosp_df.columns if c.startswith("APCID")][0]
                 ra_col = next(
-                    (c for c in hosp_df.columns if "hosp_ra" in c.lower()),
-                    hosp_col,
+                    (c for c in hosp_df.columns if c.lower() == ra.lower()), ra
                 )
                 hosp_df = hosp_df.rename(
-                    columns={apc_col: "APCID", ra_col: hosp_col}
+                    columns={apc_col: "APCID", ra_col: hosp_ra_col}
                 )
                 merged = merged.merge(
-                    hosp_df[["APCID", hosp_col]],
-                    on="APCID",
-                    how="left",
+                    hosp_df[["APCID", hosp_ra_col]], on="APCID", how="left"
                 )
             except Exception:
-                merged[hosp_col] = np.nan
+                merged[hosp_ra_col] = np.nan
         else:
-            merged[hosp_col] = np.nan
+            merged[hosp_ra_col] = np.nan
 
         merged["_pat_remoteness"] = (
-            merged.get(f"SA2_{ra}")
-            .combine_first(merged.get(f"PAT_{ra}"))
-            .combine_first(merged.get(hosp_col))
+            merged[sa2_ra_col]
+            .combine_first(merged[pat_ra_col])
+            .combine_first(
+                merged.get(hosp_ra_col, pd.Series(np.nan, index=merged.index))
+            )
         )
-        merged["_treat_remoteness"] = merged.get(hosp_col, 0).fillna(0)
+        merged["_treat_remoteness"] = merged[hosp_ra_col].fillna(0)
+
     else:
         merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)
