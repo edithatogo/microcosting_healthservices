@@ -3,7 +3,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import ra_suffix, sas_ref_dir
@@ -102,6 +101,7 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         KeyError,
         ValueError,
     ):
+    except Exception:
         return 0.0
 
 
@@ -120,6 +120,7 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         KeyError,
         ValueError,
     ):
+    except Exception:
         return pd.DataFrame()
 
 
@@ -138,6 +139,7 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         KeyError,
         ValueError,
     ):
+    except Exception:
         return pd.DataFrame()
 
 
@@ -156,6 +158,7 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         KeyError,
         ValueError,
     ):
+    except Exception:
         return pd.DataFrame()
 
 def calculate_outpatients(
@@ -182,6 +185,22 @@ def calculate_outpatients(
     adj_multi = adj_multi_val
     ind_df = _load_ind_adj(ref_dir, year)
     # Preload adjustment tables so they are cached for later use
+        adj_multi = _load_multi_prov_adj(ref_dir, year)
+    except Exception:
+        adj_multi = 0.0
+
+    adj_multi_val = adj_multi
+    merged["adj_multiprov"] = (
+        merged.get("adj_multiprov", pd.Series(adj_multi_val, index=merged.index))
+        .fillna(adj_multi_val)
+    )
+    adj_multi_series = merged["adj_multiprov"].fillna(adj_multi_val)
+
+    # --------------------------------------------------------------
+    # Load adjustment tables
+    # --------------------------------------------------------------
+    adj_multi = _load_multi_prov_adj(ref_dir, year)
+    ind_df = _load_ind_adj(ref_dir, year)
     _load_pat_rem_adj(ref_dir, year)
     _load_treat_rem_adj(ref_dir, year)
     merged["adj_multiprov"] = adj_multi_val
@@ -190,15 +209,15 @@ def calculate_outpatients(
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
-        hosp_col = f"_hosp_ra_{ra_year}"
+        hosp_ra_col = f"_hosp_ra_{ra_year}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
             except (FileNotFoundError, KeyError, ValueError):
-                merged[hosp_col] = np.nan
+                merged[hosp_ra_col] = np.nan
         else:
-            merged[hosp_col] = np.nan
+            merged[hosp_ra_col] = np.nan
 
         pat_pc = next(
             (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -211,7 +230,6 @@ def calculate_outpatients(
 
         pat_ra_col = f"PAT_{ra}"
         sa2_ra_col = f"SA2_{ra}"
-        hosp_ra_col = hosp_col
         if pat_pc:
             try:
                 pc_df = _load_postcode_ra(ref_dir, year)
@@ -297,21 +315,41 @@ def calculate_outpatients(
 
     try:
         ind_df = _load_ind_adj(ref_dir, year)
-        merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
-        merged["adj_indigenous"] = 0
+        if not ind_df.empty:
+            merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
+    except Exception:
+        if "adj_indigenous" not in merged.columns:
+            merged["adj_indigenous"] = 0
     try:
         pat_rem_df = _load_pat_rem_adj(ref_dir, year)
-        merged = merged.merge(pat_rem_df, on="_pat_remoteness", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
-        merged["adj_remoteness"] = 0
+        if not pat_rem_df.empty:
+            merged = merged.merge(pat_rem_df, on="_pat_remoteness", how="left")
+    except Exception:
+        if "adj_remoteness" not in merged.columns:
+            merged["adj_remoteness"] = 0
     try:
         treat_rem_df = _load_treat_rem_adj(ref_dir, year)
-        merged = merged.merge(treat_rem_df, on="_treat_remoteness", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
+        if not treat_rem_df.empty:
+            merged = merged.merge(
+                treat_rem_df, on="_treat_remoteness", how="left"
+            )
+    except Exception:
+        if "adj_treat_remoteness" not in merged.columns:
+            merged["adj_treat_remoteness"] = 0
+    if not ind_df.empty and "_pat_ind_flag" in ind_df.columns:
+        merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
+    else:
+        merged["adj_indigenous"] = 0
+    if not pat_rem.empty and "_pat_remoteness" in pat_rem.columns:
+        merged = merged.merge(pat_rem, on="_pat_remoteness", how="left")
+    else:
+        merged["adj_remoteness"] = 0
+    if not treat_rem.empty and "_treat_remoteness" in treat_rem.columns:
+        merged = merged.merge(treat_rem, on="_treat_remoteness", how="left")
+    else:
         merged["adj_treat_remoteness"] = 0
     for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
-        merged[col] = merged[col].fillna(0)
+        merged[col] = merged.get(col, pd.Series(0, index=merged.index)).fillna(0)
 
     if "FUNDSC" in merged.columns:
         out_scope = ~merged["FUNDSC"].isin(params.inscope_funding_sources)
@@ -355,9 +393,9 @@ def calculate_outpatients(
         gwau = np.select(
             [cond1, cond2, cond3, cond4],
             [
-                w01 * merged["tier2_adj_paed"] * (base + adj_multi) * treat,
+                w01 * merged["tier2_adj_paed"] * (base + adj_multi_series) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
-                w01 * (base + adj_multi) * treat,
+                w01 * (base + adj_multi_series) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
             ],
             default=w01 * base * treat,
@@ -385,7 +423,10 @@ def calculate_outpatients(
                 (multiprov_flag == 1)
                 & merged["TIER2_CLINIC"].isin([20.48, 20.56, 40.62]),
             ],
-            [w01 * (1 + adj_multi) * treat * counts_multi, w01 * treat * counts_multi],
+            [
+                w01 * (1 + adj_multi_series) * treat * counts_multi,
+                w01 * treat * counts_multi,
+            ],
             default=w01 * treat * counts,
         )
 
