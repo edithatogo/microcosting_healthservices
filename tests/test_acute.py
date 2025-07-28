@@ -8,11 +8,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
-
-from nwau_py.utils import sas_ref_dir
-
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix, sas_ref_dir
 
 YEARS = sorted(RA_VERSION.keys())
 
