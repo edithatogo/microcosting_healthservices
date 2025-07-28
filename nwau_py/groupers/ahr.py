@@ -161,7 +161,7 @@ def group_readmissions(
     df = flag_diagnoses(episodes, maps, edition)
     df = df.sort_values([patient_col, adm_col])
     df["ahr_time"] = pd.NaT
-    flags = {c: [] for c in AHR_THRESHOLD_DAYS}
+    flags: dict[str, list[int]] = {c: [] for c in AHR_THRESHOLD_DAYS}
     prev_sep = None
     prev_pid = None
     for idx, row in df.iterrows():

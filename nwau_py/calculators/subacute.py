@@ -130,7 +130,10 @@ def calculate_subacute(
                 treat = merged["_hosp_ra_2021"]
             except Exception:
                 treat = np.nan
-        merged["_treat_remoteness"] = treat.fillna(0)
+        if isinstance(treat, pd.Series):
+            merged["_treat_remoteness"] = treat.fillna(0)
+        else:
+            merged["_treat_remoteness"] = pd.Series(treat, index=merged.index).fillna(0)
     else:
         merged["_treat_remoteness"] = (
             merged.get("EST_REMOTENESS", pd.Series(0, index=merged.index)).fillna(0)

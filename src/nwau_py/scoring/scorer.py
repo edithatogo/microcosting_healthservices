@@ -36,7 +36,16 @@ def _rescale_to_points(x: pd.Series, data_min: float, data_max: float) -> pd.Ser
     return (((x - data_min) / (data_max - data_min)) * 99 + 1).clip(1, 100)
 
 
-def _load_resources(year: str = _DEFAULT_YEAR):
+def _load_resources(
+    year: str = _DEFAULT_YEAR,
+) -> tuple[
+    pd.DataFrame,
+    dict[int, lgb.Booster],
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    set[str],
+]:
     base_dir = sas_ref_dir(year)
     models_dir = base_dir / 'models'
     params_dir = base_dir / 'params'
