@@ -101,7 +101,6 @@ def calculate_outpatients(
         ref_dir = sas_ref_dir(year)
     ra = ra_suffix(year)
     ra_year = ra[2:]
-
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
 

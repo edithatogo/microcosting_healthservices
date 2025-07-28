@@ -174,6 +174,14 @@ def calculate_acute(
             ),
             None,
         )
+        pat_sa2 = next(
+            (
+                c
+                for c in ["PAT_SA2", "SA2", "PAT_ASGS", "ASGS", "PAT_SLA", "SLA"]
+                if c in merged.columns
+            ),
+            None,
+        )
         pat_ra_col = f"PAT_{ra}"
         sa2_ra_col = f"SA2_{ra}"
         hosp_ra_col = f"_hosp_ra_{ra_year}"
@@ -239,7 +247,6 @@ def calculate_acute(
             try:
                 hosp_df = load_sas_table(
                     ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat"
-
                 )
                 apc_col = [c for c in hosp_df.columns if c.startswith("APCID")][0]
                 ra_col = next(
@@ -264,7 +271,6 @@ def calculate_acute(
             )
         )
         merged["_treat_remoteness"] = merged[hosp_ra_col].fillna(0)
-
     else:
         merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)

@@ -142,12 +142,6 @@ def calculate_subacute(
                 else:
                     treat = np.nan
                     merged[hosp_ra_col] = np.nan
-                merged = merged.merge(
-                    hosp_df[["ESTID", f"_hosp_{ra.replace('ra', 'ra_')}"]],
-                    on="ESTID",
-                    how="left",
-                )
-                treat = merged[f"_hosp_{ra.replace('ra', 'ra_')}"]
             except Exception:
                 treat = np.nan
                 hosp_ra_col = f"_hosp_ra_{ra_year}"
@@ -215,37 +209,6 @@ def calculate_subacute(
                 )
                 ra_col = next(
                     (c for c in sa2_df.columns if c.lower() == ra.lower()), ra
-                pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, ra: f"PAT_{ra}"}
-                )
-                merged = merged.merge(
-                    pc_df[[pat_pc, f"PAT_{ra}"]],
-                    on=pat_pc,
-                    how="left",
-                )
-            except Exception:
-                merged[f"PAT_{ra}"] = np.nan
-        else:
-            merged[f"PAT_{ra}"] = np.nan
-
-        if pat_sa2:
-            try:
-                try:
-                    sa2_df = load_sas_table(ref_dir / f"sa2_to_{ra}.sas7bdat")
-                except FileNotFoundError:
-                    if ra == "ra2011":
-                        sa2_df = load_sas_table(ref_dir / "asgs_to_ra2011.sas7bdat")
-                    elif ra == "ra2006":
-                        sa2_df = load_sas_table(ref_dir / "sla_to_ra2006.sas7bdat")
-                    else:
-                        raise
-                sa2_df = sa2_df.rename(
-                    columns={"ASGS": pat_sa2, ra: f"SA2_{ra}"}
-                )
-                merged = merged.merge(
-                    sa2_df[[pat_sa2, f"SA2_{ra}"]],
-                    on=pat_sa2,
-                    how="left",
                 )
                 if key_col:
                     sa2_df = sa2_df.rename(
