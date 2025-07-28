@@ -1,5 +1,4 @@
 import importlib.util
-import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -21,6 +20,13 @@ spec = importlib.util.spec_from_file_location(
 outpatients = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(outpatients)
 
+WEIGHTS = pd.DataFrame(
+    {
+        "TIER2_CLINIC": [10.01],
+        "clinic_pw": [0.1],
+        "tier2_adj_paed": [1.0],
+    }
+)
 class _MultiProv(pd.DataFrame):
     def __init__(self, val: float):
         super().__init__({"adj_multiprov": [val]})
@@ -28,6 +34,52 @@ class _MultiProv(pd.DataFrame):
 
     def __radd__(self, other: float) -> float:
         return other + self.val
+
+@pytest.fixture(autouse=True)
+def _patch(monkeypatch):
+    monkeypatch.setattr(outpatients, "_load_weights", lambda *_: WEIGHTS)
+    monkeypatch.setattr(
+        outpatients,
+        "_load_hospital_ra",
+        lambda *_: pd.DataFrame({"APCID": ["AP1"], "_hosp_ra_2021": [1]}),
+    )
+    monkeypatch.setattr(
+        outpatients,
+        "_load_postcode_ra",
+        lambda *_: pd.DataFrame({"POSTCODE": ["PC1"], "ra2021": [2]}),
+    )
+    monkeypatch.setattr(
+        outpatients,
+        "_load_sa2_ra",
+        lambda *_: pd.DataFrame({"SA2": [12345], "ra2021": [3]}),
+    )
+    monkeypatch.setattr(
+        outpatients,
+        "_load_icu_list",
+        lambda *_: pd.DataFrame({"APCID": ["AP1"], "_est_eligible_paed_flag": [1]}),
+    )
+    monkeypatch.setattr(outpatients, "_load_multi_prov_adj", lambda *_: 0.2)
+    monkeypatch.setattr(
+        outpatients,
+        "_load_ind_adj",
+        lambda *_: pd.DataFrame(
+            {"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.1]}
+        ),
+    )
+    monkeypatch.setattr(
+        outpatients,
+        "_load_pat_rem_adj",
+        lambda *_: pd.DataFrame(
+            {"_pat_remoteness": [0, 1], "adj_remoteness": [0.0, 0.2]}
+        ),
+    )
+    monkeypatch.setattr(
+        outpatients,
+        "_load_treat_rem_adj",
+        lambda *_: pd.DataFrame(
+            {"_treat_remoteness": [0, 1], "adj_treat_remoteness": [0.0, 0.03]}
+        ),
+    )
 
     def __add__(self, other: float) -> float:
         return self.val + other
@@ -157,6 +209,10 @@ def test_clinic_level_multiprovider(monkeypatch):
     df = pd.DataFrame(
         {
             "TIER2_CLINIC": [10.01],
+            "GROUP_EVENT_COUNT": [1],
+            "INDIV_EVENT_COUNT": [1],
+            "MULTI_DISP_CONF_COUNT": [0],
+            "APCID": ["AP1"],
             "GROUP_EVENT_COUNT": [10],
             "INDIV_EVENT_COUNT": [5],
             "MULTI_DISP_CONF_COUNT": [2],
@@ -166,6 +222,10 @@ def test_clinic_level_multiprovider(monkeypatch):
 
     result = outpatients.calculate_outpatients(
         df,
+        params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
         outpatients.OutpatientParams(data_type=2, debug_mode=True),
         year="2025",
         ref_dir=Path("unused"),
@@ -181,7 +241,9 @@ def test_error_on_missing_weights(monkeypatch):
             {"TIER2_CLINIC": [99.99], "clinic_pw": [1.0], "tier2_adj_paed": [1.0]}
         )
 
-    monkeypatch.setattr(outpatients, "_load_weights", _weights)
+    expected = 0.1 * (1 + 0.2) * (1 + 0.03) * 2
+    assert result["NWAU25"].iloc[0] == pytest.approx(expected, rel=1e-4)
+    assert result["Error_Code"].iloc[0] == 0
 
     df = pd.DataFrame(
         {
@@ -192,8 +254,13 @@ def test_error_on_missing_weights(monkeypatch):
         }
     )
 
+def test_missing_weight_error():
+    df = pd.DataFrame({"TIER2_CLINIC": [99.99], "FUNDSC": [1]})
+
+    params = outpatients.OutpatientParams(data_type=2)
     result = outpatients.calculate_outpatients(
         df,
+        params,
         outpatients.OutpatientParams(debug_mode=True),
         year="2025",
         ref_dir=Path("unused"),
