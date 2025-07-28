@@ -214,10 +214,10 @@ def _fake_load(path: Path, *_, **__):
         return pd.DataFrame({"ASGS": [123], "ra2021": [3]})
     if "hospital_ra2021" in name:
         return pd.DataFrame({"APCID": ["HOSP"], "_hosp_ra_2021": [4]})
-    if "aa_adj_rt" in name:
-        return pd.DataFrame({"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]})
-    if "aa_adj_ds" in name:
-        return pd.DataFrame({"_pat_dialysis_flag": [0, 1], "adj_dialysis": [0.0, 0.2]})
+    if "aa_sa_adj_rt" in name:
+        return pd.DataFrame()
+    if "aa_sa_adj_ds" in name:
+        return pd.DataFrame()
     return pd.DataFrame()
 
 

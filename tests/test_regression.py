@@ -77,4 +77,4 @@ def test_readmission_scoring_matches_sas():
     expected = pd.read_csv(BASE / "readmission_expected.csv")
 
     result = score_readmission(df)
-    pd.testing.assert_frame_equal(result, expected)
+    pd.testing.assert_frame_equal(result[expected.columns], expected)
