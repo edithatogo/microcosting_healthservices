@@ -59,6 +59,19 @@ See `nwau_py/docs/calculators.md` for an overview of each calculator
 module.
 The `nwau_py` package exposes both a command line interface and functions for use within Python.
 
+## Remoteness classification
+
+The calculators rely on the IHACPA remoteness area (RA) classification. The
+edition used varies by pricing year. `nwau_py.utils.RA_VERSION` maps each year
+to its RA edition and the helper function `ra_suffix(year)` returns the suffix
+used in dataset column names.
+
+```python
+from nwau_py.utils import ra_suffix
+
+assert ra_suffix("2025") == "ra2021"
+```
+
 ### Command line
 
 After installation the `funding-calculator` entry point is available. You can
