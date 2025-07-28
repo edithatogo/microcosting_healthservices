@@ -11,8 +11,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from nwau_py.cli.main import cli
 
+YEARS = ["2024", "2025"]
 
-@pytest.mark.parametrize("year", ["2024", "2025"])
+
+@pytest.mark.parametrize("year", YEARS)
 def test_cli_runs_with_sample_data(tmp_path, year):
     params_dir = tmp_path / "params"
     params_dir.mkdir()
@@ -56,7 +58,7 @@ CSV_DATA = (
     "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
 )
 
-@pytest.mark.parametrize("year", ["2024", "2025"])
+@pytest.mark.parametrize("year", YEARS)
 def test_cli_outputs_nwau25(tmp_path, year):
     input_csv = tmp_path / "input.csv"
     csv_data = (
