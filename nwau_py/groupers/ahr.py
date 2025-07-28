@@ -6,15 +6,14 @@ IHACPA SAS calculator and applies them to patient level data. The
 grouper also exposes an interface to the LightGBM based scorer used by
 IHACPA.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, List
 
 import pandas as pd
 
 from nwau_py.scoring import score_readmission
-
 
 AHR_THRESHOLD_DAYS = {
     "AHR030c01p01": 14,
@@ -88,11 +87,9 @@ _AGG_MAP = {
 }
 
 
-
-
-def load_ahr_maps(maps_dir: Path) -> Dict[str, pd.DataFrame]:
+def load_ahr_maps(maps_dir: Path) -> dict[str, pd.DataFrame]:
     """Load all ``ahr_map_XX.sas7bdat`` files found in ``maps_dir``."""
-    maps: Dict[str, pd.DataFrame] = {}
+    maps: dict[str, pd.DataFrame] = {}
     for path in sorted(maps_dir.glob("ahr_map_*.sas7bdat")):
         edition = path.stem.split("_")[-1]
         df = pd.read_sas(path, format="sas7bdat")
@@ -104,7 +101,7 @@ def load_ahr_maps(maps_dir: Path) -> Dict[str, pd.DataFrame]:
 
 def flag_diagnoses(
     episode_df: pd.DataFrame,
-    maps: Dict[str, pd.DataFrame],
+    maps: dict[str, pd.DataFrame],
     edition: str,
     diag_prefix: str = "ddx",
     onset_prefix: str = "onset",
@@ -125,7 +122,9 @@ def flag_diagnoses(
             break
         codes = episode_df[dcol].astype(str).str.upper()
         onset = episode_df.get(ocol)
-        mask = onset.eq("2") if onset is not None else pd.Series(True, index=codes.index)
+        mask = (
+            onset.eq("2") if onset is not None else pd.Series(True, index=codes.index)
+        )
         matched = map_df.reindex(codes.where(mask).fillna(""))
         matched = matched.fillna(0).astype(int)
         result = result | matched.values
@@ -133,7 +132,9 @@ def flag_diagnoses(
     return episode_df
 
 
-def past_admissions(episodes: pd.DataFrame, patient_col: str, date_col: str) -> pd.Series:
+def past_admissions(
+    episodes: pd.DataFrame, patient_col: str, date_col: str
+) -> pd.Series:
     """Count admissions in the previous 365 days for each episode."""
     episodes = episodes.sort_values([patient_col, date_col])
     counts = pd.Series(0, index=episodes.index)
@@ -149,7 +150,7 @@ def past_admissions(episodes: pd.DataFrame, patient_col: str, date_col: str) -> 
 
 def group_readmissions(
     episodes: pd.DataFrame,
-    maps: Dict[str, pd.DataFrame],
+    maps: dict[str, pd.DataFrame],
     edition: str,
     patient_col: str = "patient_id",
     adm_col: str = "adm_date",
@@ -205,5 +206,6 @@ def group_readmissions(
     scores = score_readmission(df)
     df = pd.concat([df, scores], axis=1)
     return df
+
 
 __all__ = ["load_ahr_maps", "group_readmissions", "flag_diagnoses", "past_admissions"]

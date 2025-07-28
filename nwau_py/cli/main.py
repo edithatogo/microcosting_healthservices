@@ -1,6 +1,7 @@
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Any, IO
+from typing import IO, Any
 
 import click
 import pandas as pd
@@ -8,7 +9,11 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))  # noqa: E402
 
-from funding_calculator import load_weights, load_formula, calculate_funding  # noqa: E402
+from funding_calculator import (  # noqa: E402
+    calculate_funding,
+    load_formula,
+    load_weights,
+)
 
 
 def calculate(
@@ -38,7 +43,14 @@ def calculate(
     df.to_csv(outfh, index=False)
 
 
-def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool, year: str | None = None) -> None:
+def run_cli(
+    input_csv: str,
+    params: str,
+    output: str,
+    icu: bool,
+    covid: bool,
+    year: str | None = None,
+) -> None:
     if year is not None and params == "excel_calculator/data":
         params = str(Path("excel_calculator/data") / year)
     outfh = sys.stdout if output == "-" else open(output, "w", newline="")

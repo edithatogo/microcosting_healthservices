@@ -10,10 +10,7 @@ import pytest
 
 spec = importlib.util.spec_from_file_location(
     "acute",
-    Path(__file__).resolve().parents[1]
-    / "nwau_py"
-    / "calculators"
-    / "acute.py",
+    Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py",
 )
 acute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(acute)
@@ -54,7 +51,12 @@ def test_calculate_acute_matches_sas_weights(monkeypatch, year):
     assert np.allclose(result["NWAU25"].values, EXPECTED)
 
 
-def _mock_load(path: Path, cache: bool = True, cache_format: str | None = None, cache_dir: Path | None = None) -> pd.DataFrame:
+def _mock_load(
+    path: Path,
+    cache: bool = True,
+    cache_format: str | None = None,
+    cache_dir: Path | None = None,
+) -> pd.DataFrame:
     name = path.name
     if "aa_price_weights" in name:
         df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
@@ -66,18 +68,26 @@ def _mock_load(path: Path, cache: bool = True, cache_format: str | None = None, 
 
 
 def test_covid_flags_from_diagnosis(monkeypatch):
-    monkeypatch.setattr(acute, "_load_price_weights", lambda r, year="2025": pd.read_csv("tests/data/nep25_aa_price_weights.csv").assign(DRG=lambda x: x["DRG"].str.strip("b'")))
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda r, year="2025": pd.read_csv(
+            "tests/data/nep25_aa_price_weights.csv"
+        ).assign(DRG=lambda x: x["DRG"].str.strip("b'")),
+    )
     monkeypatch.setattr(acute, "load_sas_table", _mock_load)
 
-    df = pd.DataFrame({
-        "DRG": ["T63A", "801A", "T63B"],
-        "LOS": [5, 5, 5],
-        "ICU_HOURS": [0, 0, 0],
-        "ICU_OTHER": [0, 0, 0],
-        "PAT_SAMEDAY_FLAG": [0, 0, 0],
-        "PAT_PRIVATE_FLAG": [0, 0, 0],
-        "DX1": ["U0712", "U0711", "A000"],
-    })
+    df = pd.DataFrame(
+        {
+            "DRG": ["T63A", "801A", "T63B"],
+            "LOS": [5, 5, 5],
+            "ICU_HOURS": [0, 0, 0],
+            "ICU_OTHER": [0, 0, 0],
+            "PAT_SAMEDAY_FLAG": [0, 0, 0],
+            "PAT_PRIVATE_FLAG": [0, 0, 0],
+            "DX1": ["U0712", "U0711", "A000"],
+        }
+    )
 
     params = acute.AcuteParams(
         icu_paed_option=2,
@@ -89,26 +99,36 @@ def test_covid_flags_from_diagnosis(monkeypatch):
         debug_mode=True,
     )
 
-    result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
+    result = acute.calculate_acute(
+        df, params, year="2025", ref_dir=Path("tests/data/2025")
+    )
     assert result["_pat_covid_flag"].tolist() == [1, 1, 0]
     assert result["_pat_covid_treat_flag"].tolist() == [1, 0, 0]
     assert result["adj_covid"].iloc[0] == 0.23
 
 
 def test_covid_flags_provided(monkeypatch):
-    monkeypatch.setattr(acute, "_load_price_weights", lambda r, year="2025": pd.read_csv("tests/data/nep25_aa_price_weights.csv").assign(DRG=lambda x: x["DRG"].str.strip("b'")))
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda r, year="2025": pd.read_csv(
+            "tests/data/nep25_aa_price_weights.csv"
+        ).assign(DRG=lambda x: x["DRG"].str.strip("b'")),
+    )
     monkeypatch.setattr(acute, "load_sas_table", _mock_load)
 
-    df = pd.DataFrame({
-        "DRG": ["T63A"],
-        "LOS": [5],
-        "ICU_HOURS": [0],
-        "ICU_OTHER": [0],
-        "PAT_SAMEDAY_FLAG": [0],
-        "PAT_PRIVATE_FLAG": [0],
-        "PAT_COVID_FLAG": [1],
-        "COVID_ADJ_FLAG": [1],
-    })
+    df = pd.DataFrame(
+        {
+            "DRG": ["T63A"],
+            "LOS": [5],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_COVID_FLAG": [1],
+            "COVID_ADJ_FLAG": [1],
+        }
+    )
 
     params = acute.AcuteParams(
         icu_paed_option=2,
@@ -120,7 +140,9 @@ def test_covid_flags_provided(monkeypatch):
         debug_mode=True,
     )
 
-    result = acute.calculate_acute(df, params, year="2025", ref_dir=Path("tests/data/2025"))
+    result = acute.calculate_acute(
+        df, params, year="2025", ref_dir=Path("tests/data/2025")
+    )
     assert result["_pat_covid_flag"].iloc[0] == 1
     assert result["_pat_covid_treat_flag"].iloc[0] == 1
     assert result["adj_covid"].iloc[0] == 0.23
@@ -171,6 +193,7 @@ def test_calculate_acute_option_paths(monkeypatch):
 # Additional helpers for adjustment testing
 # ---------------------------------------------------------------------------
 
+
 def _make_weights(*_, **overrides) -> pd.DataFrame:
     data = {
         "DRG": ["AAA"],
@@ -206,7 +229,11 @@ def _fake_load(path: Path, *_, **__):
         return pd.DataFrame({"code_ID": [22222]})
     if "icu_paed_eligibility_list" in name:
         return pd.DataFrame(
-            {"APCID": ["HOSP"], "_est_eligible_icu_flag": [1], "_est_eligible_paed_flag": [1]}
+            {
+                "APCID": ["HOSP"],
+                "_est_eligible_icu_flag": [1],
+                "_est_eligible_paed_flag": [1],
+            }
         )
     if "postcode_to_ra2021" in name:
         return pd.DataFrame({"POSTCODE": ["PC1"], "ra2021": [2]})
@@ -222,7 +249,11 @@ def _fake_load(path: Path, *_, **__):
 
 
 def test_proc_adjustments(monkeypatch):
-    monkeypatch.setattr(acute, "_load_price_weights", lambda *_: _make_weights(adj_radiotherapy=0.1, adj_dialysis=0.2))
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda *_: _make_weights(adj_radiotherapy=0.1, adj_dialysis=0.2),
+    )
     monkeypatch.setattr(acute, "load_sas_table", _fake_load)
 
     df = pd.DataFrame(
@@ -238,7 +269,9 @@ def test_proc_adjustments(monkeypatch):
         }
     )
 
-    res = acute.calculate_acute(df, acute.AcuteParams(icu_paed_option=2), year="2025", ref_dir=Path("unused"))
+    res = acute.calculate_acute(
+        df, acute.AcuteParams(icu_paed_option=2), year="2025", ref_dir=Path("unused")
+    )
     assert res["adj_radiotherapy"].iloc[0] == 0.1
     assert res["adj_dialysis"].iloc[0] == 0.2
     assert res["NWAU25"].iloc[0] == pytest.approx(1.3, rel=1e-4)
@@ -284,10 +317,14 @@ def test_private_patient_deductions(monkeypatch):
         }
     )
 
-    res1 = acute.calculate_acute(base.copy(), acute.AcuteParams(ppservadj=1), year="2025", ref_dir=Path("unused"))
+    res1 = acute.calculate_acute(
+        base.copy(), acute.AcuteParams(ppservadj=1), year="2025", ref_dir=Path("unused")
+    )
     assert res1["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
 
-    res2 = acute.calculate_acute(base.copy(), acute.AcuteParams(ppservadj=2), year="2025", ref_dir=Path("unused"))
+    res2 = acute.calculate_acute(
+        base.copy(), acute.AcuteParams(ppservadj=2), year="2025", ref_dir=Path("unused")
+    )
     assert res2["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
 
 

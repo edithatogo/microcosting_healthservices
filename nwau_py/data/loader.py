@@ -1,14 +1,20 @@
 """Data loading utilities for NWAU project"""
+
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Union
 
 import pandas as pd
 import pyreadstat
 
 
-def load_sas_table(path: Union[str, Path], cache: bool = True, cache_format: str = "parquet", cache_dir: Union[str, Path] = ".cache", force: bool = False) -> pd.DataFrame:
+def load_sas_table(
+    path: str | Path,
+    cache: bool = True,
+    cache_format: str = "parquet",
+    cache_dir: str | Path = ".cache",
+    force: bool = False,
+) -> pd.DataFrame:
     """Load a SAS ``.sas7bdat`` table.
 
     Parameters

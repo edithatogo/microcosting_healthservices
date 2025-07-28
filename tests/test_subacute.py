@@ -2,7 +2,6 @@ import importlib.util
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import pytest
 
@@ -19,6 +18,7 @@ spec.loader.exec_module(subacute)
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
     df = pd.read_csv("tests/data/nep25_sa_snap_price_weights.csv")
     df = df.rename(columns={"ansnap": "ANSNAP"})
@@ -28,7 +28,9 @@ def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
 def _fake_load(path: Path, *_, **__):
     name = path.name
     if "aa_sa_adj_rt" in name:
-        return pd.DataFrame({"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]})
+        return pd.DataFrame(
+            {"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]}
+        )
     if "aa_sa_adj_ds" in name:
         return pd.DataFrame({"_pat_dialysis_flag": [0, 1], "adj_dialysis": [0.0, 0.2]})
     if "radio_codes" in name:
@@ -46,20 +48,26 @@ def _fake_load(path: Path, *_, **__):
     if "aa_mh_sa_na_adj_rem" in name:
         return pd.DataFrame({"_pat_remoteness": [0, 1], "adj_remoteness": [0.0, 0.1]})
     if "aa_mh_sa_na_adj_treat_rem" in name:
-        return pd.DataFrame({"_treat_remoteness": [0, 1], "adj_treat_remoteness": [0.0, 0.02]})
+        return pd.DataFrame(
+            {"_treat_remoteness": [0, 1], "adj_treat_remoteness": [0.0, 0.02]}
+        )
     if "sa_adj_priv_serv_state" in name:
-        return pd.DataFrame({
-            "STATE": [1],
-            "_care": [3],
-            "caretype_adj_privpat_serv_nat": [0.1],
-            "caretype_adj_privpat_serv_state": [0.2],
-        })
+        return pd.DataFrame(
+            {
+                "STATE": [1],
+                "_care": [3],
+                "caretype_adj_privpat_serv_nat": [0.1],
+                "caretype_adj_privpat_serv_state": [0.2],
+            }
+        )
     if "aa_sa_adj_priv_acc" in name:
-        return pd.DataFrame({
-            "STATE": [1],
-            "state_adj_privpat_accomm_sd": [0.0],
-            "state_adj_privpat_accomm_on": [0.0],
-        })
+        return pd.DataFrame(
+            {
+                "STATE": [1],
+                "state_adj_privpat_accomm_sd": [0.0],
+                "state_adj_privpat_accomm_on": [0.0],
+            }
+        )
     raise FileNotFoundError(path)
 
 
@@ -96,7 +104,10 @@ def test_calculate_subacute_basic():
     assert res["Error_Code"].iloc[0] == 0
 
     debug = subacute.calculate_subacute(
-        BASE_DATA.copy(), subacute.SubacuteParams(debug_mode=True), year="2025", ref_dir=Path("unused")
+        BASE_DATA.copy(),
+        subacute.SubacuteParams(debug_mode=True),
+        year="2025",
+        ref_dir=Path("unused"),
     )
     assert any(c.startswith("_") for c in debug.columns)
 
@@ -120,11 +131,21 @@ def test_ppsa_option():
     data = BASE_DATA.copy()
     data["PAT_PRIVATE_FLAG"] = 1
     data["PAT_PUBLIC_FLAG"] = 0
-    res1 = subacute.calculate_subacute(data.copy(), subacute.SubacuteParams(ppsa_option=1), year="2025", ref_dir=Path("unused"))
+    res1 = subacute.calculate_subacute(
+        data.copy(),
+        subacute.SubacuteParams(ppsa_option=1),
+        year="2025",
+        ref_dir=Path("unused"),
+    )
     expected1 = EXPECTED_BASE - 13.4327 * 0.1
     assert res1["NWAU25"].iloc[0] == pytest.approx(expected1, rel=1e-4)
 
-    res2 = subacute.calculate_subacute(data.copy(), subacute.SubacuteParams(ppsa_option=2), year="2025", ref_dir=Path("unused"))
+    res2 = subacute.calculate_subacute(
+        data.copy(),
+        subacute.SubacuteParams(ppsa_option=2),
+        year="2025",
+        ref_dir=Path("unused"),
+    )
     expected2 = EXPECTED_BASE - 13.4327 * 0.2
     assert res2["NWAU25"].iloc[0] == pytest.approx(expected2, rel=1e-4)
 
@@ -132,7 +153,9 @@ def test_ppsa_option():
 def test_paediatric_error():
     data = BASE_DATA.copy()
     data["BIRTH_DATE"] = pd.Timestamp("2015-01-01")
-    res = subacute.calculate_subacute(data, subacute.SubacuteParams(), year="2025", ref_dir=Path("unused"))
+    res = subacute.calculate_subacute(
+        data, subacute.SubacuteParams(), year="2025", ref_dir=Path("unused")
+    )
     assert res["Error_Code"].iloc[0] == 1
     assert res["NWAU25"].iloc[0] == 0
 

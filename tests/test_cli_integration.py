@@ -1,8 +1,9 @@
 import csv
+import shutil
 import subprocess
 from io import StringIO
 from pathlib import Path
-import shutil
+
 import pytest
 
 CLI = shutil.which("funding-calculator")
@@ -19,8 +20,7 @@ def _run_cli(input_csv: Path) -> str:
     ]
     result = subprocess.run(
         cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
         check=True,
     )

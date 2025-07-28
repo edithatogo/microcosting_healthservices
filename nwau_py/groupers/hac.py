@@ -1,20 +1,18 @@
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping
 from functools import lru_cache
-from pathlib import Path
-from typing import Iterable, Mapping
 
 import pandas as pd
 import pyreadstat
 
 from nwau_py.utils import sas_ref_dir
 
-
 _DEFAULT_YEAR = "2025"
 _DATA_DIR = sas_ref_dir(_DEFAULT_YEAR)
 
 
-@lru_cache()
+@lru_cache
 def load_hac_mapping(edition: str = "07") -> pd.DataFrame:
     """Return diagnosis-to-HAC mapping for the given ICD edition."""
     path = _DATA_DIR / f"hac_map_{edition}.sas7bdat"

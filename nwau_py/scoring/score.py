@@ -1,9 +1,8 @@
-"""Public scoring API."""
+"""Public scoring API.
 
-from .scorer import score_readmission
-"""Compatibility wrapper for the readmission scoring implementation.
+Compatibility wrapper for the readmission scoring implementation.
 
-The actual scoring logic lives in :mod:`nwau_py.scoring.scorer`.  This module
+The actual scoring logic lives in :mod:`nwau_py.scoring.scorer`. This module
 simply imports and re-exports :func:`score_readmission` from that file so that
 ``nwau_py.score_readmission`` works both when running from the repository and
 when the package is installed without the source layout.
@@ -12,9 +11,7 @@ when the package is installed without the source layout.
 from __future__ import annotations
 
 import importlib.util
-import sys
 from pathlib import Path
-
 
 try:
     # Try the normal import first. This will succeed when ``scorer.py`` is

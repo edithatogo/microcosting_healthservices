@@ -1,11 +1,12 @@
 import argparse
 import json
 import sys
+from collections.abc import Sequence
 from pathlib import Path
+from typing import Any, cast
 
 import pandas as pd
 from pandas import DataFrame
-from typing import Any, Dict, Sequence, cast
 
 
 def load_weights(csv_path: str) -> DataFrame:
@@ -23,13 +24,13 @@ def load_weights(csv_path: str) -> DataFrame:
     return df
 
 
-def load_formula(json_path: str) -> Dict[str, Any]:
+def load_formula(json_path: str) -> dict[str, Any]:
     """Load and return the formula description from ``json_path``."""
     with open(json_path) as fh:
-        return cast(Dict[str, Any], json.load(fh))
+        return cast(dict[str, Any], json.load(fh))
 
 
-def calculate_funding(weights_df: DataFrame, formula: Dict[str, Any]) -> pd.Series:
+def calculate_funding(weights_df: DataFrame, formula: dict[str, Any]) -> pd.Series:
     """Calculate funding amounts using ``weights_df`` and ``formula``.
 
     ``formula`` must define ``variables`` (mapping symbols to column names)

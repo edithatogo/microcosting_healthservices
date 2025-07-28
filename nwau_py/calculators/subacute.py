@@ -9,6 +9,7 @@ from nwau_py.utils import sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
+
 @dataclass
 class SubacuteParams:
     radiotherapy_option: int = 1
@@ -55,8 +56,7 @@ def calculate_subacute(
     # Radiotherapy and dialysis flags
     # --------------------------------------------------------------
     proc_cols = [
-        c for c in merged.columns
-        if "srg" in c.lower() or c.lower().startswith("proc")
+        c for c in merged.columns if "srg" in c.lower() or c.lower().startswith("proc")
     ]
 
     def _flag_procs(codes: set[str]) -> pd.Series:
@@ -67,9 +67,7 @@ def calculate_subacute(
         return proc_df.isin(codes).any(axis=1).astype(int)
 
     try:
-        radio_codes = load_sas_table(
-            ref_dir / f"nep{suffix}_radio_codes.sas7bdat"
-        )
+        radio_codes = load_sas_table(ref_dir / f"nep{suffix}_radio_codes.sas7bdat")
         radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
     except Exception:
         radio_set = set()
@@ -83,16 +81,14 @@ def calculate_subacute(
         dialysis_set = set()
 
     if params.radiotherapy_option == 2:
-        merged["_pat_radiotherapy_flag"] = (
-            merged.get("PAT_RADIOTHERAPY_FLAG", 0).fillna(0)
-        )
+        merged["_pat_radiotherapy_flag"] = merged.get(
+            "PAT_RADIOTHERAPY_FLAG", 0
+        ).fillna(0)
     else:
         merged["_pat_radiotherapy_flag"] = _flag_procs(radio_set)
 
     if params.dialysis_option == 2:
-        merged["_pat_dialysis_flag"] = (
-            merged.get("PAT_DIALYSIS_FLAG", 0).fillna(0)
-        )
+        merged["_pat_dialysis_flag"] = merged.get("PAT_DIALYSIS_FLAG", 0).fillna(0)
     else:
         merged["_pat_dialysis_flag"] = _flag_procs(dialysis_set)
 
@@ -135,9 +131,9 @@ def calculate_subacute(
         else:
             merged["_treat_remoteness"] = pd.Series(treat, index=merged.index).fillna(0)
     else:
-        merged["_treat_remoteness"] = (
-            merged.get("EST_REMOTENESS", pd.Series(0, index=merged.index)).fillna(0)
-        )
+        merged["_treat_remoteness"] = merged.get(
+            "EST_REMOTENESS", pd.Series(0, index=merged.index)
+        ).fillna(0)
 
     pat_pc = next(
         (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -174,7 +170,9 @@ def calculate_subacute(
             merged["SA2_ra2021"] = np.nan
 
         merged["_pat_remoteness"] = (
-            merged.get("SA2_ra2021").combine_first(merged.get("PAT_ra2021")).combine_first(merged["_treat_remoteness"])
+            merged.get("SA2_ra2021")
+            .combine_first(merged.get("PAT_ra2021"))
+            .combine_first(merged["_treat_remoteness"])
         )
     else:
         merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
@@ -224,7 +222,10 @@ def calculate_subacute(
 
     # Private patient service adjustment
     merged["_care"] = (
-        merged.get("CARE_TYPE", pd.Series(0, index=merged.index)).fillna(0).astype(float).astype(int)
+        merged.get("CARE_TYPE", pd.Series(0, index=merged.index))
+        .fillna(0)
+        .astype(float)
+        .astype(int)
     )
     try:
         ppsa = load_sas_table(ref_dir / f"nep{suffix}_sa_adj_priv_serv_state.sas7bdat")
@@ -244,34 +245,33 @@ def calculate_subacute(
 
     error_code = np.select(
         [
-            (age >= 0) & (age <= 17) & ~merged["ANSNAP"].isin([
-                "5F01",
-                "5F02",
-                "5F03",
-                "5F04",
-                "5F05",
-                "5O01",
-                "5G01",
-                "5G02",
-                "5G03",
-                "5G04",
-                "5P01",
-                "5ES4",
-                "5EL1",
-            ]),
+            (age >= 0)
+            & (age <= 17)
+            & ~merged["ANSNAP"].isin(
+                [
+                    "5F01",
+                    "5F02",
+                    "5F03",
+                    "5F04",
+                    "5F05",
+                    "5O01",
+                    "5G01",
+                    "5G02",
+                    "5G03",
+                    "5G04",
+                    "5P01",
+                    "5ES4",
+                    "5EL1",
+                ]
+            ),
             merged["ANSNAP"].isna()
             | adm.isna()
             | sep.isna()
             | merged.get("STATE").isna(),
             adm > sep,
             (merged["_pat_public_flag"] + merged["_pat_private_flag"]) == 0,
-            merged["ANSNAP"].isin(
-                ["5J01", "5O01", "5K01", "5P01", "5L01", "5M01"]
-            )
-            & (
-                (los > 1)
-                | (merged["ansnap_samedaylist_flag"] != 1)
-            ),
+            merged["ANSNAP"].isin(["5J01", "5O01", "5K01", "5P01", "5L01", "5M01"])
+            & ((los > 1) | (merged["ansnap_samedaylist_flag"] != 1)),
         ],
         [1, 3, 1, 2, 4],
         default=0,
@@ -290,10 +290,12 @@ def calculate_subacute(
     )
 
     w01 = np.select(
-        [merged["_pat_separation_category"] == 1,
-         merged["_pat_separation_category"] == 2,
-         merged["_pat_separation_category"] == 3,
-         merged["_pat_separation_category"] == 4],
+        [
+            merged["_pat_separation_category"] == 1,
+            merged["_pat_separation_category"] == 2,
+            merged["_pat_separation_category"] == 3,
+            merged["_pat_separation_category"] == 4,
+        ],
         [
             merged["ansnap_pw_sd"],
             los * merged["ansnap_pw_sso_perdiem"].fillna(0),
@@ -306,13 +308,17 @@ def calculate_subacute(
     )
     merged["_w01"] = w01.round(4)
 
-    gwau = merged["_w01"] * (
-        1
-        + merged.get("adj_indigenous", 0)
-        + merged.get("adj_remoteness", 0)
-        + merged.get("adj_radiotherapy", 0)
-        + merged.get("adj_dialysis", 0)
-    ) * (1 + merged.get("adj_treat_remoteness", 0))
+    gwau = (
+        merged["_w01"]
+        * (
+            1
+            + merged.get("adj_indigenous", 0)
+            + merged.get("adj_remoteness", 0)
+            + merged.get("adj_radiotherapy", 0)
+            + merged.get("adj_dialysis", 0)
+        )
+        * (1 + merged.get("adj_treat_remoteness", 0))
+    )
 
     if params.ppsa_option == 1:
         priv_serv_rate = merged.get("caretype_adj_privpat_serv_nat", 0)
@@ -338,6 +344,7 @@ def calculate_subacute(
         result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
     if params.clear_data:
         import shutil
+
         shutil.rmtree(".cache", ignore_errors=True)
 
     return result
