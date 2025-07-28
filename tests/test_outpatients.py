@@ -31,6 +31,29 @@ class _MultiProv(pd.DataFrame):
     def __add__(self, other: float) -> float:
         return self.val + other
 
+def test_patient_level_with_adjustments():
+    df = pd.DataFrame(
+        {
+            "TIER2_CLINIC": [10.01],
+            "SERVICE_DATE": [pd.Timestamp("2024-07-01")],
+            "BIRTH_DATE": [pd.Timestamp("2010-01-01")],
+            "APCID": ["AP1"],
+            "PAT_POSTCODE": ["PC1"],
+            "PAT_SA2": [12345],
+            "PAT_REMOTENESS": [1],
+            "INDSTAT": [1],
+            "PAT_MULTIPROV_FLAG": [0],
+            "FUNDSC": [1],
+        }
+    )
+
+    params = outpatients.OutpatientParams(debug_mode=True)
+    result = outpatients.calculate_outpatients(
+        df,
+        params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
 
 @pytest.fixture(autouse=True)
 def patch_loaders(monkeypatch):

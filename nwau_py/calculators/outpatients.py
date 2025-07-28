@@ -151,16 +151,11 @@ def calculate_outpatients(
     ra_year = ra[2:]
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
-    try:
-        adj_multi = _load_multi_prov_adj(ref_dir, year)
-    except (FileNotFoundError, KeyError, ValueError):
-        adj_multi = 0.0
 
-    try:
-        adj_df = _load_multi_prov_adj(ref_dir, year)
-        adj_multi_val = float(adj_df["adj_multiprov"].iloc[0])
-    except (FileNotFoundError, KeyError, ValueError, IndexError):
-        adj_multi_val = 0.0
+    # --------------------------------------------------------------
+    # Load adjustment tables
+    # --------------------------------------------------------------
+    adj_multi = _load_multi_prov_adj(ref_dir, year)
     ind_df = _load_ind_adj(ref_dir, year)
     _load_pat_rem_adj(ref_dir, year)
     _load_treat_rem_adj(ref_dir, year)
@@ -170,15 +165,15 @@ def calculate_outpatients(
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
-        hosp_col = f"_hosp_ra_{ra_year}"
+        hosp_ra_col = f"_hosp_ra_{ra_year}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
             except (FileNotFoundError, KeyError, ValueError):
-                merged[hosp_col] = np.nan
+                merged[hosp_ra_col] = np.nan
         else:
-            merged[hosp_col] = np.nan
+            merged[hosp_ra_col] = np.nan
 
         pat_pc = next(
             (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -191,7 +186,6 @@ def calculate_outpatients(
 
         pat_ra_col = f"PAT_{ra}"
         sa2_ra_col = f"SA2_{ra}"
-        hosp_ra_col = hosp_col
         if pat_pc:
             try:
                 pc_df = _load_postcode_ra(ref_dir, year)
@@ -275,20 +269,17 @@ def calculate_outpatients(
     ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
 
-    try:
-        ind_df = _load_ind_adj(ref_dir, year)
+    if not ind_df.empty and "_pat_ind_flag" in ind_df.columns:
         merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
+    else:
         merged["adj_indigenous"] = 0
-    try:
-        pat_rem_df = _load_pat_rem_adj(ref_dir, year)
-        merged = merged.merge(pat_rem_df, on="_pat_remoteness", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
+    if not pat_rem.empty and "_pat_remoteness" in pat_rem.columns:
+        merged = merged.merge(pat_rem, on="_pat_remoteness", how="left")
+    else:
         merged["adj_remoteness"] = 0
-    try:
-        treat_rem_df = _load_treat_rem_adj(ref_dir, year)
-        merged = merged.merge(treat_rem_df, on="_treat_remoteness", how="left")
-    except (FileNotFoundError, KeyError, ValueError):
+    if not treat_rem.empty and "_treat_remoteness" in treat_rem.columns:
+        merged = merged.merge(treat_rem, on="_treat_remoteness", how="left")
+    else:
         merged["adj_treat_remoteness"] = 0
     for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
         merged[col] = merged[col].fillna(0)
