@@ -1,17 +1,20 @@
 # ruff: noqa
 import importlib.util
+import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix
 
-YEARS = sorted(RA_VERSION.keys())
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # noqa: E402
+YEARS = sorted(RA_VERSION.keys())
+
 
 spec = importlib.util.spec_from_file_location(
     "subacute",
@@ -33,6 +36,9 @@ def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
 
 def _fake_load(path: Path, *_, **__):
     name = path.name
+    match = re.search(r"ra\d{4}", name)
+    ra = match.group(0) if match else ra_suffix("2025")
+    ra_year = ra[2:]
     if "aa_sa_adj_rt" in name:
         return pd.DataFrame(
             {"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]}
@@ -43,8 +49,18 @@ def _fake_load(path: Path, *_, **__):
         return pd.DataFrame({"code_ID": [12345]})
     if "dialysis_codes" in name:
         return pd.DataFrame({"code_ID": [22222]})
-    ra = ra_suffix("2025")
-    ra_year = ra[2:]
+    match = re.search(r"ra\d{4}", name)
+    if match:
+        ra = match.group(0)
+        ra_year = ra[2:]
+        if name.startswith("postcode_to_"):
+            return pd.DataFrame({"POSTCODE": ["PC0001"], ra: [1]})
+        if any(
+            name.startswith(prefix) for prefix in ["sa2_to_", "asgs_to_", "sla_to_"]
+        ):
+            return pd.DataFrame({"ASGS": [100000001], ra: [1]})
+        if "hospital_" in name:
+            return pd.DataFrame({"ESTID": ["H1"], f"_hosp_ra_{ra_year}": [1]})
     if f"postcode_to_{ra}" in name:
         return pd.DataFrame({"POSTCODE": ["PC0001"], ra: [1]})
     if any(x in name for x in [f"sa2_to_{ra}", f"asgs_to_{ra}", f"sla_to_{ra}"]):

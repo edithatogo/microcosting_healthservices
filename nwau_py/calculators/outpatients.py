@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import ra_suffix, sas_ref_dir
@@ -130,7 +131,7 @@ def _load_treat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFram
         df[col] = df[col].str.decode("ascii")
     return df
 
-
+  
 def calculate_outpatients(
     df: pd.DataFrame,
     params: OutpatientParams,
