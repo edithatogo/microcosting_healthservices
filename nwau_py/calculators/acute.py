@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import ra_suffix, sas_ref_dir
@@ -101,7 +102,12 @@ def calculate_acute(
     try:
         covid_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_adj_covid.sas7bdat")
         merged = merged.merge(covid_adj, on="_pat_covid_treat_flag", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["adj_covid"] = 0
     merged["adj_covid"] = merged.get("adj_covid", 0).fillna(0)
 
@@ -122,14 +128,24 @@ def calculate_acute(
     try:
         radio_codes = load_sas_table(ref_dir / f"nep{suffix}_radio_codes.sas7bdat")
         radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         radio_set = set()
     try:
         dialysis_codes = load_sas_table(
             ref_dir / f"nep{suffix}_dialysis_codes.sas7bdat"
         )
         dialysis_set = set(dialysis_codes["code_ID"].astype(int).astype(str))
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         dialysis_set = set()
 
     if params.radiotherapy_option == 2:
@@ -158,7 +174,12 @@ def calculate_acute(
                 ["APCID", "_est_eligible_icu_flag", "_est_eligible_paed_flag"]
             ]
             merged = merged.merge(icu_df, on="APCID", how="left")
-        except Exception:
+        except (
+            FileNotFoundError,
+            pyreadstat.errors.ReadstatError,
+            KeyError,
+            ValueError,
+        ):
             merged["_est_eligible_icu_flag"] = 0
             merged["_est_eligible_paed_flag"] = 0
     else:
@@ -211,7 +232,12 @@ def calculate_acute(
                 merged = merged.merge(
                     pc_df[[pat_pc, pat_ra_col]], on=pat_pc, how="left"
                 )
-            except Exception:
+            except (
+                FileNotFoundError,
+                pyreadstat.errors.ReadstatError,
+                KeyError,
+                ValueError,
+            ):
                 merged[pat_ra_col] = np.nan
         else:
             merged[pat_ra_col] = np.nan
@@ -251,7 +277,12 @@ def calculate_acute(
                     )
                 else:
                     merged[sa2_ra_col] = np.nan
-            except Exception:
+            except (
+                FileNotFoundError,
+                pyreadstat.errors.ReadstatError,
+                KeyError,
+                ValueError,
+            ):
                 merged[sa2_ra_col] = np.nan
         else:
             merged[sa2_ra_col] = np.nan
@@ -271,7 +302,12 @@ def calculate_acute(
                 merged = merged.merge(
                     hosp_df[["APCID", hosp_ra_col]], on="APCID", how="left"
                 )
-            except Exception:
+            except (
+                FileNotFoundError,
+                pyreadstat.errors.ReadstatError,
+                KeyError,
+                ValueError,
+            ):
                 merged[hosp_ra_col] = np.nan
         else:
             merged[hosp_ra_col] = np.nan
@@ -307,7 +343,12 @@ def calculate_acute(
     try:
         rt_df = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_rt.sas7bdat")
         merged = merged.merge(rt_df, on="_pat_radiotherapy_flag", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         pass
     if "adj_radiotherapy_y" in merged.columns:
         merged["adj_radiotherapy"] = merged["adj_radiotherapy_y"]
@@ -329,7 +370,12 @@ def calculate_acute(
     try:
         ds_df = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_ds.sas7bdat")
         merged = merged.merge(ds_df, on="_pat_dialysis_flag", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         pass
     if "adj_dialysis_y" in merged.columns:
         merged["adj_dialysis"] = merged["adj_dialysis_y"]
@@ -349,14 +395,24 @@ def calculate_acute(
             ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
         )
         merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["adj_indigenous"] = 0
     merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
 
     try:
         pat_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_na_adj_rem.sas7bdat")
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["adj_remoteness"] = merged.get(
             "adj_remoteness", pd.Series(0, index=merged.index)
         )
@@ -367,7 +423,12 @@ def calculate_acute(
             ref_dir / f"nep{suffix}_aa_sa_na_adj_treat_rem.sas7bdat"
         )
         merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["adj_treat_remoteness"] = merged.get(
             "adj_treat_remoteness", pd.Series(0, index=merged.index)
         )
@@ -383,7 +444,12 @@ def calculate_acute(
                 ref_dir / f"nep{suffix}_aa_adj_privpat_serv_jur.sas7bdat"
             )
         merged = merged.merge(ppsa, on="DRG", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         if params.ppservadj == 1:
             merged["drg_adj_privpat_serv"] = merged.get(
                 "drg_adj_privpat_serv", pd.Series(0, index=merged.index)
@@ -418,7 +484,12 @@ def calculate_acute(
         acc = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_priv_acc.sas7bdat")
         acc = acc.rename(columns={"State": "STATE"})
         merged = merged.merge(acc, on="STATE", how="left")
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["state_adj_privpat_accomm_sd"] = merged.get(
             "state_adj_privpat_accomm_sd", pd.Series(0, index=merged.index)
         )
@@ -435,7 +506,12 @@ def calculate_acute(
     try:
         icu_df = load_sas_table(ref_dir / f"nep{suffix}_aa_adj_icu.sas7bdat")
         merged["icu_rate"] = float(icu_df.iloc[0, 0])
-    except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         merged["icu_rate"] = merged.get("icu_rate", 0)
 
     # ------------------------------------------------------------------
