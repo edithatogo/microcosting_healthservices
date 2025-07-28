@@ -29,7 +29,7 @@ where = [".", "excel_calculator/src"]
 [tool.ruff]
 target-version = "py311"
 line-length = 88
-exclude = ["archive/*"]
+exclude = ["archive/*", "tests/*"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
