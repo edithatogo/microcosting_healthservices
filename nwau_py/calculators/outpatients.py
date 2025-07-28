@@ -4,7 +4,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from nwau_py.utils import sas_ref_dir
+from nwau_py.data.loader import load_sas_table
+from nwau_py.utils import ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
@@ -33,25 +34,48 @@ def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 
 def _load_hospital_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     suffix = str(year)[-2:]
-    df = pd.read_sas(ref_dir / f"nep{suffix}_hospital_ra2021.sas7bdat")
+    ra = ra_suffix(year)
+    ra_year = ra[2:]
+    df = load_sas_table(ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat")
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     apc_col = [c for c in df.columns if c.startswith("APCID")][0]
-    return df.rename(columns={apc_col: "APCID"})[["APCID", "_hosp_ra_2021"]]
+    ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
+    df = df.rename(
+        columns={apc_col: "APCID", ra_col: f"_hosp_ra_{ra_year}"}
+    )
+    return df[["APCID", f"_hosp_ra_{ra_year}"]]
 
 
-def _load_postcode_ra(ref_dir: Path) -> pd.DataFrame:
-    df = pd.read_sas(ref_dir / "postcode_to_ra2021.sas7bdat")
+def _load_postcode_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    ra = ra_suffix(year)
+    df = load_sas_table(ref_dir / f"postcode_to_{ra}.sas7bdat")
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
-    return df.rename(columns={"POSTCODE": "POSTCODE", "ra2021": "ra2021"})
+    ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
+    return df.rename(columns={"POSTCODE": "POSTCODE", ra_col: ra})
 
 
-def _load_sa2_ra(ref_dir: Path) -> pd.DataFrame:
-    df = pd.read_sas(ref_dir / "sa2_to_ra2021.sas7bdat")
+def _load_sa2_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    ra = ra_suffix(year)
+    paths = [
+        ref_dir / f"sa2_to_{ra}.sas7bdat",
+        ref_dir / f"asgs_to_{ra}.sas7bdat",
+        ref_dir / f"sla_to_{ra}.sas7bdat",
+    ]
+    for path in paths:
+        try:
+            df = load_sas_table(path)
+            break
+        except FileNotFoundError:
+            continue
+    else:
+        raise FileNotFoundError(paths[0])
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
-    return df.rename(columns={"ASGS": "SA2", "ra2021": "ra2021"})
+    key_col = next((c for c in ["SA2", "ASGS", "SLA"] if c in df.columns), "SA2")
+    ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
+    return df.rename(columns={key_col: "SA2", ra_col: ra})[["SA2", ra]]
 
 
 def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
@@ -76,6 +100,8 @@ def calculate_outpatients(
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+    ra = ra_suffix(year)
+    ra_year = ra[2:]
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
 
@@ -88,9 +114,9 @@ def calculate_outpatients(
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
             except (FileNotFoundError, KeyError, ValueError):
-                merged["_hosp_ra_2021"] = np.nan
+                merged[f"_hosp_ra_{ra_year}"] = np.nan
         else:
-            merged["_hosp_ra_2021"] = np.nan
+            merged[f"_hosp_ra_{ra_year}"] = np.nan
 
         pat_pc = next(
             (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -101,42 +127,56 @@ def calculate_outpatients(
             None,
         )
 
+        pat_ra_col = f"PAT_{ra}"
+        sa2_ra_col = f"SA2_{ra}"
+        hosp_ra_col = f"_hosp_ra_{ra_year}"
         if pat_pc:
             try:
-                pc_df = _load_postcode_ra(ref_dir)
+                pc_df = _load_postcode_ra(ref_dir, year)
+                ra_col = next(
+                    (c for c in pc_df.columns if c.lower() == ra.lower()), ra
+                )
                 pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, "ra2021": "PAT_ra2021"}
+                    columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
                 )
                 merged = merged.merge(
-                    pc_df[[pat_pc, "PAT_ra2021"]],
-                    on=pat_pc,
-                    how="left",
+                    pc_df[[pat_pc, pat_ra_col]], on=pat_pc, how="left"
                 )
             except Exception:
-                merged["PAT_ra2021"] = np.nan
+                merged[pat_ra_col] = np.nan
         else:
-            merged["PAT_ra2021"] = np.nan
+            merged[pat_ra_col] = np.nan
 
         if pat_sa2:
             try:
-                sa2_df = _load_sa2_ra(ref_dir)
-                sa2_df = sa2_df.rename(
-                    columns={"ASGS": pat_sa2, "ra2021": "SA2_ra2021"}
+                sa2_df = _load_sa2_ra(ref_dir, year)
+                key_col = next(
+                    (c for c in ["SA2", "ASGS", "SLA"] if c in sa2_df.columns),
+                    None,
                 )
-                merged = merged.merge(
-                    sa2_df[[pat_sa2, "SA2_ra2021"]],
-                    on=pat_sa2,
-                    how="left",
+                ra_col = next(
+                    (c for c in sa2_df.columns if c.lower() == ra.lower()), ra
                 )
+                if key_col:
+                    sa2_df = sa2_df.rename(
+                        columns={key_col: pat_sa2, ra_col: sa2_ra_col}
+                    )
+                    merged = merged.merge(
+                        sa2_df[[pat_sa2, sa2_ra_col]], on=pat_sa2, how="left"
+                    )
+                else:
+                    merged[sa2_ra_col] = np.nan
             except Exception:
-                merged["SA2_ra2021"] = np.nan
+                merged[sa2_ra_col] = np.nan
         else:
-            merged["SA2_ra2021"] = np.nan
+            merged[sa2_ra_col] = np.nan
 
-        merged["_pat_remoteness"] = merged["SA2_ra2021"].combine_first(
-            merged["PAT_ra2021"]
-        ).combine_first(merged["_hosp_ra_2021"])
-        merged["_treat_remoteness"] = merged["_hosp_ra_2021"].fillna(0)
+        merged["_pat_remoteness"] = (
+            merged[sa2_ra_col]
+            .combine_first(merged[pat_ra_col])
+            .combine_first(merged[hosp_ra_col])
+        )
+        merged["_treat_remoteness"] = merged[hosp_ra_col].fillna(0)
     else:
         merged["_pat_remoteness"] = merged.get(
             "PAT_REMOTENESS",

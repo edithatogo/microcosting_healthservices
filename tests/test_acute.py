@@ -8,6 +8,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from nwau_py.utils import ra_suffix
+
 spec = importlib.util.spec_from_file_location(
     "acute",
     Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py",
@@ -235,12 +237,14 @@ def _fake_load(path: Path, *_, **__):
                 "_est_eligible_paed_flag": [1],
             }
         )
-    if "postcode_to_ra2021" in name:
-        return pd.DataFrame({"POSTCODE": ["PC1"], "ra2021": [2]})
-    if "sa2_to_ra2021" in name:
-        return pd.DataFrame({"ASGS": [123], "ra2021": [3]})
-    if "hospital_ra2021" in name:
-        return pd.DataFrame({"APCID": ["HOSP"], "_hosp_ra_2021": [4]})
+    ra = ra_suffix("2025")
+    ra_year = ra[2:]
+    if f"postcode_to_{ra}" in name:
+        return pd.DataFrame({"POSTCODE": ["PC1"], ra: [2]})
+    if any(x in name for x in [f"sa2_to_{ra}", f"asgs_to_{ra}", f"sla_to_{ra}"]):
+        return pd.DataFrame({"ASGS": [123], ra: [3]})
+    if f"hospital_{ra}" in name:
+        return pd.DataFrame({"APCID": ["HOSP"], f"_hosp_ra_{ra_year}": [4]})
     if "aa_sa_adj_rt" in name:
         return pd.DataFrame()
     if "aa_sa_adj_ds" in name:
