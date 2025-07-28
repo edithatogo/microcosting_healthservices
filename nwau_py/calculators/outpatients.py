@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import ra_suffix, sas_ref_dir
@@ -95,6 +96,12 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
             df[col] = df[col].str.decode("ascii")
         return float(df.loc[0, "adj_multiprov"])
     except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         return 0.0
 
 
@@ -107,6 +114,12 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
             df[col] = df[col].str.decode("ascii")
         return df
     except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 
@@ -119,6 +132,12 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
             df[col] = df[col].str.decode("ascii")
         return df
     except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 
@@ -131,6 +150,12 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
             df[col] = df[col].str.decode("ascii")
         return df
     except Exception:
+    except (
+        FileNotFoundError,
+        pyreadstat.errors.ReadstatError,
+        KeyError,
+        ValueError,
+    ):
         return pd.DataFrame()
 
 def calculate_outpatients(
@@ -140,20 +165,20 @@ def calculate_outpatients(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Calculate NWAU25 for outpatient activity.
-
-    Mirrors ``NWAU25_CALCULATOR_OUTPATIENTS.sas``.
-    """
+    """Calculate NWAU25 for outpatient activity."""
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     ra = ra_suffix(year)
     ra_year = ra[2:]
+
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
     try:
-        adj_multi = _load_multi_prov_adj(ref_dir, year)
-    except Exception:
-        adj_multi = 0.0
+        adj_multi_val = _load_multi_prov_adj(ref_dir, year)
+    except (FileNotFoundError, KeyError, ValueError):
+        adj_multi_val = 0.0
+    adj_multi = adj_multi_val
+    ind_df = _load_ind_adj(ref_dir, year)
 
     adj_multi_val = adj_multi
     merged["adj_multiprov"] = (
@@ -161,6 +186,14 @@ def calculate_outpatients(
         .fillna(adj_multi_val)
     )
     adj_multi_series = merged["adj_multiprov"].fillna(adj_multi_val)
+
+    adj_multi = _load_multi_prov_adj(ref_dir, year)
+    ind_df = _load_ind_adj(ref_dir, year)
+    pat_rem = _load_pat_rem_adj(ref_dir, year)
+    treat_rem = _load_treat_rem_adj(ref_dir, year)
+
+    merged["adj_multiprov"] = merged.get("adj_multiprov", adj_multi).fillna(adj_multi)
+    adj_multi_series = merged["adj_multiprov"].fillna(adj_multi)
 
     # --------------------------------------------------------------
     # Establishment remoteness lookups
@@ -192,13 +225,14 @@ def calculate_outpatients(
             try:
                 pc_df = _load_postcode_ra(ref_dir, year)
                 ra_col = next(
-                    (c for c in pc_df.columns if c.lower() == ra.lower()), ra
+                    (c for c in pc_df.columns if c.lower() == ra.lower()),
+                    ra,
                 )
-                pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
-                )
+                pc_df = pc_df.rename(columns={"POSTCODE": pat_pc, ra_col: pat_ra_col})
                 merged = merged.merge(
-                    pc_df[[pat_pc, pat_ra_col]], on=pat_pc, how="left"
+                    pc_df[[pat_pc, pat_ra_col]],
+                    on=pat_pc,
+                    how="left",
                 )
             except (FileNotFoundError, KeyError, ValueError):
                 merged[pat_ra_col] = np.nan
@@ -213,14 +247,17 @@ def calculate_outpatients(
                     None,
                 )
                 ra_col = next(
-                    (c for c in sa2_df.columns if c.lower() == ra.lower()), ra
+                    (c for c in sa2_df.columns if c.lower() == ra.lower()),
+                    ra,
                 )
                 if key_col:
                     sa2_df = sa2_df.rename(
                         columns={key_col: pat_sa2, ra_col: sa2_ra_col}
                     )
                     merged = merged.merge(
-                        sa2_df[[pat_sa2, sa2_ra_col]], on=pat_sa2, how="left"
+                        sa2_df[[pat_sa2, sa2_ra_col]],
+                        on=pat_sa2,
+                        how="left",
                     )
                 else:
                     merged[sa2_ra_col] = np.nan
@@ -271,6 +308,33 @@ def calculate_outpatients(
     ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
 
+    if not ind_df.empty:
+        merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
+    if not pat_rem.empty:
+        merged = merged.merge(pat_rem, on="_pat_remoteness", how="left")
+    if not treat_rem.empty:
+        merged = merged.merge(treat_rem, on="_treat_remoteness", how="left")
+
+    merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
+    merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
+    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
+    if params.data_type == 1:
+        try:
+            ind_adj = _load_ind_adj(ref_dir, year)
+            merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+        except Exception:
+            merged["adj_indigenous"] = 0
+        try:
+            rem_adj = _load_pat_rem_adj(ref_dir, year)
+            merged = merged.merge(rem_adj, on="_pat_remoteness", how="left")
+        except Exception:
+            merged["adj_remoteness"] = 0
+    merged["adj_indigenous"] = merged.get(
+        "adj_indigenous", pd.Series(0, index=merged.index)
+    ).fillna(0)
+    merged["adj_remoteness"] = merged.get(
+        "adj_remoteness", pd.Series(0, index=merged.index)
+    ).fillna(0)
     try:
         ind_df = _load_ind_adj(ref_dir, year)
         if not ind_df.empty:
@@ -350,7 +414,15 @@ def calculate_outpatients(
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
             merged.get("GROUP_EVENT_COUNT", 0).fillna(0)
-            + merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
+            merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
+            merged.get(
+                "GROUP_EVENT_COUNT",
+                pd.Series(0, index=merged.index),
+            ).fillna(0)
+            + merged.get(
+                "INDIV_EVENT_COUNT",
+                pd.Series(0, index=merged.index),
+            ).fillna(0)
         )
         counts_multi = counts + merged.get("MULTI_DISP_CONF_COUNT", 0).fillna(0)
 
