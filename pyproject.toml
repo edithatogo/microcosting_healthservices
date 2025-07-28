@@ -31,3 +31,6 @@ exclude = ["archive/*"]
 select = ["E", "F", "I", "UP"]
 ignore = []
 
+[tool.pytest.ini_options]
+testpaths = ["tests", "excel_calculator/tests"]
+
