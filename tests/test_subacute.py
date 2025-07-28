@@ -5,8 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix
 
 YEARS = sorted(RA_VERSION.keys())
 

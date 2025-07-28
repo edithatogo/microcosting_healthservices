@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import ra_suffix, sas_ref_dir
@@ -86,6 +87,57 @@ def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     return df.rename(columns={apc_col: "APCID"})[["APCID", "_est_eligible_paed_flag"]]
 
 
+def _load_multi_prov_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> float:
+    """Load multiprovider adjustment value."""
+    suffix = str(year)[-2:]
+    try:
+        df = load_sas_table(ref_dir / f"nep{suffix}_op_multi_prov_adj.sas7bdat")
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return float(df.iloc[0, 0])
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return 0.0
+
+
+def _load_ind_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    """Load indigenous adjustments."""
+    suffix = str(year)[-2:]
+    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_ind.sas7bdat"
+    try:
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
+
+
+def _load_pat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    """Load patient remoteness adjustments."""
+    suffix = str(year)[-2:]
+    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat"
+    try:
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
+
+
+def _load_treat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    """Load treatment remoteness adjustments."""
+    suffix = str(year)[-2:]
+    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
+    try:
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
+
+
 def calculate_outpatients(
     df: pd.DataFrame,
     params: OutpatientParams,
@@ -108,7 +160,6 @@ def calculate_outpatients(
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
-        hosp_col = f"_hosp_{ra.replace('ra', 'ra_')}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
