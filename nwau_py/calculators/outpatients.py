@@ -157,9 +157,9 @@ def calculate_outpatients(
     # --------------------------------------------------------------
     adj_multi = _load_multi_prov_adj(ref_dir, year)
     ind_df = _load_ind_adj(ref_dir, year)
-    pat_rem = _load_pat_rem_adj(ref_dir, year)
-    treat_rem = _load_treat_rem_adj(ref_dir, year)
-    merged["adj_multiprov"] = adj_multi
+    _load_pat_rem_adj(ref_dir, year)
+    _load_treat_rem_adj(ref_dir, year)
+    merged["adj_multiprov"] = adj_multi_val
 
     # --------------------------------------------------------------
     # Establishment remoteness lookups
