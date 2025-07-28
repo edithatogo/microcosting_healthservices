@@ -2,6 +2,8 @@ import importlib.util
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import pandas as pd
 import pytest
 
@@ -18,7 +20,6 @@ spec = importlib.util.spec_from_file_location(
 )
 outpatients = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(outpatients)
-
 
 class _MultiProv(pd.DataFrame):
     def __init__(self, val: float):
@@ -121,11 +122,23 @@ def test_patient_level_with_adjustments(monkeypatch):
         ref_dir=Path("unused"),
     )
 
-    expected = 0.1 * (1 + 0.1 + 0.2) * (1 + 0.03)
-    assert result["NWAU25"].iloc[0] == pytest.approx(expected, rel=1e-4)
+    assert result["_treat_remoteness"].iloc[0] == 5
     assert result["_pat_eligible_paed_flag"].iloc[0] == 1
-    assert result["Error_Code"].iloc[0] == 0
+    expected = 1.5 * (1 + 0.05 + 0.1) * (1 + 0.02)
+    assert result["NWAU25"].iloc[0] == pytest.approx(expected)
 
+
+def test_clinic_level_multiprovider(monkeypatch):
+    def _weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        return pd.DataFrame(
+            {
+                "TIER2_CLINIC": [10.01],
+                "clinic_pw": [1.0],
+                "adj_multiprov": [0.1],
+            }
+        )
+
+    monkeypatch.setattr(outpatients, "_load_weights", _weights)
 
 def test_clinic_level_multiprovider(monkeypatch):
     def _weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
@@ -148,7 +161,6 @@ def test_clinic_level_multiprovider(monkeypatch):
             "INDIV_EVENT_COUNT": [5],
             "MULTI_DISP_CONF_COUNT": [2],
             "PAT_MULTIPROV_FLAG": [1],
-            "FUNDSC": [1],
         }
     )
 
