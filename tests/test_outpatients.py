@@ -75,6 +75,10 @@ def test_patient_level_with_adjustments():
     result = outpatients.calculate_outpatients(
         df,
         params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
+
 
 @pytest.fixture(autouse=True)
 def patch_loaders(monkeypatch):
@@ -157,6 +161,9 @@ def test_clinic_level_multiprovider():
     result = outpatients.calculate_outpatients(
         df,
         params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
 
     monkeypatch.setattr(outpatients, "_load_weights", _weights)
 
