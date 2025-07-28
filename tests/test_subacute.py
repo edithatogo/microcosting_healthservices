@@ -5,6 +5,10 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from nwau_py.utils import RA_VERSION
+
+YEARS = sorted(RA_VERSION.keys())
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 spec = importlib.util.spec_from_file_location(
@@ -96,9 +100,10 @@ def _patch(monkeypatch):
     monkeypatch.setattr(subacute, "load_sas_table", _fake_load)
 
 
-def test_calculate_subacute_basic():
+@pytest.mark.parametrize("year", YEARS)
+def test_calculate_subacute_basic(year):
     res = subacute.calculate_subacute(
-        BASE_DATA.copy(), subacute.SubacuteParams(), year="2025", ref_dir=Path("unused")
+        BASE_DATA.copy(), subacute.SubacuteParams(), year=year, ref_dir=Path("unused")
     )
     assert res["NWAU25"].iloc[0] == pytest.approx(EXPECTED_BASE, rel=1e-4)
     assert res["Error_Code"].iloc[0] == 0
@@ -106,13 +111,14 @@ def test_calculate_subacute_basic():
     debug = subacute.calculate_subacute(
         BASE_DATA.copy(),
         subacute.SubacuteParams(debug_mode=True),
-        year="2025",
+        year=year,
         ref_dir=Path("unused"),
     )
     assert any(c.startswith("_") for c in debug.columns)
 
 
-def test_option_paths():
+@pytest.mark.parametrize("year", YEARS)
+def test_option_paths(year):
     data = BASE_DATA.copy()
     data["PAT_RADIOTHERAPY_FLAG"] = 1
     data["PAT_DIALYSIS_FLAG"] = 0
@@ -122,19 +128,20 @@ def test_option_paths():
         dialysis_option=2,
         est_remoteness_option=2,
     )
-    res = subacute.calculate_subacute(data, params, year="2025", ref_dir=Path("unused"))
+    res = subacute.calculate_subacute(data, params, year=year, ref_dir=Path("unused"))
     expected = 13.4327 * (1 + 0.1 + 0.1) * 1.02
     assert res["NWAU25"].iloc[0] == pytest.approx(expected, rel=1e-4)
 
 
-def test_ppsa_option():
+@pytest.mark.parametrize("year", YEARS)
+def test_ppsa_option(year):
     data = BASE_DATA.copy()
     data["PAT_PRIVATE_FLAG"] = 1
     data["PAT_PUBLIC_FLAG"] = 0
     res1 = subacute.calculate_subacute(
         data.copy(),
         subacute.SubacuteParams(ppsa_option=1),
-        year="2025",
+        year=year,
         ref_dir=Path("unused"),
     )
     expected1 = EXPECTED_BASE - 13.4327 * 0.1
@@ -143,29 +150,31 @@ def test_ppsa_option():
     res2 = subacute.calculate_subacute(
         data.copy(),
         subacute.SubacuteParams(ppsa_option=2),
-        year="2025",
+        year=year,
         ref_dir=Path("unused"),
     )
     expected2 = EXPECTED_BASE - 13.4327 * 0.2
     assert res2["NWAU25"].iloc[0] == pytest.approx(expected2, rel=1e-4)
 
 
-def test_paediatric_error():
+@pytest.mark.parametrize("year", YEARS)
+def test_paediatric_error(year):
     data = BASE_DATA.copy()
     data["BIRTH_DATE"] = pd.Timestamp("2015-01-01")
     res = subacute.calculate_subacute(
-        data, subacute.SubacuteParams(), year="2025", ref_dir=Path("unused")
+        data, subacute.SubacuteParams(), year=year, ref_dir=Path("unused")
     )
     assert res["Error_Code"].iloc[0] == 1
     assert res["NWAU25"].iloc[0] == 0
 
 
-def test_procedure_flags():
+@pytest.mark.parametrize("year", YEARS)
+def test_procedure_flags(year):
     data = BASE_DATA.copy()
     data["PROC1"] = 12345
     data["PROC2"] = 22222
     params = subacute.SubacuteParams(debug_mode=True)
-    res = subacute.calculate_subacute(data, params, year="2025", ref_dir=Path("unused"))
+    res = subacute.calculate_subacute(data, params, year=year, ref_dir=Path("unused"))
     assert res["_pat_radiotherapy_flag"].iloc[0] == 1
     assert res["_pat_dialysis_flag"].iloc[0] == 1
     expected = 13.4327 * (1 + 0.1 + 0.1 + 0.2) * 1.02
