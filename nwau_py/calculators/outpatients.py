@@ -95,6 +95,7 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return float(df.loc[0, "adj_multiprov"])
+    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -112,6 +113,7 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -129,6 +131,7 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -146,6 +149,7 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
         pyreadstat.errors.ReadstatError,
@@ -195,15 +199,15 @@ def calculate_outpatients(
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
-        hosp_ra_col = f"_hosp_ra_{ra_year}"
+        hosp_col = f"_hosp_ra_{ra_year}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
             except (FileNotFoundError, KeyError, ValueError):
-                merged[hosp_ra_col] = np.nan
+                merged[hosp_col] = np.nan
         else:
-            merged[hosp_ra_col] = np.nan
+            merged[hosp_col] = np.nan
 
         pat_pc = next(
             (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -216,6 +220,7 @@ def calculate_outpatients(
 
         pat_ra_col = f"PAT_{ra}"
         sa2_ra_col = f"SA2_{ra}"
+        hosp_ra_col = hosp_col
         if pat_pc:
             try:
                 pc_df = _load_postcode_ra(ref_dir, year)
@@ -297,6 +302,9 @@ def calculate_outpatients(
         merged["_pat_age_years"] = np.nan
         merged["_pat_eligible_paed_flag"] = 0
 
+    merged["_pat_remoteness"] = merged.get(
+        "PAT_REMOTENESS", merged.get("EST_REMOTENESS", 0)
+    )
     ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
 
@@ -405,6 +413,8 @@ def calculate_outpatients(
     else:
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
+            merged.get("GROUP_EVENT_COUNT", 0).fillna(0)
+            merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
             merged.get(
                 "GROUP_EVENT_COUNT",
                 pd.Series(0, index=merged.index),
@@ -414,9 +424,7 @@ def calculate_outpatients(
                 pd.Series(0, index=merged.index),
             ).fillna(0)
         )
-        counts_multi = counts + merged.get(
-            "MULTI_DISP_CONF_COUNT", pd.Series(0, index=merged.index)
-        ).fillna(0)
+        counts_multi = counts + merged.get("MULTI_DISP_CONF_COUNT", 0).fillna(0)
 
         gwau = np.select(
             [
