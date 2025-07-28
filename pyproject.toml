@@ -16,6 +16,9 @@ dependencies = [
     "lightgbm",
 ]
 
+[project.optional-dependencies]
+dev = ["mypy"]
+
 [project.scripts]
 funding-calculator = "excel_calculator.src.funding_calculator:main"
 

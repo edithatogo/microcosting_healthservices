@@ -113,8 +113,8 @@ def calculate_adjusted_nwau(
     if error_col and error_col in result.columns:
         hac_adj = hac_adj.where(result[error_col].fillna(0) == 0, 0)
 
-    if hac_point_cols and complexity_df is not None:
-        if len(hac_point_cols) != len(hac_adj_cols or []):
+    if hac_point_cols and complexity_df is not None and hac_adj_cols:
+        if len(hac_point_cols) != len(hac_adj_cols):
             raise ValueError("HAC point and adjustment column counts differ")
         points_df = result[hac_point_cols]
         idx = hac_df.values.argmax(axis=1)

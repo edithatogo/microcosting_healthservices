@@ -12,10 +12,14 @@ if _SRC_PATH.exists():
 from nwau_py.scoring.scorer import score_readmission  # noqa: E402
 _SCORER_PATH = _SRC_PATH / "nwau_py" / "scoring" / "scorer.py"
 if _SCORER_PATH.exists():
-    spec = importlib.util.spec_from_file_location("nwau_py.scoring.scorer", _SCORER_PATH)
-    _module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(_module)
-    score_readmission = _module.score_readmission
+    spec = importlib.util.spec_from_file_location(
+        "nwau_py.scoring.scorer", _SCORER_PATH
+    )
+    assert spec is not None
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    score_readmission = module.score_readmission
 else:
     from nwau_py.scoring.score import score_readmission
 
