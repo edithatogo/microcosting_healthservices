@@ -97,8 +97,7 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         return float(df.loc[0, "adj_multiprov"])
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -115,8 +114,7 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -133,8 +131,7 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -151,8 +148,7 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -173,6 +169,19 @@ def calculate_outpatients(
 
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
+    try:
+        adj_multi_val = _load_multi_prov_adj(ref_dir, year)
+    except (FileNotFoundError, KeyError, ValueError):
+        adj_multi_val = 0.0
+    adj_multi = adj_multi_val
+    ind_df = _load_ind_adj(ref_dir, year)
+
+    adj_multi_val = adj_multi
+    merged["adj_multiprov"] = (
+        merged.get("adj_multiprov", pd.Series(adj_multi_val, index=merged.index))
+        .fillna(adj_multi_val)
+    )
+    adj_multi_series = merged["adj_multiprov"].fillna(adj_multi_val)
 
     adj_multi = _load_multi_prov_adj(ref_dir, year)
     ind_df = _load_ind_adj(ref_dir, year)
@@ -301,6 +310,48 @@ def calculate_outpatients(
     merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
     merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
     merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
+    if params.data_type == 1:
+        try:
+            ind_adj = _load_ind_adj(ref_dir, year)
+            merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+        except Exception:
+            merged["adj_indigenous"] = 0
+        try:
+            rem_adj = _load_pat_rem_adj(ref_dir, year)
+            merged = merged.merge(rem_adj, on="_pat_remoteness", how="left")
+        except Exception:
+            merged["adj_remoteness"] = 0
+    merged["adj_indigenous"] = merged.get(
+        "adj_indigenous", pd.Series(0, index=merged.index)
+    ).fillna(0)
+    merged["adj_remoteness"] = merged.get(
+        "adj_remoteness", pd.Series(0, index=merged.index)
+    ).fillna(0)
+    try:
+        ind_df = _load_ind_adj(ref_dir, year)
+        if not ind_df.empty:
+            merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
+    except Exception:
+        if "adj_indigenous" not in merged.columns:
+            merged["adj_indigenous"] = 0
+    try:
+        pat_rem_df = _load_pat_rem_adj(ref_dir, year)
+        if not pat_rem_df.empty:
+            merged = merged.merge(pat_rem_df, on="_pat_remoteness", how="left")
+    except Exception:
+        if "adj_remoteness" not in merged.columns:
+            merged["adj_remoteness"] = 0
+    try:
+        treat_rem_df = _load_treat_rem_adj(ref_dir, year)
+        if not treat_rem_df.empty:
+            merged = merged.merge(
+                treat_rem_df, on="_treat_remoteness", how="left"
+            )
+    except Exception:
+        if "adj_treat_remoteness" not in merged.columns:
+            merged["adj_treat_remoteness"] = 0
+    for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
+        merged[col] = merged.get(col, pd.Series(0, index=merged.index)).fillna(0)
 
     if "FUNDSC" in merged.columns:
         out_scope = ~merged["FUNDSC"].isin(params.inscope_funding_sources)
