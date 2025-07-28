@@ -25,6 +25,31 @@ class _MultiProv(pd.DataFrame):
     def __radd__(self, other: float) -> float:  # type: ignore[override]
         return other + self.val
 
+WEIGHTS = pd.DataFrame(
+    {
+        "TIER2_CLINIC": [10.01],
+        "clinic_pw": [0.1],
+        "tier2_adj_paed": [1.0],
+        "adj_indigenous": [0.1],
+        "adj_remoteness": [0.2],
+        "adj_treat_remoteness": [0.03],
+        "adj_multiprov": [0.2],
+    }
+)
+IND_ADJ = pd.DataFrame(
+    {"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.03]}
+)
+PAT_REM_ADJ = pd.DataFrame(
+    {"_pat_remoteness": [0, 3], "adj_remoteness": [0.0, 0.09]}
+)
+TREAT_REM_ADJ = pd.DataFrame(
+    {"_treat_remoteness": [0, 1], "adj_treat_remoteness": [0.0, 0.02]}
+)
+HOSP_RA = pd.DataFrame({"APCID": ["H1"], "_hosp_ra_2021": [1]})
+POSTCODE_RA = pd.DataFrame({"POSTCODE": [2000], "ra2021": [2]})
+SA2_RA = pd.DataFrame({"SA2": [12345], "ra2021": [3]})
+ICU_LIST = pd.DataFrame({"APCID": ["H1"], "_est_eligible_paed_flag": [1]})
+MULTI_PROV = 0.5
 
 @pytest.fixture(autouse=True)
 def patch_loaders(monkeypatch):
