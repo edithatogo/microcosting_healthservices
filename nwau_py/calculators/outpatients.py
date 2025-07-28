@@ -77,7 +77,6 @@ def _load_sa2_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
     return df.rename(columns={key_col: "SA2", ra_col: ra})[["SA2", ra]]
 
-
 def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     suffix = str(year)[-2:]
     df = pd.read_sas(ref_dir / f"nep{suffix}_icu_paed_eligibility_list.sas7bdat")
@@ -102,6 +101,7 @@ def calculate_outpatients(
         ref_dir = sas_ref_dir(year)
     ra = ra_suffix(year)
     ra_year = ra[2:]
+
     weights = _load_weights(ref_dir, year)
     merged = df.merge(weights, on="TIER2_CLINIC", how="left")
 
@@ -109,6 +109,7 @@ def calculate_outpatients(
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
+        hosp_col = f"_hosp_{ra.replace('ra', 'ra_')}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)

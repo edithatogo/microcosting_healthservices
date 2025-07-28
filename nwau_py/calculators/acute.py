@@ -157,10 +157,14 @@ def calculate_acute(
 
     # ------------------------------------------------------------------
     # Remoteness lookups
-    # ------------------------------------------------------------------
     if params.est_remoteness_option == 1:
         pat_pc = next(
-            (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns), None
+            (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
+            None,
+        )
+        pat_sa2 = next(
+            (c for c in ["PAT_SA2", "SA2"] if c in merged.columns),
+            None,
         )
         pat_sa2 = next(
             (
@@ -235,6 +239,7 @@ def calculate_acute(
             try:
                 hosp_df = load_sas_table(
                     ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat"
+
                 )
                 apc_col = [c for c in hosp_df.columns if c.startswith("APCID")][0]
                 ra_col = next(
@@ -259,11 +264,10 @@ def calculate_acute(
             )
         )
         merged["_treat_remoteness"] = merged[hosp_ra_col].fillna(0)
+
     else:
         merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)
-
-    # ------------------------------------------------------------------
     # Basic patient variables
     # ------------------------------------------------------------------
     merged["_pat_los"] = merged.get("LOS")
