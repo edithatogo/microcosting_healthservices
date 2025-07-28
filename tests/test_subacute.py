@@ -1,3 +1,4 @@
+# ruff: noqa
 import importlib.util
 import sys
 from pathlib import Path
@@ -10,7 +11,7 @@ from nwau_py.utils import RA_VERSION
 
 YEARS = sorted(RA_VERSION.keys())
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # noqa: E402
 
 spec = importlib.util.spec_from_file_location(
     "subacute",

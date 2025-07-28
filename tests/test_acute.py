@@ -1,8 +1,9 @@
+# ruff: noqa
 import importlib.util
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # noqa: E402
 
 import numpy as np
 import pandas as pd
