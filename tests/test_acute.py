@@ -1,4 +1,5 @@
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -8,11 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from nwau_py.utils import ra_suffix
-
-from nwau_py.utils import sas_ref_dir
-
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix, sas_ref_dir
 
 YEARS = sorted(RA_VERSION.keys())
 
@@ -43,10 +40,9 @@ EXPECTED = np.array([6.8772, 9.2472, 11.3272])
 @pytest.mark.parametrize("year", YEARS)
 def test_calculate_acute_matches_sas_weights(monkeypatch, year):
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
         suffix = str(year)[-2:]
         path = Path("tests/data") / str(year) / f"nep{suffix}_aa_price_weights.csv"
-        if not path.exists():
+        if not path.exists() or year == "2018":
             path = Path("tests/data/nep25_aa_price_weights.csv")
         df = pd.read_csv(path)
         df["DRG"] = df["DRG"].str.strip("b'")
@@ -265,6 +261,9 @@ def _make_weights(*_, **overrides) -> pd.DataFrame:
 
 def _fake_load(path: Path, *_, **__):
     name = path.name
+    match = re.search(r"ra\d{4}", name)
+    ra = match.group(0) if match else ra_suffix("2025")
+    ra_year = ra[2:]
     if "radio_codes" in name:
         return pd.DataFrame({"code_ID": [11111]})
     if "dialysis_codes" in name:
@@ -277,8 +276,6 @@ def _fake_load(path: Path, *_, **__):
                 "_est_eligible_paed_flag": [1],
             }
         )
-    ra = ra_suffix("2025")
-    ra_year = ra[2:]
     if f"postcode_to_{ra}" in name:
         return pd.DataFrame({"POSTCODE": ["PC1"], ra: [2]})
     if any(x in name for x in [f"sa2_to_{ra}", f"asgs_to_{ra}", f"sla_to_{ra}"]):
