@@ -10,14 +10,14 @@ import pytest
 from funding_calculator import load_weights, load_formula, calculate_funding  # noqa: E402
 
 
-def test_load_weights_normalises_columns(tmp_path):
+def test_load_weights_normalises_columns(tmp_path: pathlib.Path) -> None:
     csv = tmp_path / "weights.csv"
     csv.write_text('"A\nB"\n1\n')
     df = load_weights(csv)
     assert df.columns.tolist() == ["A B"]
 
 
-def test_calculate_funding_example():
+def test_calculate_funding_example() -> None:
     formula = load_formula("excel_calculator/data/formula.json")
     df = pd.DataFrame({
         "Inlier": [9.2472],
