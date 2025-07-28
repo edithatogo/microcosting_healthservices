@@ -95,7 +95,10 @@ def load_ahr_maps(maps_dir: Path) -> Dict[str, pd.DataFrame]:
     maps: Dict[str, pd.DataFrame] = {}
     for path in sorted(maps_dir.glob("ahr_map_*.sas7bdat")):
         edition = path.stem.split("_")[-1]
-        maps[edition] = pd.read_sas(path, format="sas7bdat")
+        df = pd.read_sas(path, format="sas7bdat")
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        maps[edition] = df
     return maps
 
 

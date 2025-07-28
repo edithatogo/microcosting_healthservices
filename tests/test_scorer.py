@@ -37,10 +37,11 @@ example["an110mdc_ra"] = ["1"]
 def test_score_readmission_runs():
     df = pd.DataFrame(example)
     result = score_readmission(df)
-    assert result.shape[1] == 24
+    assert result.shape[1] == 36
     expected_cols = {
         *(f"risk_category{i}" for i in range(1, 13)),
         *(f"dampening{i}" for i in range(1, 13)),
+        *(f"readm_points{i}" for i in range(1, 13)),
     }
     assert set(result.columns) == expected_cols
     assert not result.isna().all().all()
