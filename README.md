@@ -6,7 +6,10 @@ subacute and outpatient activity along with HAC and AHR adjustment
 logic. The Python implementation now matches the official SAS results
 for all calculators. A lightweight command line interface is available
 via the `funding-calculator` script.
-Historical SAS calculators from IHACPA should be extracted to `archive/sas/<YEAR>` (for example `archive/sas/2023`). Each folder contains the original SAS programs and data tables for that pricing year.
+Historical SAS calculators from IHACPA should be extracted to
+`archive/sas/<YEAR>/`.  Rename the downloaded directory so only the year
+remains (for example `archive/sas/2025`).  Each folder then contains the
+original SAS programs and data tables for that pricing year.
 
 ## Installation
 
@@ -27,13 +30,20 @@ These packages include `pytest`, `numpy`, `pandas`, `pyxlsb`, `pyreadstat` and
 
 ## Historical data
 
-Place each year's SAS calculator under `archive/sas/<YEAR>` and extract it so the directory holds the SAS programs for that pricing year. If you also download the Excel workbook, copy it to `excel_calculator/archive/<year>` and run:
+Place each year's SAS calculator under `archive/sas/<YEAR>/` and ensure the
+folder name is just the year.  After extraction the directory should contain the
+SAS programs for that pricing year.  If you also download the Excel workbook,
+copy it to `excel_calculator/archive/<year>` and run:
 
 ```bash
 python excel_calculator/scripts/extract_weights.py
 ```
 
 Move the resulting `weights.csv` into `excel_calculator/data/<year>` along with a matching `formula.json`.
+
+The repository currently includes verified weights and formulas for the 2024
+and 2025 editions. Additional years can be added once their outputs are
+validated.
 
 ## Usage
 Weights and the pricing formula are stored in `excel_calculator/data`.
@@ -65,13 +75,18 @@ After installation the `funding-calculator` entry point is available. You can
 select a specific pricing year with `--year`:
 
 ```bash
-funding-calculator --year 2023 patient_data.csv > funding.csv
+funding-calculator --year 2024 patient_data.csv > funding.csv
 ```
 
-`patient_data.csv` should contain the columns referenced in `excel_calculator/data/2023/formula.json`. The output will include a `NWAU23` column with the calculated values.
+The `--year` option selects the data directory for that pricing year. The
+example above uses the 2024 weights but you can also choose `--year 2025` once
+verified data is available. `patient_data.csv` should contain the columns
+referenced in `excel_calculator/data/2024/formula.json` and the output will
+include a `NWAU24` column.
 
 The `nwau_py` package also exposes a lightweight command line interface via
-`python -m nwau_py.cli.main`. The subcommands `acute`, `ed` and
+`python -m nwau_py.cli.main`. The `--year` flag works with any supported
+edition (currently 2024 and 2025). The subcommands `acute`, `ed` and
 `non-admitted` mirror the SAS calculators:
 
 ```bash
@@ -93,7 +108,7 @@ weights = load_weights('excel_calculator/data/weights.csv')
 formula = load_formula('excel_calculator/data/formula.json')
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-patient_df['NWAU23'] = calculate_funding(patient_df, formula)
+patient_df['NWAU25'] = calculate_funding(patient_df, formula)
 ```
 
 Replace `excel_calculator/data` with `excel_calculator/data/<year>` to use
