@@ -1,5 +1,7 @@
+from collections.abc import Sequence
+
 import pandas as pd
-from typing import Sequence
+
 
 def calculate_adjusted_nwau(
     df: pd.DataFrame,
@@ -60,7 +62,11 @@ def calculate_adjusted_nwau(
     """
 
     result = df.copy()
-    covid_flag = result[covid_flag_col].fillna(0) if covid_flag_col and covid_flag_col in result.columns else 0
+    covid_flag = (
+        result[covid_flag_col].fillna(0)
+        if covid_flag_col and covid_flag_col in result.columns
+        else 0
+    )
 
     # ------------------------------------------------------------------
     # AHR risk adjustment
@@ -148,7 +154,14 @@ def calculate_adjusted_nwau(
         cols_to_drop += [weight_col]
         if ahr_weight_col:
             cols_to_drop.append(ahr_weight_col)
-        cols_to_drop += ["riskAdjustment_HAC", "riskAdjustment_AHR", "AHRgroup", "HACgroup", "complexity", "complexityGroup"]
+        cols_to_drop += [
+            "riskAdjustment_HAC",
+            "riskAdjustment_AHR",
+            "AHRgroup",
+            "HACgroup",
+            "complexity",
+            "complexityGroup",
+        ]
         cols_to_drop = [c for c in cols_to_drop if c in result.columns]
         result = result.drop(columns=cols_to_drop)
 

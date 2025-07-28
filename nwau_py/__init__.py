@@ -1,8 +1,8 @@
 """Tools for reproducing IHACPA National Weighted Activity Units."""
 
+import importlib.util
 import sys
 from pathlib import Path
-import importlib.util
 
 _SRC_PATH = Path(__file__).resolve().parents[1] / "src"
 if _SRC_PATH.exists():
@@ -10,6 +10,7 @@ if _SRC_PATH.exists():
     __path__.append(str(_SRC_PATH / "nwau_py"))
 
 from nwau_py.scoring.scorer import score_readmission  # noqa: E402
+
 _SCORER_PATH = _SRC_PATH / "nwau_py" / "scoring" / "scorer.py"
 if _SCORER_PATH.exists():
     spec = importlib.util.spec_from_file_location(
