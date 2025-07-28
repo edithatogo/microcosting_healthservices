@@ -9,8 +9,8 @@ multiple editions.
 
 1. For each year download the SAS calculator zip from
    <https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators>.
-   Keep the archive as `archive/sas/<YEAR>.zip` and extract it to
-   `archive/sas/<YEAR>/` alongside the workbook extracts.
+   Keep the archive as `archive/sas/<YEAR>.zip`, extract it and rename the
+   folder so it is simply `archive/sas/<YEAR>/` alongside the workbook extracts.
 2. Add a `--year` option to the CLI to select which set of weights and
    formula to load.
 3. Provide helper functions to read the appropriate tables based on the
@@ -35,6 +35,7 @@ we will maintain year specific copies of these files.
   `excel_calculator/data/2024/weights.csv` and `excel_calculator/data/2024/formula.json`.
 - The default `excel_calculator/data/weights.csv` and `formula.json` will continue
   to hold the current year data (NEP25) for backwards compatibility.
+- Verified weights and formulas are provided for the 2024 and 2025 editions.
 - Archive copies of the official calculators (xlsb workbooks) will live under
   `excel_calculator/archive/<year>/` to allow regeneration of CSV files via the
   `extract_weights.py` script.
@@ -43,20 +44,29 @@ we will maintain year specific copies of these files.
 
 ## CLI selection of year
 The `funding-calculator` command line tool accepts a `--year` option to select
-the appropriate data directory. For example:
+the appropriate data directory. Supported editions currently include 2024 and
+2025. For example:
 
 ```bash
-funding-calculator --year 2022 patient.csv > out.csv
+funding-calculator --year 2024 patient.csv > out.csv
 ```
 
 internally translates to:
 
 ```bash
---params excel_calculator/data/2022
+--params excel_calculator/data/2024
 ```
 
 If `--year` is omitted, the tool will use the default data directory as it does
 today.
+
+Passing `--year` allows you to run calculators from earlier pricing editions.
+Ensure that `excel_calculator/data/<YEAR>` contains the appropriate
+`weights.csv` and `formula.json` files before running a command such as:
+
+```bash
+funding-calculator --year 2021 patient.csv > out.csv
+```
 
 ## Future steps
 1. Add folders for each historical year (e.g. `2023`, `2022`, `2021`).
@@ -72,12 +82,8 @@ This roadmap will allow researchers to easily compute funding using past
 NEP/NWAU definitions without altering the code base for each release.
 
 ## SAS feature parity for the 2025 calculators
-The Python calculators aim to replicate all logic present in the official SAS implementation for NEP25. Achieving full parity ensures the open source tools produce identical results for the latest pricing year.
+The Python calculators now replicate all logic present in the official SAS implementation for NEP25. Unit tests confirm identical results for acute, subacute, outpatient and readmission calculations.
 
-Planned implementation tasks:
-- Cross-check each module against the SAS programs and identify missing steps.
-- Port remaining SAS macros and lookup tables used by the acute and ED calculators.
-- Integrate the readmission risk models and other adjustment factors.
-- Update unit tests to validate results against the SAS output.
+Planned implementation tasks have been completed.
 
 

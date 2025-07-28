@@ -1,7 +1,9 @@
 import argparse
 import json
 import sys
+from collections.abc import Sequence
 from pathlib import Path
+from typing import Any, cast
 
 import pandas as pd
 from pandas import DataFrame
@@ -22,13 +24,13 @@ def load_weights(csv_path: str) -> DataFrame:
     return df
 
 
-def load_formula(json_path: str):
+def load_formula(json_path: str) -> dict[str, Any]:
     """Load and return the formula description from ``json_path``."""
     with open(json_path) as fh:
-        return json.load(fh)
+        return cast(dict[str, Any], json.load(fh))
 
 
-def calculate_funding(weights_df: DataFrame, formula) -> pd.Series:
+def calculate_funding(weights_df: DataFrame, formula: dict[str, Any]) -> pd.Series:
     """Calculate funding amounts using ``weights_df`` and ``formula``.
 
     ``formula`` must define ``variables`` (mapping symbols to column names)
@@ -45,7 +47,7 @@ def calculate_funding(weights_df: DataFrame, formula) -> pd.Series:
     return env["NWAU25"]
 
 
-def main(argv=None):
+def main(argv: Sequence[str] | None = None) -> None:
     """Command line entry point for funding calculation."""
     parser = argparse.ArgumentParser(description="Calculate IHACPA NWAU values")
     parser.add_argument("--weights", help="CSV containing weights")

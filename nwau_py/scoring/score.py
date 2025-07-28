@@ -1,9 +1,8 @@
-"""Public scoring API."""
+"""Public scoring API.
 
-from .scorer import score_readmission
-"""Compatibility wrapper for the readmission scoring implementation.
+Compatibility wrapper for the readmission scoring implementation.
 
-The actual scoring logic lives in :mod:`nwau_py.scoring.scorer`.  This module
+The actual scoring logic lives in :mod:`nwau_py.scoring.scorer`. This module
 simply imports and re-exports :func:`score_readmission` from that file so that
 ``nwau_py.score_readmission`` works both when running from the repository and
 when the package is installed without the source layout.
@@ -12,14 +11,12 @@ when the package is installed without the source layout.
 from __future__ import annotations
 
 import importlib.util
-import sys
 from pathlib import Path
-
 
 try:
     # Try the normal import first. This will succeed when ``scorer.py`` is
     # shipped with the package (e.g. in tests where ``src`` is on the path).
-    from .scorer import score_readmission  # type: ignore
+    from .scorer import score_readmission
 except ImportError:  # pragma: no cover - fallback for source layout
     # When running from the repository, the real implementation lives under the
     # ``src`` directory which may not be on ``sys.path`` yet.  Locate the file
@@ -30,9 +27,10 @@ except ImportError:  # pragma: no cover - fallback for source layout
         raise
 
     spec = importlib.util.spec_from_file_location("nwau_py.scoring.scorer", _SCORER)
-    _module = importlib.util.module_from_spec(spec)
+    assert spec is not None
+    module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
-    spec.loader.exec_module(_module)
-    score_readmission = _module.score_readmission
+    spec.loader.exec_module(module)
+    score_readmission = module.score_readmission
 
 __all__ = ["score_readmission"]

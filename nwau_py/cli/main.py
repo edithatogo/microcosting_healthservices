@@ -1,5 +1,7 @@
 import sys
+from collections.abc import Callable
 from pathlib import Path
+from typing import IO, Any
 
 import click
 import pandas as pd
@@ -7,10 +9,20 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))  # noqa: E402
 
-from funding_calculator import load_weights, load_formula, calculate_funding  # noqa: E402
+from funding_calculator import (  # noqa: E402
+    calculate_funding,
+    load_formula,
+    load_weights,
+)
 
 
-def calculate(input_csv: str, params: str, outfh, icu: bool, covid: bool) -> None:
+def calculate(
+    input_csv: str,
+    params: str,
+    outfh: IO[str],
+    icu: bool,
+    covid: bool,
+) -> None:
     """Load data, apply the formula and write the output CSV."""
     params_path = Path(params)
     load_weights(params_path / "weights.csv")
@@ -31,7 +43,14 @@ def calculate(input_csv: str, params: str, outfh, icu: bool, covid: bool) -> Non
     df.to_csv(outfh, index=False)
 
 
-def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool, year: str | None = None) -> None:
+def run_cli(
+    input_csv: str,
+    params: str,
+    output: str,
+    icu: bool,
+    covid: bool,
+    year: str | None = None,
+) -> None:
     if year is not None and params == "excel_calculator/data":
         params = str(Path("excel_calculator/data") / year)
     outfh = sys.stdout if output == "-" else open(output, "w", newline="")
@@ -42,7 +61,7 @@ def run_cli(input_csv: str, params: str, output: str, icu: bool, covid: bool, ye
             outfh.close()
 
 
-def common_options(func):
+def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
         click.option(
@@ -82,27 +101,27 @@ def common_options(func):
 
 
 @click.group()
-def cli():
+def cli() -> None:
     """NWAU calculation commands."""
 
 
 @cli.command()
 @common_options
-def acute(**kwargs):
+def acute(**kwargs: Any) -> None:
     """Calculate NWAU for acute care."""
     run_cli(**kwargs)
 
 
 @cli.command()
 @common_options
-def ed(**kwargs):
+def ed(**kwargs: Any) -> None:
     """Calculate NWAU for emergency department care."""
     run_cli(**kwargs)
 
 
 @cli.command(name="non-admitted")
 @common_options
-def non_admitted(**kwargs):
+def non_admitted(**kwargs: Any) -> None:
     """Calculate NWAU for non-admitted care."""
     run_cli(**kwargs)
 

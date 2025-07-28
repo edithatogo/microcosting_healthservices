@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "IHACPA funding calculation utilities"
 authors = [{name="IHACPA"}]
 readme = "nwau_py/README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.8"
 dependencies = [
     "pandas",
@@ -15,6 +16,9 @@ dependencies = [
     "pyreadstat",
     "lightgbm",
 ]
+
+[project.optional-dependencies]
+dev = ["mypy"]
 
 [project.scripts]
 funding-calculator = "excel_calculator.src.funding_calculator:main"
@@ -30,4 +34,7 @@ exclude = ["archive/*"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
 ignore = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "excel_calculator/tests"]
 

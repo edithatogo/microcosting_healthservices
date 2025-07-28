@@ -5,17 +5,20 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from nwau_py.utils import RA_VERSION
+
+YEARS = sorted(RA_VERSION.keys())
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 spec = importlib.util.spec_from_file_location(
     "ed",
-    Path(__file__).resolve().parents[1]
-    / "nwau_py"
-    / "calculators"
-    / "ed.py",
+    Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "ed.py",
 )
 ed = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ed)
+
+YEARS = [str(y) for y in range(2013, 2026)]
 
 DATA = pd.DataFrame(
     {
@@ -27,19 +30,19 @@ DATA = pd.DataFrame(
         "adj_remoteness": [0.0],
         "adj_treat_remoteness": [0.0],
         "FUNDSC": [1],
-        "COMPENSABLE_STATUS": [2],
-        "DVA_STATUS": [2],
     }
 )
 
 EXPECTED = 0.2837
 
 
-@pytest.mark.parametrize("year", ["2024", "2025"])
+@pytest.mark.parametrize("year", YEARS)
 def test_calculate_ed_matches_sas_weights(monkeypatch, year):
     weights = pd.DataFrame({"AECC": ["E0110A"], "AECC_pw": [EXPECTED]})
 
-    def _load(ref_dir: Path, classification_option: int, year: str = "2025") -> pd.DataFrame:
+    def _load(
+        ref_dir: Path, classification_option: int, year: str = "2025"
+    ) -> pd.DataFrame:
         return weights.rename(columns={"aecc_pw": "AECC_pw"})
 
     monkeypatch.setattr(ed, "_load_weights", _load)
@@ -52,13 +55,22 @@ def test_calculate_ed_matches_sas_weights(monkeypatch, year):
     )
     assert result["NWAU25"].iloc[0] == pytest.approx(EXPECTED, rel=1e-4)
 
+
 CALC_DIR = Path("archive/sas/NEP25_SAS_NWAU_calculator/calculators")
 
 
-def test_calculate_ed_aecc_basic():
+@pytest.mark.parametrize("year", YEARS)
+def test_calculate_ed_aecc_basic(monkeypatch, year):
     weights = pd.read_sas(CALC_DIR / "nep25_edaecc_price_weights.sas7bdat")
     weights["AECC"] = weights["AECC"].str.decode("ascii")
     row = weights[weights["AECC"] == "E0110A"].iloc[0]
+
+    def _load(
+        ref_dir: Path, classification_option: int, year: str = "2025"
+    ) -> pd.DataFrame:
+        return weights
+
+    monkeypatch.setattr(ed, "_load_weights", _load)
 
     df = pd.DataFrame(
         {
@@ -74,8 +86,8 @@ def test_calculate_ed_aecc_basic():
     result = ed.calculate_ed(
         df,
         ed.EDParams(classification_option=3),
-        year="2025",
-        ref_dir=CALC_DIR,
+        year=year,
+        ref_dir=Path("unused"),
     )
 
     expected = round(row["AECC_pw"] * 1.03, 8)
@@ -84,10 +96,27 @@ def test_calculate_ed_aecc_basic():
     assert result["Error_Code"].iloc[0] == 0
 
 
-def test_calculate_ed_udg_mapping_and_errors():
+@pytest.mark.parametrize("year", YEARS)
+def test_calculate_ed_udg_mapping_and_errors(monkeypatch, year):
     weights = pd.read_sas(CALC_DIR / "nep25_edudg_price_weights.sas7bdat")
     weights["UDG"] = weights["UDG"].str.decode("ascii")
     udg_pw = weights[weights["UDG"] == "UDG01"].iloc[0]["udg_pw"]
+
+    def _load_map(ref_dir: Path) -> pd.DataFrame:
+        return pd.DataFrame({
+            "type_of_visit": [1],
+            "triage_category": [1],
+            "episode_end_status": [1],
+            "UDG": ["UDG01"],
+        })
+
+    def _load(
+        ref_dir: Path, classification_option: int, year: str = "2025"
+    ) -> pd.DataFrame:
+        return weights.rename(columns={"udg_pw": "udg_pw"})
+
+    monkeypatch.setattr(ed, "_load_weights", _load)
+    monkeypatch.setattr(ed, "_load_udg_map", _load_map)
 
     df = pd.DataFrame(
         {
@@ -103,8 +132,8 @@ def test_calculate_ed_udg_mapping_and_errors():
     result = ed.calculate_ed(
         df,
         ed.EDParams(classification_option=1),
-        year="2025",
-        ref_dir=CALC_DIR,
+        year=year,
+        ref_dir=Path("unused"),
     )
 
     expected = round(udg_pw, 6)
@@ -117,5 +146,3 @@ def test_calculate_ed_udg_mapping_and_errors():
 
     assert result.loc[2, "Error_Code"] == 2
     assert result.loc[2, "NWAU25"] == 0
-
-

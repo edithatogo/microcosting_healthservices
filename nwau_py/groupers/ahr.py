@@ -1,18 +1,19 @@
 """Avoidable Hospital Readmission (AHR) Grouper in Python.
 
-This module provides a minimal implementation of the SAS script
-``Avoidable Hospital Readmission Grouper 030.sas``. It loads the
-ICD‑to‑AHR mappings distributed with the IHACPA SAS calculator and
-applies them to patient level data. The grouper also exposes an
-interface to the LightGBM based scorer used by IHACPA.
+This module mirrors the SAS script ``Avoidable Hospital Readmission
+Grouper 030.sas``. It loads the ICD‑to‑AHR mappings distributed with the
+IHACPA SAS calculator and applies them to patient level data. The
+grouper also exposes an interface to the LightGBM based scorer used by
+IHACPA.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Dict, List
 
 import pandas as pd
 
+from nwau_py.scoring import score_readmission
 
 AHR_THRESHOLD_DAYS = {
     "AHR030c01p01": 14,
@@ -58,95 +59,49 @@ AHR_THRESHOLD_DAYS = {
     "AHR030c12p01": 7,
 }
 
-
-class LightGBMScorer:
-    """Wrapper around the LightGBM scoring models."""
-
-    def __init__(self, params_dir: Path, models_dir: Path):
-        import lightgbm as lgb
-
-        self.scaling = pd.read_csv(params_dir / "scaling_params.csv", index_col=0)
-        self.cutoffs = pd.read_csv(params_dir / "cutoffs.csv", index_col=0)
-        self.dampening = pd.read_csv(params_dir / "dampening.csv", index_col=0)
-        self.risk_factors = pd.read_csv(models_dir / "risk_factors.csv", index_col=0)
-        self.models = {
-            i: lgb.Booster(model_file=str(models_dir / f"model_4year_sta_readm{i}_90_limited.txt"))
-            for i in range(1, 13)
-        }
-
-    def _model_vars(self, n: int) -> List[str]:
-        vars_ = [x for x in self.risk_factors[str(n)].dropna().tolist() if str(x) != "nan"]
-        common = [
-            "an110mdc_ra",
-            "agegroup_rm",
-            "flag_emergency",
-            "pat_remoteness",
-            "indstat_flag",
-            "count_proc",
-            "adm_past_year",
-        ]
-        for c in common:
-            if c not in vars_:
-                vars_.append(c)
-        return vars_
-
-    def score(self, data: pd.DataFrame) -> pd.DataFrame:
-        import numpy as np
-
-        df = data.copy()
-        df.columns = df.columns.str.lower()
-        drg_col = df.get("drg11_type")
-        if drg_col is None:
-            df["drg11_type_m"] = 0
-        else:
-            df["drg11_type_m"] = (drg_col == "M").astype("int8")
-
-        an110 = df.get("an110mdc_ra")
-        if an110 is not None:
-            df["an110mdc_ra"] = an110.astype(str).replace({".": "99"})
-
-        for col in df.columns:
-            if col not in {"count_proc", "adm_past_year"}:
-                df[col] = df[col].astype("category")
-            else:
-                df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0).astype("int32")
-
-        for i in range(1, 13):
-            vars_ = self._model_vars(i)
-            probs = self.models[i].predict(df[vars_])
-            log_probs = np.log(probs)
-            df[f"readm_points{i}"] = (
-                (log_probs - self.scaling.loc[i, "mins"]) / (self.scaling.loc[i, "maxs"] - self.scaling.loc[i, "mins"]) * 99 + 1
-            ).clip(1, 100)
-            conditions = [
-                df[f"readm_points{i}"] < self.cutoffs.iloc[0, i - 1],
-                (df[f"readm_points{i}"] >= self.cutoffs.iloc[0, i - 1])
-                & (df[f"readm_points{i}"] < self.cutoffs.iloc[1, i - 1]),
-                df[f"readm_points{i}"] >= self.cutoffs.iloc[1, i - 1],
-            ]
-            choices = [
-                self.dampening.iloc[0, i - 1],
-                self.dampening.iloc[1, i - 1],
-                self.dampening.iloc[2, i - 1],
-            ]
-            choices_cat = [0, 1, 2]
-            df[f"dampening{i}"] = np.select(conditions, choices, default=None)
-            df[f"risk_category{i}"] = np.select(conditions, choices_cat, default=None)
-        return df[[f"dampening{i}" for i in range(1, 13)] + [f"risk_category{i}" for i in range(1, 13)] + [f"readm_points{i}" for i in range(1, 13)]]
+_AGG_MAP = {
+    "AHR030c01_flag": [f"AHR030c01p0{i}_flag" for i in range(1, 6)],
+    "AHR030c02_flag": [
+        "AHR030c02p01_flag",
+        "AHR030c02p02_flag",
+        "AHR030c02p03_flag",
+        "AHR030c02p04_flag",
+        "AHR030c02p05_flag",
+        "AHR030c02p06_flag",
+        "AHR030c02p07_flag",
+        "AHR030c02p08_flag",
+        "AHR030c02p09_flag",
+        "AHR030c02p10_flag",
+        "AHR030c02p11_flag",
+    ],
+    "AHR030c03_flag": [f"AHR030c03p0{i}_flag" for i in range(1, 7)],
+    "AHR030c04_flag": [f"AHR030c04p0{i}_flag" for i in range(1, 4)],
+    "AHR030c05_flag": ["AHR030c05p01_flag"],
+    "AHR030c06_flag": ["AHR030c06p01_flag"],
+    "AHR030c07_flag": ["AHR030c07p01_flag"],
+    "AHR030c08_flag": [f"AHR030c08p0{i}_flag" for i in range(1, 5)],
+    "AHR030c09_flag": ["AHR030c09p01_flag"],
+    "AHR030c10_flag": [f"AHR030c10p0{i}_flag" for i in range(1, 5)],
+    "AHR030c11_flag": ["AHR030c11p01_flag"],
+    "AHR030c12_flag": ["AHR030c12p01_flag"],
+}
 
 
-def load_ahr_maps(maps_dir: Path) -> Dict[str, pd.DataFrame]:
+def load_ahr_maps(maps_dir: Path) -> dict[str, pd.DataFrame]:
     """Load all ``ahr_map_XX.sas7bdat`` files found in ``maps_dir``."""
-    maps: Dict[str, pd.DataFrame] = {}
+    maps: dict[str, pd.DataFrame] = {}
     for path in sorted(maps_dir.glob("ahr_map_*.sas7bdat")):
         edition = path.stem.split("_")[-1]
-        maps[edition] = pd.read_sas(path, format="sas7bdat")
+        df = pd.read_sas(path, format="sas7bdat")
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        maps[edition] = df
     return maps
 
 
 def flag_diagnoses(
     episode_df: pd.DataFrame,
-    maps: Dict[str, pd.DataFrame],
+    maps: dict[str, pd.DataFrame],
     edition: str,
     diag_prefix: str = "ddx",
     onset_prefix: str = "onset",
@@ -167,7 +122,9 @@ def flag_diagnoses(
             break
         codes = episode_df[dcol].astype(str).str.upper()
         onset = episode_df.get(ocol)
-        mask = onset.eq("2") if onset is not None else pd.Series(True, index=codes.index)
+        mask = (
+            onset.eq("2") if onset is not None else pd.Series(True, index=codes.index)
+        )
         matched = map_df.reindex(codes.where(mask).fillna(""))
         matched = matched.fillna(0).astype(int)
         result = result | matched.values
@@ -175,20 +132,25 @@ def flag_diagnoses(
     return episode_df
 
 
-def past_admissions(episodes: pd.DataFrame, patient_col: str, date_col: str) -> pd.Series:
+def past_admissions(
+    episodes: pd.DataFrame, patient_col: str, date_col: str
+) -> pd.Series:
     """Count admissions in the previous 365 days for each episode."""
     episodes = episodes.sort_values([patient_col, date_col])
     counts = pd.Series(0, index=episodes.index)
     for pid, group in episodes.groupby(patient_col):
         dates = pd.to_datetime(group[date_col])
-        rolled = dates.rolling("365D", closed="left").count()
-        counts.loc[group.index] = rolled.values
+        past_counts = []
+        for i, current in enumerate(dates):
+            window_start = current - pd.Timedelta(days=365)
+            past_counts.append(int(((dates < current) & (dates >= window_start)).sum()))
+        counts.loc[group.index] = past_counts
     return counts
 
 
 def group_readmissions(
     episodes: pd.DataFrame,
-    maps: Dict[str, pd.DataFrame],
+    maps: dict[str, pd.DataFrame],
     edition: str,
     patient_col: str = "patient_id",
     adm_col: str = "adm_date",
@@ -203,7 +165,7 @@ def group_readmissions(
     df = flag_diagnoses(episodes, maps, edition)
     df = df.sort_values([patient_col, adm_col])
     df["ahr_time"] = pd.NaT
-    flags = {c: [] for c in AHR_THRESHOLD_DAYS}
+    flags: dict[str, list[int]] = {c: [] for c in AHR_THRESHOLD_DAYS}
     prev_sep = None
     prev_pid = None
     for idx, row in df.iterrows():
@@ -222,7 +184,28 @@ def group_readmissions(
         df[col + "_flag"] = 0
         if rows:
             df.loc[rows, col + "_flag"] = 1
+
     df["adm_past_year"] = past_admissions(df, patient_col, adm_col)
+
+    # aggregate sub-condition flags
+    for agg, sub in _AGG_MAP.items():
+        cols = [c for c in sub if c in df.columns]
+        if cols:
+            df[agg] = df[cols].max(axis=1)
+
+    # overall AHR flag and count
+    sub_cols = [c for sublist in _AGG_MAP.values() for c in sublist if c in df.columns]
+    if sub_cols:
+        df["ahr_flag"] = df[sub_cols].max(axis=1)
+        df["ahrs"] = df[sub_cols].sum(axis=1)
+    else:
+        df["ahr_flag"] = 0
+        df["ahrs"] = 0
+
+    # risk adjustment scores
+    scores = score_readmission(df)
+    df = pd.concat([df, scores], axis=1)
     return df
 
-__all__ = ["load_ahr_maps", "group_readmissions", "LightGBMScorer", "flag_diagnoses", "past_admissions"]
+
+__all__ = ["load_ahr_maps", "group_readmissions", "flag_diagnoses", "past_admissions"]

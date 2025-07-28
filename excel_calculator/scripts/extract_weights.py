@@ -19,7 +19,7 @@ def build_paths(year: str) -> tuple[Path, Path]:
     output_path = BASE_DIR / "data" / year / "weights.csv"
     return input_file, output_path
 
-def main(argv=None):
+def main(argv: list[str] | None = None) -> None:
     """Extract price weights from the official workbook."""
     parser = argparse.ArgumentParser(description="Extract NWAU weights")
     parser.add_argument(
