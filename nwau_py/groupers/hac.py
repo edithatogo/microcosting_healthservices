@@ -9,20 +9,20 @@ import pyreadstat
 from nwau_py.utils import sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
-_DATA_DIR = sas_ref_dir(_DEFAULT_YEAR)
 
 
 @lru_cache
-def load_hac_mapping(edition: str = "07") -> pd.DataFrame:
-    """Return diagnosis-to-HAC mapping for the given ICD edition."""
-    path = _DATA_DIR / f"hac_map_{edition}.sas7bdat"
+def load_hac_mapping(edition: str = "07", *, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    """Return diagnosis-to-HAC mapping for the given ICD edition and year."""
+    ref_dir = sas_ref_dir(year)
+    path = ref_dir / f"hac_map_{edition}.sas7bdat"
     df, _ = pyreadstat.read_sas7bdat(str(path))
     df["DDX"] = df["DDX"].astype(str)
     return df
 
 
 def count_hac_diagnoses(
-    diagnoses: Iterable[str], *, edition: str = "07"
+    diagnoses: Iterable[str], *, edition: str = "07", year: str = _DEFAULT_YEAR
 ) -> Mapping[str, int]:
     """Count HAC sub-condition occurrences for ``diagnoses``.
 
@@ -33,7 +33,7 @@ def count_hac_diagnoses(
     edition:
         ICD-10-AM edition number used to select the mapping table.
     """
-    df = load_hac_mapping(edition).set_index("DDX")
+    df = load_hac_mapping(edition, year=year).set_index("DDX")
     counts = {col: 0 for col in df.columns if col != "DDX"}
     for code in diagnoses:
         if code in df.index:
@@ -60,11 +60,12 @@ def flag_hacs(
     procedures: Iterable[str] | None = None,
     *,
     edition: str = "07",
+    year: str = _DEFAULT_YEAR,
 ) -> Mapping[str, int]:
     """Return HAC flags for ``diagnoses``.
 
     ``procedures`` is accepted for API compatibility but is not used as
     the current implementation only relies on diagnosis codes.
     """
-    counts = count_hac_diagnoses(diagnoses, edition=edition)
+    counts = count_hac_diagnoses(diagnoses, edition=edition, year=year)
     return create_hac_flags(counts)
