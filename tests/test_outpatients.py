@@ -2,9 +2,10 @@ import importlib.util
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import pytest
+
+from nwau_py.utils import ra_suffix
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -127,30 +128,6 @@ def _patch(monkeypatch):
     def __add__(self, other: float) -> float:
         return self.val + other
 
-def test_patient_level_with_adjustments():
-    df = pd.DataFrame(
-        {
-            "TIER2_CLINIC": [10.01],
-            "SERVICE_DATE": [pd.Timestamp("2024-07-01")],
-            "BIRTH_DATE": [pd.Timestamp("2010-01-01")],
-            "APCID": ["AP1"],
-            "PAT_POSTCODE": ["PC1"],
-            "PAT_SA2": [12345],
-            "PAT_REMOTENESS": [1],
-            "INDSTAT": [1],
-            "PAT_MULTIPROV_FLAG": [0],
-            "FUNDSC": [1],
-        }
-    )
-
-    params = outpatients.OutpatientParams(debug_mode=True)
-    result = outpatients.calculate_outpatients(
-        df,
-        params,
-        year="2025",
-        ref_dir=Path("unused"),
-    )
-
 @pytest.fixture(autouse=True)
 def patch_loaders(monkeypatch):
     def _hospital(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
@@ -225,18 +202,6 @@ def test_patient_level_with_adjustments(monkeypatch):
 
 def test_clinic_level_multiprovider(monkeypatch):
     def _weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return pd.DataFrame(
-            {
-                "TIER2_CLINIC": [10.01],
-                "clinic_pw": [1.0],
-                "adj_multiprov": [0.1],
-            }
-        )
-
-    monkeypatch.setattr(outpatients, "_load_weights", _weights)
-
-def test_clinic_level_multiprovider(monkeypatch):
-    def _weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
         return pd.DataFrame({"TIER2_CLINIC": [10.01], "clinic_pw": [1.0]})
 
     monkeypatch.setattr(outpatients, "_load_weights", _weights)
@@ -264,24 +229,20 @@ def test_patient_level_flow():
             "GROUP_EVENT_COUNT": [1],
             "INDIV_EVENT_COUNT": [1],
             "MULTI_DISP_CONF_COUNT": [0],
-            "APCID": ["AP1"],
-            "GROUP_EVENT_COUNT": [10],
-            "INDIV_EVENT_COUNT": [5],
-            "MULTI_DISP_CONF_COUNT": [2],
-            "PAT_MULTIPROV_FLAG": [1],
         }
     )
-    result = outpatients.calculate_outpatients(df, outpatients.OutpatientParams(), year="2025", ref_dir=Path("unused"))
+    result = outpatients.calculate_outpatients(
+        df,
+        outpatients.OutpatientParams(),
+        year="2025",
+        ref_dir=Path("unused"),
+    )
     expected = 0.0868 * (1 + 0.03 + 0.09 + 0.52) * 1.02
     assert result["NWAU25"].iloc[0] == pytest.approx(expected)
     assert result["Error_Code"].iloc[0] == 0
 
     result = outpatients.calculate_outpatients(
         df,
-        params,
-        year="2025",
-        ref_dir=Path("unused"),
-    )
         outpatients.OutpatientParams(data_type=2, debug_mode=True),
         year="2025",
         ref_dir=Path("unused"),
@@ -296,6 +257,15 @@ def test_error_on_missing_weights(monkeypatch):
         return pd.DataFrame(
             {"TIER2_CLINIC": [99.99], "clinic_pw": [1.0], "tier2_adj_paed": [1.0]}
         )
+
+    monkeypatch.setattr(outpatients, "_load_weights", _weights)
+    df = pd.DataFrame({"TIER2_CLINIC": [99.99], "FUNDSC": [1]})
+    result = outpatients.calculate_outpatients(
+        df,
+        outpatients.OutpatientParams(data_type=2),
+        year="2025",
+        ref_dir=Path("unused"),
+    )
 
     expected = 0.1 * (1 + 0.2) * (1 + 0.03) * 2
     assert result["NWAU25"].iloc[0] == pytest.approx(expected, rel=1e-4)
@@ -313,12 +283,16 @@ def test_clinic_level_flow():
             "FUNDSC": [1],
             "SERVICE_DATE": [pd.Timestamp("2025-07-01")],
             "BIRTH_DATE": [pd.Timestamp("2010-01-01")],
-            "FUNDSC": [1],
         }
     )
     
     params = outpatients.OutpatientParams(data_type=2)
-    result = outpatients.calculate_outpatients(df, params, year="2025", ref_dir=Path("unused"))
+    result = outpatients.calculate_outpatients(
+        df,
+        params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
     expected = 0.0868 * (1 + 0.52) * 1.02 * 4
     assert result["NWAU25"].iloc[0] == pytest.approx(expected)
     assert result["Error_Code"].iloc[0] == 0
@@ -328,7 +302,12 @@ def test_error_missing_weight(monkeypatch):
     monkeypatch.setattr(outpatients, "_load_weights", lambda r, y: WEIGHTS.iloc[0:0])
     df = pd.DataFrame({"TIER2_CLINIC": [10.99], "FUNDSC": [1]})
     params = outpatients.OutpatientParams(data_type=2)
-    result = outpatients.calculate_outpatients(df, params, year="2025", ref_dir=Path("unused"))
+    result = outpatients.calculate_outpatients(
+        df,
+        params,
+        year="2025",
+        ref_dir=Path("unused"),
+    )
     assert result["Error_Code"].iloc[0] == 3
     assert result["NWAU25"].iloc[0] == 0
 
