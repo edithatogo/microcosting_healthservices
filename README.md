@@ -84,6 +84,16 @@ verified data is available. `patient_data.csv` should contain the columns
 referenced in `excel_calculator/data/2024/formula.json` and the output will
 include a `NWAU24` column.
 
+To calculate funding using an older edition simply pass the relevant year,
+for example:
+
+```bash
+funding-calculator --year 2022 patient_data.csv > funding.csv
+```
+
+This instructs the tool to load weights and the formula from
+`excel_calculator/data/2022/`.
+
 The `nwau_py` package also exposes a lightweight command line interface via
 `python -m nwau_py.cli.main`. The `--year` flag works with any supported
 edition (currently 2024 and 2025). The subcommands `acute`, `ed` and

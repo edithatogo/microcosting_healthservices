@@ -60,6 +60,14 @@ internally translates to:
 If `--year` is omitted, the tool will use the default data directory as it does
 today.
 
+Passing `--year` allows you to run calculators from earlier pricing editions.
+Ensure that `excel_calculator/data/<YEAR>` contains the appropriate
+`weights.csv` and `formula.json` files before running a command such as:
+
+```bash
+funding-calculator --year 2021 patient.csv > out.csv
+```
+
 ## Future steps
 1. Add folders for each historical year (e.g. `2023`, `2022`, `2021`).
 2. Store the corresponding workbook under `excel_calculator/archive/<year>/` and
