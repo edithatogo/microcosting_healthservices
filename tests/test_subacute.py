@@ -8,7 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import pytest
 
-from nwau_py.utils import RA_VERSION
+from nwau_py.utils import RA_VERSION, ra_suffix
+
 
 YEARS = sorted(RA_VERSION.keys())
 
@@ -32,6 +33,9 @@ def _basic_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
 
 def _fake_load(path: Path, *_, **__):
     name = path.name
+    match = re.search(r"ra\d{4}", name)
+    ra = match.group(0) if match else ra_suffix("2025")
+    ra_year = ra[2:]
     if "aa_sa_adj_rt" in name:
         return pd.DataFrame(
             {"_pat_radiotherapy_flag": [0, 1], "adj_radiotherapy": [0.0, 0.1]}
@@ -54,6 +58,12 @@ def _fake_load(path: Path, *_, **__):
             return pd.DataFrame({"ASGS": [100000001], ra: [1]})
         if "hospital_" in name:
             return pd.DataFrame({"ESTID": ["H1"], f"_hosp_ra_{ra_year}": [1]})
+    if f"postcode_to_{ra}" in name:
+        return pd.DataFrame({"POSTCODE": ["PC0001"], ra: [1]})
+    if any(x in name for x in [f"sa2_to_{ra}", f"asgs_to_{ra}", f"sla_to_{ra}"]):
+        return pd.DataFrame({"ASGS": [100000001], ra: [1]})
+    if f"hospital_{ra}" in name:
+        return pd.DataFrame({"ESTID": ["H1"], f"_hosp_ra_{ra_year}": [1]})
     if "aa_mh_sa_na_ed_adj_ind" in name:
         return pd.DataFrame({"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.05]})
     if "aa_mh_sa_na_adj_rem" in name:
