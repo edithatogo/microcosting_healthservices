@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 import nwau_py.calculators.acute as acute
 import nwau_py.calculators.outpatients as outpatients
@@ -15,11 +16,15 @@ from nwau_py.calculators import (
     calculate_subacute,
 )
 from nwau_py.scoring.scorer import score_readmission
+from nwau_py.utils import RA_VERSION
+
+YEARS = sorted(RA_VERSION.keys())
 
 BASE = Path("tests/data")
 
 
-def test_acute_matches_sas(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_acute_matches_sas(monkeypatch, year):
     df = pd.read_csv(BASE / "acute_input.csv")
     expected = pd.read_csv(BASE / "acute_expected.csv")["NWAU25"].values
 
@@ -30,11 +35,12 @@ def test_acute_matches_sas(monkeypatch):
 
     monkeypatch.setattr(acute, "_load_price_weights", _load)
 
-    result = calculate_acute(df, AcuteParams(), year="2025", ref_dir=BASE / "2025")
+    result = calculate_acute(df, AcuteParams(), year=year, ref_dir=BASE / "2025")
     assert np.allclose(result["NWAU25"].values, expected)
 
 
-def test_subacute_matches_sas(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_subacute_matches_sas(monkeypatch, year):
     df = pd.read_csv(
         BASE / "subacute_input.csv",
         parse_dates=["ADM_DATE", "SEP_DATE", "BIRTH_DATE"],
@@ -49,11 +55,12 @@ def test_subacute_matches_sas(monkeypatch):
 
     monkeypatch.setattr(subacute, "_load_weights", _load)
 
-    result = calculate_subacute(df, SubacuteParams(), year="2025", ref_dir=BASE)
+    result = calculate_subacute(df, SubacuteParams(), year=year, ref_dir=BASE)
     assert np.allclose(result["NWAU25"].values, expected)
 
 
-def test_outpatient_matches_sas(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_outpatient_matches_sas(monkeypatch, year):
     df = pd.read_csv(
         BASE / "outpatient_input.csv",
         parse_dates=["SERVICE_DATE", "BIRTH_DATE"],
@@ -68,7 +75,7 @@ def test_outpatient_matches_sas(monkeypatch):
 
     monkeypatch.setattr(outpatients, "_load_weights", _load)
 
-    result = calculate_outpatients(df, OutpatientParams(), year="2025", ref_dir=BASE)
+    result = calculate_outpatients(df, OutpatientParams(), year=year, ref_dir=BASE)
     assert np.allclose(result["NWAU25"].values, expected)
 
 

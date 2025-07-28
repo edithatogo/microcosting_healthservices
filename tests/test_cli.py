@@ -13,7 +13,6 @@ from nwau_py.cli.main import cli
 
 YEARS = [str(y) for y in range(2013, 2026)]
 
-
 @pytest.mark.parametrize("year", YEARS)
 def test_cli_runs_with_sample_data(tmp_path, year):
     params_dir = tmp_path / "params"

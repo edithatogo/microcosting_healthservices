@@ -6,7 +6,7 @@
     "ARes": "Adjustment.1 (Patient Remoteness)",
     "ART": "Treatment Remoteness Adjustment",
     "ADia": "Dialysis Adjustment",
-    "ATreat": "Private Service Adjustment", 
+    "ATreat": "Private Service Adjustment",
     "AC19": "COVID-19 Treatment Adjustment",
     "AICU": "Bundled ICU",
     "ICU_hours": "ICU Hours",

@@ -6,7 +6,9 @@ import pytest
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from nwau_py.data.loader import load_sas_table
-from nwau_py.utils import sas_ref_dir
+from nwau_py.utils import RA_VERSION, sas_ref_dir
+
+YEARS = sorted(RA_VERSION.keys())
 
 BASE_DIR = pathlib.Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / sas_ref_dir("2025")

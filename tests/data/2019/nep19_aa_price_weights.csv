@@ -1,0 +1,799 @@
+DRG,description,drg_inlier_lb,drg_inlier_ub,drg_adj_paed,drg_samedaylist_flag,drg_bundled_icu_flag,drg_pw_sd,drg_pw_sso_base,drg_pw_sso_perdiem,drg_pw_inlier,drg_pw_lso_perdiem
+b'801A',"b'GIs Unrelated to Principal Diagnosis, Major Complexity'",7.0,72.0,1.35,0.0,0.0,,0.9527,1.1849,9.2472,0.26
+b'801B',"b'GIs Unrelated to Principal Diagnosis, Intermediate Complexity'",3.0,27.0,1.05,0.0,0.0,,0.6381,1.0995,3.9367,0.2548
+b'801C',"b'GIs Unrelated to Principal Diagnosis, Minor Complexity'",1.0,8.0,1.07,0.0,0.0,,,,1.281,0.2895
+b'A13A',"b'Ventilation >= 336 Hours, Major Complexity'",10.0,99.0,1.45,0.0,0.0,,3.3512,3.4793,38.1444,0.386
+b'A13B',"b'Ventilation >= 336 Hours, Minor Complexity'",5.0,54.0,1.2,0.0,0.0,,1.4458,4.307,22.9807,0.3748
+b'A14A',"b'Ventilation >= 96 Hours and < 336 Hours, Major Complexity'",8.0,73.0,1.34,0.0,0.0,,2.6203,2.0856,19.305,0.3766
+b'A14B',"b'Ventilation >= 96 Hours and < 336 Hours, Intermediate Complexity'",4.0,37.0,1.19,0.0,0.0,,0.9564,2.6541,11.5726,0.3617
+b'A14C',"b'Ventilation >= 96 Hours and < 336 Hours, Minor Complexity'",2.0,22.0,1.32,0.0,0.0,,0.4241,3.4861,7.3964,0.387
+b'A15A',"b'Tracheostomy, Major Complexity'",9.0,89.0,1.0,0.0,0.0,,3.5463,1.691,18.7657,0.3827
+b'A15B',"b'Tracheostomy, Intermediate Complexity'",6.0,56.0,1.0,0.0,0.0,,1.7504,1.7513,12.2584,0.3697
+b'A15C',"b'Tracheostomy, Minor Complexity'",3.0,35.0,1.0,0.0,0.0,,0.8339,2.0528,6.9924,0.3397
+b'A40Z',b'ECMO',3.0,31.0,1.68,0.0,0.0,,2.4847,7.259,24.2616,0.6382
+b'B01Z',b'Ventricular Shunt Revision',1.0,14.0,1.0,0.0,0.0,,,,3.143,0.3227
+b'B02A',"b'Cranial Interventions, Major Complexity'",5.0,52.0,1.32,0.0,0.0,,1.8087,1.836,10.9888,0.3182
+b'B02B',"b'Cranial Interventions, Intermediate Complexity'",3.0,27.0,1.1,0.0,0.0,,1.8649,1.4811,6.3081,0.2649
+b'B02C',"b'Cranial Interventions, Minor Complexity'",1.0,17.0,1.0,0.0,0.0,,,,3.9747,0.2619
+b'B03A',"b'Spinal Interventions, Major Complexity'",6.0,58.0,1.0,0.0,0.0,,2.698,1.4145,11.1852,0.3407
+b'B03B',"b'Spinal Interventions, Intermediate Complexity'",2.0,26.0,1.1,0.0,0.0,,2.5135,1.3811,5.2758,0.2638
+b'B03C',"b'Spinal Interventions, Minor Complexity'",1.0,10.0,1.24,0.0,0.0,,,,2.7448,0.3204
+b'B04A',"b'Extracranial Vascular Interventions, Major Complexity'",3.0,35.0,1.0,0.0,0.0,,1.3479,1.7088,6.4743,0.2782
+b'B04B',"b'Extracranial Vascular Interventions, Intermediate Complexity'",2.0,20.0,1.0,0.0,0.0,,1.0448,1.3948,3.8344,0.253
+b'B04C',"b'Extracranial Vascular Interventions, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,2.4543,0.2635
+b'B05Z',b'Carpal Tunnel Release',1.0,3.0,1.0,0.0,0.0,,,,0.4568,0.1644
+b'B06A',"b'Interventions for Cerebral Palsy, Muscular Dystrophy and Neuropathy, Major Complexity'",6.0,59.0,0.83,0.0,0.0,,1.4537,1.1613,8.4214,0.2261
+b'B06B',"b'Interventions for Cerebral Palsy, Muscular Dystrophy and Neuropathy, Intermediate Complexity'",1.0,18.0,1.0,1.0,0.0,0.854,,,3.1898,0.2505
+b'B06C',"b'Interventions for Cerebral Palsy, Muscular Dystrophy and Neuropathy, Minor Complexity'",1.0,4.0,1.43,0.0,0.0,,,,0.9207,0.2906
+b'B07A',"b'Cranial or Peripheral Nerve and Other Nervous System Interventions, Major Complexity'",4.0,41.0,1.4,0.0,0.0,,0.8997,1.044,5.0755,0.2344
+b'B07B',"b'Cranial or Peripheral Nerve and Other Nervous System Interventions, Minor Complexity'",1.0,5.0,1.24,0.0,0.0,,,,1.0592,0.2936
+b'B08A',"b'Endovascular Clot Retrieval, Major Complexity'",3.0,28.0,1.0,0.0,0.0,,1.2322,2.0715,7.4466,0.3092
+b'B08B',"b'Endovascular Clot Retrieval, Minor Complexity'",1.0,12.0,1.0,0.0,0.0,,,,4.2523,0.2573
+b'B40Z',"b'Plasmapheresis with Neurological Disease, Sameday'",1.0,1.0,1.35,0.0,0.0,,,,0.1934,
+b'B41A',"b'Telemetric EEG Monitoring, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,2.7675,0.3367
+b'B41B',"b'Telemetric EEG Monitoring, Minor Complexity'",1.0,11.0,0.8,0.0,0.0,,,,1.7817,0.3485
+b'B42A',"b'Nervous System Disorders with Ventilator Support, Major Complexity'",4.0,43.0,1.32,0.0,0.0,,0.1572,1.8127,7.408,0.3461
+b'B42B',"b'Nervous System Disorders with Ventilator Support, Intermediate Complexity'",2.0,22.0,1.42,0.0,0.0,,0.0364,2.0655,4.1674,0.2842
+b'B42C',"b'Nervous System Disorders with Ventilator Support, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,1.9867,0.3498
+b'B62Z',b'Apheresis',1.0,3.0,1.0,0.0,0.0,,,,0.3954,0.3117
+b'B63A',"b'Dementia and Other Chronic Disturbances of Cerebral Function, Major Complexity'",4.0,40.0,1.0,0.0,0.0,,0.0,0.9226,3.6906,0.2059
+b'B63B',"b'Dementia and Other Chronic Disturbances of Cerebral Function, Minor Complexity'",2.0,19.0,1.0,0.0,0.0,,0.0,0.8667,1.7333,0.2005
+b'B64A',"b'Delirium, Major Complexity'",3.0,31.0,1.0,0.0,0.0,,0.0,0.9292,2.7875,0.2277
+b'B64B',"b'Delirium, Minor Complexity'",1.0,14.0,1.0,1.0,0.0,0.1362,,,1.1474,0.2285
+b'B65Z',b'Cerebral Palsy',1.0,4.0,1.65,0.0,0.0,,,,0.3237,0.2286
+b'B66A',"b'Nervous System Neoplastic Disorders, Major Complexity'",3.0,30.0,1.08,0.0,0.0,,0.0,1.0594,3.1783,0.2621
+b'B66B',"b'Nervous System Neoplastic Disorders, Minor Complexity'",1.0,14.0,1.36,1.0,0.0,0.4316,,,1.298,0.2377
+b'B67A',"b'Degenerative Nervous System Disorders, Major Complexity'",3.0,36.0,1.69,0.0,0.0,,0.0,1.2036,3.6108,0.2322
+b'B67B',"b'Degenerative Nervous System Disorders, Intermediate Complexity'",1.0,18.0,1.99,1.0,0.0,1.6864,,,1.4071,0.2055
+b'B67C',"b'Degenerative Nervous System Disorders, Minor Complexity'",1.0,11.0,1.52,1.0,0.0,0.1747,,,0.9676,0.2335
+b'B68A',"b'Multiple Sclerosis and Cerebellar Ataxia, Major Complexity'",2.0,20.0,1.56,1.0,0.0,0.2615,0.0,1.0449,2.0899,0.2385
+b'B68B',"b'Multiple Sclerosis and Cerebellar Ataxia, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.2944,0.1259
+b'B69A',"b'TIA and Precerebral Occlusion, Major Complexity'",1.0,15.0,1.0,0.0,0.0,,,,1.352,0.2435
+b'B69B',"b'TIA and Precerebral Occlusion, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.4608,0.2493
+b'B70A',"b'Stroke and Other Cerebrovascular Disorders, Major Complexity'",4.0,45.0,1.0,0.0,0.0,,0.0,1.1326,4.5303,0.2504
+b'B70B',"b'Stroke and Other Cerebrovascular Disorders, Intermediate Complexity'",2.0,22.0,1.0,0.0,0.0,,0.0,1.1104,2.2208,0.2408
+b'B70C',"b'Stroke and Other Cerebrovascular Disorders, Minor Complexity'",1.0,12.0,2.0,1.0,0.0,0.289,,,1.2031,0.2513
+b'B70D',"b'Stroke and Other Cerebrovascular Disorders, Transferred < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,0.7735,
+b'B71A',"b'Cranial and Peripheral Nerve Disorders, Major Complexity'",2.0,21.0,1.21,0.0,0.0,,0.0,1.0836,2.1672,0.2382
+b'B71B',"b'Cranial and Peripheral Nerve Disorders, Minor Complexity'",1.0,9.0,1.87,1.0,0.0,0.1631,,,0.8243,0.2513
+b'B72A',"b'Nervous System Infection Excluding Viral Meningitis, Major Complexity'",3.0,35.0,1.2,0.0,0.0,,0.0,1.284,3.8519,0.2456
+b'B72B',"b'Nervous System Infection Excluding Viral Meningitis, Minor Complexity'",1.0,8.0,1.87,0.0,0.0,,,,0.4846,0.2322
+b'B73A',"b'Viral Meningitis, Major Complexity'",1.0,18.0,1.0,0.0,0.0,,,,1.7104,0.2867
+b'B73B',"b'Viral Meningitis, Minor Complexity'",1.0,9.0,1.15,0.0,0.0,,,,0.7609,0.252
+b'B74A',"b'Nontraumatic Stupor and Coma, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,1.5931,0.265
+b'B74B',"b'Nontraumatic Stupor and Coma, Minor Complexity'",1.0,5.0,1.5,0.0,0.0,,,,0.3753,0.2695
+b'B75Z',b'Febrile Convulsions',1.0,4.0,0.92,0.0,0.0,,,,0.3814,0.2869
+b'B76A',"b'Seizures, Major Complexity'",1.0,15.0,1.31,1.0,0.0,0.2378,,,1.4219,0.2748
+b'B76B',"b'Seizures, Minor Complexity'",1.0,4.0,1.75,0.0,0.0,,,,0.3489,0.2567
+b'B77A',"b'Headaches, Major Complexity'",1.0,12.0,1.39,1.0,0.0,0.1443,,,0.8782,0.2447
+b'B77B',"b'Headaches, Minor Complexity'",1.0,9.0,1.47,1.0,0.0,0.1107,,,0.3902,0.2553
+b'B78A',"b'Intracranial Injuries, Major Complexity'",3.0,32.0,1.44,0.0,0.0,,0.0,1.0749,3.2248,0.2565
+b'B78B',"b'Intracranial Injuries, Minor Complexity'",1.0,9.0,1.38,0.0,0.0,,,,0.8348,0.2519
+b'B78C',"b'Intracranial Injuries, Transferred < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,0.581,
+b'B79A',"b'Skull Fractures, Major Complexity'",1.0,12.0,1.06,0.0,0.0,,,,1.2058,0.2647
+b'B79B',"b'Skull Fractures, Minor Complexity'",1.0,4.0,1.66,0.0,0.0,,,,0.3855,0.2571
+b'B80A',"b'Other Head Injuries, Major Complexity'",1.0,15.0,0.95,1.0,0.0,0.1643,,,1.1621,0.2107
+b'B80B',"b'Other Head Injuries, Minor Complexity'",1.0,3.0,0.81,0.0,0.0,,,,0.1861,0.1376
+b'B81A',"b'Other Disorders of the Nervous System, Major Complexity'",2.0,21.0,0.89,0.0,0.0,,0.1061,1.052,2.2101,0.2149
+b'B81B',"b'Other Disorders of the Nervous System, Minor Complexity'",1.0,12.0,1.56,1.0,0.0,0.1989,,,0.8885,0.2094
+b'B82A',"b'Chronic and Unspecified Paraplegia/Quadriplegia, Major Complexity'",4.0,42.0,1.0,0.0,0.0,,0.0,1.1927,4.7708,0.2687
+b'B82B',"b'Chronic and Unspecified Paraplegia/Quadriplegia, Intermediate Complexity'",2.0,22.0,1.0,0.0,0.0,,0.0,1.0094,2.0189,0.2414
+b'B82C',"b'Chronic and Unspecified Paraplegia/Quadriplegia, Minor Complexity'",1.0,8.0,1.12,0.0,0.0,,,,0.7674,0.2318
+b'B83A',"b'Acute Paraplegia and Quadriplegia and Spinal Cord Conditions, Major Complexity'",5.0,51.0,1.0,0.0,0.0,,0.0,1.1538,5.7692,0.2998
+b'B83B',"b'Acute Paraplegia and Quadriplegia and Spinal Cord Conditions, Intermediate Complexity'",2.0,19.0,1.0,0.0,0.0,,0.0765,1.1305,2.3375,0.2737
+b'B83C',"b'Acute Paraplegia and Quadriplegia and Spinal Cord Conditions, Minor Complexity'",1.0,10.0,1.0,0.0,0.0,,,,0.9569,0.2814
+b'C01Z',b'Interventions for Penetrating Eye Injury',1.0,7.0,1.0,0.0,0.0,,,,1.5367,0.3841
+b'C02A',"b'Enucleations and Orbital Interventions, Major Complexity'",2.0,19.0,1.22,0.0,0.0,,0.7921,1.3513,3.4946,0.3139
+b'C02B',"b'Enucleations and Orbital Interventions, Minor Complexity'",1.0,5.0,1.06,0.0,0.0,,,,1.3173,0.3748
+b'C03A',"b'Retinal Interventions, Major Complexity'",1.0,4.0,1.38,0.0,0.0,,,,0.9471,0.3826
+b'C03B',"b'Retinal Interventions, Minor Complexity'",1.0,3.0,2.0,0.0,0.0,,,,0.3626,0.1762
+b'C04A',"b'Major Corneal, Scleral and Conjunctival Interventions, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,2.4432,0.3308
+b'C04B',"b'Major Corneal, Scleral and Conjunctival Interventions, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,1.3127,0.349
+b'C05Z',b'Dacryocystorhinostomy',1.0,3.0,1.0,0.0,0.0,,,,0.951,0.374
+b'C10Z',b'Strabismus Interventions',1.0,3.0,1.12,0.0,0.0,,,,0.8939,0.3731
+b'C11Z',b'Eyelid Interventions',1.0,6.0,1.06,0.0,0.0,,,,0.7224,0.2806
+b'C12A',"b'Other Corneal, Scleral and Conjunctival Interventions, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.4004,0.2791
+b'C12B',"b'Other Corneal, Scleral and Conjunctival Interventions, Minor Complexity'",1.0,3.0,1.43,0.0,0.0,,,,0.6077,0.2666
+b'C13Z',b'Lacrimal Interventions',1.0,3.0,1.1,0.0,0.0,,,,0.533,0.2552
+b'C14A',"b'Other Eye Interventions, Major Complexity'",1.0,15.0,1.0,0.0,0.0,,,,1.7504,0.2218
+b'C14B',"b'Other Eye Interventions, Minor Complexity'",1.0,4.0,1.37,0.0,0.0,,,,0.497,0.2307
+b'C15A',"b'Glaucoma and Complex Cataract Interventions, Major Complexity'",1.0,11.0,0.88,0.0,0.0,,,,1.6382,0.2762
+b'C15B',"b'Glaucoma and Complex Cataract Interventions, Minor Complexity'",1.0,3.0,1.45,0.0,0.0,,,,0.7806,0.3088
+b'C16Z',b'Lens Interventions',1.0,4.0,1.93,0.0,0.0,,,,0.5385,0.2513
+b'C60A',"b'Acute and Major Eye Infections, Major Complexity'",2.0,21.0,0.85,0.0,0.0,,0.0,1.0692,2.1383,0.2772
+b'C60B',"b'Acute and Major Eye Infections, Minor Complexity'",1.0,9.0,1.45,0.0,0.0,,,,0.6794,0.275
+b'C61A',"b'Neurological and Vascular Disorders of the Eye, Major Complexity'",1.0,14.0,1.34,1.0,0.0,0.3588,,,1.3308,0.2511
+b'C61B',"b'Neurological and Vascular Disorders of the Eye, Minor Complexity'",1.0,7.0,1.98,1.0,0.0,0.1741,,,0.6994,0.2484
+b'C62A',"b'Hyphaema and Medically Managed Trauma to the Eye, Major Complexity'",1.0,17.0,1.28,1.0,0.0,0.2015,,,1.2948,0.2246
+b'C62B',"b'Hyphaema and Medically Managed Trauma to the Eye, Minor Complexity'",1.0,4.0,1.89,0.0,0.0,,,,0.2108,0.1603
+b'C63A',"b'Other Disorders of the Eye, Major Complexity'",1.0,13.0,1.39,1.0,0.0,0.3799,,,1.2231,0.2211
+b'C63B',"b'Other Disorders of the Eye, Minor Complexity'",1.0,8.0,2.0,1.0,0.0,0.1687,,,0.5607,0.2346
+b'D01Z',b'Cochlear Implant',1.0,3.0,1.13,0.0,0.0,,,,5.9958,1.001
+b'D02A',"b'Head and Neck Interventions, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,1.7354,2.0239,7.8071,0.4041
+b'D02B',"b'Head and Neck Interventions, Intermediate Complexity'",1.0,14.0,1.0,0.0,0.0,,,,3.7234,0.4559
+b'D02C',"b'Head and Neck Interventions, Minor Complexity'",1.0,7.0,1.09,0.0,0.0,,,,1.9358,0.3938
+b'D03A',"b'Surgical Repair for Cleft Lip and Palate Disorders, Major Complexity'",1.0,7.0,1.0,0.0,0.0,,,,2.5975,0.518
+b'D03B',"b'Surgical Repair for Cleft Lip and Palate Disorders, Minor Complexity'",1.0,5.0,1.06,0.0,0.0,,,,1.6958,0.4904
+b'D04A',"b'Maxillo Surgery, Major Complexity'",1.0,10.0,0.82,0.0,0.0,,,,3.1943,0.3865
+b'D04B',"b'Maxillo Surgery, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,2.0059,0.4725
+b'D05Z',b'Parotid Gland Interventions',1.0,7.0,1.0,0.0,0.0,,,,2.395,0.4978
+b'D06Z',b'Sinus and Complex Middle Ear Interventions',1.0,4.0,1.0,0.0,0.0,,,,1.3436,0.5297
+b'D10Z',b'Nasal Interventions',1.0,3.0,0.89,0.0,0.0,,,,1.0203,0.4264
+b'D11Z',b'Tonsillectomy and Adenoidectomy',1.0,3.0,1.15,0.0,0.0,,,,0.7421,0.379
+b'D12A',"b'Other Ear, Nose, Mouth and Throat Interventions, Major Complexity'",1.0,16.0,1.14,1.0,0.0,0.8121,,,2.4965,0.2882
+b'D12B',"b'Other Ear, Nose, Mouth and Throat Interventions, Minor Complexity'",1.0,4.0,1.07,0.0,0.0,,,,0.8395,0.3109
+b'D13Z',b'Myringotomy with Tube Insertion',1.0,4.0,1.3,0.0,0.0,,,,0.5353,0.2006
+b'D14A',"b'Mouth and Salivary Gland Interventions, Major Complexity'",1.0,7.0,1.0,0.0,0.0,,,,1.4516,0.2966
+b'D14B',"b'Mouth and Salivary Gland Interventions, Minor Complexity'",1.0,4.0,1.1,0.0,0.0,,,,0.6683,0.2689
+b'D15Z',b'Mastoid Interventions',1.0,6.0,1.2,0.0,0.0,,,,2.3919,0.302
+b'D40Z',b'Dental Extractions and Restorations',1.0,3.0,1.0,0.0,0.0,,,,0.7976,0.2674
+b'D60A',"b'Ear, Nose, Mouth and Throat Malignancy, Major Complexity'",2.0,25.0,1.0,0.0,0.0,,0.2241,1.543,3.31,0.2749
+b'D60B',"b'Ear, Nose, Mouth and Throat Malignancy, Minor Complexity'",1.0,7.0,1.59,1.0,0.0,0.3904,,,1.0015,0.2265
+b'D61A',"b'Dysequilibrium, Major Complexity'",1.0,10.0,1.0,1.0,0.0,0.1366,,,0.9046,0.2183
+b'D61B',"b'Dysequilibrium, Minor Complexity'",1.0,4.0,1.45,0.0,0.0,,,,0.2547,0.1883
+b'D62A',"b'Epistaxis, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.015,0.281
+b'D62B',"b'Epistaxis, Minor Complexity'",1.0,4.0,1.34,0.0,0.0,,,,0.2603,0.1862
+b'D63A',"b'Otitis Media and Upper Respiratory Infections, Major Complexity'",1.0,10.0,1.18,1.0,0.0,0.1433,,,0.917,0.2439
+b'D63B',"b'Otitis Media and Upper Respiratory Infections, Minor Complexity'",1.0,9.0,1.13,1.0,0.0,0.1061,,,0.4467,0.2191
+b'D64A',"b'Laryngotracheitis and Epiglottitis, Major Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.5423,0.2838
+b'D64B',"b'Laryngotracheitis and Epiglottitis, Minor Complexity'",1.0,3.0,0.82,0.0,0.0,,,,0.2236,0.1724
+b'D65A',"b'Nasal Trauma and Deformity, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,0.9298,0.2201
+b'D65B',"b'Nasal Trauma and Deformity, Minor Complexity'",1.0,3.0,1.27,0.0,0.0,,,,0.2659,0.1563
+b'D66A',"b'Other Ear, Nose, Mouth and Throat Disorders, Major Complexity'",1.0,14.0,1.38,1.0,0.0,0.3123,,,1.0287,0.1984
+b'D66B',"b'Other Ear, Nose, Mouth and Throat Disorders, Minor Complexity'",1.0,15.0,1.1,1.0,0.0,0.1831,,,0.4272,0.2074
+b'D67A',"b'Oral and Dental Disorders, Major Complexity'",1.0,14.0,1.09,1.0,0.0,0.2791,,,1.2805,0.258
+b'D67B',"b'Oral and Dental Disorders, Minor Complexity'",1.0,4.0,1.44,0.0,0.0,,,,0.2685,0.2075
+b'E01A',"b'Major Chest Interventions, Major Complexity'",6.0,55.0,1.09,0.0,0.0,,1.4031,1.1963,8.5811,0.3105
+b'E01B',"b'Major Chest Interventions, Intermediate Complexity'",3.0,29.0,1.09,0.0,0.0,,1.1549,1.3303,5.1456,0.2317
+b'E01C',"b'Major Chest Interventions, Minor Complexity'",2.0,18.0,1.18,0.0,0.0,,0.9669,1.3066,3.5802,0.225
+b'E02A',"b'Other Respiratory System GIs, Major Complexity'",4.0,38.0,1.54,0.0,0.0,,0.5954,1.1485,5.1893,0.2698
+b'E02B',"b'Other Respiratory System GIs, Intermediate Complexity'",1.0,10.0,0.84,1.0,0.0,0.7501,,,1.9378,0.2606
+b'E02C',"b'Other Respiratory System GIs, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.8811,0.3259
+b'E03Z',b'Lung or Heart-Lung Transplantation',10.0,98.0,1.0,0.0,0.0,,4.2275,1.9022,23.2492,0.4659
+b'E40A',"b'Respiratory System Disorders with Ventilator Support, Major Complexity'",3.0,32.0,1.23,0.0,0.0,,0.1087,2.1233,6.4785,0.2978
+b'E40B',"b'Respiratory System Disorders with Ventilator Support, Minor Complexity'",1.0,13.0,1.0,0.0,0.0,,,,2.8727,0.4059
+b'E41A',"b'Respiratory System Disorders with Non-Invasive Ventilation, Major Complexity'",3.0,33.0,1.07,0.0,0.0,,0.0493,1.4668,4.4498,0.2788
+b'E41B',"b'Respiratory System Disorders with Non-Invasive Ventilation, Minor Complexity'",2.0,19.0,0.8,0.0,0.0,,0.0145,1.1233,2.2611,0.2749
+b'E42A',"b'Bronchoscopy, Major Complexity'",3.0,34.0,1.48,0.0,0.0,,0.3142,1.3081,4.2385,0.2632
+b'E42B',"b'Bronchoscopy, Intermediate Complexity'",1.0,18.0,1.3,1.0,0.0,0.5405,,,1.8646,0.2396
+b'E42C',"b'Bronchoscopy, Minor Complexity'",1.0,10.0,1.4,1.0,0.0,0.4856,,,1.3616,0.2224
+b'E60A',"b'Cystic Fibrosis, Major Complexity'",4.0,41.0,1.62,0.0,0.0,,0.0,1.3486,5.3945,0.3135
+b'E60B',"b'Cystic Fibrosis, Minor Complexity'",5.0,11.0,1.27,0.0,0.0,,0.0,0.707,3.5351,0.3134
+b'E61A',"b'Pulmonary Embolism, Major Complexity'",2.0,18.0,1.0,0.0,0.0,,0.0,0.934,1.868,0.2395
+b'E61B',"b'Pulmonary Embolism, Minor Complexity'",1.0,9.0,1.0,1.0,0.0,0.2007,,,0.7692,0.2179
+b'E62A',"b'Respiratory Infections and Inflammations, Major Complexity'",1.0,18.0,0.84,0.0,0.0,,,,1.5971,0.2518
+b'E62B',"b'Respiratory Infections and Inflammations, Minor Complexity'",1.0,9.0,0.8,1.0,0.0,0.1397,,,0.7946,0.2217
+b'E63A',"b'Sleep Apnoea, Major Complexity'",1.0,5.0,2.0,0.0,0.0,,,,0.3965,0.0642
+b'E63B',"b'Sleep Apnoea, Minor Complexity'",1.0,3.0,1.14,0.0,0.0,,,,0.2915,0.1825
+b'E64A',"b'Pulmonary Oedema and Respiratory Failure, Major Complexity'",2.0,19.0,1.0,0.0,0.0,,0.0,1.0225,2.0449,0.2537
+b'E64B',"b'Pulmonary Oedema and Respiratory Failure, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,0.7375,0.2599
+b'E65A',"b'Chronic Obstructive Pulmonary Disease, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,1.5149,0.2394
+b'E65B',"b'Chronic Obstructive Pulmonary Disease, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,0.68,0.2282
+b'E66A',"b'Major Chest Trauma, Major Complexity'",2.0,20.0,1.0,0.0,0.0,,0.0,1.0452,2.0903,0.2393
+b'E66B',"b'Major Chest Trauma, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,0.6463,0.2728
+b'E67A',"b'Respiratory Signs and Symptoms, Major Complexity'",1.0,12.0,0.8,1.0,0.0,0.3106,,,1.0699,0.2411
+b'E67B',"b'Respiratory Signs and Symptoms, Minor Complexity'",1.0,4.0,0.8,1.0,0.0,0.1452,,,0.374,0.2439
+b'E68A',"b'Pneumothorax, Major Complexity'",1.0,16.0,1.0,0.0,0.0,,,,1.6135,0.2801
+b'E68B',"b'Pneumothorax, Minor Complexity'",1.0,7.0,1.26,0.0,0.0,,,,0.6539,0.2799
+b'E69A',"b'Bronchitis and Asthma, Major Complexity'",1.0,9.0,1.1,0.0,0.0,,,,0.728,0.244
+b'E69B',"b'Bronchitis and Asthma, Minor Complexity'",1.0,4.0,0.8,0.0,0.0,,,,0.2952,0.2263
+b'E70A',"b'Whooping Cough and Acute Bronchiolitis, Major Complexity'",1.0,8.0,0.89,0.0,0.0,,,,0.9847,0.3553
+b'E70B',"b'Whooping Cough and Acute Bronchiolitis, Minor Complexity'",1.0,6.0,0.8,0.0,0.0,,,,0.5616,0.3381
+b'E71A',"b'Respiratory Neoplastic Disorders, Major Complexity'",2.0,25.0,1.0,0.0,0.0,,0.0,1.2778,2.5557,0.2447
+b'E71B',"b'Respiratory Neoplastic Disorders, Minor Complexity'",1.0,12.0,1.8,1.0,0.0,0.3323,,,1.1252,0.2258
+b'E72Z',b'Respiratory Problems Arising from Neonatal Period',1.0,8.0,1.05,0.0,0.0,,,,0.6262,0.3503
+b'E73A',"b'Pleural Effusion, Major Complexity'",2.0,26.0,1.0,0.0,0.0,,0.0,1.2919,2.5838,0.2502
+b'E73B',"b'Pleural Effusion, Intermediate Complexity'",1.0,14.0,1.0,0.0,0.0,,,,1.2513,0.2322
+b'E73C',"b'Pleural Effusion, Minor Complexity'",1.0,9.0,1.0,1.0,0.0,0.2155,,,0.8309,0.2114
+b'E74A',"b'Interstitial Lung Disease, Major Complexity'",2.0,23.0,1.0,0.0,0.0,,0.0,1.0406,2.0812,0.2362
+b'E74B',"b'Interstitial Lung Disease, Minor Complexity'",1.0,11.0,1.18,1.0,0.0,0.1968,,,1.0301,0.2218
+b'E75A',"b'Other Respiratory System Disorders, Major Complexity'",1.0,14.0,1.23,1.0,0.0,0.2074,,,1.1992,0.2372
+b'E75B',"b'Other Respiratory System Disorders, Minor Complexity'",1.0,4.0,0.8,0.0,0.0,,,,0.3079,0.2233
+b'E76A',"b'Respiratory Tuberculosis, Major Complexity'",11.0,25.0,1.0,0.0,0.0,,0.0,0.4027,4.4298,0.2264
+b'E76B',"b'Respiratory Tuberculosis, Minor Complexity'",1.0,15.0,1.0,0.0,0.0,,,,1.1333,0.2669
+b'E77A',"b'Bronchiectasis, Major Complexity'",2.0,24.0,2.0,0.0,0.0,,0.0,1.1521,2.3042,0.2374
+b'E77B',"b'Bronchiectasis, Minor Complexity'",1.0,15.0,2.0,0.0,0.0,,,,1.1335,0.1775
+b'F01A',"b'Implantation and Replacement of AICD, Total System, Major Complexity'",3.0,30.0,1.0,0.0,0.0,,3.4049,1.4747,7.8291,0.2895
+b'F01B',"b'Implantation and Replacement of AICD, Total System, Minor Complexity'",1.0,6.0,1.0,0.0,0.0,,,,3.7778,0.3732
+b'F02Z',b'Other AICD Interventions',1.0,12.0,1.0,0.0,0.0,,,,2.7034,0.3296
+b'F03A',"b'Cardiac Valve Interventions with CPB Pump with Invasive Cardiac Investigation, Major Complexity'",8.0,74.0,1.0,0.0,0.0,,4.4596,1.3535,15.2876,0.3407
+b'F03B',"b'Cardiac Valve Interventions with CPB Pump with Invasive Cardiac Investigation, Minor Complexity'",3.0,33.0,1.0,0.0,0.0,,4.4955,2.1556,10.9625,0.2645
+b'F04A',"b'Cardiac Valve Interventions with CPB Pump without Invasive Cardiac Investigation, Major Complexity'",5.0,52.0,1.18,0.0,0.0,,4.491,1.6919,12.9506,0.2991
+b'F04B',"b'Cardiac Valve Interventions with CPB Pump without Invasive Cardiac Investigation, Intermediate Complexity'",2.0,27.0,1.05,0.0,0.0,,4.1102,2.312,8.7341,0.3
+b'F04C',"b'Cardiac Valve Interventions with CPB Pump without Invasive Cardiac Investigation, Minor Complexity'",2.0,22.0,1.07,0.0,0.0,,4.3615,1.4439,7.2494,0.2896
+b'F05A',"b'Coronary Bypass with Invasive Cardiac Investigation, Major Complexity'",5.0,52.0,1.0,0.0,0.0,,3.5458,1.5315,11.2033,0.3034
+b'F05B',"b'Coronary Bypass with Invasive Cardiac Investigation, Minor Complexity'",4.0,36.0,1.0,0.0,0.0,,2.8494,1.3994,8.4471,0.2956
+b'F06A',"b'Coronary Bypass without Invasive Cardiac Investigation, Major Complexity'",4.0,37.0,1.0,0.0,0.0,,3.0522,1.5693,9.3293,0.3367
+b'F06B',"b'Coronary Bypass without Invasive Cardiac Investigation, Intermediate Complexity'",2.0,24.0,1.0,0.0,0.0,,2.2966,2.2172,6.731,0.2984
+b'F06C',"b'Coronary Bypass without Invasive Cardiac Investigation, Minor Complexity'",2.0,19.0,1.0,0.0,0.0,,2.2045,1.8283,5.861,0.2714
+b'F07A',"b'Other Cardiothoracic/Vascular Interventions with CPB Pump, Major Complexity'",4.0,39.0,1.19,0.0,0.0,,3.9719,2.1757,12.6746,0.4178
+b'F07B',"b'Other Cardiothoracic/Vascular Interventions with CPB Pump, Intermediate Complexity'",2.0,23.0,1.0,0.0,0.0,,2.6535,2.8293,8.3121,0.4128
+b'F07C',"b'Other Cardiothoracic/Vascular Interventions with CPB Pump, Minor Complexity'",1.0,17.0,1.0,0.0,0.0,,,,5.8343,0.3582
+b'F08A',"b'Major Reconstructive Vascular Interventions without CPB Pump, Major Complexity'",5.0,51.0,1.0,0.0,0.0,,3.7688,1.4497,11.0174,0.3363
+b'F08B',"b'Major Reconstructive Vascular Interventions without CPB Pump, Intermediate Complexity'",2.0,24.0,1.0,0.0,0.0,,3.4309,1.4943,6.4196,0.2386
+b'F08C',"b'Major Reconstructive Vascular Interventions without CPB Pump, Minor Complexity'",1.0,14.0,1.0,0.0,0.0,,,,4.1857,0.2916
+b'F09A',"b'Other Cardiothoracic Interventions without CPB Pump, Major Complexity'",3.0,33.0,1.07,0.0,0.0,,1.3336,1.8089,6.7604,0.3118
+b'F09B',"b'Other Cardiothoracic Interventions without CPB Pump, Minor Complexity'",1.0,11.0,1.0,0.0,0.0,,,,2.8992,0.3904
+b'F10A',"b'Interventional Coronary Procedures, Admitted for AMI, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,0.834,1.3915,3.6171,0.2986
+b'F10B',"b'Interventional Coronary Procedures, Admitted for AMI, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,2.0103,0.3176
+b'F11A',"b'Amputation, Excluding Upper Limb and Toe, for Circulatory Disorders, Major Complexity'",10.0,91.0,1.0,0.0,0.0,,2.4775,1.2046,14.5235,0.2778
+b'F11B',"b'Amputation, Excluding Upper Limb and Toe, for Circulatory Disorders, Minor Complexity'",6.0,55.0,1.0,0.0,0.0,,1.0992,1.123,7.8371,0.3081
+b'F12A',"b'Implantation and Replacement of Pacemaker, Total System, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,1.5848,1.2083,4.0015,0.2678
+b'F12B',"b'Implantation and Replacement of Pacemaker, Total System, Minor Complexity'",1.0,8.0,1.0,1.0,0.0,1.3778,,,2.3091,0.2389
+b'F13A',"b'Amputation, Upper Limb and Toe, for Circulatory Disorders, Major Complexity'",13.0,30.0,1.0,0.0,0.0,,0.7713,0.5319,7.6858,0.2757
+b'F13B',"b'Amputation, Upper Limb and Toe, for Circulatory Disorders, Minor Complexity'",2.0,24.0,1.0,0.0,0.0,,0.4726,1.3118,3.0962,0.2337
+b'F14A',"b'Vascular Interventions, Excluding Major Reconstruction, without CPB Pump, Major Complexity'",4.0,36.0,1.59,0.0,0.0,,1.4881,1.3112,6.7328,0.293
+b'F14B',"b'Vascular Interventions, Excluding Major Reconstruction, without CPB Pump, Intermediate Complexity'",1.0,12.0,1.13,0.0,0.0,,,,2.7952,0.2667
+b'F14C',"b'Vascular Interventions, Excluding Major Reconstruction, without CPB Pump, Minor Complexity'",1.0,5.0,1.1,0.0,0.0,,,,1.5336,0.3521
+b'F17A',"b'Insertion and Replacement of Pacemaker Generator, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,2.3317,0.2584
+b'F17B',"b'Insertion and Replacement of Pacemaker Generator, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,1.247,0.1882
+b'F18Z',b'Other Pacemaker Interventions',1.0,16.0,1.0,0.0,0.0,,,,2.6432,0.301
+b'F19A',"b'Trans-Vascular Percutaneous Cardiac Intervention, Major Complexity'",2.0,25.0,0.92,0.0,0.0,,1.8042,2.0183,5.8407,0.2664
+b'F19B',"b'Trans-Vascular Percutaneous Cardiac Intervention, Minor Complexity'",1.0,5.0,1.28,0.0,0.0,,,,2.218,0.3017
+b'F20Z',b'Vein Ligation and Stripping',1.0,4.0,1.12,0.0,0.0,,,,0.9067,0.367
+b'F21A',"b'Other Circulatory System GIs, Major Complexity'",6.0,61.0,1.0,0.0,0.0,,0.6281,0.9126,6.104,0.2246
+b'F21B',"b'Other Circulatory System GIs, Intermediate Complexity'",2.0,23.0,1.0,1.0,0.0,0.4189,0.5649,1.1168,2.7986,0.2163
+b'F21C',"b'Other Circulatory System GIs, Minor Complexity'",1.0,11.0,1.09,1.0,0.0,0.4928,,,1.6883,0.1984
+b'F22Z',b'Insertion of Artificial Heart Device',14.0,132.0,1.0,0.0,0.0,,14.1904,3.3173,60.6319,0.9072
+b'F23Z',b'Heart Transplantation',13.0,121.0,1.0,0.0,0.0,,3.6486,1.9398,28.8659,0.6103
+b'F24A',"b'Interventional Coronary Procedures, Not Admitted for AMI, Major Complexity'",1.0,16.0,1.15,0.0,0.0,,,,3.3419,0.2608
+b'F24B',"b'Interventional Coronary Procedures, Not Admitted for AMI, Minor Complexity'",1.0,4.0,1.61,0.0,0.0,,,,1.7007,0.2967
+b'F25A',"b'Percutaneous Heart Valve Replacement with Bioprosthesis, Major Complexity'",3.0,32.0,1.0,0.0,0.0,,5.4829,1.3664,9.5821,0.309
+b'F25B',"b'Percutaneous Heart Valve Replacement with Bioprosthesis, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,6.1125,0.408
+b'F40A',"b'Circulatory Disorders with Ventilator Support, Major Complexity'",3.0,28.0,1.0,0.0,0.0,,0.2035,1.8879,5.8671,0.2914
+b'F40B',"b'Circulatory Disorders with Ventilator Support, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,2.675,0.3575
+b'F41A',"b'Circulatory Disorders, Admitted for AMI with Invasive Cardiac Investigative Interventions, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,0.4355,1.2594,2.9544,0.2501
+b'F41B',"b'Circulatory Disorders, Admitted for AMI with Invasive Cardiac Investigative Interventions, Minor Complexity'",1.0,11.0,1.0,1.0,0.0,0.7464,,,1.6606,0.264
+b'F42A',"b'Circulatory Disorders, Not Admitted for AMI with Invasive Cardiac Investigative Interventions, Major Complexity'",1.0,18.0,1.17,0.0,0.0,,,,2.28,0.259
+b'F42B',"b'Circulatory Disorders, Not Admitted for AMI with Invasive Cardiac Investigative Interventions, Minor Complexity'",1.0,8.0,2.0,1.0,0.0,0.6327,,,1.2968,0.2339
+b'F43A',"b'Circulatory Disorders with Non-Invasive Ventilation, Major Complexity'",4.0,39.0,1.65,0.0,0.0,,0.0803,1.2534,5.094,0.2508
+b'F43B',"b'Circulatory Disorders with Non-Invasive Ventilation, Minor Complexity'",2.0,22.0,1.0,0.0,0.0,,0.0405,1.2951,2.6307,0.2549
+b'F60A',"b'Circulatory Disorders, Admitted for AMI without Invasive Cardiac Investigative Interventions'",1.0,14.0,1.0,0.0,0.0,,,,1.3075,0.2625
+b'F60B',"b'Circulatory Disorders, Admitted for AMI without Invasive Cardiac Investigative Interventions, Transferred < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,0.5747,
+b'F61A',"b'Infective Endocarditis, Major Complexity'",12.0,29.0,1.0,0.0,0.0,,0.0766,0.47,5.7166,0.1938
+b'F61B',"b'Infective Endocarditis, Minor Complexity'",3.0,27.0,1.0,0.0,0.0,,0.0805,0.8005,2.482,0.1394
+b'F62A',"b'Heart Failure and Shock, Major Complexity'",3.0,28.0,1.0,0.0,0.0,,0.0,0.8779,2.6337,0.2349
+b'F62B',"b'Heart Failure and Shock, Minor Complexity'",1.0,11.0,1.0,0.0,0.0,,,,0.9595,0.215
+b'F62C',"b'Heart Failure and Shock, Transferred < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,0.5173,
+b'F63A',"b'Venous Thrombosis, Major Complexity'",1.0,15.0,1.0,1.0,0.0,0.1874,,,1.2974,0.2201
+b'F63B',"b'Venous Thrombosis, Minor Complexity'",1.0,8.0,1.0,1.0,0.0,0.1386,,,0.5233,0.1906
+b'F64A',"b'Skin Ulcers in Circulatory Disorders, Major Complexity'",3.0,33.0,1.0,0.0,0.0,,0.0,0.9622,2.8865,0.2274
+b'F64B',"b'Skin Ulcers in Circulatory Disorders, Intermediate Complexity'",1.0,18.0,1.0,1.0,0.0,0.174,,,1.4462,0.1955
+b'F64C',"b'Skin Ulcers in Circulatory Disorders, Minor Complexity'",1.0,13.0,1.0,1.0,0.0,0.1574,,,0.8483,0.1434
+b'F65A',"b'Peripheral Vascular Disorders, Major Complexity'",2.0,20.0,1.07,0.0,0.0,,0.099,0.9569,2.0127,0.2273
+b'F65B',"b'Peripheral Vascular Disorders, Minor Complexity'",1.0,9.0,2.0,1.0,0.0,0.3061,,,0.8536,0.1897
+b'F66A',"b'Coronary Atherosclerosis, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,1.2119,0.2771
+b'F66B',"b'Coronary Atherosclerosis, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,0.3085,0.2286
+b'F67A',"b'Hypertension, Major Complexity'",1.0,13.0,1.81,1.0,0.0,0.1569,,,1.1705,0.2358
+b'F67B',"b'Hypertension, Minor Complexity'",1.0,4.0,1.61,0.0,0.0,,,,0.2482,0.1818
+b'F68Z',b'Congenital Heart Disease',1.0,5.0,1.77,0.0,0.0,,,,0.5236,0.222
+b'F69A',"b'Valvular Disorders, Major Complexity'",1.0,16.0,2.0,1.0,0.0,0.3124,,,1.4936,0.2462
+b'F69B',"b'Valvular Disorders, Minor Complexity'",1.0,3.0,1.77,0.0,0.0,,,,0.1767,0.133
+b'F72A',"b'Unstable Angina, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.0815,0.2603
+b'F72B',"b'Unstable Angina, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.4099,0.2803
+b'F73A',"b'Syncope and Collapse, Major Complexity'",1.0,15.0,1.0,0.0,0.0,,,,1.2715,0.2361
+b'F73B',"b'Syncope and Collapse, Minor Complexity'",1.0,5.0,0.94,0.0,0.0,,,,0.345,0.2473
+b'F74A',"b'Chest Pain, Major Complexity'",1.0,6.0,1.79,0.0,0.0,,,,0.4187,0.253
+b'F74B',"b'Chest Pain, Minor Complexity'",1.0,3.0,1.45,0.0,0.0,,,,0.1386,0.1041
+b'F75A',"b'Other Circulatory Disorders, Major Complexity'",2.0,19.0,1.86,0.0,0.0,,0.0,1.0346,2.0691,0.2248
+b'F75B',"b'Other Circulatory Disorders, Minor Complexity'",1.0,8.0,2.0,1.0,0.0,0.2416,,,0.7384,0.2212
+b'F76A',"b'Arrhythmia, Cardiac Arrest and Conduction Disorders, Major Complexity'",1.0,12.0,2.0,1.0,0.0,0.2339,,,1.202,0.2465
+b'F76B',"b'Arrhythmia, Cardiac Arrest and Conduction Disorders, Minor Complexity'",1.0,4.0,2.0,0.0,0.0,,,,0.3367,0.253
+b'G01A',"b'Rectal Resection, Major Complexity'",7.0,66.0,1.0,0.0,0.0,,2.4453,1.2395,11.1215,0.3455
+b'G01B',"b'Rectal Resection, Intermediate Complexity'",4.0,36.0,1.0,0.0,0.0,,2.3764,1.1673,7.0455,0.2732
+b'G01C',"b'Rectal Resection, Minor Complexity'",2.0,22.0,1.0,0.0,0.0,,1.6387,1.6963,5.0314,0.2949
+b'G02A',"b'Major Small and Large Bowel Interventions, Major Complexity'",7.0,65.0,1.54,0.0,0.0,,1.9404,1.0893,9.5652,0.3041
+b'G02B',"b'Major Small and Large Bowel Interventions, Intermediate Complexity'",3.0,30.0,1.28,0.0,0.0,,1.4416,1.2106,5.0735,0.2886
+b'G02C',"b'Major Small and Large Bowel Interventions, Minor Complexity'",1.0,16.0,1.14,0.0,0.0,,,,3.0118,0.3485
+b'G03A',"b'Stomach, Oesophageal and Duodenal Interventions, Major Complexity'",5.0,51.0,1.0,0.0,0.0,,2.258,1.6234,10.3751,0.3294
+b'G03B',"b'Stomach, Oesophageal and Duodenal Interventions, Intermediate Complexity'",2.0,22.0,1.0,0.0,0.0,,0.984,1.6609,4.3058,0.3411
+b'G03C',"b'Stomach, Oesophageal and Duodenal Interventions, Minor Complexity'",1.0,9.0,1.36,0.0,0.0,,,,2.1851,0.3207
+b'G04A',"b'Peritoneal Adhesiolysis, Major Complexity'",4.0,42.0,1.22,0.0,0.0,,1.1308,1.1906,5.8933,0.2958
+b'G04B',"b'Peritoneal Adhesiolysis, Intermediate Complexity'",2.0,20.0,1.41,0.0,0.0,,0.7951,1.1371,3.0693,0.3228
+b'G04C',"b'Peritoneal Adhesiolysis, Minor Complexity'",1.0,8.0,1.22,0.0,0.0,,,,1.7687,0.3662
+b'G05A',"b'Minor Small and Large Bowel Interventions, Major Complexity'",3.0,30.0,1.05,0.0,0.0,,0.895,1.1789,4.4318,0.3126
+b'G05B',"b'Minor Small and Large Bowel Interventions, Minor Complexity'",1.0,11.0,0.8,0.0,0.0,,,,2.1639,0.3693
+b'G06Z',b'Pyloromyotomy',1.0,11.0,1.0,0.0,0.0,,,,2.1735,0.3689
+b'G07A',"b'Appendicectomy, Major Complexity'",1.0,14.0,1.49,0.0,0.0,,,,2.1725,0.3378
+b'G07B',"b'Appendicectomy, Minor Complexity'",1.0,6.0,1.22,0.0,0.0,,,,1.2807,0.3378
+b'G10A',"b'Hernia Interventions, Major Complexity'",1.0,12.0,0.88,0.0,0.0,,,,2.1695,0.3197
+b'G10B',"b'Hernia Interventions, Minor Complexity'",1.0,4.0,0.8,0.0,0.0,,,,1.1408,0.3988
+b'G11A',"b'Anal and Stomal Interventions, Major Complexity'",1.0,13.0,1.65,0.0,0.0,,,,1.5403,0.2528
+b'G11B',"b'Anal and Stomal Interventions, Minor Complexity'",1.0,4.0,1.3,0.0,0.0,,,,0.6698,0.2806
+b'G12A',"b'Other Digestive System GIs, Major Complexity'",5.0,48.0,1.0,0.0,0.0,,0.7967,1.1158,6.3757,0.263
+b'G12B',"b'Other Digestive System GIs, Intermediate Complexity'",2.0,22.0,1.34,0.0,0.0,,0.6644,1.0015,2.6675,0.2257
+b'G12C',"b'Other Digestive System GIs, Minor Complexity'",1.0,11.0,1.25,1.0,0.0,0.8122,,,1.6663,0.2061
+b'G13Z',b'Peritonectomy for Gastrointestinal Disorders',6.0,55.0,1.0,0.0,0.0,,3.1312,1.9448,14.7999,0.4565
+b'G46A',"b'Complex Endoscopy, Major Complexity'",2.0,21.0,1.68,1.0,0.0,0.5596,0.4113,1.0844,2.5802,0.2751
+b'G46B',"b'Complex Endoscopy, Minor Complexity'",1.0,3.0,1.69,0.0,0.0,,,,0.4925,0.3123
+b'G47A',"b'Gastroscopy, Major Complexity'",2.0,18.0,1.4,0.0,0.0,,0.2887,0.9054,2.0994,0.2619
+b'G47B',"b'Gastroscopy, Intermediate Complexity'",1.0,8.0,1.25,1.0,0.0,0.3999,,,0.9066,0.2216
+b'G47C',"b'Gastroscopy, Minor Complexity'",1.0,3.0,1.36,0.0,0.0,,,,0.3398,0.2668
+b'G48A',"b'Colonoscopy, Major Complexity'",1.0,18.0,1.82,1.0,0.0,0.4312,,,1.8879,0.2644
+b'G48B',"b'Colonoscopy, Minor Complexity'",1.0,3.0,1.86,0.0,0.0,,,,0.4201,0.1833
+b'G60A',"b'Digestive Malignancy, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,0.0889,0.9507,1.9903,0.2332
+b'G60B',"b'Digestive Malignancy, Minor Complexity'",1.0,7.0,1.0,1.0,0.0,0.2532,,,0.5434,0.2251
+b'G61A',"b'Gastrointestinal Haemorrhage, Major Complexity'",1.0,13.0,1.25,0.0,0.0,,,,1.1575,0.237
+b'G61B',"b'Gastrointestinal Haemorrhage, Minor Complexity'",1.0,5.0,1.17,0.0,0.0,,,,0.4003,0.2444
+b'G64Z',b'Inflammatory Bowel Disease',1.0,4.0,1.25,0.0,0.0,,,,0.2007,0.1234
+b'G65A',"b'Gastrointestinal Obstruction, Major Complexity'",1.0,17.0,1.39,0.0,0.0,,,,1.578,0.2504
+b'G65B',"b'Gastrointestinal Obstruction, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,0.6381,0.2318
+b'G66A',"b'Abdominal Pain and Mesenteric Adenitis, Major Complexity'",1.0,8.0,1.0,1.0,0.0,0.1341,,,0.6678,0.2417
+b'G66B',"b'Abdominal Pain and Mesenteric Adenitis, Minor Complexity'",1.0,4.0,1.09,0.0,0.0,,,,0.2033,0.1566
+b'G67A',"b'Oesophagitis and Gastroenteritis, Major Complexity'",1.0,11.0,0.83,0.0,0.0,,,,0.8339,0.2643
+b'G67B',"b'Oesophagitis and Gastroenteritis, Minor Complexity'",1.0,4.0,0.92,0.0,0.0,,,,0.235,0.1756
+b'G70A',"b'Other Digestive System Disorders, Major Complexity'",2.0,19.0,1.61,0.0,0.0,,0.0,0.8623,1.7246,0.2347
+b'G70B',"b'Other Digestive System Disorders, Intermediate Complexity'",1.0,9.0,1.65,1.0,0.0,0.1733,,,0.7429,0.2203
+b'G70C',"b'Other Digestive System Disorders, Minor Complexity'",1.0,4.0,1.4,0.0,0.0,,,,0.2712,0.1985
+b'H01A',"b'Pancreas, Liver and Shunt Interventions, Major Complexity'",6.0,55.0,1.0,0.0,0.0,,2.7468,1.2548,10.2758,0.2759
+b'H01B',"b'Pancreas, Liver and Shunt Interventions, Intermediate Complexity'",2.0,21.0,1.0,0.0,0.0,,1.2441,1.9683,5.1807,0.2683
+b'H01C',"b'Pancreas, Liver and Shunt Interventions, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,2.3564,0.3757
+b'H02A',"b'Major Biliary Tract Interventions, Major Complexity'",6.0,62.0,0.95,0.0,0.0,,1.0978,1.2657,8.6921,0.2648
+b'H02B',"b'Major Biliary Tract Interventions, Intermediate Complexity'",3.0,34.0,1.0,0.0,0.0,,0.9109,1.4746,5.3349,0.2417
+b'H02C',"b'Major Biliary Tract Interventions, Minor Complexity'",1.0,15.0,1.0,0.0,0.0,,,,2.3305,0.3031
+b'H05A',"b'Hepatobiliary Diagnostic Interventions, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,0.9513,1.4445,5.2848,0.3033
+b'H05B',"b'Hepatobiliary Diagnostic Interventions, Intermediate Complexity'",1.0,12.0,1.0,0.0,0.0,,,,2.0561,0.325
+b'H05C',"b'Hepatobiliary Diagnostic Interventions, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.7651,0.3211
+b'H06A',"b'Other Hepatobiliary and Pancreas Interventions, Major Complexity'",6.0,63.0,1.0,0.0,0.0,,0.6725,1.1743,7.7186,0.2699
+b'H06B',"b'Other Hepatobiliary and Pancreas Interventions, Intermediate Complexity'",2.0,26.0,1.0,0.0,0.0,,0.6475,1.3581,3.3637,0.1809
+b'H06C',"b'Other Hepatobiliary and Pancreas Interventions, Minor Complexity'",1.0,6.0,1.0,0.0,0.0,,,,1.4992,0.1596
+b'H07A',"b'Open Cholecystectomy, Major Complexity'",4.0,37.0,1.0,0.0,0.0,,1.4463,1.1976,6.2367,0.2858
+b'H07B',"b'Open Cholecystectomy, Intermediate Complexity'",2.0,20.0,1.0,0.0,0.0,,1.3098,1.3303,3.9705,0.3132
+b'H07C',"b'Open Cholecystectomy, Minor Complexity'",1.0,13.0,1.0,0.0,0.0,,,,2.5497,0.3111
+b'H08A',"b'Laparoscopic Cholecystectomy, Major Complexity'",1.0,18.0,1.0,0.0,0.0,,,,3.0655,0.2927
+b'H08B',"b'Laparoscopic Cholecystectomy, Minor Complexity'",1.0,7.0,1.21,0.0,0.0,,,,1.677,0.3001
+b'H09Z',b'Liver Transplantation',9.0,83.0,1.25,0.0,0.0,,5.8603,2.5422,28.7403,0.5336
+b'H60A',"b'Cirrhosis and Alcoholic Hepatitis, Major Complexity'",4.0,42.0,1.0,0.0,0.0,,0.0,1.1346,4.5383,0.2576
+b'H60B',"b'Cirrhosis and Alcoholic Hepatitis, Intermediate Complexity'",2.0,19.0,1.0,0.0,0.0,,0.0,0.9544,1.9089,0.2308
+b'H60C',"b'Cirrhosis and Alcoholic Hepatitis, Minor Complexity'",1.0,10.0,1.0,1.0,0.0,0.228,,,0.9522,0.2161
+b'H61A',"b'Malignancy of Hepatobiliary System and Pancreas, Major Complexity'",2.0,26.0,1.0,0.0,0.0,,0.1885,1.1717,2.5319,0.2517
+b'H61B',"b'Malignancy of Hepatobiliary System and Pancreas, Minor Complexity'",1.0,12.0,1.48,1.0,0.0,0.3953,,,1.0634,0.241
+b'H62A',"b'Disorders of Pancreas, Excluding Malignancy, Major Complexity'",2.0,21.0,1.68,0.0,0.0,,0.0,1.0886,2.1773,0.2812
+b'H62B',"b'Disorders of Pancreas, Excluding Malignancy, Minor Complexity'",1.0,9.0,1.72,1.0,0.0,0.2874,,,0.7987,0.2346
+b'H63A',"b'Other Disorders of Liver, Major Complexity'",3.0,30.0,1.54,0.0,0.0,,0.0,0.9788,2.9363,0.2473
+b'H63B',"b'Other Disorders of Liver, Intermediate Complexity'",1.0,13.0,1.46,1.0,0.0,0.3343,,,1.2477,0.2235
+b'H63C',"b'Other Disorders of Liver, Minor Complexity'",1.0,8.0,1.43,1.0,0.0,0.3072,,,0.8139,0.1813
+b'H64A',"b'Disorders of the Biliary Tract, Major Complexity'",2.0,20.0,1.24,0.0,0.0,,0.1904,0.9268,2.0441,0.2397
+b'H64B',"b'Disorders of the Biliary Tract, Minor Complexity'",1.0,8.0,1.5,1.0,0.0,0.3089,,,0.8169,0.2307
+b'H65A',"b'Bleeding Oesophageal Varices, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,0.5062,1.342,4.5322,0.2324
+b'H65B',"b'Bleeding Oesophageal Varices, Intermediate Complexity'",1.0,17.0,1.0,0.0,0.0,,,,2.3182,0.2595
+b'H65C',"b'Bleeding Oesophageal Varices, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,1.2033,0.2916
+b'I01A',"b'Bilateral and Multiple Major Joint Interventions of Lower Limb, Major Complexity'",7.0,63.0,1.0,0.0,0.0,,3.2364,1.2821,12.211,0.2565
+b'I01B',"b'Bilateral and Multiple Major Joint Interventions of Lower Limb, Minor Complexity'",1.0,17.0,1.0,0.0,0.0,,,,5.5402,0.3194
+b'I02A',"b'Microvascular Tissue Transfers or Skin Grafts, Excluding Hand, Major Complexity'",25.0,57.0,1.0,0.0,0.0,,3.7701,0.5742,18.1241,0.2722
+b'I02B',"b'Microvascular Tissue Transfers or Skin Grafts, Excluding Hand, Intermediate Complexity'",7.0,64.0,1.0,0.0,0.0,,1.3761,1.176,9.6081,0.2874
+b'I02C',"b'Microvascular Tissue Transfers or Skin Grafts, Excluding Hand, Minor Complexity'",2.0,21.0,1.0,0.0,0.0,,0.5432,1.9557,4.4546,0.3044
+b'I03A',"b'Hip Replacement for Trauma, Major Complexity'",4.0,39.0,1.0,0.0,0.0,,1.7056,1.0764,6.0113,0.2366
+b'I03B',"b'Hip Replacement for Trauma, Minor Complexity'",2.0,22.0,1.0,0.0,0.0,,1.5838,1.2207,4.0251,0.2227
+b'I04A',"b'Knee Replacement, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,1.5834,1.3713,4.3261,0.2666
+b'I04B',"b'Knee Replacement, Minor Complexity'",1.0,13.0,1.0,0.0,0.0,,,,3.3738,0.2522
+b'I05A',"b'Other Joint Replacement, Major Complexity'",2.0,27.0,1.0,0.0,0.0,,2.6659,1.5851,5.8361,0.2508
+b'I05B',"b'Other Joint Replacement, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,3.4944,0.2321
+b'I06Z',b'Spinal Fusion for Deformity',2.0,26.0,0.91,0.0,0.0,,1.0842,4.6326,10.3493,0.531
+b'I07Z',b'Amputation',12.0,29.0,1.0,0.0,0.0,,1.1144,0.5814,8.0916,0.2625
+b'I08A',"b'Other Hip and Femur Interventions, Major Complexity'",4.0,42.0,1.12,0.0,0.0,,1.5524,1.1859,6.2959,0.242
+b'I08B',"b'Other Hip and Femur Interventions, Intermediate Complexity'",2.0,27.0,1.0,0.0,0.0,,1.1457,1.437,4.0197,0.2266
+b'I08C',"b'Other Hip and Femur Interventions, Minor Complexity'",1.0,17.0,0.91,0.0,0.0,,,,2.9049,0.2227
+b'I09A',"b'Spinal Fusion, Major Complexity'",6.0,56.0,1.0,0.0,0.0,,3.3296,1.2781,10.9984,0.3142
+b'I09B',"b'Spinal Fusion, Intermediate Complexity'",2.0,22.0,1.0,0.0,0.0,,1.9243,2.1321,6.1886,0.3009
+b'I09C',"b'Spinal Fusion, Minor Complexity'",1.0,12.0,1.0,0.0,0.0,,,,4.2266,0.3744
+b'I10A',"b'Other Back and Neck Interventions, Major Complexity'",2.0,27.0,1.0,0.0,0.0,,1.0958,1.8734,4.8425,0.2829
+b'I10B',"b'Other Back and Neck Interventions, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,2.1496,0.2657
+b'I11Z',b'Limb Lengthening Interventions',1.0,13.0,1.51,0.0,0.0,,,,3.0692,0.5141
+b'I12A',"b'Miscellaneous Musculoskeletal Interventions for Infection/Inflammation of Bone and Joint, Major Complexity'",14.0,33.0,1.22,0.0,0.0,,0.8226,0.4852,7.6158,0.2286
+b'I12B',"b'Miscellaneous Musculoskeletal Interventions for Infection/Inflammation of Bone and Joint, Intermediate Complexity'",4.0,37.0,1.0,0.0,0.0,,0.6204,0.8894,4.1782,0.1798
+b'I12C',"b'Miscellaneous Musculoskeletal Interventions for Infection/Inflammation of Bone and Joint, Minor Complexity'",1.0,17.0,1.29,0.0,0.0,,,,1.8148,0.191
+b'I13A',"b'Humerus, Tibia, Fibula and Ankle Interventions, Major Complexity'",4.0,38.0,1.0,0.0,0.0,,1.3827,1.0838,5.7178,0.2504
+b'I13B',"b'Humerus, Tibia, Fibula and Ankle Interventions, Intermediate Complexity'",1.0,15.0,0.95,0.0,0.0,,,,2.8658,0.2825
+b'I13C',"b'Humerus, Tibia, Fibula and Ankle Interventions, Minor Complexity'",1.0,7.0,0.8,0.0,0.0,,,,1.8111,0.3158
+b'I15Z',b'Cranio-Facial Surgery',1.0,14.0,1.49,0.0,0.0,,,,3.3354,0.3031
+b'I16Z',b'Other Shoulder Interventions',1.0,4.0,1.06,0.0,0.0,,,,1.655,0.5604
+b'I17A',"b'Maxillo-Facial Surgery, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,3.2579,0.4528
+b'I17B',"b'Maxillo-Facial Surgery, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,1.6476,0.4916
+b'I18A',"b'Other Knee Interventions, Major Complexity'",1.0,13.0,1.1,1.0,0.0,0.8787,,,1.9954,0.2286
+b'I18B',"b'Other Knee Interventions, Minor Complexity'",1.0,3.0,1.73,0.0,0.0,,,,0.8082,0.2787
+b'I19A',"b'Other Elbow and Forearm Interventions, Major Complexity'",1.0,14.0,0.85,0.0,0.0,,,,2.7742,0.2684
+b'I19B',"b'Other Elbow and Forearm Interventions, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,1.4496,0.3085
+b'I20A',"b'Other Foot Interventions, Major Complexity'",1.0,18.0,1.1,0.0,0.0,,,,2.722,0.2579
+b'I20B',"b'Other Foot Interventions, Minor Complexity'",1.0,5.0,0.93,0.0,0.0,,,,1.316,0.2832
+b'I21A',"b'Local Excision and Removal of Internal Fixation Devices of Hip and Femur, Major Complexity'",1.0,10.0,0.94,0.0,0.0,,,,1.634,0.2827
+b'I21B',"b'Local Excision and Removal of Internal Fixation Devices of Hip and Femur, Minor Complexity'",1.0,3.0,1.06,0.0,0.0,,,,0.9587,0.368
+b'I23A',"b'Local Excision and Removal of Internal Fixation Devices, Excluding Hip and Femur, Major Complexity'",1.0,8.0,1.11,1.0,0.0,0.7397,,,2.001,0.3398
+b'I23B',"b'Local Excision and Removal of Internal Fixation Devices, Excluding Hip and Femur, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.6413,0.2211
+b'I24A',"b'Arthroscopy, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.6408,0.2383
+b'I24B',"b'Arthroscopy, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.8112,0.2519
+b'I25A',"b'Bone and Joint Diagnostic Interventions Including Biopsy, Major Complexity'",3.0,35.0,1.0,0.0,0.0,,0.3106,1.4246,4.5845,0.2411
+b'I25B',"b'Bone and Joint Diagnostic Interventions Including Biopsy, Minor Complexity'",1.0,13.0,1.46,1.0,0.0,0.4893,,,1.8295,0.2073
+b'I27A',"b'Soft Tissue Interventions, Major Complexity'",3.0,33.0,1.0,0.0,0.0,,0.7502,1.3235,4.7208,0.2619
+b'I27B',"b'Soft Tissue Interventions, Minor Complexity'",1.0,7.0,1.13,1.0,0.0,0.6496,,,1.4282,0.2362
+b'I28A',"b'Other Musculoskeletal Interventions, Major Complexity'",3.0,36.0,1.0,0.0,0.0,,0.9067,1.2652,4.7023,0.236
+b'I28B',"b'Other Musculoskeletal Interventions, Intermediate Complexity'",1.0,13.0,1.0,0.0,0.0,,,,2.0372,0.2291
+b'I28C',"b'Other Musculoskeletal Interventions, Minor Complexity'",1.0,5.0,1.08,0.0,0.0,,,,1.1456,0.262
+b'I29Z',"b'Knee Reconstructions, and Revisions of Reconstructions'",1.0,4.0,1.16,0.0,0.0,,,,1.8182,0.5852
+b'I30Z',b'Hand Interventions',1.0,4.0,1.0,0.0,0.0,,,,0.8529,0.2648
+b'I31A',"b'Revision of Hip Replacement, Major Complexity'",14.0,32.0,1.0,0.0,0.0,,3.1146,0.4792,9.8229,0.2196
+b'I31B',"b'Revision of Hip Replacement, Intermediate Complexity'",3.0,31.0,1.0,0.0,0.0,,2.6371,1.2559,6.4049,0.1886
+b'I31C',"b'Revision of Hip Replacement, Minor Complexity'",2.0,19.0,1.0,0.0,0.0,,2.0477,1.2876,4.6229,0.1777
+b'I32A',"b'Revision of Knee Replacement, Major Complexity'",6.0,57.0,1.0,0.0,0.0,,3.4506,0.8448,8.5196,0.1664
+b'I32B',"b'Revision of Knee Replacement, Minor Complexity'",2.0,24.0,1.0,0.0,0.0,,1.4052,1.8508,5.1067,0.1461
+b'I33A',"b'Hip Replacement for Non-Trauma, Major Complexity'",2.0,23.0,1.0,0.0,0.0,,1.8958,1.4314,4.7586,0.2626
+b'I33B',"b'Hip Replacement for Non-Trauma, Minor Complexity'",1.0,12.0,1.0,0.0,0.0,,,,3.3985,0.2436
+b'I60Z',b'Femoral Shaft Fractures',2.0,20.0,1.15,0.0,0.0,,0.2577,0.961,2.1797,0.2325
+b'I61Z',b'Distal Femoral Fractures',1.0,18.0,1.0,0.0,0.0,,,,1.4909,0.2262
+b'I63A',"b'Sprains, Strains and Dislocations of Hip, Pelvis and Thigh, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,1.4209,0.2384
+b'I63B',"b'Sprains, Strains and Dislocations of Hip, Pelvis and Thigh, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.3722,0.2421
+b'I64A',"b'Osteomyelitis, Major Complexity'",4.0,44.0,1.06,0.0,0.0,,0.0,0.9248,3.6991,0.1689
+b'I64B',"b'Osteomyelitis, Minor Complexity'",2.0,19.0,1.18,0.0,0.0,,0.0,0.6916,1.3832,0.1052
+b'I65A',"b'Musculoskeletal Malignant Neoplastic Disorders, Major Complexity'",3.0,31.0,0.88,0.0,0.0,,0.0,1.1436,3.4307,0.2668
+b'I65B',"b'Musculoskeletal Malignant Neoplastic Disorders, Minor Complexity'",1.0,12.0,1.17,0.0,0.0,,,,1.1988,0.25
+b'I66A',"b'Inflammatory Musculoskeletal Disorders, Major Complexity'",2.0,18.0,1.0,0.0,0.0,,0.0,1.1239,2.2478,0.2711
+b'I66B',"b'Inflammatory Musculoskeletal Disorders, Minor Complexity'",1.0,4.0,1.45,0.0,0.0,,,,0.2695,0.1934
+b'I67A',"b'Septic Arthritis, Major Complexity'",3.0,36.0,1.0,0.0,0.0,,0.0,1.1125,3.3375,0.1742
+b'I67B',"b'Septic Arthritis, Minor Complexity'",1.0,15.0,1.58,0.0,0.0,,,,0.8968,0.1286
+b'I68A',"b'Non-surgical Spinal Disorders, Major Complexity'",1.0,17.0,0.95,0.0,0.0,,,,1.3975,0.2307
+b'I68B',"b'Non-surgical Spinal Disorders, Minor Complexity'",1.0,5.0,1.71,0.0,0.0,,,,0.3376,0.2413
+b'I69A',"b'Bone Diseases and Arthropathies, Major Complexity'",1.0,15.0,0.8,0.0,0.0,,,,1.26,0.2376
+b'I69B',"b'Bone Diseases and Arthropathies, Minor Complexity'",1.0,5.0,1.25,0.0,0.0,,,,0.2989,0.2191
+b'I71A',"b'Other Musculotendinous Disorders, Major Complexity'",1.0,15.0,0.88,0.0,0.0,,,,1.1497,0.2467
+b'I71B',"b'Other Musculotendinous Disorders, Minor Complexity'",1.0,4.0,1.49,0.0,0.0,,,,0.2782,0.1984
+b'I72A',"b'Specific Musculotendinous Disorders, Major Complexity'",2.0,23.0,1.0,0.0,0.0,,0.0,1.0209,2.0418,0.2121
+b'I72B',"b'Specific Musculotendinous Disorders, Minor Complexity'",1.0,7.0,1.07,0.0,0.0,,,,0.497,0.2237
+b'I73A',"b'Aftercare of Musculoskeletal Implants or Prostheses, Major Complexity'",3.0,27.0,1.0,0.0,0.0,,0.0,0.7676,2.3028,0.154
+b'I73B',"b'Aftercare of Musculoskeletal Implants or Prostheses, Minor Complexity'",1.0,9.0,1.11,0.0,0.0,,,,0.5383,0.1155
+b'I74A',"b'Injuries to Forearm, Wrist, Hand and Foot, Major Complexity'",1.0,13.0,0.8,0.0,0.0,,,,0.8942,0.2176
+b'I74B',"b'Injuries to Forearm, Wrist, Hand and Foot, Minor Complexity'",1.0,3.0,1.51,0.0,0.0,,,,0.262,0.1635
+b'I75A',"b'Injuries to Shoulder, Arm, Elbow, Knee, Leg and Ankle, Major Complexity'",2.0,26.0,0.9,0.0,0.0,,0.0,1.1887,2.3774,0.1999
+b'I75B',"b'Injuries to Shoulder, Arm, Elbow, Knee, Leg and Ankle, Intermediate Complexity'",1.0,7.0,1.27,0.0,0.0,,,,0.5134,0.2307
+b'I75C',"b'Injuries to Shoulder, Arm, Elbow, Knee, Leg and Ankle, Minor Complexity'",1.0,4.0,1.36,0.0,0.0,,,,0.2651,0.1893
+b'I76A',"b'Other Musculoskeletal Disorders, Major Complexity'",2.0,21.0,0.8,0.0,0.0,,0.1343,0.9699,2.074,0.1939
+b'I76B',"b'Other Musculoskeletal Disorders, Minor Complexity'",1.0,4.0,1.33,0.0,0.0,,,,0.2988,0.2197
+b'I77A',"b'Fractures of Pelvis, Major Complexity'",3.0,29.0,1.0,0.0,0.0,,0.0,0.9258,2.7774,0.2229
+b'I77B',"b'Fractures of Pelvis, Minor Complexity'",1.0,12.0,1.17,0.0,0.0,,,,0.8768,0.2093
+b'I78A',"b'Fractures of Neck of Femur, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,0.0,0.9834,2.9503,0.2156
+b'I78B',"b'Fractures of Neck of Femur, Minor Complexity'",1.0,13.0,1.0,0.0,0.0,,,,1.0484,0.2092
+b'I79A',"b'Pathological Fractures, Major Complexity'",3.0,33.0,1.0,0.0,0.0,,0.0,1.0281,3.0843,0.2515
+b'I79B',"b'Pathological Fractures, Minor Complexity'",1.0,13.0,0.8,0.0,0.0,,,,1.0671,0.2458
+b'I80Z',"b'Femoral Fractures, Transferred to Acute Facility < 2 Days'",1.0,1.0,1.0,0.0,0.0,,,,0.2769,
+b'J01A',"b'Microvascular Tissue Transfers for Skin, Subcutaneous Tissue and Breast Disorders, Major Complexity'",3.0,36.0,1.0,0.0,0.0,,3.6391,1.9056,9.3559,0.3127
+b'J01B',"b'Microvascular Tissue Transfers for Skin, Subcutaneous Tissue and Breast Disorders, Minor Complexity'",2.0,23.0,1.0,0.0,0.0,,3.9671,1.7079,7.383,0.2146
+b'J06A',"b'Major Interventions for Breast Disorders, Major Complexity'",2.0,19.0,1.0,0.0,0.0,,1.0482,1.2372,3.5227,0.1726
+b'J06B',"b'Major Interventions for Breast Disorders, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,2.0381,0.1892
+b'J07Z',b'Minor Interventions for Breast Disorders',1.0,3.0,1.0,0.0,0.0,,,,1.0247,0.4651
+b'J08A',"b'Other Skin Grafts and Debridement Interventions, Major Complexity'",4.0,36.0,1.11,0.0,0.0,,0.5838,1.0221,4.6723,0.2358
+b'J08B',"b'Other Skin Grafts and Debridement Interventions, Intermediate Complexity'",1.0,12.0,1.23,1.0,0.0,0.7673,,,1.506,0.194
+b'J08C',"b'Other Skin Grafts and Debridement Interventions, Minor Complexity'",1.0,4.0,1.29,0.0,0.0,,,,0.7312,0.2606
+b'J09Z',b'Perianal and Pilonidal Interventions',1.0,7.0,1.55,0.0,0.0,,,,0.822,0.1064
+b'J10A',"b'Plastic GIs for Skin, Subcutaneous Tissue and Breast Disorders, Major Complexity'",1.0,12.0,1.0,1.0,0.0,0.7832,,,1.9846,0.2795
+b'J10B',"b'Plastic GIs for Skin, Subcutaneous Tissue and Breast Disorders, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.6661,0.2425
+b'J11A',"b'Other Skin, Subcutaneous Tissue and Breast Interventions, Major Complexity'",1.0,12.0,1.0,1.0,0.0,0.6274,,,1.451,0.2047
+b'J11B',"b'Other Skin, Subcutaneous Tissue and Breast Interventions, Minor Complexity'",1.0,3.0,1.17,0.0,0.0,,,,0.5053,0.1921
+b'J12A',"b'Lower Limb Interventions with Ulcer or Cellulitis, Major Complexity'",5.0,45.0,1.0,0.0,0.0,,0.2998,0.9449,5.0245,0.2525
+b'J12B',"b'Lower Limb Interventions with Ulcer or Cellulitis, Minor Complexity'",1.0,12.0,1.13,0.0,0.0,,,,1.0876,0.2308
+b'J13A',"b'Lower Limb Interventions without Ulcer or Cellulitis, Major Complexity'",2.0,26.0,1.0,1.0,0.0,0.8353,0.6028,1.2834,3.1697,0.2495
+b'J13B',"b'Lower Limb Interventions without Ulcer or Cellulitis, Minor Complexity'",1.0,12.0,0.85,1.0,0.0,0.6404,,,1.4477,0.1809
+b'J14Z',b'Major Breast Reconstructions',2.0,19.0,1.0,0.0,0.0,,0.8208,2.0699,4.9605,0.4358
+b'J60A',"b'Skin Ulcers and Pressure Injuries, Major Complexity'",3.0,32.0,1.0,0.0,0.0,,0.0,0.9964,2.9892,0.2275
+b'J60B',"b'Skin Ulcers and Pressure Injuries, Intermediate Complexity'",1.0,15.0,1.0,1.0,0.0,0.1762,,,1.1151,0.1912
+b'J60C',"b'Skin Ulcers and Pressure Injuries, Minor Complexity'",1.0,14.0,1.0,1.0,0.0,0.1561,,,0.7307,0.1435
+b'J62A',"b'Malignant Breast Disorders, Major Complexity'",3.0,30.0,1.0,0.0,0.0,,0.0,0.9959,2.9878,0.2464
+b'J62B',"b'Malignant Breast Disorders, Minor Complexity'",1.0,16.0,1.0,1.0,0.0,0.1927,,,1.005,0.1293
+b'J63Z',b'Non-Malignant Breast Disorders',1.0,9.0,1.12,1.0,0.0,0.2586,,,0.7883,0.1802
+b'J64A',"b'Cellulitis, Major Complexity'",2.0,18.0,1.0,0.0,0.0,,0.0768,0.7793,1.6353,0.2111
+b'J64B',"b'Cellulitis, Minor Complexity'",1.0,9.0,1.31,1.0,0.0,0.2137,,,0.7059,0.1352
+b'J65A',"b'Trauma to Skin, Subcutaneous Tissue and Breast, Major Complexity'",2.0,19.0,0.8,0.0,0.0,,0.0,0.8611,1.7222,0.1991
+b'J65B',"b'Trauma to Skin, Subcutaneous Tissue and Breast, Minor Complexity'",1.0,4.0,1.38,0.0,0.0,,,,0.2516,0.1822
+b'J67A',"b'Minor Skin Disorders, Major Complexity'",1.0,15.0,1.1,1.0,0.0,0.2729,,,1.2488,0.2296
+b'J67B',"b'Minor Skin Disorders, Minor Complexity'",1.0,7.0,1.21,1.0,0.0,0.2252,,,0.5323,0.146
+b'J68A',"b'Major Skin Disorders, Major Complexity'",1.0,18.0,0.91,1.0,0.0,0.2306,,,1.8766,0.2613
+b'J68B',"b'Major Skin Disorders, Minor Complexity'",1.0,9.0,1.33,1.0,0.0,0.1539,,,0.7844,0.2302
+b'J69A',"b'Skin Malignancy, Major Complexity'",2.0,23.0,1.0,0.0,0.0,,0.0,1.1527,2.3054,0.2032
+b'J69B',"b'Skin Malignancy, Minor Complexity'",1.0,13.0,1.0,1.0,0.0,0.1826,,,0.9029,0.1079
+b'K01A',"b'GIs for Diabetic Complications, Major Complexity'",8.0,80.0,1.0,0.0,0.0,,0.6311,1.0406,8.956,0.2709
+b'K01B',"b'GIs for Diabetic Complications, Intermediate Complexity'",4.0,42.0,1.0,0.0,0.0,,0.1954,1.0489,4.3909,0.2318
+b'K01C',"b'GIs for Diabetic Complications, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,0.6259,0.2656
+b'K02Z',b'Pituitary Interventions',2.0,21.0,1.0,0.0,0.0,,1.3538,1.7428,4.8393,0.3934
+b'K03Z',b'Adrenal Interventions',1.0,13.0,1.0,0.0,0.0,,,,3.0864,0.4401
+b'K05A',"b'Parathyroid Interventions, Major Complexity'",1.0,13.0,1.0,0.0,0.0,,,,3.1662,0.3267
+b'K05B',"b'Parathyroid Interventions, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,1.5124,0.5777
+b'K06A',"b'Thyroid Interventions, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,3.3599,0.4413
+b'K06B',"b'Thyroid Interventions, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,1.9302,0.5805
+b'K08Z',b'Thyroglossal Interventions',1.0,4.0,1.0,0.0,0.0,,,,1.409,0.5162
+b'K09A',"b'Other Endocrine, Nutritional and Metabolic GIs, Major Complexity'",4.0,44.0,1.64,0.0,0.0,,0.6287,1.3218,5.9159,0.2745
+b'K09B',"b'Other Endocrine, Nutritional and Metabolic GIs, Minor Complexity'",1.0,13.0,1.0,0.0,0.0,,,,2.0164,0.2548
+b'K10Z',b'Revisional and Open Interventions for Obesity',1.0,18.0,1.0,0.0,0.0,,,,2.9753,0.4964
+b'K11A',"b'Major Laparoscopic Interventions for Obesity, Major Complexity'",1.0,9.0,1.0,0.0,0.0,,,,2.7746,0.3819
+b'K11B',"b'Major Laparoscopic Interventions for Obesity, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,2.3378,0.3763
+b'K12Z',b'Other Interventions for Obesity',1.0,7.0,1.0,0.0,0.0,,,,1.907,0.3368
+b'K13Z',"b'Plastic GIs for Endocrine, Nutritional and Metabolic Disorders'",1.0,12.0,1.0,0.0,0.0,,,,2.7277,0.349
+b'K40A',"b'Endoscopic and Investigative Interventions for Metabolic Disorders, Major Complexity'",3.0,30.0,1.13,0.0,0.0,,0.2641,1.2271,3.9454,0.2626
+b'K40B',"b'Endoscopic and Investigative Interventions for Metabolic Disorders, Minor Complexity'",1.0,3.0,1.83,0.0,0.0,,,,0.4455,0.2176
+b'K60A',"b'Diabetes, Major Complexity'",2.0,20.0,1.47,0.0,0.0,,0.0,1.0956,2.1911,0.2384
+b'K60B',"b'Diabetes, Minor Complexity'",1.0,9.0,2.0,1.0,0.0,0.1588,,,0.9203,0.1765
+b'K61A',"b'Severe Nutritional Disturbance, Major Complexity'",4.0,43.0,1.41,0.0,0.0,,0.0,1.1296,4.5186,0.2536
+b'K61B',"b'Severe Nutritional Disturbance, Minor Complexity'",2.0,19.0,1.14,0.0,0.0,,0.0,1.0358,2.0716,0.2576
+b'K62A',"b'Miscellaneous Metabolic Disorders, Major Complexity'",2.0,19.0,1.25,0.0,0.0,,0.0,1.0269,2.0538,0.2361
+b'K62B',"b'Miscellaneous Metabolic Disorders, Intermediate Complexity'",1.0,10.0,1.17,1.0,0.0,0.1741,,,0.9222,0.2422
+b'K62C',"b'Miscellaneous Metabolic Disorders, Minor Complexity'",1.0,7.0,1.31,1.0,0.0,0.1178,,,0.5875,0.2432
+b'K63A',"b'Inborn Errors of Metabolism, Major Complexity'",1.0,13.0,1.27,0.0,0.0,,,,1.3179,0.3149
+b'K63B',"b'Inborn Errors of Metabolism, Minor Complexity'",1.0,3.0,1.13,0.0,0.0,,,,0.2632,0.1982
+b'K64A',"b'Endocrine Disorders, Major Complexity'",1.0,15.0,2.0,1.0,0.0,0.3485,,,1.6085,0.2363
+b'K64B',"b'Endocrine Disorders, Minor Complexity'",1.0,8.0,2.0,1.0,0.0,0.1863,,,0.6909,0.2232
+b'L02A',"b'Operative Insertion of Peritoneal Catheter for Dialysis, Major Complexity'",2.0,26.0,1.0,0.0,0.0,,0.5697,1.7168,4.0033,0.2646
+b'L02B',"b'Operative Insertion of Peritoneal Catheter for Dialysis, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,1.0532,0.2955
+b'L03A',"b'Kidney, Ureter and Major Bladder Interventions for Neoplastic Disorders, Major Complexity'",4.0,43.0,1.0,0.0,0.0,,2.4504,1.423,8.1424,0.3354
+b'L03B',"b'Kidney, Ureter and Major Bladder Interventions for Neoplastic Disorders, Intermediate Complexity'",1.0,18.0,1.0,0.0,0.0,,,,4.3194,0.3722
+b'L03C',"b'Kidney, Ureter and Major Bladder Interventions for Neoplastic Disorders, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,2.8507,0.6062
+b'L04A',"b'Kidney, Ureter and Major Bladder Interventions for Non-Neoplastic Disorders, Major Complexity'",3.0,36.0,1.0,0.0,0.0,,0.8395,1.4896,5.3082,0.2918
+b'L04B',"b'Kidney, Ureter and Major Bladder Interventions for Non-Neoplastic Disorders, Intermediate Complexity'",1.0,12.0,1.27,1.0,0.0,0.8541,,,2.1807,0.2501
+b'L04C',"b'Kidney, Ureter and Major Bladder Interventions for Non-Neoplastic Disorders, Minor Complexity'",1.0,4.0,1.98,0.0,0.0,,,,0.9788,0.3246
+b'L05A',"b'Transurethral Prostatectomy for Urinary Disorder, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,0.7296,1.0529,2.8355,0.2662
+b'L05B',"b'Transurethral Prostatectomy for Urinary Disorder, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,1.3534,0.2785
+b'L06A',"b'Minor Bladder Interventions, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,0.7257,1.4569,5.0964,0.2865
+b'L06B',"b'Minor Bladder Interventions, Intermediate Complexity'",1.0,13.0,1.0,0.0,0.0,,,,1.8456,0.232
+b'L06C',"b'Minor Bladder Interventions, Minor Complexity'",1.0,6.0,1.0,0.0,0.0,,,,1.0286,0.322
+b'L07A',"b'Other Transurethral Interventions, Major Complexity'",1.0,15.0,1.0,0.0,0.0,,,,2.1053,0.2777
+b'L07B',"b'Other Transurethral Interventions, Minor Complexity'",1.0,4.0,1.28,0.0,0.0,,,,0.8108,0.3466
+b'L08Z',b'Urethral Interventions',1.0,4.0,0.81,0.0,0.0,,,,1.0796,0.3644
+b'L09A',"b'Other Interventions for Kidney and Urinary Tract Disorders, Major Complexity'",5.0,52.0,1.0,0.0,0.0,,0.6927,1.2671,7.0284,0.2694
+b'L09B',"b'Other Interventions for Kidney and Urinary Tract Disorders, Intermediate Complexity'",1.0,18.0,1.0,0.0,0.0,,,,2.5795,0.2313
+b'L09C',"b'Other Interventions for Kidney and Urinary Tract Disorders, Minor Complexity'",1.0,4.0,0.83,0.0,0.0,,,,1.0766,0.3056
+b'L10A',"b'Kidney Transplantation, Age <= 16 Years or Major Complexity'",3.0,35.0,1.25,0.0,0.0,,1.8818,3.0117,10.9169,0.4607
+b'L10B',"b'Kidney Transplantation, Age >= 17 Years and Minor Complexity'",2.0,23.0,1.0,0.0,0.0,,1.7794,2.8416,7.4625,0.4768
+b'L43A',"b'Nephrolithiasis Interventions, Major Complexity'",1.0,13.0,1.0,0.0,0.0,,,,1.593,0.264
+b'L43B',"b'Nephrolithiasis Interventions, Minor Complexity'",1.0,4.0,1.33,0.0,0.0,,,,0.7559,0.2821
+b'L44A',"b'Cystourethroscopy for Urinary Disorder, Major Complexity'",1.0,5.0,1.52,0.0,0.0,,,,0.5255,0.2168
+b'L44B',"b'Cystourethroscopy for Urinary Disorder, Minor Complexity'",1.0,3.0,2.0,0.0,0.0,,,,0.2453,0.1225
+b'L60A',"b'Kidney Failure, Major Complexity'",3.0,34.0,1.0,0.0,0.0,,0.0,1.3146,3.9439,0.2681
+b'L60B',"b'Kidney Failure, Intermediate Complexity'",1.0,17.0,1.46,0.0,0.0,,,,1.5324,0.259
+b'L60C',"b'Kidney Failure, Minor Complexity'",1.0,10.0,2.0,1.0,0.0,0.4431,,,0.8337,0.2217
+b'L61Z',b'Haemodialysis',1.0,3.0,2.0,0.0,0.0,,,,0.0986,0.0788
+b'L62A',"b'Kidney and Urinary Tract Neoplastic Disorders, Major Complexity'",2.0,22.0,1.49,0.0,0.0,,0.0808,1.1165,2.3138,0.2262
+b'L62B',"b'Kidney and Urinary Tract Neoplastic Disorders, Intermediate Complexity'",1.0,6.0,1.81,0.0,0.0,,,,0.5599,0.2327
+b'L62C',"b'Kidney and Urinary Tract Neoplastic Disorders, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.2537,0.1961
+b'L63A',"b'Kidney and Urinary Tract Infections, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,1.4226,0.23
+b'L63B',"b'Kidney and Urinary Tract Infections, Minor Complexity'",1.0,7.0,1.22,1.0,0.0,0.1392,,,0.6363,0.2018
+b'L64A',"b'Urinary Stones and Obstruction, Major Complexity'",1.0,6.0,1.75,1.0,0.0,0.1659,,,0.5863,0.2372
+b'L64B',"b'Urinary Stones and Obstruction, Minor Complexity'",1.0,3.0,2.0,0.0,0.0,,,,0.1526,0.1189
+b'L65A',"b'Kidney and Urinary Tract Signs and Symptoms, Major Complexity'",1.0,17.0,1.48,1.0,0.0,0.2887,,,1.5986,0.2426
+b'L65B',"b'Kidney and Urinary Tract Signs and Symptoms, Minor Complexity'",1.0,5.0,1.68,0.0,0.0,,,,0.3415,0.2524
+b'L66Z',b'Urethral Stricture',1.0,4.0,1.0,0.0,0.0,,,,0.3453,0.1836
+b'L67A',"b'Other Kidney and Urinary Tract Disorders, Major Complexity'",2.0,22.0,1.41,1.0,0.0,0.3453,0.0819,1.09,2.2619,0.238
+b'L67B',"b'Other Kidney and Urinary Tract Disorders, Intermediate Complexity'",1.0,9.0,1.47,1.0,0.0,0.2676,,,0.9368,0.1992
+b'L67C',"b'Other Kidney and Urinary Tract Disorders, Minor Complexity'",1.0,4.0,2.0,0.0,0.0,,,,0.2261,0.1708
+b'L68Z',b'Peritoneal Dialysis',1.0,3.0,1.74,0.0,0.0,,,,0.1516,0.121
+b'M01A',"b'Major Male Pelvic Interventions, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,2.1808,1.2351,4.651,0.2947
+b'M01B',"b'Major Male Pelvic Interventions, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,3.3464,0.2532
+b'M02A',"b'Transurethral Prostatectomy for Reproductive System Disorder, Major Complexity'",1.0,18.0,1.0,0.0,0.0,,,,2.4481,0.2696
+b'M02B',"b'Transurethral Prostatectomy for Reproductive System Disorder, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,1.3695,0.2794
+b'M03A',"b'Penis Interventions, Major Complexity'",1.0,9.0,0.8,0.0,0.0,,,,1.9485,0.3896
+b'M03B',"b'Penis Interventions, Minor Complexity'",1.0,4.0,1.14,0.0,0.0,,,,0.9039,0.3287
+b'M04A',"b'Testes Interventions, Major Complexity'",1.0,7.0,0.95,0.0,0.0,,,,1.3389,0.2954
+b'M04B',"b'Testes Interventions, Minor Complexity'",1.0,3.0,0.95,0.0,0.0,,,,0.7851,0.2907
+b'M05Z',b'Circumcision',1.0,3.0,1.0,0.0,0.0,,,,0.7139,0.2721
+b'M06A',"b'Other Male Reproductive System GIs, Major Complexity'",2.0,24.0,1.0,0.0,0.0,,0.5582,1.8462,4.2506,0.306
+b'M06B',"b'Other Male Reproductive System GIs, Minor Complexity'",1.0,4.0,0.82,0.0,0.0,,,,1.3895,0.3283
+b'M40Z',"b'Cystourethroscopy for Male Reproductive System Disorder, Sameday'",1.0,1.0,1.0,0.0,0.0,,,,0.3398,
+b'M60A',"b'Male Reproductive System Malignancy, Major Complexity'",2.0,18.0,1.0,0.0,0.0,,0.2042,0.8265,1.8572,0.2086
+b'M60B',"b'Male Reproductive System Malignancy, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,0.4893,0.2478
+b'M61A',"b'Benign Prostatic Hypertrophy, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.0515,0.259
+b'M61B',"b'Benign Prostatic Hypertrophy, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,0.4102,0.2499
+b'M62A',"b'Male Reproductive System Inflammation, Major Complexity'",1.0,17.0,1.0,1.0,0.0,0.2585,,,1.3941,0.2089
+b'M62B',"b'Male Reproductive System Inflammation, Minor Complexity'",1.0,7.0,1.22,1.0,0.0,0.1399,,,0.5942,0.1951
+b'M63Z',b'Male Sterilisation Interventions',1.0,3.0,1.0,0.0,0.0,,,,0.5224,0.1793
+b'M64A',"b'Other Male Reproductive System Disorders, Major Complexity'",1.0,6.0,1.0,0.0,0.0,,,,0.6761,0.221
+b'M64B',"b'Other Male Reproductive System Disorders, Minor Complexity'",1.0,3.0,1.18,0.0,0.0,,,,0.2993,0.1702
+b'N01Z',b'Pelvic Evisceration and Radical Vulvectomy',2.0,27.0,1.0,0.0,0.0,,1.5434,2.088,5.7195,0.4497
+b'N04A',"b'Hysterectomy for Non-Malignancy, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,3.3601,0.4014
+b'N04B',"b'Hysterectomy for Non-Malignancy, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,2.3369,0.5478
+b'N05A',"b'Oophorectomy and Complex Fallopian Tube Interventions for Non-Malignancy, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,2.7222,0.355
+b'N05B',"b'Oophorectomy and Complex Fallopian Tube Interventions for Non-Malignancy, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,1.5371,0.4868
+b'N06A',"b'Female Reproductive System Reconstructive Interventions, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,2.6834,0.3552
+b'N06B',"b'Female Reproductive System Reconstructive Interventions, Minor Complexity'",1.0,6.0,1.0,0.0,0.0,,,,1.675,0.4773
+b'N07A',"b'Other Uterus and Adnexa Interventions for Non-Malignancy, Major Complexity'",1.0,4.0,1.16,0.0,0.0,,,,1.3593,0.4263
+b'N07B',"b'Other Uterus and Adnexa Interventions for Non-Malignancy, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.6461,0.2285
+b'N08Z',"b'Endoscopic and Laparoscopic Interventions, Female Reproductive System'",1.0,4.0,1.19,0.0,0.0,,,,1.0923,0.3672
+b'N09A',"b'Other Vagina, Cervix and Vulva Interventions, Major Complexity'",1.0,7.0,1.21,0.0,0.0,,,,1.1423,0.3459
+b'N09B',"b'Other Vagina, Cervix and Vulva Interventions, Minor Complexity'",1.0,3.0,1.57,0.0,0.0,,,,0.4658,0.2147
+b'N10Z',b'Diagnostic Curettage and Diagnostic Hysteroscopy',1.0,3.0,1.0,0.0,0.0,,,,0.514,0.2031
+b'N11A',"b'Other Female Reproductive System GIs, Major Complexity'",1.0,17.0,1.0,0.0,0.0,,,,2.6001,0.2924
+b'N11B',"b'Other Female Reproductive System GIs, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.1493,0.1187
+b'N12A',"b'Uterus and Adnexa Interventions for Malignancy, Major Complexity'",2.0,27.0,1.0,0.0,0.0,,1.5977,1.8758,5.3493,0.4141
+b'N12B',"b'Uterus and Adnexa Interventions for Malignancy, Intermediate Complexity'",1.0,12.0,1.0,0.0,0.0,,,,3.01,0.4313
+b'N12C',"b'Uterus and Adnexa Interventions for Malignancy, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,2.1512,0.5077
+b'N60A',"b'Female Reproductive System Malignancy, Major Complexity'",3.0,30.0,1.0,0.0,0.0,,0.0,1.0632,3.1897,0.2797
+b'N60B',"b'Female Reproductive System Malignancy, Minor Complexity'",1.0,9.0,2.0,0.0,0.0,,,,0.863,0.2664
+b'N61A',"b'Female Reproductive System Infections, Major Complexity'",1.0,10.0,1.0,0.0,0.0,,,,0.816,0.266
+b'N61B',"b'Female Reproductive System Infections, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.3878,0.2859
+b'N62A',"b'Menstrual and Other Female Reproductive System Disorders, Major Complexity'",1.0,6.0,1.4,0.0,0.0,,,,0.5014,0.2684
+b'N62B',"b'Menstrual and Other Female Reproductive System Disorders, Minor Complexity'",1.0,3.0,1.54,0.0,0.0,,,,0.2441,0.1654
+b'O01A',"b'Caesarean Delivery, Major Complexity'",2.0,20.0,1.0,0.0,0.0,,0.8526,1.2201,3.2929,0.2861
+b'O01B',"b'Caesarean Delivery, Intermediate Complexity'",1.0,13.0,1.0,0.0,0.0,,,,2.3923,0.291
+b'O01C',"b'Caesarean Delivery, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,1.9267,0.311
+b'O02A',"b'Vaginal Delivery with GIs, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,2.6921,0.3891
+b'O02B',"b'Vaginal Delivery with GIs, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,1.8243,0.443
+b'O03Z',b'Ectopic Pregnancy',1.0,5.0,1.0,0.0,0.0,,,,1.1648,0.4002
+b'O04A',"b'Postpartum and Post Abortion with GIs, Major Complexity'",1.0,14.0,1.0,0.0,0.0,,,,2.1994,0.3431
+b'O04B',"b'Postpartum and Post Abortion with GIs, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.9309,0.4337
+b'O05Z',b'Abortion with GIs',1.0,3.0,1.0,0.0,0.0,,,,0.5818,0.2547
+b'O60A',"b'Vaginal Delivery, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.7289,0.3369
+b'O60B',"b'Vaginal Delivery, Intermediate Complexity'",1.0,7.0,1.1,0.0,0.0,,,,1.1835,0.3984
+b'O60C',"b'Vaginal Delivery, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.8532,0.3984
+b'O61A',"b'Postpartum and Post Abortion without GIs, Major Complexity'",1.0,10.0,1.0,0.0,0.0,,,,1.0523,0.2663
+b'O61B',"b'Postpartum and Post Abortion without GIs, Minor Complexity'",1.0,5.0,1.0,0.0,0.0,,,,0.5027,0.3016
+b'O63A',"b'Abortion without GIs, Major Complexity'",1.0,4.0,1.0,0.0,0.0,,,,0.6198,0.402
+b'O63B',"b'Abortion without GIs, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.2114,0.1568
+b'O66A',"b'Antenatal and Other Admissions related to Pregnancy, Childbirth and the Puerperium, Major Complexity'",1.0,10.0,1.0,1.0,0.0,0.2004,,,0.985,0.233
+b'O66B',"b'Antenatal and Other Admissions related to Pregnancy, Childbirth and the Puerperium, Intermediate Complexity'",1.0,4.0,1.19,0.0,0.0,,,,0.3264,0.2295
+b'O66C',"b'Antenatal and Other Admissions related to Pregnancy, Childbirth and the Puerperium, Minor Complexity'",1.0,3.0,1.58,0.0,0.0,,,,0.1764,0.1357
+b'P01Z',"b'Neonate with Significant GI or Ventilation >= 96 Hours, Died or Transfer to Acute Facility < 5 Days'",1.0,4.0,1.0,0.0,1.0,,,,2.0165,
+b'P02Z',b'Cardiothoracic and Vascular Interventions for Neonates',11.0,102.0,1.0,0.0,1.0,,2.451,2.9562,34.9687,0.7516
+b'P03A',"b'Neonate, Admission Weight 1000-1499g with Significant GI or Ventilation >= 96 Hours, Major Complexity'",44.0,101.0,1.0,0.0,1.0,,0.0772,0.6859,30.2557,0.4158
+b'P03B',"b'Neonate, Admission Weight 1000-1499g with Significant GI or Ventilation >= 96 Hours, Minor Complexity'",13.0,119.0,1.0,0.0,1.0,,0.1653,1.2594,16.5374,0.3642
+b'P04A',"b'Neonate, Admission Weight 1500-1999g with Significant GI or Ventilation >= 96 Hours, Major Complexity'",32.0,74.0,1.0,0.0,1.0,,0.1411,0.6687,21.5403,0.4063
+b'P04B',"b'Neonate, Admission Weight 1500-1999g with Significant GI or Ventilation >= 96 Hours, Minor Complexity'",8.0,80.0,1.0,0.0,1.0,,0.0557,1.2094,9.7312,0.3037
+b'P05A',"b'Neonate, Admission Weight 2000-2499g with Significant GI or Ventilation >= 96 Hours, Major Complexity'",29.0,67.0,1.0,0.0,1.0,,0.5114,0.9222,27.2556,0.48
+b'P05B',"b'Neonate, Admission Weight 2000-2499g with Significant GI or Ventilation >= 96 Hours, Minor Complexity'",14.0,32.0,1.0,0.0,1.0,,0.1658,0.6962,9.9121,0.3421
+b'P06A',"b'Neonate, Admission Weight >= 2500g with Significant GI or Ventilation >= 96 Hours, Major Complexity'",24.0,61.0,1.0,0.0,1.0,,0.7088,0.9631,23.8224,0.4901
+b'P06B',"b'Neonate, Admission Weight >= 2500g with Significant GI or Ventilation >= 96 Hours, Minor Complexity'",8.0,20.0,1.0,0.0,1.0,,0.292,0.81,6.7723,0.3646
+b'P07Z',"b'Neonate, Admission Weight < 750g with Significant GI'",39.0,358.0,1.0,0.0,1.0,,0.9117,1.7693,69.9125,0.5245
+b'P08Z',"b'Neonate, Admission Weight 750-999g with Significant GI'",32.0,297.0,1.0,0.0,1.0,,0.6507,1.479,47.9789,0.4493
+b'P60A',"b'Neonate without Significant GI or Ventilation >= 96 Hours, Died or Transfer to Acute Facility < 5 Days, Major Complexity'",1.0,4.0,1.0,1.0,1.0,0.4923,,,1.6021,
+b'P60B',"b'Neonate without Significant GI or Ventilation >= 96 Hours, Died or Transfer to Acute Facility < 5 Days, Minor Complexity'",1.0,4.0,1.0,0.0,1.0,,,,0.7937,
+b'P61Z',"b'Neonate, Admission Weight < 750g without Significant GI'",27.0,249.0,1.0,0.0,1.0,,0.0,1.7498,47.2442,0.3976
+b'P62A',"b'Neonate, Admission Weight 750-999g without Significant GI, Major Complexity'",27.0,244.0,1.0,0.0,1.0,,0.0,1.7032,45.9862,0.3891
+b'P62B',"b'Neonate, Admission Weight 750-999g without Significant GI, Minor Complexity'",17.0,157.0,1.0,0.0,1.0,,0.0,1.7464,29.6882,0.3946
+b'P63A',"b'Neonate, Admission Weight 1000-1249g without Significant GI or Ventilation >= 96 Hours, Major Complexity'",11.0,105.0,1.0,0.0,1.0,,0.0,1.0832,11.9154,0.2846
+b'P63B',"b'Neonate, Admission Weight 1000-1249g without Significant GI or Ventilation >= 96 Hours, Minor Complexity'",3.0,36.0,1.0,0.0,1.0,,0.0,1.5679,4.7036,0.2581
+b'P64A',"b'Neonate, Admission Weight 1250-1499g without Significant GI or Ventilation >= 96 Hours, Major Complexity'",10.0,94.0,1.0,0.0,1.0,,0.0,0.9955,9.9548,0.2872
+b'P64B',"b'Neonate, Admission Weight 1250-1499g without Significant GI or Ventilation >= 96 Hours, Minor Complexity'",6.0,59.0,1.0,0.0,1.0,,0.0,1.1998,7.1989,0.2611
+b'P65A',"b'Neonate, Admission Weight 1500-1999g without Significant GI or Ventilation >= 96 Hours, Extreme Complexity'",9.0,85.0,1.0,0.0,1.0,,0.0,1.1092,9.9825,0.2559
+b'P65B',"b'Neonate, Admission Weight 1500-1999g without Significant GI or Ventilation >= 96 Hours, Major Complexity'",7.0,70.0,1.0,0.0,1.0,,0.0,1.1386,7.9704,0.2644
+b'P65C',"b'Neonate, Admission Weight 1500-1999g without Significant GI or Ventilation >= 96 Hours, Intermediate Complexity'",6.0,56.0,1.0,0.0,1.0,,0.0,1.0442,6.2651,0.2774
+b'P65D',"b'Neonate, Admission Weight 1500-1999g without Significant GI or Ventilation >= 96 Hours, Minor Complexity'",4.0,42.0,1.0,0.0,1.0,,0.0,1.1866,4.7463,0.2709
+b'P66A',"b'Neonate, Admission Weight 2000-2499g without Significant GI or Ventilation >= 96 Hours, Extreme Complexity'",11.0,27.0,1.0,0.0,1.0,,0.0,0.5728,6.3008,0.2808
+b'P66B',"b'Neonate, Admission Weight 2000-2499g without Significant GI or Ventilation >= 96 Hours, Major Complexity'",3.0,32.0,1.0,0.0,1.0,,0.0,1.243,3.7289,0.2857
+b'P66C',"b'Neonate, Admission Weight 2000-2499g without Significant GI or Ventilation >= 96 Hours, Intermediate Complexity'",2.0,21.0,1.0,0.0,1.0,,0.0,1.2718,2.5437,0.2875
+b'P66D',"b'Neonate, Admission Weight 2000-2499g without Significant GI or Ventilation >= 96 Hours, Minor Complexity'",1.0,11.0,1.0,0.0,1.0,,,,1.2009,0.2902
+b'P67A',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, < 37 Complete Weeks Gestation, Extreme Complexity'",4.0,44.0,1.0,0.0,1.0,,0.0,1.282,5.1279,0.2794
+b'P67B',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, < 37 Complete Weeks Gestation, Major Complexity'",2.0,26.0,1.0,0.0,1.0,,0.0,1.5696,3.1392,0.2974
+b'P67C',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, < 37 Complete Weeks Gestation, Intermediate Complexity'",2.0,20.0,1.0,0.0,1.0,,0.0,1.1622,2.3245,0.2772
+b'P67D',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, < 37 Complete Weeks Gestation, Minor Complexity'",1.0,14.0,1.0,0.0,1.0,,,,1.4101,0.2798
+b'P68A',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, >= 37 Complete Weeks Gestation, Extreme Complexity'",2.0,22.0,1.0,0.0,1.0,,0.0,1.5019,3.0037,0.3497
+b'P68B',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, >= 37 Complete Weeks Gestation, Major Complexity'",1.0,11.0,1.0,0.0,1.0,,,,1.3954,0.3173
+b'P68C',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, >= 37 Complete Weeks Gestation, Intermediate Complexity'",1.0,8.0,1.0,0.0,1.0,,,,0.9687,0.2991
+b'P68D',"b'Neonate, Admission Weight >= 2500g without Significant GI or Ventilation >= 96 Hours, >= 37 Complete Weeks Gestation, Minor Complexity'",1.0,6.0,1.0,0.0,1.0,,,,0.6081,0.3502
+b'Q01Z',b'Splenectomy',2.0,19.0,1.0,0.0,0.0,,1.2338,1.2257,3.6852,0.3159
+b'Q02A',"b'Blood and Immune System Disorders with Other GIs, Major Complexity'",4.0,36.0,1.37,0.0,0.0,,0.5592,1.0825,4.8893,0.2757
+b'Q02B',"b'Blood and Immune System Disorders with Other GIs, Minor Complexity'",1.0,10.0,1.25,1.0,0.0,0.6116,,,1.6954,0.246
+b'Q60A',"b'Reticuloendothelial and Immunity Disorders, Major Complexity'",1.0,17.0,1.35,1.0,0.0,0.2438,,,1.7517,0.3281
+b'Q60B',"b'Reticuloendothelial and Immunity Disorders, Minor Complexity'",1.0,3.0,1.74,0.0,0.0,,,,0.2082,0.1535
+b'Q61A',"b'Red Blood Cell Disorders, Major Complexity'",1.0,15.0,1.35,1.0,0.0,0.3049,,,1.3773,0.2479
+b'Q61B',"b'Red Blood Cell Disorders, Intermediate Complexity'",1.0,4.0,1.32,0.0,0.0,,,,0.3409,0.1639
+b'Q61C',"b'Red Blood Cell Disorders, Minor Complexity'",1.0,3.0,1.67,0.0,0.0,,,,0.1596,0.1084
+b'Q62A',"b'Coagulation Disorders, Major Complexity'",2.0,19.0,1.22,1.0,0.0,0.2395,0.0,0.96,1.92,0.2401
+b'Q62B',"b'Coagulation Disorders, Minor Complexity'",1.0,8.0,1.37,1.0,0.0,0.1846,,,0.653,0.1285
+b'R01A',"b'Lymphoma and Leukaemia with Major GIs, Major Complexity'",8.0,78.0,1.0,0.0,0.0,,1.0818,1.5502,13.4831,0.365
+b'R01B',"b'Lymphoma and Leukaemia with Major GIs, Minor Complexity'",2.0,18.0,1.0,0.0,0.0,,0.3534,1.6819,3.7171,0.3297
+b'R02A',"b'Other Neoplastic Disorders with Major GIs, Major Complexity'",4.0,38.0,1.0,0.0,0.0,,2.1025,1.4316,7.829,0.337
+b'R02B',"b'Other Neoplastic Disorders with Major GIs, Intermediate Complexity'",2.0,19.0,1.0,0.0,0.0,,1.4592,1.2535,3.9662,0.1646
+b'R02C',"b'Other Neoplastic Disorders with Major GIs, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,1.9154,0.255
+b'R03A',"b'Lymphoma and Leukaemia with Other GIs, Major Complexity'",9.0,87.0,1.65,0.0,0.0,,0.487,1.1646,10.9685,0.3549
+b'R03B',"b'Lymphoma and Leukaemia with Other GIs, Intermediate Complexity'",3.0,30.0,1.0,0.0,0.0,,0.4147,1.3457,4.4517,0.2799
+b'R03C',"b'Lymphoma and Leukaemia with Other GIs, Minor Complexity'",1.0,15.0,1.46,1.0,0.0,0.5766,,,2.2905,0.2517
+b'R04A',"b'Other Neoplastic Disorders with Other GIs, Major Complexity'",3.0,27.0,1.0,1.0,0.0,0.7735,0.8726,1.2446,4.6063,0.2526
+b'R04B',"b'Other Neoplastic Disorders with Other GIs, Minor Complexity'",1.0,12.0,1.14,1.0,0.0,0.7903,,,2.1395,0.2521
+b'R05A',"b'Other Haematopoietic Stem Cell Transplantation, Age <= 16 Years or Major Complexity'",14.0,130.0,2.0,0.0,0.0,,0.5112,1.3948,20.0391,0.4562
+b'R05B',"b'Other Haematopoietic Stem Cell Transplantation, Age >= 17 Years and Minor Complexity'",8.0,73.0,1.0,0.0,0.0,,0.023,1.4926,11.964,0.3753
+b'R06A',"b'Autologous Haematopoietic Stem Cell Transplantation, Major Complexity'",8.0,75.0,1.94,0.0,0.0,,0.1299,1.2266,9.9425,0.3873
+b'R06B',"b'Autologous Haematopoietic Stem Cell Transplantation, Intermediate Complexity'",6.0,56.0,1.0,0.0,0.0,,0.0218,1.1264,6.7803,0.3703
+b'R06C',"b'Autologous Haematopoietic Stem Cell Transplantation, Minor Complexity'",3.0,32.0,1.0,0.0,0.0,,0.0,1.3472,4.0416,0.2671
+b'R60A',"b'Acute Leukaemia, Major Complexity'",5.0,48.0,1.15,0.0,0.0,,0.0,1.5165,7.5825,0.3361
+b'R60B',"b'Acute Leukaemia, Intermediate Complexity'",1.0,14.0,1.05,1.0,0.0,0.3561,,,1.8896,0.2829
+b'R60C',"b'Acute Leukaemia, Minor Complexity'",1.0,15.0,2.0,1.0,0.0,0.2647,,,1.3523,0.2107
+b'R61A',"b'Lymphoma and Non-Acute Leukaemia, Major Complexity'",3.0,33.0,1.28,0.0,0.0,,0.0,1.7036,5.1109,0.3635
+b'R61B',"b'Lymphoma and Non-Acute Leukaemia, Intermediate Complexity'",1.0,13.0,1.61,1.0,0.0,0.3143,,,1.5017,0.292
+b'R61C',"b'Lymphoma and Non-Acute Leukaemia, Minor Complexity'",1.0,8.0,2.0,1.0,0.0,0.2246,,,0.7681,0.2199
+b'R62A',"b'Other Neoplastic Disorders, Major Complexity'",3.0,33.0,1.43,0.0,0.0,,0.0868,1.1642,3.5793,0.2567
+b'R62B',"b'Other Neoplastic Disorders, Intermediate Complexity'",1.0,16.0,1.48,1.0,0.0,0.4228,,,1.4856,0.2289
+b'R62C',"b'Other Neoplastic Disorders, Minor Complexity'",1.0,11.0,1.63,1.0,0.0,0.4552,,,0.9699,0.2038
+b'R63Z',b'Pharmacotherapy for Neoplastic Disorders',1.0,1.0,1.29,0.0,0.0,,,,0.3021,
+b'T01A',"b'Infectious and Parasitic Diseases with GIs, Major Complexity'",17.0,40.0,1.47,0.0,0.0,,0.9584,0.6064,11.2664,0.267
+b'T01B',"b'Infectious and Parasitic Diseases with GIs, Intermediate Complexity'",5.0,45.0,1.24,0.0,0.0,,0.5592,1.0661,5.8899,0.2284
+b'T01C',"b'Infectious and Parasitic Diseases with GIs, Minor Complexity'",2.0,23.0,1.19,0.0,0.0,,0.3639,1.1538,2.6715,0.2245
+b'T40Z',b'Infectious and Parasitic Diseases with Ventilator Support',2.0,25.0,1.0,0.0,0.0,,0.0728,2.7359,5.5446,0.3641
+b'T60A',"b'Sepsis, Septic Shock and Systemic Infection, Major Complexity'",4.0,39.0,1.28,0.0,0.0,,0.0,1.1423,4.5693,0.2441
+b'T60B',"b'Sepsis, Septic Shock and Systemic Infection, Intermediate Complexity'",2.0,21.0,1.12,0.0,0.0,,0.0,1.1266,2.2533,0.2303
+b'T60C',"b'Sepsis, Septic Shock and Systemic Infection, Minor Complexity'",1.0,12.0,1.11,0.0,0.0,,,,1.0568,0.2322
+b'T61A',"b'Postoperative Infections, Major Complexity'",2.0,20.0,1.41,0.0,0.0,,0.0,0.8381,1.6762,0.1698
+b'T61B',"b'Postoperative Infections, Minor Complexity'",1.0,10.0,1.56,0.0,0.0,,,,0.657,0.1538
+b'T62A',"b'Fever of Unknown Origin, Major Complexity'",1.0,17.0,0.9,0.0,0.0,,,,1.5924,0.26
+b'T62B',"b'Fever of Unknown Origin, Minor Complexity'",1.0,6.0,0.8,0.0,0.0,,,,0.5328,0.2709
+b'T63A',"b'Viral Illnesses, Major Complexity'",2.0,20.0,0.8,0.0,0.0,,0.0,0.8245,1.6489,0.2392
+b'T63B',"b'Viral Illnesses, Minor Complexity'",1.0,8.0,0.84,0.0,0.0,,,,0.3502,0.2676
+b'T64A',"b'Other Infectious and Parasitic Diseases, Major Complexity'",5.0,53.0,1.14,0.0,0.0,,0.0,1.0249,5.1245,0.233
+b'T64B',"b'Other Infectious and Parasitic Diseases, Intermediate Complexity'",2.0,27.0,1.1,0.0,0.0,,0.0,1.1137,2.2275,0.184
+b'T64C',"b'Other Infectious and Parasitic Diseases, Minor Complexity'",1.0,16.0,1.13,1.0,0.0,0.2022,,,1.1592,0.1483
+b'U40Z',"b'Mental Health Treatment with ECT, Sameday'",1.0,1.0,1.0,0.0,0.0,,,,0.2612,
+b'U60Z',"b'Mental Health Treatment without ECT, Sameday'",1.0,1.0,2.0,0.0,0.0,,,,0.1181,
+b'U61A',"b'Schizophrenia Disorders, Major Complexity'",4.0,40.0,1.0,0.0,0.0,,0.0,0.8762,3.5049,0.2049
+b'U61B',"b'Schizophrenia Disorders, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,0.5586,0.2735
+b'U62A',"b'Paranoia and Acute Psychotic Disorders, Major Complexity'",6.0,15.0,1.0,0.0,0.0,,0.0,0.5352,3.2109,0.232
+b'U62B',"b'Paranoia and Acute Psychotic Disorders, Minor Complexity'",1.0,9.0,1.0,0.0,0.0,,,,0.761,0.2719
+b'U63A',"b'Major Affective Disorders, Major Complexity'",4.0,41.0,1.0,0.0,0.0,,0.0,1.0752,4.3007,0.2413
+b'U63B',"b'Major Affective Disorders, Minor Complexity'",1.0,10.0,1.0,0.0,0.0,,,,0.8663,0.2719
+b'U64A',"b'Other Affective and Somatoform Disorders, Major Complexity'",2.0,18.0,1.0,0.0,0.0,,0.0,0.9842,1.9684,0.2372
+b'U64B',"b'Other Affective and Somatoform Disorders, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,0.5249,0.2601
+b'U65A',"b'Anxiety Disorders, Major Complexity'",2.0,22.0,1.58,0.0,0.0,,0.0,1.0629,2.1258,0.2474
+b'U65B',"b'Anxiety Disorders, Minor Complexity'",1.0,7.0,1.87,0.0,0.0,,,,0.6416,0.2676
+b'U66A',"b'Eating and Obsessive-Compulsive Disorders, Major Complexity'",11.0,24.0,1.17,0.0,0.0,,0.0,0.514,5.6542,0.2833
+b'U66B',"b'Eating and Obsessive-Compulsive Disorders, Minor Complexity'",3.0,28.0,1.17,0.0,0.0,,0.0,1.122,3.3659,0.3007
+b'U67A',"b'Personality Disorders and Acute Reactions, Major Complexity'",2.0,27.0,1.64,0.0,0.0,,0.0,1.2925,2.5849,0.2036
+b'U67B',"b'Personality Disorders and Acute Reactions, Minor Complexity'",1.0,8.0,1.79,0.0,0.0,,,,0.6548,0.2478
+b'U68A',"b'Neurodevelopmental Disorders and Symbolic Dysfunctions, Major Complexity'",3.0,31.0,1.0,0.0,0.0,,0.0,1.4276,4.2829,0.2491
+b'U68B',"b'Neurodevelopmental Disorders and Symbolic Dysfunctions, Minor Complexity'",1.0,9.0,1.47,0.0,0.0,,,,0.9843,0.3262
+b'V60A',"b'Alcohol Intoxication and Withdrawal, Major Complexity'",1.0,12.0,1.0,0.0,0.0,,,,1.0463,0.2764
+b'V60B',"b'Alcohol Intoxication and Withdrawal, Minor Complexity'",1.0,4.0,0.8,0.0,0.0,,,,0.2967,0.1879
+b'V61A',"b'Drug Intoxication and Withdrawal, Major Complexity'",1.0,9.0,1.0,0.0,0.0,,,,0.8835,0.3125
+b'V61B',"b'Drug Intoxication and Withdrawal, Minor Complexity'",1.0,4.0,1.0,0.0,0.0,,,,0.3293,0.2108
+b'V62A',"b'Alcohol Use and Dependence, Major Complexity'",2.0,19.0,1.0,0.0,0.0,,0.0,0.9252,1.8504,0.2686
+b'V62B',"b'Alcohol Use and Dependence, Minor Complexity'",1.0,10.0,1.0,0.0,0.0,,,,0.7041,0.2237
+b'V63Z',b'Opioid Use and Dependence',1.0,12.0,1.0,0.0,0.0,,,,1.2008,0.2642
+b'V64A',"b'Other Drug Use and Dependence, Major Complexity'",1.0,18.0,1.0,0.0,0.0,,,,1.4861,0.2506
+b'V64B',"b'Other Drug Use and Dependence, Minor Complexity'",1.0,8.0,1.0,0.0,0.0,,,,0.6029,0.2678
+b'W01A',"b'Ventilation, Tracheostomy and Cranial Interventions for Multiple Significant Trauma, Major Complexity'",8.0,81.0,1.0,0.0,0.0,,4.2885,2.5229,24.4717,0.3525
+b'W01B',"b'Ventilation, Tracheostomy and Cranial Interventions for Multiple Significant Trauma, Intermediate Complexity'",4.0,45.0,1.0,0.0,0.0,,2.576,3.2831,15.7086,0.3884
+b'W01C',"b'Ventilation, Tracheostomy and Cranial Interventions for Multiple Significant Trauma, Minor Complexity'",2.0,24.0,1.0,0.0,0.0,,1.4313,3.815,9.0613,0.3863
+b'W02A',"b'Hip, Femur and Lower Limb Interventions for Multiple Significant Trauma, Major Complexity'",6.0,55.0,1.0,0.0,0.0,,2.6047,1.5776,12.0706,0.4192
+b'W02B',"b'Hip, Femur and Lower Limb Interventions for Multiple Significant Trauma, Minor Complexity'",3.0,28.0,1.0,0.0,0.0,,1.3357,1.212,4.9717,0.2592
+b'W03Z',b'Abdominal Interventions for Multiple Significant Trauma',3.0,30.0,1.0,0.0,0.0,,1.3193,1.4506,5.6711,0.4418
+b'W04A',"b'Multiple Significant Trauma with Other GIs, Major Complexity'",11.0,25.0,1.0,0.0,0.0,,3.3231,0.6502,10.475,0.3425
+b'W04B',"b'Multiple Significant Trauma with Other GIs, Minor Complexity'",2.0,24.0,1.0,0.0,0.0,,1.0065,2.0356,5.0777,0.4005
+b'W60Z',"b'Multiple Significant Trauma, Transferred to Acute Facility < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,1.0432,
+b'W61A',"b'Multiple Significant Trauma without GIs, Major Complexity'",3.0,32.0,1.33,0.0,0.0,,0.0,1.1743,3.5228,0.2623
+b'W61B',"b'Multiple Significant Trauma without GIs, Minor Complexity'",1.0,15.0,1.4,0.0,0.0,,,,1.4175,0.2665
+b'X02A',"b'Microvascular Tissue Transfer and Skin Grafts for Injuries to Hand, Major Complexity'",2.0,20.0,1.0,0.0,0.0,,0.5323,2.2013,4.9348,0.4394
+b'X02B',"b'Microvascular Tissue Transfer and Skin Grafts for Injuries to Hand, Minor Complexity'",1.0,5.0,1.33,0.0,0.0,,,,0.9871,0.5351
+b'X04A',"b'Other Interventions for Injuries to Lower Limb, Major Complexity'",3.0,33.0,1.0,0.0,0.0,,0.6089,1.12,3.9688,0.2383
+b'X04B',"b'Other Interventions for Injuries to Lower Limb, Minor Complexity'",1.0,7.0,1.0,1.0,0.0,0.5278,,,1.0817,0.2175
+b'X05A',"b'Other Interventions for Injuries to Hand, Major Complexity'",1.0,9.0,1.23,0.0,0.0,,,,1.4432,0.2767
+b'X05B',"b'Other Interventions for Injuries to Hand, Minor Complexity'",1.0,4.0,1.08,0.0,0.0,,,,0.5832,0.2203
+b'X06A',"b'Other Interventions for Other Injuries, Major Complexity'",3.0,28.0,1.22,0.0,0.0,,0.7051,1.1146,4.0489,0.2439
+b'X06B',"b'Other Interventions for Other Injuries, Intermediate Complexity'",1.0,11.0,1.0,0.0,0.0,,,,1.4297,0.2053
+b'X06C',"b'Other Interventions for Other Injuries, Minor Complexity'",1.0,5.0,1.08,0.0,0.0,,,,0.745,0.2754
+b'X07A',"b'Skin Grafts for Injuries Excluding Hand, Major Complexity'",6.0,58.0,1.0,0.0,0.0,,0.7361,1.2414,8.1843,0.292
+b'X07B',"b'Skin Grafts for Injuries Excluding Hand, Intermediate Complexity'",2.0,27.0,1.0,0.0,0.0,,0.5203,1.4784,3.4771,0.2476
+b'X07C',"b'Skin Grafts for Injuries Excluding Hand, Minor Complexity'",1.0,12.0,1.0,0.0,0.0,,,,1.5435,0.2791
+b'X40A',"b'Injuries, Poisoning and Toxic Effects of Drugs with Ventilator Support, Major Complexity'",1.0,16.0,1.0,0.0,0.0,,,,3.1663,0.3256
+b'X40B',"b'Injuries, Poisoning and Toxic Effects of Drugs with Ventilator Support, Minor Complexity'",1.0,7.0,1.0,0.0,0.0,,,,1.8334,0.4616
+b'X60A',"b'Injuries, Major Complexity'",1.0,13.0,1.0,1.0,0.0,0.188,,,1.0569,0.2121
+b'X60B',"b'Injuries, Minor Complexity'",1.0,4.0,1.62,0.0,0.0,,,,0.2182,0.1638
+b'X61A',"b'Allergic Reactions, Major Complexity'",1.0,5.0,1.14,0.0,0.0,,,,0.4512,0.2517
+b'X61B',"b'Allergic Reactions, Minor Complexity'",1.0,3.0,1.0,0.0,0.0,,,,0.1258,0.0941
+b'X62A',"b'Poisoning/Toxic Effects of Drugs and Other Substances, Major Complexity'",1.0,11.0,1.16,1.0,0.0,0.1729,,,1.0939,0.2478
+b'X62B',"b'Poisoning/Toxic Effects of Drugs and Other Substances, Minor Complexity'",1.0,4.0,1.29,0.0,0.0,,,,0.2509,0.1928
+b'X63A',"b'Sequelae of Treatment, Major Complexity'",1.0,16.0,1.42,1.0,0.0,0.2717,,,1.2942,0.1955
+b'X63B',"b'Sequelae of Treatment, Minor Complexity'",1.0,5.0,1.34,0.0,0.0,,,,0.3856,0.1951
+b'X64A',"b'Other Injuries, Poisonings and Toxic Effects, Major Complexity'",2.0,23.0,1.09,0.0,0.0,,0.0,1.0384,2.0768,0.198
+b'X64B',"b'Other Injuries, Poisonings and Toxic Effects, Intermediate Complexity'",1.0,6.0,0.94,0.0,0.0,,,,0.4519,0.2235
+b'X64C',"b'Other Injuries, Poisonings and Toxic Effects, Minor Complexity'",1.0,4.0,1.08,0.0,0.0,,,,0.2422,0.1711
+b'Y01Z',b'Ventilation >= 96 Hours or Tracheostomy for Burns or GI for Severe Full Thickness Burns',18.0,43.0,1.0,0.0,0.0,,3.8078,1.7479,35.2692,0.7935
+b'Y02A',"b'Skin Grafts for Other Burns, Major Complexity'",13.0,30.0,1.0,0.0,0.0,,0.9798,0.7648,10.9226,0.4857
+b'Y02B',"b'Skin Grafts for Other Burns, Intermediate Complexity'",2.0,26.0,1.07,0.0,0.0,,0.5486,1.9158,4.3802,0.3634
+b'Y02C',"b'Skin Grafts for Other Burns, Minor Complexity'",1.0,9.0,0.93,0.0,0.0,,,,1.6088,0.4268
+b'Y03A',"b'Other GIs for Other Burns, Major Complexity'",1.0,13.0,1.27,0.0,0.0,,,,1.5189,0.3507
+b'Y03B',"b'Other GIs for Other Burns, Minor Complexity'",1.0,5.0,1.11,0.0,0.0,,,,0.6864,0.3556
+b'Y60Z',"b'Burns, Transferred to Acute Facility < 5 Days'",1.0,4.0,1.0,0.0,0.0,,,,0.478,
+b'Y61Z',b'Severe Burns',1.0,10.0,1.0,0.0,0.0,,,,0.8767,0.3168
+b'Y62A',"b'Other Burns, Major Complexity'",1.0,17.0,1.08,1.0,0.0,0.2639,,,1.644,0.2974
+b'Y62B',"b'Other Burns, Minor Complexity'",1.0,5.0,1.62,0.0,0.0,,,,0.3191,0.245
+b'Z01A',"b'Other Contacts with Health Services with GIs, Major Complexity'",2.0,18.0,1.07,0.0,0.0,,0.5404,1.2399,3.0201,0.1954
+b'Z01B',"b'Other Contacts with Health Services with GIs, Minor Complexity'",1.0,4.0,1.24,0.0,0.0,,,,0.6673,0.2433
+b'Z40Z',b'Other Contacts with Health Services with Endoscopy',1.0,3.0,2.0,0.0,0.0,,,,0.2891,0.137
+b'Z61A',"b'Signs and Symptoms, Major Complexity'",2.0,21.0,1.0,0.0,0.0,,0.0,0.921,1.8419,0.2092
+b'Z61B',"b'Signs and Symptoms, Minor Complexity'",1.0,11.0,0.87,1.0,0.0,0.1856,,,0.6383,0.2119
+b'Z63A',"b'Other Follow Up After Surgery or Medical Care, Major Complexity'",2.0,27.0,1.0,0.0,0.0,,0.0,1.0787,2.1575,0.2048
+b'Z63B',"b'Other Follow Up After Surgery or Medical Care, Minor Complexity'",1.0,11.0,0.8,0.0,0.0,,,,0.7627,0.1739
+b'Z64A',"b'Other Factors Influencing Health Status, Major Complexity'",1.0,11.0,1.0,0.0,0.0,,,,0.6687,0.2219
+b'Z64B',"b'Other Factors Influencing Health Status, Minor Complexity'",1.0,10.0,1.33,1.0,0.0,0.2139,,,0.487,0.1898
+b'Z65Z',"b'Congenital Malformations, Chromosomal Abnormalities and Problems Arising in the Neonatal Period'",1.0,5.0,1.12,0.0,0.0,,,,0.6522,0.3243
+b'Z66Z',b'Sleep Disorders',1.0,8.0,1.51,0.0,0.0,,,,0.3728,0.1954
