@@ -13,6 +13,8 @@ YEARS = sorted(RA_VERSION.keys())
 BASE_DIR = pathlib.Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / sas_ref_dir("2025")
 
+YEARS = [str(y) for y in range(2013, 2026)]
+
 
 def test_load_sas_table_no_cache():
     path = DATA_DIR / "tablec.sas7bdat"
@@ -38,7 +40,6 @@ def test_load_multiple_tables(tmp_path):
 
 
 @pytest.mark.parametrize("year", YEARS)
-def test_sas_ref_dir_legacy(year):
-    """Ensure legacy directory structures are located for all years."""
-    legacy_dir = BASE_DIR / sas_ref_dir(year)
-    assert legacy_dir.exists()
+def test_sas_ref_dir_all_years(year):
+    """Ensure SAS directories are located for all supported years."""
+    assert (BASE_DIR / sas_ref_dir(year)).exists()

@@ -11,8 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from nwau_py.cli.main import cli
 
-YEARS = ["2024", "2025"]
-
+YEARS = [str(y) for y in range(2013, 2026)]
 
 @pytest.mark.parametrize("year", YEARS)
 def test_cli_runs_with_sample_data(tmp_path, year):
@@ -71,6 +70,17 @@ def test_cli_outputs_nwau25(tmp_path, year):
         "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
     )
     input_csv.write_text(csv_data)
+    params_dir = tmp_path / "params"
+    params_dir.mkdir()
+    (params_dir / "weights.csv").write_text("dummy\n0\n")
+    (params_dir / "formula.json").write_text(
+        json.dumps(
+            {
+                "variables": {"val": "National Efficient Price"},
+                "steps": ["NWAU25 = val"],
+            }
+        )
+    )
     output_csv = tmp_path / "out.csv"
     runner = CliRunner()
     result = runner.invoke(
@@ -79,7 +89,7 @@ def test_cli_outputs_nwau25(tmp_path, year):
             "acute",
             str(input_csv),
             "--params",
-            "excel_calculator/data",
+            str(params_dir),
             "--year",
             year,
             "--output",

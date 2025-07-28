@@ -8,6 +8,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
+
+from nwau_py.utils import sas_ref_dir
+
 from nwau_py.utils import RA_VERSION
 
 YEARS = sorted(RA_VERSION.keys())
@@ -18,6 +21,8 @@ spec = importlib.util.spec_from_file_location(
 )
 acute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(acute)
+
+YEARS = [str(y) for y in range(2013, 2026)]
 
 DATA = pd.DataFrame(
     {
@@ -37,6 +42,7 @@ EXPECTED = np.array([6.8772, 9.2472, 11.3272])
 @pytest.mark.parametrize("year", YEARS)
 def test_calculate_acute_matches_sas_weights(monkeypatch, year):
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
         suffix = str(year)[-2:]
         path = Path("tests/data") / str(year) / f"nep{suffix}_aa_price_weights.csv"
         if not path.exists():
@@ -47,6 +53,7 @@ def test_calculate_acute_matches_sas_weights(monkeypatch, year):
 
     monkeypatch.setattr(acute, "_load_price_weights", _load_csv)
 
+    ref_dir = Path("tests/data")
     ref_dir = Path("tests/data") / str(year)
     if not ref_dir.exists():
         ref_dir = Path("tests/data/2025")
@@ -198,6 +205,29 @@ def test_calculate_acute_option_paths(monkeypatch, year):
         ref_dir=Path("tests/data/2025"),
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+
+
+def test_calculate_acute_2018_runs(monkeypatch):
+    """Ensure the calculator runs for a pre-2021 year."""
+    dir_path = sas_ref_dir("2018")
+    assert Path(dir_path).exists()
+
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda *_args, **_kwargs: pd.read_csv(
+            "tests/data/2018/nep18_aa_price_weights.csv"
+        ),
+    )
+
+    df = DATA.iloc[:1].copy()
+    res = acute.calculate_acute(
+        df,
+        acute.AcuteParams(),
+        year="2018",
+        ref_dir=Path(dir_path),
+    )
+    assert res["NWAU25"].iloc[0] > 0
 
 
 # ---------------------------------------------------------------------------

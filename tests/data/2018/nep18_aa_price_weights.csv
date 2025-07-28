@@ -1,0 +1,4 @@
+DRG,Description,drg_samedaylist_flag,drg_bundled_icu_flag,drg_inlier_lb,drg_inlier_ub,drg_pw_sd,drg_pw_sso_base,drg_pw_sso_perdiem,drg_pw_inlier,drg_pw_lso_perdiem,drg_adj_paed,drg_adj_privpat_serv
+801A,"GIs Unrelated to Principal Diagnosis, Major Complexity",0.0,0.0,8.0,75.0,,0.903,1.0293,9.1372,0.2715,1.29,0.18
+801B,"GIs Unrelated to Principal Diagnosis, Intermediate Complexity",0.0,0.0,3.0,31.0,,0.6569,1.2627,4.4451,0.2739,1.0,0.15
+801C,"GIs Unrelated to Principal Diagnosis, Minor Complexity",0.0,0.0,1.0,9.0,,,,1.2842,0.301,1.0,0.22
