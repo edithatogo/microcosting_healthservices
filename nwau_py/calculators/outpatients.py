@@ -191,7 +191,6 @@ def calculate_outpatients(
     ind_df = _load_ind_adj(ref_dir, year)
     pat_rem = _load_pat_rem_adj(ref_dir, year)
     treat_rem = _load_treat_rem_adj(ref_dir, year)
-
     merged["adj_multiprov"] = merged.get("adj_multiprov", adj_multi).fillna(adj_multi)
     adj_multi_series = merged["adj_multiprov"].fillna(adj_multi)
 
@@ -359,7 +358,7 @@ def calculate_outpatients(
         if "adj_treat_remoteness" not in merged.columns:
             merged["adj_treat_remoteness"] = 0
     for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
-        merged[col] = merged.get(col, pd.Series(0, index=merged.index)).fillna(0)
+        merged[col] = merged[col].fillna(0)
 
     if "FUNDSC" in merged.columns:
         out_scope = ~merged["FUNDSC"].isin(params.inscope_funding_sources)
@@ -403,9 +402,9 @@ def calculate_outpatients(
         gwau = np.select(
             [cond1, cond2, cond3, cond4],
             [
-                w01 * merged["tier2_adj_paed"] * (base + adj_multi_series) * treat,
+                w01 * merged["tier2_adj_paed"] * (base + adj_multi) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
-                w01 * (base + adj_multi_series) * treat,
+                w01 * (base + adj_multi) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
             ],
             default=w01 * base * treat,
@@ -433,10 +432,7 @@ def calculate_outpatients(
                 (multiprov_flag == 1)
                 & merged["TIER2_CLINIC"].isin([20.48, 20.56, 40.62]),
             ],
-            [
-                w01 * (1 + adj_multi_series) * treat * counts_multi,
-                w01 * treat * counts_multi,
-            ],
+            [w01 * (1 + adj_multi) * treat * counts_multi, w01 * treat * counts_multi],
             default=w01 * treat * counts,
         )
 
