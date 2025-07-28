@@ -104,9 +104,11 @@ def calculate_acute(
         merged = merged.merge(covid_adj, on="_pat_covid_treat_flag", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
+        IndexError,
     ):
         merged["adj_covid"] = 0
     merged["adj_covid"] = merged.get("adj_covid", 0).fillna(0)
@@ -130,7 +132,8 @@ def calculate_acute(
         radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -142,7 +145,8 @@ def calculate_acute(
         dialysis_set = set(dialysis_codes["code_ID"].astype(int).astype(str))
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -176,7 +180,8 @@ def calculate_acute(
             merged = merged.merge(icu_df, on="APCID", how="left")
         except (
             FileNotFoundError,
-            pyreadstat.errors.ReadstatError,
+            pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
             KeyError,
             ValueError,
         ):
@@ -234,7 +239,8 @@ def calculate_acute(
                 )
             except (
                 FileNotFoundError,
-                pyreadstat.errors.ReadstatError,
+                pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
                 KeyError,
                 ValueError,
             ):
@@ -279,7 +285,8 @@ def calculate_acute(
                     merged[sa2_ra_col] = np.nan
             except (
                 FileNotFoundError,
-                pyreadstat.errors.ReadstatError,
+                pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
                 KeyError,
                 ValueError,
             ):
@@ -304,7 +311,8 @@ def calculate_acute(
                 )
             except (
                 FileNotFoundError,
-                pyreadstat.errors.ReadstatError,
+                pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
                 KeyError,
                 ValueError,
             ):
@@ -345,7 +353,8 @@ def calculate_acute(
         merged = merged.merge(rt_df, on="_pat_radiotherapy_flag", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -372,7 +381,8 @@ def calculate_acute(
         merged = merged.merge(ds_df, on="_pat_dialysis_flag", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -397,7 +407,8 @@ def calculate_acute(
         merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -409,7 +420,8 @@ def calculate_acute(
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -425,7 +437,8 @@ def calculate_acute(
         merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -446,7 +459,8 @@ def calculate_acute(
         merged = merged.merge(ppsa, on="DRG", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -486,7 +500,8 @@ def calculate_acute(
         merged = merged.merge(acc, on="STATE", how="left")
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
@@ -508,7 +523,8 @@ def calculate_acute(
         merged["icu_rate"] = float(icu_df.iloc[0, 0])
     except (
         FileNotFoundError,
-        pyreadstat.errors.ReadstatError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         KeyError,
         ValueError,
     ):
