@@ -162,8 +162,8 @@ def calculate_outpatients(
     except (FileNotFoundError, KeyError, ValueError, IndexError):
         adj_multi_val = 0.0
     ind_df = _load_ind_adj(ref_dir, year)
-    pat_rem = _load_pat_rem_adj(ref_dir, year)
-    treat_rem = _load_treat_rem_adj(ref_dir, year)
+    _load_pat_rem_adj(ref_dir, year)
+    _load_treat_rem_adj(ref_dir, year)
     merged["adj_multiprov"] = adj_multi_val
 
     # --------------------------------------------------------------
