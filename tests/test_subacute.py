@@ -9,12 +9,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import pytest
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from nwau_py.utils import RA_VERSION, ra_suffix
 
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # noqa: E402
 YEARS = sorted(RA_VERSION.keys())
-
 
 spec = importlib.util.spec_from_file_location(
     "subacute",

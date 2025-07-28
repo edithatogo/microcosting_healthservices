@@ -87,57 +87,52 @@ def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     return df.rename(columns={apc_col: "APCID"})[["APCID", "_est_eligible_paed_flag"]]
 
 
-def _load_multi_prov_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> float:
-    """Return the multidisciplinary clinic adjustment constant."""
+def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
     suffix = str(year)[-2:]
-    df = pd.read_sas(ref_dir / f"nep{suffix}_op_multi_prov_adj.sas7bdat")
-    for col in df.select_dtypes(include="object").columns:
-        df[col] = df[col].str.decode("ascii")
-    col = next((c for c in df.columns if c.lower() == "adj_multiprov"), None)
-    if col is None:
-        raise KeyError("adj_multiprov column missing")
-    return float(df[col].iloc[0])
-
-
-def _load_ind_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    df = load_sas_table(ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat")
-    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
+    path = ref_dir / f"nep{suffix}_op_multi_prov_adj.sas7bdat"
     try:
-        df = pd.read_sas(path)
-    except FileNotFoundError:
-        return pd.DataFrame({"_pat_ind_flag": [], "adj_indigenous": []})
-    for col in df.select_dtypes(include="object").columns:
-        df[col] = df[col].str.decode("ascii")
-    return df
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return float(df.loc[0, "adj_multiprov"])
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return 0.0
 
 
-def _load_pat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
     suffix = str(year)[-2:]
-    df = load_sas_table(ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat")
+    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_ind.sas7bdat"
+    try:
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
+
+
+def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
+    suffix = str(year)[-2:]
     path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat"
     try:
-        df = pd.read_sas(path)
-    except FileNotFoundError:
-        return pd.DataFrame({"_pat_remoteness": [], "adj_remoteness": []})
-    for col in df.select_dtypes(include="object").columns:
-        df[col] = df[col].str.decode("ascii")
-    return df
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
 
 
-def _load_treat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
     suffix = str(year)[-2:]
-    df = load_sas_table(
-        ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
-    )
     path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
     try:
-        df = pd.read_sas(path)
-    except FileNotFoundError:
-        return pd.DataFrame({"_treat_remoteness": [], "adj_treat_remoteness": []})
-    for col in df.select_dtypes(include="object").columns:
-        df[col] = df[col].str.decode("ascii")
-    return df
+        df = load_sas_table(path)
+        for col in df.select_dtypes(include="object").columns:
+            df[col] = df[col].str.decode("ascii")
+        return df
+    except (FileNotFoundError, pyreadstat.errors.ReadstatError, KeyError, ValueError):
+        return pd.DataFrame()
 
 def calculate_outpatients(
     df: pd.DataFrame,
