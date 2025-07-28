@@ -86,4 +86,26 @@ The Python calculators now replicate all logic present in the official SAS imple
 
 Planned implementation tasks have been completed.
 
+## Handling Missing Patient Data
+
+Future releases should support imputing adjustment values when key
+classification fields are missing from the input data. Examples include
+patient remoteness and indigenous status. The proposed approach is:
+
+1. Maintain a small configuration file (JSON or CSV) describing the national
+   proportion of episodes within each category (e.g. the share of patients in
+   each remoteness band or indigenous status group).
+2. Extend the calculator functions to accept an optional dictionary of
+   weighting distributions. When a required field such as remoteness is
+   missing for a row, the adjustment will be replaced by the weighted average
+   of all categories using the configured proportions.
+3. Add CLI flags to load the weighting configuration and enable the imputation
+   logic. By default the calculators will continue to behave as the official
+   SAS implementation (missing values yield an error or zero adjustment).
+4. Document the feature and provide examples for rurality and ethnicity.
+
+This will allow the Python calculators to produce approximate results for
+incomplete datasets while retaining full parity with the SAS calculators when
+all variables are present.
+
 
