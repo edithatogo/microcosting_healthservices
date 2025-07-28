@@ -94,10 +94,10 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return float(df.loc[0, "adj_multiprov"])
+    except Exception:
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -114,10 +114,10 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -134,10 +134,10 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -154,10 +154,10 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         for col in df.select_dtypes(include="object").columns:
             df[col] = df[col].str.decode("ascii")
         return df
+    except Exception:
     except (
         FileNotFoundError,
-        pyreadstat.ReadstatError,
-        pyreadstat._readstat_parser.PyreadstatError,
+        pyreadstat.errors.ReadstatError,
         KeyError,
         ValueError,
     ):
@@ -199,20 +199,36 @@ def calculate_outpatients(
     _load_ind_adj(ref_dir, year)
     _load_pat_rem_adj(ref_dir, year)
     _load_treat_rem_adj(ref_dir, year)
+    adj_multi = adj_multi_val
+    ind_df = _load_ind_adj(ref_dir, year)
+
+    adj_multi_val = adj_multi
+    merged["adj_multiprov"] = (
+        merged.get("adj_multiprov", pd.Series(adj_multi_val, index=merged.index))
+        .fillna(adj_multi_val)
+    )
+    adj_multi_series = merged["adj_multiprov"].fillna(adj_multi_val)
+
+    adj_multi = _load_multi_prov_adj(ref_dir, year)
+    ind_df = _load_ind_adj(ref_dir, year)
+    pat_rem = _load_pat_rem_adj(ref_dir, year)
+    treat_rem = _load_treat_rem_adj(ref_dir, year)
+    merged["adj_multiprov"] = merged.get("adj_multiprov", adj_multi).fillna(adj_multi)
+    adj_multi_series = merged["adj_multiprov"].fillna(adj_multi)
 
     # --------------------------------------------------------------
     # Establishment remoteness lookups
     # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
-        hosp_ra_col = f"_hosp_ra_{ra_year}"
+        hosp_col = f"_hosp_ra_{ra_year}"
         if "APCID" in merged.columns:
             try:
                 hosp_df = _load_hospital_ra(ref_dir, year)
                 merged = merged.merge(hosp_df, on="APCID", how="left")
             except (FileNotFoundError, KeyError, ValueError):
-                merged[hosp_ra_col] = np.nan
+                merged[hosp_col] = np.nan
         else:
-            merged[hosp_ra_col] = np.nan
+            merged[hosp_col] = np.nan
 
         pat_pc = next(
             (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
@@ -225,6 +241,7 @@ def calculate_outpatients(
 
         pat_ra_col = f"PAT_{ra}"
         sa2_ra_col = f"SA2_{ra}"
+        hosp_ra_col = hosp_col
         if pat_pc:
             try:
                 pc_df = _load_postcode_ra(ref_dir, year)
@@ -235,6 +252,7 @@ def calculate_outpatients(
                 pc_df = pc_df.rename(
                     columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
                 )
+                pc_df = pc_df.rename(columns={"POSTCODE": pat_pc, ra_col: pat_ra_col})
                 merged = merged.merge(
                     pc_df[[pat_pc, pat_ra_col]],
                     on=pat_pc,
@@ -284,13 +302,6 @@ def calculate_outpatients(
         )
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)
 
-    try:
-        treat_adj = _load_treat_rem_adj(ref_dir, year)
-        merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
-    except Exception:
-        merged["adj_treat_remoteness"] = 0
-    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
-
     if params.data_type == 1:
         service = pd.to_datetime(merged.get("SERVICE_DATE"))
         birth = pd.to_datetime(merged.get("BIRTH_DATE"))
@@ -314,9 +325,39 @@ def calculate_outpatients(
         merged["_pat_age_years"] = np.nan
         merged["_pat_eligible_paed_flag"] = 0
 
+    merged["_pat_remoteness"] = merged.get(
+        "PAT_REMOTENESS", merged.get("EST_REMOTENESS", 0)
+    )
     ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
 
+    if not ind_df.empty:
+        merged = merged.merge(ind_df, on="_pat_ind_flag", how="left")
+    if not pat_rem.empty:
+        merged = merged.merge(pat_rem, on="_pat_remoteness", how="left")
+    if not treat_rem.empty:
+        merged = merged.merge(treat_rem, on="_treat_remoteness", how="left")
+
+    merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
+    merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
+    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
+    if params.data_type == 1:
+        try:
+            ind_adj = _load_ind_adj(ref_dir, year)
+            merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+        except Exception:
+            merged["adj_indigenous"] = 0
+        try:
+            rem_adj = _load_pat_rem_adj(ref_dir, year)
+            merged = merged.merge(rem_adj, on="_pat_remoteness", how="left")
+        except Exception:
+            merged["adj_remoteness"] = 0
+    merged["adj_indigenous"] = merged.get(
+        "adj_indigenous", pd.Series(0, index=merged.index)
+    ).fillna(0)
+    merged["adj_remoteness"] = merged.get(
+        "adj_remoteness", pd.Series(0, index=merged.index)
+    ).fillna(0)
     try:
         ind_df = _load_ind_adj(ref_dir, year)
         if not ind_df.empty:
@@ -338,9 +379,8 @@ def calculate_outpatients(
     except Exception:
         if "adj_treat_remoteness" not in merged.columns:
             merged["adj_treat_remoteness"] = 0
-
     for col in ["adj_indigenous", "adj_remoteness", "adj_treat_remoteness"]:
-        merged[col] = merged.get(col, pd.Series(0, index=merged.index)).fillna(0)
+        merged[col] = merged[col].fillna(0)
 
     if "FUNDSC" in merged.columns:
         out_scope = ~merged["FUNDSC"].isin(params.inscope_funding_sources)
@@ -380,9 +420,9 @@ def calculate_outpatients(
         gwau = np.select(
             [cond1, cond2, cond3, cond4],
             [
-                w01 * merged["tier2_adj_paed"] * (base + adj_multi_series) * treat,
+                w01 * merged["tier2_adj_paed"] * (base + adj_multi) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
-                w01 * (base + adj_multi_series) * treat,
+                w01 * (base + adj_multi) * treat,
                 w01 * merged["tier2_adj_paed"] * base * treat,
             ],
             default=w01 * base * treat,
@@ -390,8 +430,13 @@ def calculate_outpatients(
     else:
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
-            merged.get("GROUP_EVENT_COUNT", pd.Series(0, index=merged.index)).fillna(0)
-            + merged.get(
+            merged.get("GROUP_EVENT_COUNT", 0).fillna(0)
+            merged.get("INDIV_EVENT_COUNT", 0).fillna(0)
+            merged.get(
+                "GROUP_EVENT_COUNT",
+                pd.Series(0, index=merged.index),
+            ).fillna(0)
+            merged.get(
                 "INDIV_EVENT_COUNT",
                 pd.Series(0, index=merged.index),
             ).fillna(0)
@@ -407,10 +452,7 @@ def calculate_outpatients(
                 (multiprov_flag == 1)
                 & merged["TIER2_CLINIC"].isin([20.48, 20.56, 40.62]),
             ],
-            [
-                w01 * (1 + adj_multi_series) * treat * counts_multi,
-                w01 * treat * counts_multi,
-            ],
+            [w01 * (1 + adj_multi) * treat * counts_multi, w01 * treat * counts_multi],
             default=w01 * treat * counts,
         )
 
