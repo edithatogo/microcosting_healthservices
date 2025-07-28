@@ -157,10 +157,22 @@ def calculate_acute(
 
     # ------------------------------------------------------------------
     # Remoteness lookups
-    # ------------------------------------------------------------------
     if params.est_remoteness_option == 1:
         pat_pc = next(
-            (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns), None
+            (c for c in ["PAT_POSTCODE", "POSTCODE"] if c in merged.columns),
+            None,
+        )
+        pat_sa2 = next(
+            (c for c in ["PAT_SA2", "SA2"] if c in merged.columns),
+            None,
+        )
+        pat_sa2 = next(
+            (
+                c
+                for c in ["PAT_SA2", "SA2", "PAT_ASGS", "ASGS", "PAT_SLA", "SLA"]
+                if c in merged.columns
+            ),
+            None,
         )
         pat_sa2 = next(
             (
@@ -262,8 +274,6 @@ def calculate_acute(
     else:
         merged["_pat_remoteness"] = merged.get("EST_REMOTENESS", np.nan)
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)
-
-    # ------------------------------------------------------------------
     # Basic patient variables
     # ------------------------------------------------------------------
     merged["_pat_los"] = merged.get("LOS")

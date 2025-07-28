@@ -108,7 +108,6 @@ def calculate_subacute(
 
     # --------------------------------------------------------------
     # Remoteness calculations
-    # --------------------------------------------------------------
     if params.est_remoteness_option == 1:
         treat = np.nan
         if "ESTID" in merged.columns:

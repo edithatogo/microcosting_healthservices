@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "IHACPA funding calculation utilities"
 authors = [{name="IHACPA"}]
 readme = "nwau_py/README.md"
+license = {file = "LICENSE"}
 requires-python = ">=3.8"
 dependencies = [
     "pandas",

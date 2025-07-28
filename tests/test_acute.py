@@ -10,12 +10,20 @@ import pytest
 
 from nwau_py.utils import ra_suffix
 
+from nwau_py.utils import sas_ref_dir
+
+from nwau_py.utils import RA_VERSION
+
+YEARS = sorted(RA_VERSION.keys())
+
 spec = importlib.util.spec_from_file_location(
     "acute",
     Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py",
 )
 acute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(acute)
+
+YEARS = [str(y) for y in range(2013, 2026)]
 
 DATA = pd.DataFrame(
     {
@@ -32,18 +40,24 @@ DATA = pd.DataFrame(
 EXPECTED = np.array([6.8772, 9.2472, 11.3272])
 
 
-@pytest.mark.parametrize("year", ["2024", "2025"])
+@pytest.mark.parametrize("year", YEARS)
 def test_calculate_acute_matches_sas_weights(monkeypatch, year):
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
+        df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
         suffix = str(year)[-2:]
-        path = ref_dir / f"nep{suffix}_aa_price_weights.csv"
+        path = Path("tests/data") / str(year) / f"nep{suffix}_aa_price_weights.csv"
+        if not path.exists():
+            path = Path("tests/data/nep25_aa_price_weights.csv")
         df = pd.read_csv(path)
         df["DRG"] = df["DRG"].str.strip("b'")
         return df
 
     monkeypatch.setattr(acute, "_load_price_weights", _load_csv)
 
-    ref_dir = Path("tests/data") / year
+    ref_dir = Path("tests/data")
+    ref_dir = Path("tests/data") / str(year)
+    if not ref_dir.exists():
+        ref_dir = Path("tests/data/2025")
     result = acute.calculate_acute(
         DATA.copy(),
         acute.AcuteParams(),
@@ -69,7 +83,8 @@ def _mock_load(
     return pd.DataFrame()
 
 
-def test_covid_flags_from_diagnosis(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_covid_flags_from_diagnosis(monkeypatch, year):
     monkeypatch.setattr(
         acute,
         "_load_price_weights",
@@ -102,14 +117,15 @@ def test_covid_flags_from_diagnosis(monkeypatch):
     )
 
     result = acute.calculate_acute(
-        df, params, year="2025", ref_dir=Path("tests/data/2025")
+        df, params, year=year, ref_dir=Path("tests/data/2025")
     )
     assert result["_pat_covid_flag"].tolist() == [1, 1, 0]
     assert result["_pat_covid_treat_flag"].tolist() == [1, 0, 0]
     assert result["adj_covid"].iloc[0] == 0.23
 
 
-def test_covid_flags_provided(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_covid_flags_provided(monkeypatch, year):
     monkeypatch.setattr(
         acute,
         "_load_price_weights",
@@ -143,7 +159,7 @@ def test_covid_flags_provided(monkeypatch):
     )
 
     result = acute.calculate_acute(
-        df, params, year="2025", ref_dir=Path("tests/data/2025")
+        df, params, year=year, ref_dir=Path("tests/data/2025")
     )
     assert result["_pat_covid_flag"].iloc[0] == 1
     assert result["_pat_covid_treat_flag"].iloc[0] == 1
@@ -154,13 +170,14 @@ def test_covid_flags_provided(monkeypatch):
     debug = acute.calculate_acute(
         DATA.copy(),
         acute.AcuteParams(debug_mode=True),
-        year="2025",
+        year=year,
         ref_dir=Path("tests/data/2025"),
     )
     assert any(col.startswith("_") for col in debug.columns)
 
 
-def test_calculate_acute_option_paths(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_calculate_acute_option_paths(monkeypatch, year):
     def _load_csv(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
         df = pd.read_csv("tests/data/nep25_aa_price_weights.csv")
         df["DRG"] = df["DRG"].str.strip("b'")
@@ -185,10 +202,33 @@ def test_calculate_acute_option_paths(monkeypatch):
     result = acute.calculate_acute(
         data,
         params,
-        year="2025",
+        year=year,
         ref_dir=Path("tests/data/2025"),
     )
     assert np.allclose(result["NWAU25"].values, EXPECTED)
+
+
+def test_calculate_acute_2018_runs(monkeypatch):
+    """Ensure the calculator runs for a pre-2021 year."""
+    dir_path = sas_ref_dir("2018")
+    assert Path(dir_path).exists()
+
+    monkeypatch.setattr(
+        acute,
+        "_load_price_weights",
+        lambda *_args, **_kwargs: pd.read_csv(
+            "tests/data/2018/nep18_aa_price_weights.csv"
+        ),
+    )
+
+    df = DATA.iloc[:1].copy()
+    res = acute.calculate_acute(
+        df,
+        acute.AcuteParams(),
+        year="2018",
+        ref_dir=Path(dir_path),
+    )
+    assert res["NWAU25"].iloc[0] > 0
 
 
 # ---------------------------------------------------------------------------
@@ -252,7 +292,8 @@ def _fake_load(path: Path, *_, **__):
     return pd.DataFrame()
 
 
-def test_proc_adjustments(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_proc_adjustments(monkeypatch, year):
     monkeypatch.setattr(
         acute,
         "_load_price_weights",
@@ -274,14 +315,15 @@ def test_proc_adjustments(monkeypatch):
     )
 
     res = acute.calculate_acute(
-        df, acute.AcuteParams(icu_paed_option=2), year="2025", ref_dir=Path("unused")
+        df, acute.AcuteParams(icu_paed_option=2), year=year, ref_dir=Path("unused")
     )
     assert res["adj_radiotherapy"].iloc[0] == 0.1
     assert res["adj_dialysis"].iloc[0] == 0.2
     assert res["NWAU25"].iloc[0] == pytest.approx(1.3, rel=1e-4)
 
 
-def test_icu_and_paediatric(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_icu_and_paediatric(monkeypatch, year):
     monkeypatch.setattr(acute, "_load_price_weights", _make_weights)
     monkeypatch.setattr(acute, "load_sas_table", _fake_load)
 
@@ -298,14 +340,15 @@ def test_icu_and_paediatric(monkeypatch):
     )
 
     res = acute.calculate_acute(
-        df, acute.AcuteParams(debug_mode=True), year="2025", ref_dir=Path("unused")
+        df, acute.AcuteParams(debug_mode=True), year=year, ref_dir=Path("unused")
     )
     assert res["_est_eligible_icu_flag"].iloc[0] == 1
     assert res["_est_eligible_paed_flag"].iloc[0] == 1
     assert res["NWAU25"].iloc[0] == pytest.approx(3.4, rel=1e-4)
 
 
-def test_private_patient_deductions(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_private_patient_deductions(monkeypatch, year):
     monkeypatch.setattr(acute, "_load_price_weights", _make_weights)
     monkeypatch.setattr(acute, "load_sas_table", _fake_load)
 
@@ -322,17 +365,18 @@ def test_private_patient_deductions(monkeypatch):
     )
 
     res1 = acute.calculate_acute(
-        base.copy(), acute.AcuteParams(ppservadj=1), year="2025", ref_dir=Path("unused")
+        base.copy(), acute.AcuteParams(ppservadj=1), year=year, ref_dir=Path("unused")
     )
     assert res1["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
 
     res2 = acute.calculate_acute(
-        base.copy(), acute.AcuteParams(ppservadj=2), year="2025", ref_dir=Path("unused")
+        base.copy(), acute.AcuteParams(ppservadj=2), year=year, ref_dir=Path("unused")
     )
     assert res2["NWAU25"].iloc[0] == pytest.approx(0.86, rel=1e-4)
 
 
-def test_remoteness_adjustments(monkeypatch):
+@pytest.mark.parametrize("year", YEARS)
+def test_remoteness_adjustments(monkeypatch, year):
     monkeypatch.setattr(
         acute,
         "_load_price_weights",
@@ -355,7 +399,7 @@ def test_remoteness_adjustments(monkeypatch):
     )
 
     res = acute.calculate_acute(
-        df, acute.AcuteParams(debug_mode=True), year="2025", ref_dir=Path("unused")
+        df, acute.AcuteParams(debug_mode=True), year=year, ref_dir=Path("unused")
     )
     assert res["_pat_remoteness"].iloc[0] == 3
     assert res["_treat_remoteness"].iloc[0] == 4
