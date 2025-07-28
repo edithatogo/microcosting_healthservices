@@ -34,8 +34,6 @@ WEIGHTS = pd.DataFrame(
         "adj_multiprov": [0.2],
     }
 )
-    {"TIER2_CLINIC": [10.01], "clinic_pw": [0.1], "tier2_adj_paed": [1.0]}
-)
 IND_ADJ = pd.DataFrame(
     {"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.03]}
 )

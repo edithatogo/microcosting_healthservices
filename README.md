@@ -83,6 +83,27 @@ from nwau_py.utils import ra_suffix
 assert ra_suffix("2025") == "ra2021"
 ```
 
+### Handling missing demographics
+
+When remoteness or Indigenous status is missing from the input data the
+calculators can impute adjustment values using population distributions. Pass
+a dictionary of proportions to the parameter dataclass:
+
+```python
+from nwau_py.calculators import AcuteParams, calculate_acute
+
+rem_dist = {"RA1": 0.55, "RA2": 0.25, "RA3": 0.15, "RA4": 0.04, "RA5": 0.01}
+ind_dist = {0: 0.8, 1: 0.2}
+params = AcuteParams(
+    remoteness_distribution=rem_dist,
+    indigenous_distribution=ind_dist,
+)
+result = calculate_acute(df, params)
+```
+
+Missing adjustments are replaced by the weighted average of the relevant table
+using the provided distribution.
+
 ### Command line
 
 After installation the `funding-calculator` entry point is available. You can

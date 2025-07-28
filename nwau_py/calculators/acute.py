@@ -6,7 +6,7 @@ import pandas as pd
 import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
-from nwau_py.utils import ra_suffix, sas_ref_dir
+from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
@@ -22,6 +22,8 @@ class AcuteParams:
     dialysis_option: int = 1
     ppservadj: int = 1
     est_remoteness_option: int = 1
+    remoteness_distribution: dict[str, float] | None = None
+    indigenous_distribution: dict[int, float] | None = None
     debug_mode: bool = False
     clear_data: bool = False
 
@@ -400,6 +402,7 @@ def calculate_acute(
         columns=[c for c in ["adj_dialysis_x", "adj_dialysis_y"] if c in merged.columns]
     )
 
+    ind_adj = None
     try:
         ind_adj = load_sas_table(
             ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
@@ -413,8 +416,17 @@ def calculate_acute(
         ValueError,
     ):
         merged["adj_indigenous"] = 0
+    if params.indigenous_distribution and ind_adj is not None:
+        imputed = impute_adjustment(
+            ind_adj,
+            "_pat_ind_flag",
+            "adj_indigenous",
+            params.indigenous_distribution,
+        )
+        merged["adj_indigenous"] = merged["adj_indigenous"].fillna(imputed)
     merged["adj_indigenous"] = merged.get("adj_indigenous", 0).fillna(0)
 
+    pat_adj = None
     try:
         pat_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_na_adj_rem.sas7bdat")
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
@@ -428,8 +440,17 @@ def calculate_acute(
         merged["adj_remoteness"] = merged.get(
             "adj_remoteness", pd.Series(0, index=merged.index)
         )
+    if params.remoteness_distribution and pat_adj is not None:
+        imputed = impute_adjustment(
+            pat_adj,
+            "_pat_remoteness",
+            "adj_remoteness",
+            params.remoteness_distribution,
+        )
+        merged["adj_remoteness"] = merged["adj_remoteness"].fillna(imputed)
     merged["adj_remoteness"] = merged.get("adj_remoteness", 0).fillna(0)
 
+    treat_adj = None
     try:
         treat_adj = load_sas_table(
             ref_dir / f"nep{suffix}_aa_sa_na_adj_treat_rem.sas7bdat"
@@ -445,6 +466,14 @@ def calculate_acute(
         merged["adj_treat_remoteness"] = merged.get(
             "adj_treat_remoteness", pd.Series(0, index=merged.index)
         )
+    if params.remoteness_distribution and treat_adj is not None:
+        imputed = impute_adjustment(
+            treat_adj,
+            "_treat_remoteness",
+            "adj_treat_remoteness",
+            params.remoteness_distribution,
+        )
+        merged["adj_treat_remoteness"] = merged["adj_treat_remoteness"].fillna(imputed)
     merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
 
     try:
