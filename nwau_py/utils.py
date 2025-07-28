@@ -1,4 +1,8 @@
+from collections.abc import Mapping
 from pathlib import Path
+from typing import Any
+
+import pandas as pd
 
 # Mapping from NEP/NWAU pricing year to the corresponding
 # remoteness area (RA) classification year.  The mapping is
@@ -72,4 +76,40 @@ def ra_suffix(year: str = "2025") -> str:
     if year_int >= 2014:
         return "ra2011"
     return "ra2006"
+
+
+def impute_adjustment(
+    table: pd.DataFrame,
+    key_col: str,
+    value_col: str,
+    distribution: Mapping[Any, float],
+) -> float:
+    """Return a weighted average adjustment for missing values.
+
+    Parameters
+    ----------
+    table:
+        Adjustment table containing ``key_col`` and ``value_col`` columns.
+    key_col:
+        Column with the adjustment key, e.g. ``"_pat_remoteness"``.
+    value_col:
+        Column with the adjustment value.
+    distribution:
+        Mapping from key values to population proportions.
+
+    Returns
+    -------
+    float
+        Weighted average of ``value_col`` using ``distribution`` as weights.
+        Returns ``0.0`` when no keys overlap.
+    """
+
+    if table is None or table.empty:
+        return 0.0
+    weights = pd.Series(distribution)
+    series = table.set_index(key_col)[value_col]
+    common = weights.index.intersection(series.index)
+    if len(common) == 0:
+        return 0.0
+    return float((weights.loc[common] * series.loc[common]).sum())
 
