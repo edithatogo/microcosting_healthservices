@@ -10,6 +10,37 @@ from nwau_py.utils import ra_suffix, sas_ref_dir
 _DEFAULT_YEAR = "2025"
 
 
+def _load_multi_prov_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> float:
+    """Return the multi-provider adjustment constant."""
+    suffix = str(year)[-2:]
+    try:
+        df = pd.read_sas(ref_dir / f"nep{suffix}_op_multi_prov_adj.sas7bdat")
+        val = float(df["adj_multiprov"].iloc[0])
+    except Exception:
+        val = 0.0
+    return val
+
+
+def _load_ind_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    suffix = str(year)[-2:]
+    df = pd.read_sas(ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat")
+    return df[["_pat_ind_flag", "adj_indigenous"]]
+
+
+def _load_pat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    suffix = str(year)[-2:]
+    df = pd.read_sas(ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat")
+    return df[["_pat_remoteness", "adj_remoteness"]]
+
+
+def _load_treat_rem_adj(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
+    suffix = str(year)[-2:]
+    df = pd.read_sas(ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat")
+    return df[["_treat_remoteness", "adj_treat_remoteness"]]
+
+_DEFAULT_YEAR = "2025"
+
+
 @dataclass
 class OutpatientParams:
     paed_option: int = 1
@@ -205,6 +236,9 @@ def calculate_outpatients(
     _load_treat_rem_adj(ref_dir, year)
     merged["adj_multiprov"] = adj_multi_val
 
+    if "adj_multiprov" not in merged.columns:
+        merged["adj_multiprov"] = _load_multi_prov_adj(ref_dir, year)
+
     # --------------------------------------------------------------
     # Establishment remoteness lookups
     # --------------------------------------------------------------
@@ -272,6 +306,9 @@ def calculate_outpatients(
             merged[sa2_ra_col] = np.nan
 
         merged["_pat_remoteness"] = (
+            merged["SA2_ra2021"].combine_first(merged["PAT_ra2021"])
+        ).combine_first(merged["_hosp_ra_2021"])
+        merged["_treat_remoteness"] = merged["_hosp_ra_2021"].fillna(0)
             merged[sa2_ra_col]
             .combine_first(merged[pat_ra_col])
             .combine_first(merged[hosp_ra_col])
@@ -283,6 +320,13 @@ def calculate_outpatients(
             merged.get("EST_REMOTENESS", np.nan),
         )
         merged["_treat_remoteness"] = merged.get("EST_REMOTENESS", 0)
+
+    try:
+        treat_adj = _load_treat_rem_adj(ref_dir, year)
+        merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
+    except Exception:
+        merged["adj_treat_remoteness"] = 0
+    merged["adj_treat_remoteness"] = merged.get("adj_treat_remoteness", 0).fillna(0)
 
     if params.data_type == 1:
         service = pd.to_datetime(merged.get("SERVICE_DATE"))
@@ -307,12 +351,26 @@ def calculate_outpatients(
         merged["_pat_age_years"] = np.nan
         merged["_pat_eligible_paed_flag"] = 0
 
-    merged["_pat_remoteness"] = merged.get(
-        "PAT_REMOTENESS", merged.get("EST_REMOTENESS", 0)
-    )
     ind_col = merged.get("INDSTAT", pd.Series(0, index=merged.index))
     merged["_pat_ind_flag"] = ind_col.isin([1, 2, 3]).astype(int)
 
+    if params.data_type == 1:
+        try:
+            ind_adj = _load_ind_adj(ref_dir, year)
+            merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
+        except Exception:
+            merged["adj_indigenous"] = 0
+        try:
+            rem_adj = _load_pat_rem_adj(ref_dir, year)
+            merged = merged.merge(rem_adj, on="_pat_remoteness", how="left")
+        except Exception:
+            merged["adj_remoteness"] = 0
+    merged["adj_indigenous"] = merged.get(
+        "adj_indigenous", pd.Series(0, index=merged.index)
+    ).fillna(0)
+    merged["adj_remoteness"] = merged.get(
+        "adj_remoteness", pd.Series(0, index=merged.index)
+    ).fillna(0)
     try:
         ind_df = _load_ind_adj(ref_dir, year)
         if not ind_df.empty:
@@ -404,6 +462,10 @@ def calculate_outpatients(
         treat = 1 + merged.get("adj_treat_remoteness", 0)
         counts = (
             merged.get(
+                "GROUP_EVENT_COUNT", pd.Series(0, index=merged.index)
+            ).fillna(0)
+            + merged.get(
+                "INDIV_EVENT_COUNT", pd.Series(0, index=merged.index)
                 "GROUP_EVENT_COUNT",
                 pd.Series(0, index=merged.index),
             ).fillna(0)
