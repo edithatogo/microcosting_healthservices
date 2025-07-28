@@ -33,13 +33,14 @@ These packages include `pytest`, `numpy`, `pandas`, `pyxlsb`, `pyreadstat` and
 Place each year's SAS calculator under `archive/sas/<YEAR>/` and ensure the
 folder name is just the year.  After extraction the directory should contain the
 SAS programs for that pricing year.  If you also download the Excel workbook,
-copy it to `excel_calculator/archive/<year>` and run:
+copy it to `excel_calculator/archive/<year>`.  Extract `weights.csv` and
+`formula.json` for all available years with:
 
 ```bash
-python excel_calculator/scripts/extract_weights.py
+python excel_calculator/scripts/extract_all.py
 ```
 
-Move the resulting `weights.csv` into `excel_calculator/data/<year>` along with a matching `formula.json`.
+The helper script writes the outputs to `excel_calculator/data/<year>/`.
 
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are

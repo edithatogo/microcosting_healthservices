@@ -18,13 +18,12 @@ Weights are stored under `excel_calculator/data/<year>/weights.csv`. To
 recreate these files from the official IHACPA workbooks run:
 
 ```bash
-python excel_calculator/scripts/extract_weights.py --year 2025
+python excel_calculator/scripts/extract_all.py
 ```
 
-The script reads
-`excel_calculator/archive/<year>/nwau<yy>_calculator_for_acute_activity.xlsb`
-and writes `excel_calculator/data/<year>/weights.csv` where `<yy>` is the last
-two digits of the year.
+The script reads each workbook under `excel_calculator/archive/<year>` and writes
+`excel_calculator/data/<year>/weights.csv` as well as a matching
+`formula.json`.
 
 ## CLI usage
 
