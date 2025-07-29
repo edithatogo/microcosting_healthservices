@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from importlib.util import find_spec
+import importlib.util
+
 from pathlib import Path
 
 import pandas as pd
 import pyreadstat
+
+_HAS_PARQUET = importlib.util.find_spec("pyarrow") is not None
 
 
 def load_sas_table(
@@ -25,8 +28,8 @@ def load_sas_table(
     cache:
         Whether to cache the loaded table.
     cache_format:
-        ``"parquet"`` or ``"csv"``. If ``pyarrow`` is not installed the
-        function falls back to CSV caching.
+        ``"parquet"`` or ``"csv"``. Falls back to ``"csv"`` when
+        ``pyarrow`` is not available.
     cache_dir:
         Directory where cache files are stored.
     force:
@@ -39,6 +42,8 @@ def load_sas_table(
     ext_map = {"parquet": ".parquet", "csv": ".csv"}
     if cache_format not in ext_map:
         raise ValueError("cache_format must be 'parquet' or 'csv'")
+    if cache_format == "parquet" and not _HAS_PARQUET:
+        cache_format = "csv"
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache_path = cache_dir / f"{path.stem}{ext_map[cache_format]}"
 

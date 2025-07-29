@@ -32,6 +32,27 @@ def test_load_sas_table_csv_cache(tmp_path):
     assert df_cached.equals(df)
 
 
+@pytest.mark.skipif(
+    importlib.util.find_spec("pyarrow") is None,
+    reason="pyarrow not installed",
+)
+def test_load_sas_table_parquet_cache(tmp_path):
+    path = DATA_DIR / "nep25_edaecc_price_weights.sas7bdat"
+    df = load_sas_table(
+        path,
+        cache=True,
+        cache_format="parquet",
+        cache_dir=tmp_path,
+    )
+    cache_file = tmp_path / "nep25_edaecc_price_weights.parquet"
+    assert cache_file.exists()
+    df_cached = load_sas_table(
+        path,
+        cache=True,
+        cache_format="parquet",
+        cache_dir=tmp_path,
+    )
+
 def test_load_sas_table_parquet_cache(tmp_path):
     path = DATA_DIR / "nep25_edaecc_price_weights.sas7bdat"
     df = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
