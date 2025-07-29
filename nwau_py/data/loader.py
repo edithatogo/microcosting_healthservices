@@ -7,6 +7,12 @@ from pathlib import Path
 import pandas as pd
 import pyreadstat
 
+try:
+    import pyarrow  # noqa: F401
+    _PARQUET_SUPPORTED = True
+except Exception:  # pragma: no cover - pyarrow is optional
+    _PARQUET_SUPPORTED = False
+
 
 def load_sas_table(
     path: str | Path,
@@ -24,7 +30,8 @@ def load_sas_table(
     cache:
         Whether to cache the loaded table.
     cache_format:
-        ``"parquet"`` or ``"csv"``.
+        ``"parquet"`` or ``"csv"``. If ``"parquet"`` is requested but
+        ``pyarrow`` is not installed the loader falls back to ``"csv"``.
     cache_dir:
         Directory where cache files are stored.
     force:
@@ -32,6 +39,8 @@ def load_sas_table(
     """
     path = Path(path)
     cache_dir = Path(cache_dir)
+    if cache_format == "parquet" and not _PARQUET_SUPPORTED:
+        cache_format = "csv"
     ext_map = {"parquet": ".parquet", "csv": ".csv"}
     if cache_format not in ext_map:
         raise ValueError("cache_format must be 'parquet' or 'csv'")
@@ -52,3 +61,4 @@ def load_sas_table(
         else:
             df.to_csv(cache_path, index=False)
     return df
+

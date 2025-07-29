@@ -38,6 +38,18 @@ def test_load_multiple_tables(tmp_path):
     assert len(df) > 0
 
 
+def test_parquet_cache_falls_back_to_csv(tmp_path):
+    import importlib.util
+
+    if importlib.util.find_spec("pyarrow") is not None:
+        pytest.skip("pyarrow installed")
+
+    path = DATA_DIR / "tablec.sas7bdat"
+    df = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
+    assert (tmp_path / "tablec.csv").exists()
+    assert not df.empty
+
+
 @pytest.mark.parametrize("year", YEARS)
 def test_sas_ref_dir_all_years(year):
     """Ensure SAS directories are located for all supported years."""
