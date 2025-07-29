@@ -10,8 +10,9 @@ from click.testing import CliRunner
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from nwau_py.cli.main import cli
+from nwau_py.utils import RA_VERSION
 
-YEARS = [str(y) for y in range(2013, 2026)]
+YEARS = sorted(RA_VERSION.keys())
 
 @pytest.mark.parametrize("year", YEARS)
 def test_cli_runs_with_sample_data(tmp_path, year):

@@ -18,7 +18,6 @@ spec = importlib.util.spec_from_file_location(
 ed = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ed)
 
-YEARS = [str(y) for y in range(2013, 2026)]
 
 DATA = pd.DataFrame(
     {
