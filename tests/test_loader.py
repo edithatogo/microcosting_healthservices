@@ -36,7 +36,7 @@ def test_load_sas_table_csv_cache(tmp_path):
     importlib.util.find_spec("pyarrow") is None,
     reason="pyarrow not installed",
 )
-def test_load_sas_table_parquet_cache(tmp_path):
+def test_load_sas_table_parquet_cache_no_pyarrow(tmp_path):
     path = DATA_DIR / "nep25_edaecc_price_weights.sas7bdat"
     df = load_sas_table(
         path,
@@ -52,6 +52,7 @@ def test_load_sas_table_parquet_cache(tmp_path):
         cache_format="parquet",
         cache_dir=tmp_path,
     )
+    assert df_cached.equals(df)
 
 def test_load_sas_table_parquet_cache(tmp_path):
     path = DATA_DIR / "nep25_edaecc_price_weights.sas7bdat"
@@ -62,7 +63,12 @@ def test_load_sas_table_parquet_cache(tmp_path):
         assert not (tmp_path / "nep25_edaecc_price_weights.parquet").exists()
     else:
         assert (tmp_path / "nep25_edaecc_price_weights.parquet").exists()
-    df_cached = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
+    df_cached = load_sas_table(
+        path,
+        cache=True,
+        cache_format="parquet",
+        cache_dir=tmp_path,
+    )
     assert df_cached.equals(df)
 
 
@@ -93,6 +99,21 @@ def test_csv_fallback_when_parquet_unavailable(tmp_path, monkeypatch):
     assert (tmp_path / "tablec.csv").exists()
     assert not (tmp_path / "tablec.parquet").exists()
     assert not df.empty
+
+
+def test_cache_roundtrip_with_csv_fallback(tmp_path, monkeypatch):
+    path = DATA_DIR / "tablec.sas7bdat"
+    monkeypatch.setattr(loader, "_PARQUET_SUPPORTED", False)
+    df = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
+    df_cached = load_sas_table(
+        path,
+        cache=True,
+        cache_format="parquet",
+        cache_dir=tmp_path,
+    )
+    assert (tmp_path / "tablec.csv").exists()
+    assert not (tmp_path / "tablec.parquet").exists()
+    assert df_cached.equals(df)
 
 
 @pytest.mark.parametrize("year", YEARS)
