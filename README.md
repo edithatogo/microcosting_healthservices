@@ -42,6 +42,21 @@ python excel_calculator/scripts/extract_all.py
 
 The helper script writes the outputs to `excel_calculator/data/<year>/`.
 
+Directory layout
+----------------
+```
+archive/
+  sas/<YEAR>/        # SAS reference tables
+excel_calculator/
+  data/
+    weights.csv      # default (current year)
+    formula.json
+    <YEAR>/weights.csv
+    <YEAR>/formula.json
+```
+Dropping the SAS folder and matching `weights.csv`/`formula.json` files for a
+new edition is all that's required to add support for that year.
+
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.

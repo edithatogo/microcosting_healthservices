@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -30,10 +31,11 @@ class MHParams:
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> dict[str, pd.DataFrame]:
     """Load reference tables used by the MH calculator."""
 
-    suffix = str(year)[-2:]
 
     def _read(name: str) -> pd.DataFrame:
-        df = pd.read_sas(ref_dir / f"nep{suffix}_{name}.sas7bdat")
+        df = pd.read_sas(
+            sas_table(f"nep{{suffix}}_{name}.sas7bdat", year=year, base_dir=ref_dir)
+        )
         for col in df.select_dtypes(include="object"):
             df[col] = df[col].str.decode("ascii")
         return df

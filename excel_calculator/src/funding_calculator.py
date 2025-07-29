@@ -2,11 +2,12 @@ import argparse
 import json
 import sys
 from collections.abc import Sequence
-from pathlib import Path
 from typing import Any, cast
 
 import pandas as pd
 from pandas import DataFrame
+
+from nwau_py.data.paths import formula_json, weights_csv
 
 
 def load_weights(csv_path: str) -> DataFrame:
@@ -56,13 +57,10 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("input_csv", help="Patient level CSV data")
     args = parser.parse_args(argv)
 
-    data_dir = Path("excel_calculator/data")
-    if args.year and args.year != "2025":
-        data_dir = data_dir / args.year
     if args.weights is None:
-        args.weights = str(data_dir / "weights.csv")
+        args.weights = str(weights_csv(args.year))
     if args.formula is None:
-        args.formula = str(data_dir / "formula.json")
+        args.formula = str(formula_json(args.year))
 
     weights = load_weights(args.weights)
     formula = load_formula(args.formula)

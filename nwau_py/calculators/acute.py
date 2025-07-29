@@ -6,6 +6,7 @@ import pandas as pd
 import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -29,8 +30,11 @@ class AcuteParams:
 
 
 def _load_price_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    path = ref_dir / f"nep{suffix}_aa_price_weights.sas7bdat"
+    path = sas_table(
+        "nep{suffix}_aa_price_weights.sas7bdat",
+        year=year,
+        base_dir=ref_dir,
+    )
     df = load_sas_table(path, cache=True)
     if df["DRG"].dtype == object:
         df["DRG"] = df["DRG"].str.decode("ascii")
@@ -52,7 +56,6 @@ def calculate_acute(
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
-    suffix = str(year)[-2:]
     ra = ra_suffix(year)
     ra_year = ra[2:]
 
@@ -102,7 +105,9 @@ def calculate_acute(
         merged["_pat_covid_treat_flag"] = (diag_flag & drg_flag).astype(int)
 
     try:
-        covid_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_adj_covid.sas7bdat")
+        covid_adj = load_sas_table(
+            sas_table("nep{suffix}_aa_adj_covid.sas7bdat", year=year, base_dir=ref_dir)
+        )
         merged = merged.merge(covid_adj, on="_pat_covid_treat_flag", how="left")
     except (
         FileNotFoundError,
@@ -130,7 +135,9 @@ def calculate_acute(
         return proc_df.isin(codes).any(axis=1).astype(int)
 
     try:
-        radio_codes = load_sas_table(ref_dir / f"nep{suffix}_radio_codes.sas7bdat")
+        radio_codes = load_sas_table(
+            sas_table("nep{suffix}_radio_codes.sas7bdat", year=year, base_dir=ref_dir)
+        )
         radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
     except (
         FileNotFoundError,
@@ -142,7 +149,11 @@ def calculate_acute(
         radio_set = set()
     try:
         dialysis_codes = load_sas_table(
-            ref_dir / f"nep{suffix}_dialysis_codes.sas7bdat"
+            sas_table(
+                "nep{suffix}_dialysis_codes.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         dialysis_set = set(dialysis_codes["code_ID"].astype(int).astype(str))
     except (
@@ -172,7 +183,11 @@ def calculate_acute(
     if params.icu_paed_option == 1 and "APCID" in merged.columns:
         try:
             icu_df = load_sas_table(
-                ref_dir / f"nep{suffix}_icu_paed_eligibility_list.sas7bdat"
+                sas_table(
+                    "nep{suffix}_icu_paed_eligibility_list.sas7bdat",
+                    year=year,
+                    base_dir=ref_dir,
+                )
             )
             apc_col = [c for c in icu_df.columns if c.startswith("APCID")][0]
             icu_df = icu_df.rename(columns={apc_col: "APCID"})
@@ -229,7 +244,9 @@ def calculate_acute(
 
         if pat_pc:
             try:
-                pc_df = load_sas_table(ref_dir / f"postcode_to_{ra}.sas7bdat")
+                pc_df = load_sas_table(
+                    sas_table("postcode_to_{ra}.sas7bdat", year=year, base_dir=ref_dir)
+                )
                 ra_col = next(
                     (c for c in pc_df.columns if c.lower() == ra.lower()), ra
                 )
@@ -253,9 +270,9 @@ def calculate_acute(
         if pat_sa2:
             try:
                 paths = [
-                    ref_dir / f"sa2_to_{ra}.sas7bdat",
-                    ref_dir / f"asgs_to_{ra}.sas7bdat",
-                    ref_dir / f"sla_to_{ra}.sas7bdat",
+                    sas_table("sa2_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+                    sas_table("asgs_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+                    sas_table("sla_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
                 ]
                 for path in paths:
                     try:
@@ -299,7 +316,11 @@ def calculate_acute(
         if "APCID" in merged.columns:
             try:
                 hosp_df = load_sas_table(
-                    ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat"
+                    sas_table(
+                        "nep{suffix}_hospital_{ra}.sas7bdat",
+                        year=year,
+                        base_dir=ref_dir,
+                    )
                 )
                 apc_col = [c for c in hosp_df.columns if c.startswith("APCID")][0]
                 ra_col = next(
@@ -351,7 +372,9 @@ def calculate_acute(
     # Merge adjustment tables
     # ------------------------------------------------------------------
     try:
-        rt_df = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_rt.sas7bdat")
+        rt_df = load_sas_table(
+            sas_table("nep{suffix}_aa_sa_adj_rt.sas7bdat", year=year, base_dir=ref_dir)
+        )
         merged = merged.merge(rt_df, on="_pat_radiotherapy_flag", how="left")
     except (
         FileNotFoundError,
@@ -379,7 +402,9 @@ def calculate_acute(
     )
 
     try:
-        ds_df = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_ds.sas7bdat")
+        ds_df = load_sas_table(
+            sas_table("nep{suffix}_aa_sa_adj_ds.sas7bdat", year=year, base_dir=ref_dir)
+        )
         merged = merged.merge(ds_df, on="_pat_dialysis_flag", how="left")
     except (
         FileNotFoundError,
@@ -405,7 +430,11 @@ def calculate_acute(
     ind_adj = None
     try:
         ind_adj = load_sas_table(
-            ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
+            sas_table(
+                "nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
     except (
@@ -428,7 +457,13 @@ def calculate_acute(
 
     pat_adj = None
     try:
-        pat_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_na_adj_rem.sas7bdat")
+        pat_adj = load_sas_table(
+            sas_table(
+                "nep{suffix}_aa_sa_na_adj_rem.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
     except (
         FileNotFoundError,
@@ -453,7 +488,11 @@ def calculate_acute(
     treat_adj = None
     try:
         treat_adj = load_sas_table(
-            ref_dir / f"nep{suffix}_aa_sa_na_adj_treat_rem.sas7bdat"
+            sas_table(
+                "nep{suffix}_aa_sa_na_adj_treat_rem.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
     except (
@@ -479,11 +518,19 @@ def calculate_acute(
     try:
         if params.ppservadj == 1:
             ppsa = load_sas_table(
-                ref_dir / f"nep{suffix}_aa_adj_privpat_serv_nat.sas7bdat"
+                sas_table(
+                    "nep{suffix}_aa_adj_privpat_serv_nat.sas7bdat",
+                    year=year,
+                    base_dir=ref_dir,
+                )
             )
         else:
             ppsa = load_sas_table(
-                ref_dir / f"nep{suffix}_aa_adj_privpat_serv_jur.sas7bdat"
+                sas_table(
+                    "nep{suffix}_aa_adj_privpat_serv_jur.sas7bdat",
+                    year=year,
+                    base_dir=ref_dir,
+                )
             )
         merged = merged.merge(ppsa, on="DRG", how="left")
     except (
@@ -524,7 +571,13 @@ def calculate_acute(
     merged["drg_adj_privpat_serv"] = merged.get("drg_adj_privpat_serv", 0).fillna(0)
 
     try:
-        acc = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_priv_acc.sas7bdat")
+        acc = load_sas_table(
+            sas_table(
+                "nep{suffix}_aa_sa_adj_priv_acc.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         acc = acc.rename(columns={"State": "STATE"})
         merged = merged.merge(acc, on="STATE", how="left")
     except (
@@ -548,7 +601,13 @@ def calculate_acute(
     ).fillna(0)
 
     try:
-        icu_df = load_sas_table(ref_dir / f"nep{suffix}_aa_adj_icu.sas7bdat")
+        icu_df = load_sas_table(
+            sas_table(
+                "nep{suffix}_aa_adj_icu.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         merged["icu_rate"] = float(icu_df.iloc[0, 0])
     except (
         FileNotFoundError,

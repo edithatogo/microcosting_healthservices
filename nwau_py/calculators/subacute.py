@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from nwau_py.data.loader import load_sas_table
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -23,8 +24,13 @@ class SubacuteParams:
 
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    df = pd.read_sas(ref_dir / f"nep{suffix}_sa_snap_price_weights.sas7bdat")
+    df = pd.read_sas(
+        sas_table(
+            "nep{suffix}_sa_snap_price_weights.sas7bdat",
+            year=year,
+            base_dir=ref_dir,
+        )
+    )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     if "ansnap" in df.columns:
@@ -50,7 +56,6 @@ def calculate_subacute(
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
-    suffix = str(year)[-2:]
     ra = ra_suffix(year)
     ra_year = ra[2:]
     weights = _load_weights(ref_dir, year)
@@ -71,14 +76,20 @@ def calculate_subacute(
         return proc_df.isin(codes).any(axis=1).astype(int)
 
     try:
-        radio_codes = load_sas_table(ref_dir / f"nep{suffix}_radio_codes.sas7bdat")
+        radio_codes = load_sas_table(
+            sas_table("nep{suffix}_radio_codes.sas7bdat", year=year, base_dir=ref_dir)
+        )
         radio_set = set(radio_codes["code_ID"].astype(int).astype(str))
     except Exception:
         radio_set = set()
 
     try:
         dialysis_codes = load_sas_table(
-            ref_dir / f"nep{suffix}_dialysis_codes.sas7bdat"
+            sas_table(
+                "nep{suffix}_dialysis_codes.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         dialysis_set = set(dialysis_codes["code_ID"].astype(int).astype(str))
     except Exception:
@@ -97,13 +108,17 @@ def calculate_subacute(
         merged["_pat_dialysis_flag"] = _flag_procs(dialysis_set)
 
     try:
-        rt_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_rt.sas7bdat")
+        rt_adj = load_sas_table(
+            sas_table("nep{suffix}_aa_sa_adj_rt.sas7bdat", year=year, base_dir=ref_dir)
+        )
         merged = merged.merge(rt_adj, on="_pat_radiotherapy_flag", how="left")
     except Exception:
         merged["adj_radiotherapy"] = 0
 
     try:
-        ds_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_ds.sas7bdat")
+        ds_adj = load_sas_table(
+            sas_table("nep{suffix}_aa_sa_adj_ds.sas7bdat", year=year, base_dir=ref_dir)
+        )
         merged = merged.merge(ds_adj, on="_pat_dialysis_flag", how="left")
     except Exception:
         merged["adj_dialysis"] = 0
@@ -115,7 +130,11 @@ def calculate_subacute(
         if "ESTID" in merged.columns:
             try:
                 hosp_df = load_sas_table(
-                    ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat"
+                    sas_table(
+                        "nep{suffix}_hospital_{ra}.sas7bdat",
+                        year=year,
+                        base_dir=ref_dir,
+                    )
                 )
                 apc_col = next(
                     (c for c in hosp_df.columns if c.lower().startswith("apcid")),
@@ -175,7 +194,9 @@ def calculate_subacute(
         hosp_ra_col = f"_hosp_ra_{ra_year}"
         if pat_pc:
             try:
-                pc_df = load_sas_table(ref_dir / f"postcode_to_{ra}.sas7bdat")
+                pc_df = load_sas_table(
+                    sas_table("postcode_to_{ra}.sas7bdat", year=year, base_dir=ref_dir)
+                )
                 ra_col = next(
                     (c for c in pc_df.columns if c.lower() == ra.lower()), ra
                 )
@@ -193,9 +214,9 @@ def calculate_subacute(
         if pat_sa2:
             try:
                 paths = [
-                    ref_dir / f"sa2_to_{ra}.sas7bdat",
-                    ref_dir / f"asgs_to_{ra}.sas7bdat",
-                    ref_dir / f"sla_to_{ra}.sas7bdat",
+                    sas_table("sa2_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+                    sas_table("asgs_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+                    sas_table("sla_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
                 ]
                 for path in paths:
                     try:
@@ -260,7 +281,11 @@ def calculate_subacute(
     ind_adj = None
     try:
         ind_adj = load_sas_table(
-            ref_dir / f"nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat"
+            sas_table(
+                "nep{suffix}_aa_mh_sa_na_ed_adj_ind.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         merged = merged.merge(ind_adj, on="_pat_ind_flag", how="left")
     except Exception:
@@ -276,7 +301,13 @@ def calculate_subacute(
 
     pat_adj = None
     try:
-        pat_adj = load_sas_table(ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat")
+        pat_adj = load_sas_table(
+            sas_table(
+                "nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         merged = merged.merge(pat_adj, on="_pat_remoteness", how="left")
     except Exception:
         merged["adj_remoteness"] = 0
@@ -292,7 +323,11 @@ def calculate_subacute(
     treat_adj = None
     try:
         treat_adj = load_sas_table(
-            ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
+            sas_table(
+                "nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
         )
         merged = merged.merge(treat_adj, on="_treat_remoteness", how="left")
     except Exception:
@@ -314,7 +349,13 @@ def calculate_subacute(
         .astype(int)
     )
     try:
-        ppsa = load_sas_table(ref_dir / f"nep{suffix}_sa_adj_priv_serv_state.sas7bdat")
+        ppsa = load_sas_table(
+            sas_table(
+                "nep{suffix}_sa_adj_priv_serv_state.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         ppsa = ppsa.rename(columns={"caretype": "_care", "state": "STATE"})
         merged = merged.merge(ppsa, on=["STATE", "_care"], how="left")
     except Exception:
@@ -322,7 +363,13 @@ def calculate_subacute(
         merged["caretype_adj_privpat_serv_nat"] = 0
 
     try:
-        acc = load_sas_table(ref_dir / f"nep{suffix}_aa_sa_adj_priv_acc.sas7bdat")
+        acc = load_sas_table(
+            sas_table(
+                "nep{suffix}_aa_sa_adj_priv_acc.sas7bdat",
+                year=year,
+                base_dir=ref_dir,
+            )
+        )
         acc = acc.rename(columns={"state": "STATE"})
         merged = merged.merge(acc, on="STATE", how="left")
     except Exception:

@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -23,14 +24,21 @@ class EDParams:
 def _load_weights(
     ref_dir: Path, classification_option: int, year: str = _DEFAULT_YEAR
 ) -> pd.DataFrame:
-    suffix = str(year)[-2:]
     if classification_option < 3:
-        path = ref_dir / f"nep{suffix}_edudg_price_weights.sas7bdat"
+        path = sas_table(
+            "nep{suffix}_edudg_price_weights.sas7bdat",
+            year=year,
+            base_dir=ref_dir,
+        )
         df = pd.read_sas(path)
         if df["UDG"].dtype == object:
             df["UDG"] = df["UDG"].str.decode("ascii")
     else:
-        path = ref_dir / f"nep{suffix}_edaecc_price_weights.sas7bdat"
+        path = sas_table(
+            "nep{suffix}_edaecc_price_weights.sas7bdat",
+            year=year,
+            base_dir=ref_dir,
+        )
         df = pd.read_sas(path)
         if df["AECC"].dtype == object:
             df["AECC"] = df["AECC"].str.decode("ascii")
@@ -38,7 +46,7 @@ def _load_weights(
 
 
 def _load_udg_map(ref_dir: Path) -> pd.DataFrame:
-    path = ref_dir / "ed_tov_tri_epi_to_udg.sas7bdat"
+    path = sas_table("ed_tov_tri_epi_to_udg.sas7bdat", base_dir=ref_dir)
     df = pd.read_sas(path)
     if df["UDG"].dtype == object:
         df["UDG"] = df["UDG"].str.decode("ascii")
