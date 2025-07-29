@@ -69,6 +69,8 @@ def calculate_mh(
 
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+    suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
 
     tables = _load_weights(ref_dir, year)
 
@@ -217,7 +219,7 @@ def calculate_mh(
 
     nwau = np.where(result.get("Error_Code", 0) > 0, 0, nwau)
 
-    result["NWAU25"] = nwau
+    result[nwau_col] = nwau
 
     if not params.debug_mode:
         result = result.drop(columns=[c for c in result.columns if c.startswith("_")])

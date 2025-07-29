@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nwau_py"
-version = "0.1.0"
-description = "IHACPA funding calculation utilities"
+version = "0.2.0"
+description = "Utilities for calculating IHACPA National Weighted Activity Units"
 authors = [{name="IHACPA"}]
 readme = "nwau_py/README.md"
 license = {file = "LICENSE"}

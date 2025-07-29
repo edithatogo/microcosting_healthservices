@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Example script running the acute funding calculator."""
+"""Run the acute NWAU calculator using SAS reference tables."""
 
 from pathlib import Path
 
@@ -19,6 +19,6 @@ def main() -> None:
     )
     print(result)
 
-
+    
 if __name__ == "__main__":
     main()
