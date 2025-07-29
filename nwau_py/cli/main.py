@@ -1,4 +1,7 @@
 import sys
+from collections.abc import Callable
+from pathlib import Path
+from typing import IO, Any
 
 import click
 import pandas as pd
@@ -10,10 +13,9 @@ from nwau_py.calculators import (
     calculate_acute,
     calculate_ed,
     calculate_outpatients,
-    calculate_funding,
-    load_formula,
-    load_weights,
 )
+
+cli = click.Group()
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
@@ -54,10 +56,11 @@ def run_cli(
             outfh.close()
 
 
-def _common_options(func):
+def _common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     func = click.argument("input_csv", type=click.Path(exists=True))(func)
     func = click.option("--output", default="-", show_default=True)(func)
     func = click.option("--year", default="2025", show_default=True)(func)
+    return func
 def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
