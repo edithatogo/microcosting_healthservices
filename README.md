@@ -54,8 +54,7 @@ continue to work.
 To calculate funding for a CSV file of patient activity:
 
 ```bash
-funding-calculator --weights excel_calculator/data/weights.csv \
-    --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
+funding-calculator acute patient_data.csv --year 2025 > funding.csv
 ```
 
 After installing the development requirements, unit tests can be run with
@@ -144,20 +143,17 @@ and enable or disable adjustments using `--icu/--no-icu` and
 
 ### Python modules
 
-Funding weights can also be computed directly from Python:
+Funding weights can also be computed using the calculator functions:
 
 ```python
-from funding_calculator import load_weights, load_formula, calculate_funding
-
-weights = load_weights('excel_calculator/data/weights.csv')
-formula = load_formula('excel_calculator/data/formula.json')
+from nwau_py.calculators import AcuteParams, calculate_acute
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-patient_df['NWAU25'] = calculate_funding(patient_df, formula)
+result = calculate_acute(patient_df, AcuteParams())
 ```
 
-Replace `excel_calculator/data` with `excel_calculator/data/<year>` to use
-weights and formulae from another pricing year.
+The `calculate_ed` and `calculate_outpatients` helpers work in the same way for
+ED and non-admitted activity.
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.
 

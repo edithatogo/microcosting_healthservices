@@ -1,4 +1,3 @@
-import json
 import subprocess
 import sys
 from pathlib import Path
@@ -7,96 +6,33 @@ import pandas as pd
 import pytest
 from click.testing import CliRunner
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
 from nwau_py.cli.main import cli
 
-YEARS = [str(y) for y in range(2013, 2026)]
 
-@pytest.mark.parametrize("year", YEARS)
-def test_cli_runs_with_sample_data(tmp_path, year):
-    params_dir = tmp_path / "params"
-    params_dir.mkdir()
-    (params_dir / "weights.csv").write_text("dummy\n0\n")
-    formula = {"variables": {"val": "NWAU25_precalc"}, "steps": ["NWAU25 = val"]}
-    (params_dir / "formula.json").write_text(json.dumps(formula))
-
-    patient = pd.read_csv(Path("tests/data/example_patient.csv"))
-    patient["NWAU25_precalc"] = patient["NWAU25"]
-    input_csv = tmp_path / "patient.csv"
-    patient.to_csv(input_csv, index=False)
-
+def test_cli_acute_runs(monkeypatch, tmp_path):
+    input_csv = Path("tests/data/acute_input.csv")
     output_csv = tmp_path / "out.csv"
-    subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "nwau_py.cli.main",
-            "acute",
-            str(input_csv),
-            "--params",
-            str(params_dir),
-            "--year",
-            year,
-            "--output",
-            str(output_csv),
-        ],
-        check=True,
+
+    monkeypatch.setattr(
+        "nwau_py.calculators.acute._load_price_weights",
+        lambda r, year="2025": pd.read_csv("tests/data/2025/nep25_aa_price_weights.csv")
+        .assign(DRG=lambda x: x["DRG"].str.strip("b'")),
     )
 
-    result = pd.read_csv(output_csv)
-    assert result.loc[0, "NWAU25"] == pytest.approx(3.7184092)
-
-CSV_DATA = (
-    "Inlier,Paediatric Adjustment,Adj (Indigenous Status),"
-    "Adjustment.1 (Patient Remoteness),Treatment Remoteness Adjustment,"
-    "Dialysis Adjustment,Private Service Adjustment,COVID-19 Treatment Adjustment,"
-    "Bundled ICU,ICU Hours,Private Service Percentage,Length of Stay,"
-    "Private Patient Accommodation Adjustment,HAC Adjustment,Readmission weight,"
-    "Readmission adjustment,National Efficient Price\n"
-    "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
-)
-
-@pytest.mark.parametrize("year", YEARS)
-def test_cli_outputs_nwau25(tmp_path, year):
-    input_csv = tmp_path / "input.csv"
-    csv_data = (
-        "Inlier,Paediatric Adjustment,Adj (Indigenous Status),"
-        "Adjustment.1 (Patient Remoteness),Treatment Remoteness Adjustment,"
-        "Dialysis Adjustment,Private Service Adjustment,COVID-19 Treatment Adjustment,"
-        "Bundled ICU,ICU Hours,Private Service Percentage,Length of Stay,"
-        "Private Patient Accommodation Adjustment,HAC Adjustment,Readmission weight,"
-        "Readmission adjustment,National Efficient Price\n"
-        "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7258\n"
-    )
-    input_csv.write_text(csv_data)
-    params_dir = tmp_path / "params"
-    params_dir.mkdir()
-    (params_dir / "weights.csv").write_text("dummy\n0\n")
-    (params_dir / "formula.json").write_text(
-        json.dumps(
-            {
-                "variables": {"val": "National Efficient Price"},
-                "steps": ["NWAU25 = val"],
-            }
-        )
-    )
-    output_csv = tmp_path / "out.csv"
     runner = CliRunner()
     result = runner.invoke(
         cli,
         [
             "acute",
             str(input_csv),
-            "--params",
-            str(params_dir),
-            "--year",
-            year,
             "--output",
             str(output_csv),
+            "--year",
+            "2025",
+            "--params",
+            "tests/data/2025",
         ],
     )
     assert result.exit_code == 0
     df = pd.read_csv(output_csv)
-    assert "NWAU25" in df.columns
-    assert df["NWAU25"].iloc[0] == 7258
+    assert df["NWAU25"].iloc[1] == pytest.approx(9.2472, rel=1e-4)
