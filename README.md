@@ -136,7 +136,7 @@ The calculators load SAS reference tables from `archive/sas/<YEAR>/`. Process a
 CSV file using the command line interface:
 
 ```bash
-python -m nwau_py.cli.main acute patient_data.csv --output funding.csv --year 2025
+funding-calculator acute patient_data.csv --year 2025 > funding.csv
 ```
 
 Replace `acute` with `ed` or `non-admitted` for other activity types. The
@@ -206,14 +206,18 @@ and enable or disable adjustments using `--icu/--no-icu` and
 
 ### Python modules
 
-Funding weights can also be computed directly from Python:
+Funding weights can also be computed using the calculator functions:
 
 ```python
 from nwau_py.calculators import AcuteParams, calculate_acute
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-result = calculate_acute(patient_df, AcuteParams(), year="2025")
+
+result = calculate_acute(patient_df, AcuteParams())
 ```
+
+The `calculate_ed` and `calculate_outpatients` helpers work in the same way for
+ED and non-admitted activity.
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.
 

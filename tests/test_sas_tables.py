@@ -3,7 +3,8 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from nwau_py.calculators import calculate_funding, load_formula
+import nwau_py.calculators.acute as acute
+from nwau_py.calculators import AcuteParams, calculate_acute
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 
@@ -14,31 +15,29 @@ def test_converted_tables_shapes():
     assert pd.read_csv(DATA_DIR / "p_intercept.csv").shape == (1, 14)
 
 
-def test_calculate_nwau_from_sas_weights():
+def test_calculate_nwau_from_sas_weights(monkeypatch: pytest.MonkeyPatch) -> None:
     weights = pd.read_csv(DATA_DIR / "nep25_aa_price_weights.csv")
     weights["DRG"] = weights["DRG"].str.strip("b'")
-    row = weights[weights["DRG"] == "801A"].iloc[0]
+
+    monkeypatch.setattr(acute, "_load_price_weights", lambda r, year="2025": weights)
+
     df = pd.DataFrame(
         {
-            "Inlier": [row["drg_pw_inlier"]],
-            "Paediatric Adjustment": [1.0],
-            "Adj (Indigenous Status)": [0.0],
-            "Adjustment.1 (Patient Remoteness)": [0.0],
-            "Treatment Remoteness Adjustment": [0.0],
-            "Dialysis Adjustment": [0.0],
-            "Private Service Adjustment": [0.0],
-            "COVID-19 Treatment Adjustment": [0.0],
-            "Bundled ICU": [0.0],
-            "ICU Hours": [0.0],
-            "Private Service Percentage": [0.0],
-            "Length of Stay": [10.0],
-            "Private Patient Accommodation Adjustment": [0.0],
-            "HAC Adjustment": [0.0],
-            "Readmission weight": [0.0],
-            "Readmission adjustment": [0.0],
-            "National Efficient Price": [7258.0],
+            "DRG": ["801A"],
+            "LOS": [10],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_COVID_FLAG": [0],
         }
     )
-    formula = load_formula("excel_calculator/data/formula.json")
-    result = calculate_funding(df, formula)
-    assert result.iloc[0] == pytest.approx(67116.1776, rel=1e-4)
+
+    result = calculate_acute(
+        df,
+        AcuteParams(),
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+    )
+    funding = result["NWAU25"].iloc[0] * 7258
+    assert funding == pytest.approx(67116.1776, rel=1e-4)

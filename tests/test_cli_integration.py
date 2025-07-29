@@ -10,14 +10,7 @@ CLI = shutil.which("funding-calculator")
 
 
 def _run_cli(input_csv: Path) -> str:
-    cmd = [
-        CLI,
-        "--weights",
-        str(Path("excel_calculator/data/weights.csv")),
-        "--formula",
-        str(Path("excel_calculator/data/formula.json")),
-        str(input_csv),
-    ]
+    cmd = [CLI, "acute", str(input_csv), "--year", "2025", "--params", "tests/data/2025"]
     result = subprocess.run(
         cmd,
         capture_output=True,
@@ -29,7 +22,7 @@ def _run_cli(input_csv: Path) -> str:
 
 @pytest.mark.skipif(CLI is None, reason="funding-calculator not installed")
 def test_cli_integration():
-    input_csv = Path("tests/data/example_patient.csv")
+    input_csv = Path("tests/data/acute_input.csv")
     try:
         out = _run_cli(input_csv)
     except (subprocess.CalledProcessError, FileNotFoundError) as exc:
@@ -37,5 +30,5 @@ def test_cli_integration():
     reader = csv.reader(StringIO(out))
     rows = list(reader)
     assert rows[1], "no output rows"
-    weight = float(rows[1][0])
-    assert weight == pytest.approx(3.7184092, rel=1e-4)
+    weight = float(rows[1][1])
+    assert weight == pytest.approx(9.2472, rel=1e-4)
