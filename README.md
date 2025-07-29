@@ -4,8 +4,23 @@ This project provides Python translations of the IHACPA SAS funding
 calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
 logic. The Python implementation now matches the official SAS results
-for all calculators. A lightweight command line interface is available
-via the `funding-calculator` script.
+for all calculators. Results have been verified against the 2025 SAS release.
+A lightweight command line interface is available via the
+`funding-calculator` script.
+
+## Calculator modules
+
+Each module below mirrors a SAS program from the IHACPA package.
+
+| Module | SAS source | Notes |
+|-------|-----------|-------|
+|`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using pandas operations.|
+|`ed`|`NWAU25_CALCULATOR_ED.sas`|Handles Emergency Department/Service activity. Supports UDG and AECC classifications with remoteness and indigenous adjustments.|
+|`mh`|`NWAU25_CALCULATOR_MH.sas`|Implements the mental health consumer model. Applies private patient services and accommodation adjustments.|
+|`subacute`|`NWAU25_CALCULATOR_SUBACUTE.sas`|Calculates NWAU25 for subacute admitted activity based on SNAP.|
+|`outpatients`|`NWAU25_CALCULATOR_OUTPATIENTS.sas`|For non‑admitted clinic activity. Applies remoteness and indigenous adjustments.|
+|`adjust`|`Calculate Adjusted NWAU.sas`|Combines base NWAU with Hospital Acquired Complication (HAC) and Avoidable Hospital Readmission (AHR) adjustments.|
+
 Historical SAS calculators from IHACPA should be extracted to
 `archive/sas/<YEAR>/`.  Rename the downloaded directory so only the year
 remains (for example `archive/sas/2025`).  Each folder then contains the
