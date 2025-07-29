@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 """Example script running the acute funding calculator."""
 
-import pathlib
-import sys
 from pathlib import Path
 
 import pandas as pd
 
-sys.path.insert(
-    0, str(pathlib.Path(__file__).resolve().parents[1] / "excel_calculator" / "src")
-)
-from funding_calculator import calculate_funding, load_formula, load_weights
+from nwau_py.calculators import calculate_funding, load_formula, load_weights
 
 
 def main():

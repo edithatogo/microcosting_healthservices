@@ -1,15 +1,9 @@
-import pathlib
-import sys
 from pathlib import Path
 
 import pandas as pd
 import pytest
 
-sys.path.insert(
-    0, str(pathlib.Path(__file__).resolve().parents[1] / "excel_calculator" / "src")
-)
-
-from funding_calculator import calculate_funding, load_formula
+from nwau_py.calculators import calculate_funding, load_formula
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 

@@ -166,7 +166,7 @@ and enable or disable adjustments using `--icu/--no-icu` and
 Funding weights can also be computed directly from Python:
 
 ```python
-from funding_calculator import load_weights, load_formula, calculate_funding
+from nwau_py.calculators import load_weights, load_formula, calculate_funding
 
 weights = load_weights('excel_calculator/data/weights.csv')
 formula = load_formula('excel_calculator/data/formula.json')
