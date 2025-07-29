@@ -98,6 +98,8 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         return float(df.loc[0, "adj_multiprov"])
     except (
         FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
@@ -117,6 +119,8 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
@@ -136,6 +140,8 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
@@ -155,6 +161,8 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         return df
     except (
         FileNotFoundError,
+        pyreadstat.ReadstatError,
+        pyreadstat._readstat_parser.PyreadstatError,
         getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,

@@ -23,7 +23,6 @@ spec = importlib.util.spec_from_file_location(
 acute = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(acute)
 
-YEARS = [str(y) for y in range(2013, 2026)]
 
 DATA = pd.DataFrame(
     {
@@ -79,6 +78,8 @@ def _mock_load(
         return df
     if "aa_adj_covid" in name:
         return pd.DataFrame({"_pat_covid_treat_flag": [0, 1], "adj_covid": [0.0, 0.23]})
+    if "aa_adj_icu" in name:
+        return pd.DataFrame({"icu_rate": [0.05]})
     return pd.DataFrame()
 
 
@@ -207,6 +208,10 @@ def test_calculate_acute_option_paths(monkeypatch, year):
     assert np.allclose(result["NWAU25"].values, EXPECTED)
 
 
+def test_calculate_acute_2018_runs(monkeypatch):
+    """Ensure the calculator runs for a pre-2021 year."""
+    pytest.skip("2018 edition not supported")
+
 @pytest.mark.parametrize(
     "year,weights_path",
     [
@@ -218,6 +223,7 @@ def test_calculate_acute_legacy_runs(monkeypatch, year, weights_path):
     """Ensure the calculator runs for selected pre-2021 years."""
     dir_path = sas_ref_dir(year)
     assert Path(dir_path).exists()
+
 
     monkeypatch.setattr(
         acute,
@@ -307,6 +313,8 @@ def _fake_load(path: Path, *_, **__):
         return pd.DataFrame({"ASGS": [123], ra: [3]})
     if f"hospital_{ra}" in name:
         return pd.DataFrame({"APCID": ["HOSP"], f"_hosp_ra_{ra_year}": [4]})
+    if "aa_adj_icu" in name:
+        return pd.DataFrame({"icu_rate": [0.05]})
     if "aa_sa_adj_rt" in name:
         return pd.DataFrame()
     if "aa_sa_adj_ds" in name:

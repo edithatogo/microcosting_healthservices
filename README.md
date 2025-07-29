@@ -193,9 +193,33 @@ using the provided distribution.
 
 ### Command line
 
-The calculators are accessible via ``python -m nwau_py.cli.main``. Select the
-pricing year with ``--year``. The subcommands ``acute``, ``ed`` and
-``non-admitted`` mirror the official SAS calculators:
+After installation the `funding-calculator` entry point is available. You can
+select a specific pricing year with `--year`:
+
+```bash
+funding-calculator --year 2024 patient_data.csv > funding.csv
+```
+
+The `--year` option selects the data directory for that pricing year. The
+example above uses the 2024 weights but you can also choose `--year 2025` once
+verified data is available. `patient_data.csv` should contain the columns
+referenced in `excel_calculator/data/2024/formula.json` and the output will
+include a `NWAU24` column.
+
+To calculate funding using an older edition simply pass the relevant year.
+For example, to run the 2024 calculator use:
+
+```bash
+funding-calculator --year 2024 patient_data.csv > funding.csv
+```
+
+This instructs the tool to load weights and the formula from
+`excel_calculator/data/2024/`.
+
+The `nwau_py` package also exposes a lightweight command line interface via
+`python -m nwau_py.cli.main`. The `--year` flag works with any supported
+edition (currently 2024 and 2025). The subcommands `acute`, `ed` and
+`non-admitted` mirror the SAS calculators:
 
 ```bash
 python -m nwau_py.cli.main acute INPUT.csv --output out.csv --year 2025

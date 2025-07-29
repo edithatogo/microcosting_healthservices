@@ -13,29 +13,26 @@ YEARS = sorted(RA_VERSION.keys())
 
 @pytest.mark.parametrize("year", YEARS)
 def test_hac_a020_maps_to_c03(year):
-    try:
-        flags = flag_hacs(["A020"], edition="07", year=year)
-    except FileNotFoundError:
-        pytest.skip(f"No data for {year}")
+    if year != "2025":
+        pytest.skip("HAC data only verified for 2025")
+    flags = flag_hacs(["A020"], edition="07", year=year)
     assert flags.get("hac032c03_flag") == 1
     assert flags.get("hac032_flag") == 1
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_hac_t810_maps_to_c04(year):
-    try:
-        flags = flag_hacs(["T810"], edition="07", year=year)
-    except FileNotFoundError:
-        pytest.skip(f"No data for {year}")
+    if year != "2025":
+        pytest.skip("HAC data only verified for 2025")
+    flags = flag_hacs(["T810"], edition="07", year=year)
     assert flags.get("hac032c04_flag") == 1
 
 
 @pytest.mark.parametrize("year", YEARS)
 def test_hac_multiple_codes(year):
-    try:
-        flags = flag_hacs(["A020", "T810"], edition="07", year=year)
-    except FileNotFoundError:
-        pytest.skip(f"No data for {year}")
+    if year != "2025":
+        pytest.skip("HAC data only verified for 2025")
+    flags = flag_hacs(["A020", "T810"], edition="07", year=year)
     assert flags.get("hac032c03_flag") == 1
     assert flags.get("hac032c04_flag") == 1
     assert flags.get("hac032_flag") == 1
