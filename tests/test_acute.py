@@ -207,24 +207,34 @@ def test_calculate_acute_option_paths(monkeypatch, year):
     assert np.allclose(result["NWAU25"].values, EXPECTED)
 
 
-def test_calculate_acute_2018_runs(monkeypatch):
-    """Ensure the calculator runs for a pre-2021 year."""
-    dir_path = sas_ref_dir("2018")
+@pytest.mark.parametrize(
+    "year,weights_path",
+    [
+        ("2016", "tests/data/2016/weights.csv"),
+        ("2018", "tests/data/2018/nep18_aa_price_weights.csv"),
+    ],
+)
+def test_calculate_acute_legacy_runs(monkeypatch, year, weights_path):
+    """Ensure the calculator runs for selected pre-2021 years."""
+    dir_path = sas_ref_dir(year)
     assert Path(dir_path).exists()
 
     monkeypatch.setattr(
         acute,
         "_load_price_weights",
-        lambda *_args, **_kwargs: pd.read_csv(
-            "tests/data/2018/nep18_aa_price_weights.csv"
-        ),
+        lambda *_args, **_kwargs: pd.read_csv(weights_path),
+    )
+    monkeypatch.setattr(
+        acute,
+        "load_sas_table",
+        lambda *_a, **_k: (_ for _ in ()).throw(FileNotFoundError()),
     )
 
     df = DATA.iloc[:1].copy()
     res = acute.calculate_acute(
         df,
         acute.AcuteParams(),
-        year="2018",
+        year=year,
         ref_dir=Path(dir_path),
     )
     assert res["NWAU25"].iloc[0] > 0

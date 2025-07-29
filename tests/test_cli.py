@@ -1,3 +1,7 @@
+import subprocess
+import sys
+from pathlib import Path
+
 import pandas as pd
 from click.testing import CliRunner
 from pathlib import Path
@@ -20,6 +24,19 @@ def _patch_loaders(monkeypatch):
 def test_cli_outputs_nwau(tmp_path, monkeypatch):
     _patch_loaders(monkeypatch)
 
+from nwau_py.cli.main import cli
+
+
+def test_cli_acute_runs(monkeypatch, tmp_path):
+    input_csv = Path("tests/data/acute_input.csv")
+    output_csv = tmp_path / "out.csv"
+
+    monkeypatch.setattr(
+        "nwau_py.calculators.acute._load_price_weights",
+        lambda r, year="2025": pd.read_csv("tests/data/2025/nep25_aa_price_weights.csv")
+        .assign(DRG=lambda x: x["DRG"].str.strip("b'")),
+    )
+
     runner = CliRunner()
     output_csv = tmp_path / "out.csv"
     result = runner.invoke(
@@ -31,6 +48,8 @@ def test_cli_outputs_nwau(tmp_path, monkeypatch):
             str(output_csv),
             "--year",
             "2025",
+            "--params",
+            "tests/data/2025",
         ],
     )
     assert result.exit_code == 0

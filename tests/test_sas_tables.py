@@ -1,11 +1,15 @@
 import re
+
 from pathlib import Path
 
 import pandas as pd
 import pytest
 
 import nwau_py.calculators.acute as acute
+
 from nwau_py.utils import ra_suffix
+
+from nwau_py.calculators import AcuteParams, calculate_acute
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 
@@ -58,3 +62,11 @@ def test_calculate_nwau_from_sas_weights(monkeypatch):
         df, acute.AcuteParams(), year="2025", ref_dir=Path("tests/data/2025")
     )
     assert result["NWAU25"].iloc[0] * 7258 == pytest.approx(67116.1776, rel=1e-4)
+    result = calculate_acute(
+        df,
+        AcuteParams(),
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+    )
+    funding = result["NWAU25"].iloc[0] * 7258
+    assert funding == pytest.approx(67116.1776, rel=1e-4)

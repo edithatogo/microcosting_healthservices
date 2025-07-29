@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Example script running the acute funding calculator."""
+"""Run the acute NWAU calculator using SAS reference tables."""
 
 from pathlib import Path
 
@@ -8,11 +8,16 @@ import pandas as pd
 from nwau_py.calculators import AcuteParams, calculate_acute
 
 
-def main():
+def main() -> None:
+    # Minimal demo using the provided test weights
     df = pd.read_csv(Path("tests/data/acute_input.csv"))
-    result = calculate_acute(df, AcuteParams())
-    print(f"Calculated NWAU: {result['NWAU25'].iloc[0]:.4f}")
-
+    result = calculate_acute(
+        df,
+        AcuteParams(),
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+    )
+    print(result)
 
 if __name__ == "__main__":
     main()
