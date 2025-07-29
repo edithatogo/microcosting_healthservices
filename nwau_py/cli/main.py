@@ -6,10 +6,7 @@ from typing import IO, Any
 import click
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))  # noqa: E402
-
-from funding_calculator import (  # noqa: E402
+from nwau_py.calculators import (
     calculate_funding,
     load_formula,
     load_weights,
