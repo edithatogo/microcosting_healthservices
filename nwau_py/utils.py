@@ -9,18 +9,22 @@ import pandas as pd
 # derived from the directory names of the archived SAS
 # calculators under ``archive/sas``.
 RA_VERSION = {
+    # 2025 onwards use the 2021 remoteness classification
     "2025": "2021",
     "2024": "2021",
+    # Editions 2020–2023 reference the 2016 remoteness areas
     "2023": "2016",
     "2022": "2016",
     "2021": "2016",
     "2020": "2016",
+    # The 2014–2019 calculators use the 2011 remoteness areas
     "2019": "2011",
     "2018": "2011",
     "2017": "2011",
     "2016": "2011",
     "2015": "2011",
     "2014": "2011",
+    # Earlier editions fall back to the 2006 classification
     "2013": "2006",
 }
 

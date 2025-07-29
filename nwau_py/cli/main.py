@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import IO
+from collections.abc import Callable
+from typing import IO, Any
 
 import click
 import pandas as pd
@@ -16,6 +17,8 @@ from nwau_py.calculators import (
     calculate_ed,
     calculate_outpatients,
 )
+
+cli = click.Group()
 
 
 @click.group()
@@ -50,7 +53,6 @@ def _run(
         if outfh is not sys.stdout:
             outfh.close()
 
-
 def _common_options(func):
     func = click.argument("input_csv", type=click.Path(exists=True))(func)
     func = click.option(
@@ -66,9 +68,52 @@ def _common_options(func):
         show_default=True,
         help="Output CSV path ('-' for stdout)",
     )(func)
+    func = click.option("--output", default="-", show_default=True)(func)
+    func = click.option("--year", default="2025", show_default=True)(func)
     return func
 
+def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
+    options = [
+        click.argument("input_csv", type=click.Path(exists=True)),
+        click.option(
+            "--params",
+            default=None,
+            type=click.Path(file_okay=False, dir_okay=True),
+            help="Directory containing SAS tables",
+        ),
+        click.option(
+            "--year",
+            default=None,
+            help="NEP/NWAU edition year",
+        ),
+        click.option(
+            "--output",
+            default="-",
+            show_default=True,
+            help="Output CSV path ('-' for stdout)",
+        ),
+        click.option(
+            "--icu/--no-icu",
+            default=True,
+            show_default=True,
+            help="Include ICU adjustments",
+        ),
+        click.option(
+            "--covid/--no-covid",
+            default=True,
+            show_default=True,
+            help="Include COVID adjustments",
+        ),
+    ]
+    for opt in reversed(options):
+        func = opt(func)
+    return func
 
+@click.group()
+def cli() -> None:
+    """NWAU calculation commands."""
+
+    
 @cli.command()
 @_common_options
 def acute(input_csv: str, params: str | None, output: str, year: str | None) -> None:
@@ -94,3 +139,4 @@ def non_admitted(
 
 if __name__ == "__main__":  # pragma: no cover
     cli()
+
