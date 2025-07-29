@@ -11,6 +11,25 @@ Historical SAS calculators from IHACPA should be extracted to
 remains (for example `archive/sas/2025`).  Each folder then contains the
 original SAS programs and data tables for that pricing year.
 
+## Calculators
+
+The project includes Python versions of each funding calculator. The table
+below lists the corresponding SAS programs and shows which pricing years have
+validated weights and formulas.
+
+| Calculator | SAS program | Python | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+|-----------|------------------------------|--------|------|------|------|------|------|------|------|------|------|------|------|------|
+| Acute | `NWAU25_CALCULATOR_ACUTE.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| ED | `NWAU25_CALCULATOR_ED.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| MH | `NWAU25_CALCULATOR_MH.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Subacute | `NWAU25_CALCULATOR_SUBACUTE.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Outpatients | `NWAU25_CALCULATOR_OUTPATIENTS.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Adjustment | `Calculate Adjusted NWAU.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Readmission | `Avoidable Hospital Readmission Grouper 030.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+
+Weights and formulas are verified for 2024 and 2025 only. Earlier years will be
+added once their outputs are validated.
+
 ## Installation
 
 Install the package and its dependencies using `pip`:
