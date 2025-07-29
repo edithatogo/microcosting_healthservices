@@ -9,9 +9,6 @@ from pathlib import Path
 import pytest
 import nwau_py.calculators.acute as acute
 from nwau_py.cli.main import cli
-from nwau_py.utils import RA_VERSION
-
-YEARS = sorted(RA_VERSION.keys())
 
 def _patch_loaders(monkeypatch):
     def _weights(*_args, **_kwargs) -> pd.DataFrame:
