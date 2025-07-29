@@ -44,6 +44,8 @@ def load_sas_table(
     ext_map = {"parquet": ".parquet", "csv": ".csv"}
     if cache_format not in ext_map:
         raise ValueError("cache_format must be 'parquet' or 'csv'")
+    if cache_format == "parquet" and not _PARQUET_SUPPORTED:
+        cache_format = "csv"
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache_path = cache_dir / f"{path.stem}{ext_map[cache_format]}"
 
