@@ -1,43 +1,40 @@
 #!/usr/bin/env python
-"""Example script running the acute funding calculator."""
+"""Run the acute NWAU calculator using SAS reference tables."""
 
 from pathlib import Path
 
 import pandas as pd
 
-from nwau_py.calculators import calculate_funding, load_formula, load_weights
+import nwau_py.calculators.acute as acute_mod
+from nwau_py.calculators import AcuteParams, calculate_acute
+from nwau_py.data.loader import load_sas_table
+from nwau_py.utils import sas_ref_dir
 
 
-def main():
-    weights = load_weights(Path("excel_calculator/data/weights.csv"))
-    formula = load_formula(Path("excel_calculator/data/formula.json"))
-
-    # Use the first DRG as a demonstration with no additional adjustments
-    row = weights.iloc[0]
-    patient = pd.DataFrame(
+def main() -> None:
+    """Calculate NWAU for a minimal patient example."""
+    df = pd.DataFrame(
         {
-            "Inlier": [row["Inlier"]],
-            "Paediatric Adjustment": [1.0],
-            "Adj (Indigenous Status)": [0.0],
-            "Adjustment.1 (Patient Remoteness)": [0.0],
-            "Treatment Remoteness Adjustment": [0.0],
-            "Dialysis Adjustment": [0.0],
-            "Private Service Adjustment": [0.0],
-            "COVID-19 Treatment Adjustment": [0.0],
-            "Bundled ICU": [0.0],
-            "ICU Hours": [0.0],
-            "Private Service Percentage": [0.0],
-            "Length of Stay": [10.0],
-            "Private Patient Accommodation Adjustment": [0.0],
-            "HAC Adjustment": [0.0],
-            "Readmission weight": [0.0],
-            "Readmission adjustment": [0.0],
-            "National Efficient Price": [7258.0],
+            "DRG": ["801A"],
+            "LOS": [5],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
         }
     )
 
-    funding = calculate_funding(patient, formula)
-    print(f"Calculated funding: {funding.iloc[0]:.4f}")
+    ref_dir = sas_ref_dir("2025")
+
+    def load_weights(ref: Path, year: str = "2025") -> pd.DataFrame:
+        suffix = str(year)[-2:]
+        path = ref / f"nep{suffix}_aa_price_weights.sas7bdat"
+        return load_sas_table(path)
+
+    acute_mod._load_price_weights = load_weights
+
+    result = calculate_acute(df, AcuteParams(), year="2025", ref_dir=ref_dir)
+    print(result[["DRG", "NWAU25"]])
 
 
 if __name__ == "__main__":
