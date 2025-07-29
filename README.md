@@ -42,9 +42,22 @@ python excel_calculator/scripts/extract_all.py
 
 The helper script writes the outputs to `excel_calculator/data/<year>/`.
 
+
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.
+
+### Adding a new pricing year
+
+1. Extract the SAS calculator for the new edition under
+   `archive/sas/<YEAR>/`. Rename the folder so only the year remains.
+2. Copy the Excel workbook to `excel_calculator/archive/<YEAR>` and run
+   `python excel_calculator/scripts/extract_all.py`. This writes
+   `weights.csv` and `formula.json` to `excel_calculator/data/<YEAR>/`.
+3. If the remoteness classification year changes update
+   `nwau_py/utils.RA_VERSION` accordingly.
+4. All calculators can then be invoked with ``--year <YEAR>`` or by
+   passing ``year="<YEAR>"`` when calling the Python functions.
 
 ## SAS program mapping
 

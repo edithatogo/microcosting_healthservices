@@ -51,6 +51,7 @@ def calculate_subacute(
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
     ra = ra_suffix(year)
     ra_year = ra[2:]
     weights = _load_weights(ref_dir, year)
@@ -423,7 +424,7 @@ def calculate_subacute(
         0,
         np.maximum(0, gwau - adj_priv_serv - adj_priv_accomm),
     )
-    merged["NWAU25"] = nwau
+    merged[nwau_col] = nwau
 
     result = merged
     if not params.debug_mode:

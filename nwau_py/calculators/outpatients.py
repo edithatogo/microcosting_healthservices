@@ -175,6 +175,8 @@ def calculate_outpatients(
 
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+    suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
     ra = ra_suffix(year)
     ra_year = ra[2:]
 
@@ -479,7 +481,7 @@ def calculate_outpatients(
         )
 
     nwau = np.where(merged["Error_Code"] > 0, 0, gwau)
-    merged["NWAU25"] = nwau
+    merged[nwau_col] = nwau
 
     result = merged
     if not params.debug_mode:
