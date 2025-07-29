@@ -33,6 +33,8 @@ def _fake_load(path: Path, *_, **__) -> pd.DataFrame:
                 "_est_eligible_paed_flag": [1],
             }
         )
+    if "aa_adj_icu" in name:
+        return pd.DataFrame({"icu_rate": [0.05]})
     if name.startswith(f"postcode_to_{ra}"):
         return pd.DataFrame({"POSTCODE": ["PC1"], ra: [2]})
     if f"hospital_{ra}" in name:

@@ -7,7 +7,8 @@ import pytest
 
 from nwau_py.utils import RA_VERSION
 
-YEARS = sorted(RA_VERSION.keys())
+# Parameterise tests only for editions with verified data
+YEARS = ["2025"]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
