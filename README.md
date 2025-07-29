@@ -5,7 +5,7 @@ calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
 logic. The Python implementation now matches the official SAS results
 for all calculators. A lightweight command line interface is available
-via the `funding-calculator` script.
+via ``python -m nwau_py.cli.main``.
 Historical SAS calculators from IHACPA should be extracted to
 `archive/sas/<YEAR>/`.  Rename the downloaded directory so only the year
 remains (for example `archive/sas/2025`).  Each folder then contains the
@@ -51,11 +51,11 @@ Weights and the pricing formula are stored in `excel_calculator/data`.
 Each pricing year has its own subdirectory, e.g. `excel_calculator/data/2025`.
 The top-level files remain as the default for 2025 so existing scripts
 continue to work.
-To calculate funding for a CSV file of patient activity:
+Funding calculators can be executed directly via ``python -m nwau_py.cli.main``.
+For example, to process acute activity:
 
 ```bash
-funding-calculator --weights excel_calculator/data/weights.csv \
-    --formula excel_calculator/data/formula.json patient_data.csv > funding.csv
+python -m nwau_py.cli.main acute patient_data.csv --output funding.csv
 ```
 
 After installing the development requirements, unit tests can be run with
@@ -106,33 +106,9 @@ using the provided distribution.
 
 ### Command line
 
-After installation the `funding-calculator` entry point is available. You can
-select a specific pricing year with `--year`:
-
-```bash
-funding-calculator --year 2024 patient_data.csv > funding.csv
-```
-
-The `--year` option selects the data directory for that pricing year. The
-example above uses the 2024 weights but you can also choose `--year 2025` once
-verified data is available. `patient_data.csv` should contain the columns
-referenced in `excel_calculator/data/2024/formula.json` and the output will
-include a `NWAU24` column.
-
-To calculate funding using an older edition simply pass the relevant year,
-for example:
-
-```bash
-funding-calculator --year 2022 patient_data.csv > funding.csv
-```
-
-This instructs the tool to load weights and the formula from
-`excel_calculator/data/2022/`.
-
-The `nwau_py` package also exposes a lightweight command line interface via
-`python -m nwau_py.cli.main`. The `--year` flag works with any supported
-edition (currently 2024 and 2025). The subcommands `acute`, `ed` and
-`non-admitted` mirror the SAS calculators:
+The calculators are accessible via ``python -m nwau_py.cli.main``. Select the
+pricing year with ``--year``. The subcommands ``acute``, ``ed`` and
+``non-admitted`` mirror the official SAS calculators:
 
 ```bash
 python -m nwau_py.cli.main acute INPUT.csv --output out.csv --year 2025
@@ -144,20 +120,16 @@ and enable or disable adjustments using `--icu/--no-icu` and
 
 ### Python modules
 
-Funding weights can also be computed directly from Python:
+The calculators can also be called directly from Python:
 
 ```python
-from funding_calculator import load_weights, load_formula, calculate_funding
-
-weights = load_weights('excel_calculator/data/weights.csv')
-formula = load_formula('excel_calculator/data/formula.json')
+from nwau_py.calculators import AcuteParams, calculate_acute
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-patient_df['NWAU25'] = calculate_funding(patient_df, formula)
+result = calculate_acute(patient_df, AcuteParams())
 ```
 
-Replace `excel_calculator/data` with `excel_calculator/data/<year>` to use
-weights and formulae from another pricing year.
+Pass ``year="2024"`` (for example) to use a different pricing edition.
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.
 

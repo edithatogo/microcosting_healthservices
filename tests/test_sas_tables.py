@@ -1,15 +1,11 @@
-import pathlib
-import sys
+import re
 from pathlib import Path
 
 import pandas as pd
 import pytest
 
-sys.path.insert(
-    0, str(pathlib.Path(__file__).resolve().parents[1] / "excel_calculator" / "src")
-)
-
-from funding_calculator import calculate_funding, load_formula
+import nwau_py.calculators.acute as acute
+from nwau_py.utils import ra_suffix
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 
@@ -20,31 +16,45 @@ def test_converted_tables_shapes():
     assert pd.read_csv(DATA_DIR / "p_intercept.csv").shape == (1, 14)
 
 
-def test_calculate_nwau_from_sas_weights():
+def _fake_load(path: Path, *_, **__) -> pd.DataFrame:
+    name = path.name
+    match = re.search(r"ra\d{4}", name)
+    ra = match.group(0) if match else ra_suffix("2025")
+    ra_year = ra[2:]
+    if "icu_paed_eligibility_list" in name:
+        return pd.DataFrame(
+            {
+                "APCID": ["HOSP"],
+                "_est_eligible_icu_flag": [1],
+                "_est_eligible_paed_flag": [1],
+            }
+        )
+    if name.startswith(f"postcode_to_{ra}"):
+        return pd.DataFrame({"POSTCODE": ["PC1"], ra: [2]})
+    if f"hospital_{ra}" in name:
+        return pd.DataFrame({"APCID": ["HOSP"], f"_hosp_ra_{ra_year}": [4]})
+    return pd.DataFrame()
+
+
+def test_calculate_nwau_from_sas_weights(monkeypatch):
     weights = pd.read_csv(DATA_DIR / "nep25_aa_price_weights.csv")
     weights["DRG"] = weights["DRG"].str.strip("b'")
-    row = weights[weights["DRG"] == "801A"].iloc[0]
+    monkeypatch.setattr(acute, "_load_price_weights", lambda *_: weights)
+    monkeypatch.setattr(acute, "load_sas_table", _fake_load)
+
     df = pd.DataFrame(
         {
-            "Inlier": [row["drg_pw_inlier"]],
-            "Paediatric Adjustment": [1.0],
-            "Adj (Indigenous Status)": [0.0],
-            "Adjustment.1 (Patient Remoteness)": [0.0],
-            "Treatment Remoteness Adjustment": [0.0],
-            "Dialysis Adjustment": [0.0],
-            "Private Service Adjustment": [0.0],
-            "COVID-19 Treatment Adjustment": [0.0],
-            "Bundled ICU": [0.0],
-            "ICU Hours": [0.0],
-            "Private Service Percentage": [0.0],
-            "Length of Stay": [10.0],
-            "Private Patient Accommodation Adjustment": [0.0],
-            "HAC Adjustment": [0.0],
-            "Readmission weight": [0.0],
-            "Readmission adjustment": [0.0],
-            "National Efficient Price": [7258.0],
+            "DRG": ["801A"],
+            "LOS": [10],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_COVID_FLAG": [0],
         }
     )
-    formula = load_formula("excel_calculator/data/formula.json")
-    result = calculate_funding(df, formula)
-    assert result.iloc[0] == pytest.approx(67116.1776, rel=1e-4)
+
+    result = acute.calculate_acute(
+        df, acute.AcuteParams(), year="2025", ref_dir=Path("tests/data/2025")
+    )
+    assert result["NWAU25"].iloc[0] * 7258 == pytest.approx(67116.1776, rel=1e-4)
