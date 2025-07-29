@@ -131,12 +131,15 @@ equivalences.
 |`Scorer_v3.py`|`src/nwau_py/scoring/scorer.py`|LightGBM readmission model|
 
 ## Usage
-
-The calculators load SAS reference tables from `archive/sas/<YEAR>/`. Process a
-CSV file using the command line interface:
+Weights and the pricing formula are stored in `excel_calculator/data`.
+Each pricing year has its own subdirectory, e.g. `excel_calculator/data/2025`.
+The top-level files remain as the default for 2025 so existing scripts
+continue to work.
+Funding calculators can be executed directly via ``python -m nwau_py.cli.main``.
+For example, to process acute activity:
 
 ```bash
-funding-calculator acute patient_data.csv --year 2025 > funding.csv
+python -m nwau_py.cli.main acute patient_data.csv --output funding.csv
 ```
 
 Replace `acute` with `ed` or `non-admitted` for other activity types. The
@@ -190,15 +193,13 @@ using the provided distribution.
 
 ### Command line
 
-Use `python -m nwau_py.cli.main` to run the calculators from the command line.
-Select the relevant pricing year with `--year` and specify the activity type as
-a subcommand:
+The calculators are accessible via ``python -m nwau_py.cli.main``. Select the
+pricing year with ``--year``. The subcommands ``acute``, ``ed`` and
+``non-admitted`` mirror the official SAS calculators:
 
 ```bash
-python -m nwau_py.cli.main acute INPUT.csv --output funding.csv --year 2025
+python -m nwau_py.cli.main acute INPUT.csv --output out.csv --year 2025
 ```
-
-The subcommands `acute`, `ed` and `non-admitted` mirror the SAS calculators.
 
 Common options allow the weights directory to be overridden with `--params`
 and enable or disable adjustments using `--icu/--no-icu` and
@@ -206,18 +207,16 @@ and enable or disable adjustments using `--icu/--no-icu` and
 
 ### Python modules
 
-Funding weights can also be computed using the calculator functions:
+The calculators can also be called directly from Python:
 
 ```python
 from nwau_py.calculators import AcuteParams, calculate_acute
 
 patient_df = ...  # pandas DataFrame containing your episode level data
-
 result = calculate_acute(patient_df, AcuteParams())
 ```
 
-The `calculate_ed` and `calculate_outpatients` helpers work in the same way for
-ED and non-admitted activity.
+Pass ``year="2024"`` (for example) to use a different pricing edition.
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.
 

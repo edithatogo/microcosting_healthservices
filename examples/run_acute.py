@@ -19,6 +19,5 @@ def main() -> None:
     )
     print(result)
 
-    
 if __name__ == "__main__":
     main()
