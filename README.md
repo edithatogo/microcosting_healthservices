@@ -53,6 +53,17 @@ Install the package and its dependencies using `pip`:
 pip install -e .
 ```
 
+### Dependencies
+
+The calculators rely on several core Python packages:
+
+- **NumPy** and **Pandas** for data manipulation
+- **LightGBM** for readmission risk scoring
+- **PyArrow** (optional) to cache SAS tables in Parquet format
+
+`requirements.txt` installs the runtime dependencies while
+`requirements-dev.txt` adds the optional packages used by the test suite.
+
 Extract the official SAS calculators under `archive/sas/<YEAR>/` so the
 Python modules can load the reference tables for each year.
 
@@ -62,8 +73,8 @@ To run the tests, install the additional development requirements and then run
 ```bash
 pip install -r requirements-dev.txt
 ```
-These packages include `pytest`, `numpy`, `pandas`, `pyxlsb`, `pyreadstat` and
-`lightgbm`.
+These packages include `pytest`, `numpy`, `pandas`, `lightgbm`, `pyarrow`,
+`pyxlsb`, `pyreadstat` and `click`.
 
 ## Historical data
 

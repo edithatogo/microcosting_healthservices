@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 from collections.abc import Callable
+from pathlib import Path
 from typing import IO, Any
 
 import click
@@ -17,14 +17,6 @@ from nwau_py.calculators import (
     calculate_ed,
     calculate_outpatients,
 )
-
-cli = click.Group()
-
-
-@click.group()
-def cli() -> None:
-    """Entry point for calculator commands."""
-    pass
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
