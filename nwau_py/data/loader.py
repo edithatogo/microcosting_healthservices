@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from importlib.util import find_spec
 from pathlib import Path
 
 import pandas as pd
@@ -24,7 +25,8 @@ def load_sas_table(
     cache:
         Whether to cache the loaded table.
     cache_format:
-        ``"parquet"`` or ``"csv"``.
+        ``"parquet"`` or ``"csv"``. If ``pyarrow`` is not installed the
+        function falls back to CSV caching.
     cache_dir:
         Directory where cache files are stored.
     force:
@@ -32,6 +34,8 @@ def load_sas_table(
     """
     path = Path(path)
     cache_dir = Path(cache_dir)
+    if cache_format == "parquet" and find_spec("pyarrow") is None:
+        cache_format = "csv"
     ext_map = {"parquet": ".parquet", "csv": ".csv"}
     if cache_format not in ext_map:
         raise ValueError("cache_format must be 'parquet' or 'csv'")
