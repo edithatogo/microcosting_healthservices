@@ -1,75 +1,71 @@
 import sys
-from collections.abc import Callable
-from pathlib import Path
-from typing import IO, Any
 
 import click
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "excel_calculator" / "src"))  # noqa: E402
-
-from funding_calculator import (  # noqa: E402
+from nwau_py.calculators import (
+    AcuteParams,
+    EDParams,
+    OutpatientParams,
+    calculate_acute,
+    calculate_ed,
+    calculate_outpatients,
     calculate_funding,
     load_formula,
     load_weights,
 )
 
 
-def calculate(
-    input_csv: str,
-    params: str,
-    outfh: IO[str],
-    icu: bool,
-    covid: bool,
-) -> None:
-    """Load data, apply the formula and write the output CSV."""
-    params_path = Path(params)
-    load_weights(params_path / "weights.csv")
-    formula = load_formula(params_path / "formula.json")
-
-    df = pd.read_csv(input_csv)
-
-    if not icu:
-        for col in ["Bundled ICU", "ICU Hours"]:
-            if col in df.columns:
-                df[col] = 0
-    if not covid:
-        col = "COVID-19 Treatment Adjustment"
-        if col in df.columns:
-            df[col] = 0
-
-    df["NWAU25"] = calculate_funding(df, formula)
+def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
     df.to_csv(outfh, index=False)
 
 
-def run_cli(
+def _run(
+    calculator: Callable[..., pd.DataFrame],
+    params: Any,
     input_csv: str,
-    params: str,
-    output: str,
-    icu: bool,
-    covid: bool,
-    year: str | None = None,
+    outfh: IO[str],
+    year: str | None,
+    ref_dir: str | None,
 ) -> None:
-    if year is not None and params == "excel_calculator/data":
-        params = str(Path("excel_calculator/data") / year)
+    df = pd.read_csv(input_csv)
+    result = calculator(
+        df,
+        params,
+        year=year or "2025",
+        ref_dir=Path(ref_dir) if ref_dir else None,
+    )
+    _write_output(result, outfh)
+
+
+def run_cli(
+    calculator: Callable[..., pd.DataFrame],
+    params: Any,
+    input_csv: str,
+    output: str,
+    year: str | None,
+    ref_dir: str | None,
+) -> None:
     outfh = sys.stdout if output == "-" else open(output, "w", newline="")
     try:
-        calculate(input_csv, params, outfh, icu, covid)
+        _run(calculator, params, input_csv, outfh, year, ref_dir)
     finally:
         if outfh is not sys.stdout:
             outfh.close()
 
 
+def _common_options(func):
+    func = click.argument("input_csv", type=click.Path(exists=True))(func)
+    func = click.option("--output", default="-", show_default=True)(func)
+    func = click.option("--year", default="2025", show_default=True)(func)
 def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
         click.option(
             "--params",
-            default="excel_calculator/data",
-            show_default=True,
+            default=None,
             type=click.Path(file_okay=False, dir_okay=True),
-            help="Directory containing weights.csv and formula.json",
+            help="Directory containing SAS tables",
         ),
         click.option(
             "--year",
@@ -100,30 +96,85 @@ def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     return func
 
 
-@click.group()
-def cli() -> None:
-    """NWAU calculation commands."""
-
-
 @cli.command()
-@common_options
-def acute(**kwargs: Any) -> None:
+@_common_options
+@click.option("--icu/--no-icu", default=True, show_default=True)
+@click.option("--covid/--no-covid", default=True, show_default=True)
+def acute(input_csv: str, output: str, year: str, icu: bool, covid: bool) -> None:
     """Calculate NWAU for acute care."""
-    run_cli(**kwargs)
+    df = pd.read_csv(input_csv)
+    params = AcuteParams()
+    if not icu:
+        params.icu_paed_option = 2
+    if not covid:
+        params.covid_option = 2
+        params.covid_adj_option = 2
+    result = calculate_acute(df, params, year=year)
+    _write_output(result, output)
+
+
+@cli.command()
+@_common_options
+def ed(input_csv: str, output: str, year: str) -> None:
+    """Calculate NWAU for emergency department care."""
+    df = pd.read_csv(input_csv)
+    params = EDParams()
+    result = calculate_ed(df, params, year=year)
+    _write_output(result, output)
+
+
+@cli.command(name="non-admitted")
+@_common_options
+def non_admitted(input_csv: str, output: str, year: str) -> None:
+    """Calculate NWAU for non-admitted care."""
+    df = pd.read_csv(input_csv)
+    params = OutpatientParams()
+    result = calculate_outpatients(df, params, year=year)
+    _write_output(result, output)
+@common_options
+def acute(
+    input_csv: str,
+    params: str | None,
+    output: str,
+    icu: bool,
+    covid: bool,
+    year: str | None,
+) -> None:
+    """Calculate NWAU for acute care."""
+    ac_params = AcuteParams(
+        icu_paed_option=1 if icu else 2,
+        covid_option=1 if covid else 2,
+        covid_adj_option=1 if covid else 2,
+    )
+    run_cli(calculate_acute, ac_params, input_csv, output, year, params)
 
 
 @cli.command()
 @common_options
-def ed(**kwargs: Any) -> None:
+def ed(
+    input_csv: str,
+    params: str | None,
+    output: str,
+    icu: bool,
+    covid: bool,
+    year: str | None,
+) -> None:
     """Calculate NWAU for emergency department care."""
-    run_cli(**kwargs)
+    run_cli(calculate_ed, EDParams(), input_csv, output, year, params)
 
 
 @cli.command(name="non-admitted")
 @common_options
-def non_admitted(**kwargs: Any) -> None:
+def non_admitted(
+    input_csv: str,
+    params: str | None,
+    output: str,
+    icu: bool,
+    covid: bool,
+    year: str | None,
+) -> None:
     """Calculate NWAU for non-admitted care."""
-    run_cli(**kwargs)
+    run_cli(calculate_outpatients, OutpatientParams(), input_csv, output, year, params)
 
 
 if __name__ == "__main__":

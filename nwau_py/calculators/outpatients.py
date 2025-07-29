@@ -100,6 +100,7 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
         FileNotFoundError,
         pyreadstat.ReadstatError,
         pyreadstat._readstat_parser.PyreadstatError,
+        getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
     ):
@@ -120,6 +121,7 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         FileNotFoundError,
         pyreadstat.ReadstatError,
         pyreadstat._readstat_parser.PyreadstatError,
+        getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
     ):
@@ -140,6 +142,7 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         FileNotFoundError,
         pyreadstat.ReadstatError,
         pyreadstat._readstat_parser.PyreadstatError,
+        getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
     ):
@@ -160,6 +163,7 @@ def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
         FileNotFoundError,
         pyreadstat.ReadstatError,
         pyreadstat._readstat_parser.PyreadstatError,
+        getattr(pyreadstat, "ReadstatError", Exception),
         KeyError,
         ValueError,
     ):
@@ -179,6 +183,8 @@ def calculate_outpatients(
 
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
+    suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
     ra = ra_suffix(year)
     ra_year = ra[2:]
 
@@ -483,7 +489,7 @@ def calculate_outpatients(
         )
 
     nwau = np.where(merged["Error_Code"] > 0, 0, gwau)
-    merged["NWAU25"] = nwau
+    merged[nwau_col] = nwau
 
     result = merged
     if not params.debug_mode:

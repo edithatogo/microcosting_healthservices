@@ -10,39 +10,37 @@ Install from source using `pip`:
 pip install .
 ```
 
+The SAS calculators for each pricing year should be extracted under
+`archive/sas/<YEAR>/` so the modules can read the reference tables.
+
 This requires Python 3.8+ and depends on `pandas`, `pyxlsb`, `pyreadstat` and `lightgbm`.
 
 ## Data preparation
 
-Weights are stored under `excel_calculator/data/<year>/weights.csv`. To
-recreate these files from the official IHACPA workbooks run:
-
-```bash
-python excel_calculator/scripts/extract_all.py
-```
-
-The script reads each workbook under `excel_calculator/archive/<year>` and writes
-`excel_calculator/data/<year>/weights.csv` as well as a matching
-`formula.json`.
+The Python calculators load tables directly from the SAS releases archived under
+`archive/sas/<YEAR>/`. If you need the original Excel workbook outputs, the
+helper script `excel_calculator/scripts/extract_all.py` can recreate
+`weights.csv` and `formula.json` from the workbooks stored in
+`excel_calculator/archive/<year>`.
 
 ## CLI usage
 
-Once installed you can calculate funding using the `funding-calculator`
-script. Select a pricing year with `--year`:
+Once installed you can calculate funding from the command line using the
+`nwau_py` CLI:
 
 ```bash
-funding-calculator --year 2025 patient_data.csv > funding.csv
+python -m nwau_py.cli.main acute patient_data.csv --output funding.csv --year 2025
 ```
 
-`patient_data.csv` should contain the columns referenced in the formula JSON
-file. The output is a CSV column named `NWAU25` with the calculated weights.
+`patient_data.csv` should contain the variables expected by the SAS programs.
+The output CSV will include an `NWAU25` column with the calculated weights.
 
 ## Formula JSON
 
 The file `excel_calculator/data/formula.json` is a structured representation of
-the workbook formula used by IHACPA. It lists each symbol (for example `PW`,
-`APaed`, `AInd`) and the corresponding column heading in
-`excel_calculator/data/weights.csv`. A full mapping is provided in
+the workbook formula used by IHACPA and is kept for archival purposes. It lists
+each symbol (for example `PW`, `APaed`, `AInd`) and the corresponding column
+heading in `excel_calculator/data/weights.csv`. A full mapping is provided in
 [`FORMULA_MAPPING.md`](../excel_calculator/data/FORMULA_MAPPING.md).
 
 The `steps` array enumerates the intermediate calculations that build up the
