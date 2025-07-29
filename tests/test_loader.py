@@ -6,6 +6,7 @@ import pytest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+import nwau_py.data.loader as loader
 from nwau_py.data.loader import load_sas_table
 from nwau_py.utils import RA_VERSION, sas_ref_dir
 
@@ -82,6 +83,15 @@ def test_parquet_cache_falls_back_to_csv(tmp_path):
     path = DATA_DIR / "tablec.sas7bdat"
     df = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
     assert (tmp_path / "tablec.csv").exists()
+    assert not df.empty
+
+
+def test_csv_fallback_when_parquet_unavailable(tmp_path, monkeypatch):
+    path = DATA_DIR / "tablec.sas7bdat"
+    monkeypatch.setattr(loader, "_PARQUET_SUPPORTED", False)
+    df = load_sas_table(path, cache=True, cache_format="parquet", cache_dir=tmp_path)
+    assert (tmp_path / "tablec.csv").exists()
+    assert not (tmp_path / "tablec.parquet").exists()
     assert not df.empty
 
 
