@@ -1,6 +1,8 @@
-pytest
+click
+lightgbm
 numpy
 pandas
-pyxlsb
+pyarrow
 pyreadstat
-lightgbm
+pyxlsb
+pytest
