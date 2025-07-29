@@ -15,6 +15,8 @@ from nwau_py.calculators import (
     calculate_outpatients,
 )
 
+cli = click.Group()
+
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
     df.to_csv(outfh, index=False)
