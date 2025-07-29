@@ -53,6 +53,7 @@ def calculate_acute(
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
     ra = ra_suffix(year)
     ra_year = ra[2:]
 
@@ -632,7 +633,7 @@ def calculate_acute(
     w04 = w03 * (1 + merged.get("adj_covid", 0))
 
     adj_icu = merged.get("_pat_eligible_icu_hours", 0) * merged.get("icu_rate", 0)
-    gwau25 = np.maximum(0, w04 + adj_icu)
+    gwau = np.maximum(0, w04 + adj_icu)
 
     drg_adj_serv = merged.get("drg_adj_privpat_serv", 0)
     adj_priv_serv = merged["PAT_PRIVATE_FLAG"] * drg_adj_serv * (w01 + adj_icu)
@@ -643,8 +644,8 @@ def calculate_acute(
         * merged.get("state_adj_privpat_accomm_on", 0)
     )
 
-    nwau25 = np.maximum(0, gwau25 - adj_priv_serv - adj_priv_accomm)
-    merged["NWAU25"] = np.where(merged["Error_Code"] > 0, 0, nwau25)
+    nwau = np.maximum(0, gwau - adj_priv_serv - adj_priv_accomm)
+    merged[nwau_col] = np.where(merged["Error_Code"] > 0, 0, nwau)
 
     result = merged
     if not params.debug_mode:

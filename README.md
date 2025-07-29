@@ -42,6 +42,7 @@ python excel_calculator/scripts/extract_all.py
 
 The helper script writes the outputs to `excel_calculator/data/<year>/`.
 
+
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.
@@ -62,6 +63,37 @@ validated.
 |2023|✅|❌|❌|
 |2024|✅|✅|✅|
 |2025|✅|✅|✅|
+
+### Adding a new pricing year
+
+1. Extract the SAS calculator for the new edition under
+   `archive/sas/<YEAR>/`. Rename the folder so only the year remains.
+2. Copy the Excel workbook to `excel_calculator/archive/<YEAR>` and run
+   `python excel_calculator/scripts/extract_all.py`. This writes
+   `weights.csv` and `formula.json` to `excel_calculator/data/<YEAR>/`.
+3. If the remoteness classification year changes update
+   `nwau_py/utils.RA_VERSION` accordingly.
+4. All calculators can then be invoked with ``--year <YEAR>`` or by
+   passing ``year="<YEAR>"`` when calling the Python functions.
+
+## SAS program mapping
+
+The original SAS calculators are archived under
+`archive/sas/<YEAR>/calculators`.  Each Python module in
+`nwau_py` mirrors one of these programs.  The table below lists the main
+equivalences.
+
+| SAS program | Python module | Notes |
+|-------------|---------------|-------|
+|`NWAU##_CALCULATOR_ACUTE.sas`|`nwau_py/calculators/acute.py`|Matches SAS acute logic|
+|`NWAU##_CALCULATOR_ED.sas`|`nwau_py/calculators/ed.py`|Equivalent ED calculations|
+|`NWAU##_CALCULATOR_MH.sas`|`nwau_py/calculators/mh.py`|Mental health consumer model|
+|`NWAU##_CALCULATOR_SUBACUTE.sas`|`nwau_py/calculators/subacute.py`|SNAP based calculator|
+|`NWAU##_CALCULATOR_OUTPATIENTS.sas`|`nwau_py/calculators/outpatients.py`|Non-admitted activity|
+|`Calculate Adjusted NWAU.sas`|`nwau_py/calculators/adjust.py`|Applies HAC and AHR adjustments|
+|`Avoidable Hospital Readmission Grouper.sas`|`nwau_py/groupers/ahr.py`|Readmission grouper|
+|`Hospital Acquired Complication Grouper.sas`|`nwau_py/groupers/hac.py`|HAC grouper|
+|`Scorer_v3.py`|`src/nwau_py/scoring/scorer.py`|LightGBM readmission model|
 
 ## Usage
 Weights and the pricing formula are stored in `excel_calculator/data`.
@@ -164,7 +196,7 @@ and enable or disable adjustments using `--icu/--no-icu` and
 Funding weights can also be computed directly from Python:
 
 ```python
-from funding_calculator import load_weights, load_formula, calculate_funding
+from nwau_py.calculators import load_weights, load_formula, calculate_funding
 
 weights = load_weights('excel_calculator/data/weights.csv')
 formula = load_formula('excel_calculator/data/formula.json')

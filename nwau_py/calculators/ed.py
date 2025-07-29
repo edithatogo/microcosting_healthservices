@@ -55,7 +55,9 @@ def calculate_ed(
     """Translate ``NWAU25_CALCULATOR_ED.sas`` using pandas."""
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
-
+    suffix = str(year)[-2:]
+    nwau_col = f"NWAU{suffix}"
+    gwau_col = f"GWAU{suffix}"
     df = df.copy()
 
     if params.classification_option == 1:
@@ -103,8 +105,8 @@ def calculate_ed(
         )
 
     merged["_w01"] = w01
-    merged["GWAU25"] = gwau
-    merged["NWAU25"] = np.where(merged["Error_Code"] > 0, 0, gwau.round(8))
+    merged[gwau_col] = gwau
+    merged[nwau_col] = np.where(merged["Error_Code"] > 0, 0, gwau.round(8))
 
     result = merged
     if not params.debug_mode:
