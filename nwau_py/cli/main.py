@@ -1,4 +1,7 @@
 import sys
+from collections.abc import Callable
+from pathlib import Path
+from typing import IO, Any
 
 import click
 import pandas as pd
@@ -10,10 +13,9 @@ from nwau_py.calculators import (
     calculate_acute,
     calculate_ed,
     calculate_outpatients,
-    calculate_funding,
-    load_formula,
-    load_weights,
 )
+
+cli = click.Group()
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
@@ -58,6 +60,8 @@ def _common_options(func):
     func = click.argument("input_csv", type=click.Path(exists=True))(func)
     func = click.option("--output", default="-", show_default=True)(func)
     func = click.option("--year", default="2025", show_default=True)(func)
+    return func
+
 def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     options = [
         click.argument("input_csv", type=click.Path(exists=True)),
@@ -97,40 +101,6 @@ def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
 
 
 @cli.command()
-@_common_options
-@click.option("--icu/--no-icu", default=True, show_default=True)
-@click.option("--covid/--no-covid", default=True, show_default=True)
-def acute(input_csv: str, output: str, year: str, icu: bool, covid: bool) -> None:
-    """Calculate NWAU for acute care."""
-    df = pd.read_csv(input_csv)
-    params = AcuteParams()
-    if not icu:
-        params.icu_paed_option = 2
-    if not covid:
-        params.covid_option = 2
-        params.covid_adj_option = 2
-    result = calculate_acute(df, params, year=year)
-    _write_output(result, output)
-
-
-@cli.command()
-@_common_options
-def ed(input_csv: str, output: str, year: str) -> None:
-    """Calculate NWAU for emergency department care."""
-    df = pd.read_csv(input_csv)
-    params = EDParams()
-    result = calculate_ed(df, params, year=year)
-    _write_output(result, output)
-
-
-@cli.command(name="non-admitted")
-@_common_options
-def non_admitted(input_csv: str, output: str, year: str) -> None:
-    """Calculate NWAU for non-admitted care."""
-    df = pd.read_csv(input_csv)
-    params = OutpatientParams()
-    result = calculate_outpatients(df, params, year=year)
-    _write_output(result, output)
 @common_options
 def acute(
     input_csv: str,
