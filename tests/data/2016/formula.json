@@ -1,0 +1,10 @@
+{
+  "variables": {
+    "PW": "drg_pw_inlier",
+    "APaed": "drg_adj_paed",
+    "NEP": "nep"
+  },
+  "steps": [
+    "NWAU16 = PW * APaed * NEP"
+  ]
+}
