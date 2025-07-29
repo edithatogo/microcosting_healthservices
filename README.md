@@ -47,6 +47,23 @@ The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.
 
+### Data availability matrix
+
+| Year | SAS archive | Verified weights | Validated Python |
+|------|-------------|------------------|-----------------|
+|2014|✅|❌|❌|
+|2015|✅|❌|❌|
+|2016|✅|❌ (sample only)|❌|
+|2017|✅|❌|❌|
+|2018|✅|✅ (sample)|❌|
+|2019|✅|✅ (sample)|❌|
+|2020|✅|❌|❌|
+|2021|✅|❌|❌|
+|2022|✅|❌|❌|
+|2023|✅|❌|❌|
+|2024|✅|✅|✅|
+|2025|✅|✅|✅|
+
 ### Adding a new pricing year
 
 1. Extract the SAS calculator for the new edition under
