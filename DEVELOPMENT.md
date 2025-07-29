@@ -20,3 +20,14 @@ hooks manually across the whole project with:
 ```bash
 pre-commit run --all-files
 ```
+
+### Dependencies
+
+The calculators depend on several core libraries:
+
+- **NumPy** and **Pandas** for data handling
+- **LightGBM** for readmission risk scoring
+- **PyArrow** (optional) to cache SAS tables in Parquet format
+
+`requirements.txt` installs the runtime dependencies while
+`requirements-dev.txt` adds the packages needed for the test suite.
