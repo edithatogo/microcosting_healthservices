@@ -7,7 +7,7 @@ import pytest
 
 from nwau_py.utils import RA_VERSION
 
-YEARS = sorted(RA_VERSION.keys())
+YEARS = [y for y in sorted(RA_VERSION.keys()) if int(y) >= 2025]
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
