@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+
 from pathlib import Path
 
 import pandas as pd
@@ -36,6 +37,8 @@ def load_sas_table(
     """
     path = Path(path)
     cache_dir = Path(cache_dir)
+    if cache_format == "parquet" and find_spec("pyarrow") is None:
+        cache_format = "csv"
     ext_map = {"parquet": ".parquet", "csv": ".csv"}
     if cache_format not in ext_map:
         raise ValueError("cache_format must be 'parquet' or 'csv'")
