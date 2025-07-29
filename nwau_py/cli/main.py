@@ -55,6 +55,11 @@ def run_cli(
         if outfh is not sys.stdout:
             outfh.close()
 
+def _common_options(func):
+    func = click.argument("input_csv", type=click.Path(exists=True))(func)
+    func = click.option("--output", default="-", show_default=True)(func)
+    func = click.option("--year", default="2025", show_default=True)(func)
+    return func
 
 def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
     options = [
@@ -93,12 +98,11 @@ def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
         func = opt(func)
     return func
 
-
 @click.group()
 def cli() -> None:
     """NWAU calculation commands."""
 
-
+    
 @cli.command()
 @common_options
 def acute(
