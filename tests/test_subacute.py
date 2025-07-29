@@ -13,8 +13,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from nwau_py.utils import RA_VERSION, ra_suffix
 
-# Only years with verified data are included in parameterised tests
-YEARS = ["2025"]
+# Editions with verified reference data
+YEARS = [y for y in sorted(RA_VERSION.keys()) if int(y) >= 2025]
 
 spec = importlib.util.spec_from_file_location(
     "subacute",

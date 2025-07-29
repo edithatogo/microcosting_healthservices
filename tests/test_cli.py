@@ -24,7 +24,8 @@ except Exception as exc:  # pragma: no cover - environment dependent
     _CLI_ERR = exc
 from nwau_py.utils import RA_VERSION
 
-YEARS = sorted(RA_VERSION.keys())
+# Restrict to editions with verified reference data
+YEARS = [y for y in sorted(RA_VERSION.keys()) if int(y) >= 2025]
 
 def _patch_loaders(monkeypatch):
     def _weights(*_args, **_kwargs) -> pd.DataFrame:

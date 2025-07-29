@@ -18,8 +18,7 @@ from nwau_py.calculators import (
 from nwau_py.scoring.scorer import score_readmission
 from nwau_py.utils import RA_VERSION
 
-# Regression tests only cover years with verified reference data
-YEARS = ["2025"]
+YEARS = [y for y in sorted(RA_VERSION.keys()) if int(y) >= 2025]
 
 BASE = Path("tests/data")
 

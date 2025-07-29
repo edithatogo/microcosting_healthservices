@@ -14,8 +14,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from nwau_py.utils import RA_VERSION, ra_suffix, sas_ref_dir
 
-# Acute calculator tests run only for editions with verified data
-YEARS = ["2025"]
+# Only editions with verified unit tests
+YEARS = [y for y in sorted(RA_VERSION.keys()) if int(y) >= 2025]
 
 spec = importlib.util.spec_from_file_location(
     "acute",
@@ -244,8 +244,8 @@ def test_calculate_acute_legacy_runs(monkeypatch, year, weights_path):
         year=year,
         ref_dir=Path(dir_path),
     )
-    nwau_col = f"NWAU{year[-2:]}"
-    assert res[nwau_col].iloc[0] > 0
+    col = f"NWAU{year[-2:]}"
+    assert res[col].iloc[0] > 0
 
 
 # ---------------------------------------------------------------------------
