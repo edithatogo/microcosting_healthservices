@@ -11,6 +11,25 @@ Historical SAS calculators from IHACPA should be extracted to
 remains (for example `archive/sas/2025`).  Each folder then contains the
 original SAS programs and data tables for that pricing year.
 
+## Calculators
+
+The project includes Python versions of each funding calculator. The table
+below lists the corresponding SAS programs and shows which pricing years have
+validated weights and formulas.
+
+| Calculator | SAS program | Python | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+|-----------|------------------------------|--------|------|------|------|------|------|------|------|------|------|------|------|------|
+| Acute | `NWAU25_CALCULATOR_ACUTE.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| ED | `NWAU25_CALCULATOR_ED.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| MH | `NWAU25_CALCULATOR_MH.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Subacute | `NWAU25_CALCULATOR_SUBACUTE.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Outpatients | `NWAU25_CALCULATOR_OUTPATIENTS.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Adjustment | `Calculate Adjusted NWAU.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+| Readmission | `Avoidable Hospital Readmission Grouper 030.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
+
+Weights and formulas are verified for 2024 and 2025 only. Earlier years will be
+added once their outputs are validated.
+
 ## Installation
 
 Install the package and its dependencies using `pip`:
@@ -43,9 +62,58 @@ The Excel workbooks may also be archived under
 `formula.json` from the workbooks but this is only required when reproducing the
 original spreadsheets.
 
+
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.
+
+### Data availability matrix
+
+| Year | SAS archive | Verified weights | Validated Python |
+|------|-------------|------------------|-----------------|
+|2014|✅|❌|❌|
+|2015|✅|❌|❌|
+|2016|✅|❌ (sample only)|❌|
+|2017|✅|❌|❌|
+|2018|✅|✅ (sample)|❌|
+|2019|✅|✅ (sample)|❌|
+|2020|✅|❌|❌|
+|2021|✅|❌|❌|
+|2022|✅|❌|❌|
+|2023|✅|❌|❌|
+|2024|✅|✅|✅|
+|2025|✅|✅|✅|
+
+### Adding a new pricing year
+
+1. Extract the SAS calculator for the new edition under
+   `archive/sas/<YEAR>/`. Rename the folder so only the year remains.
+2. Copy the Excel workbook to `excel_calculator/archive/<YEAR>` and run
+   `python excel_calculator/scripts/extract_all.py`. This writes
+   `weights.csv` and `formula.json` to `excel_calculator/data/<YEAR>/`.
+3. If the remoteness classification year changes update
+   `nwau_py/utils.RA_VERSION` accordingly.
+4. All calculators can then be invoked with ``--year <YEAR>`` or by
+   passing ``year="<YEAR>"`` when calling the Python functions.
+
+## SAS program mapping
+
+The original SAS calculators are archived under
+`archive/sas/<YEAR>/calculators`.  Each Python module in
+`nwau_py` mirrors one of these programs.  The table below lists the main
+equivalences.
+
+| SAS program | Python module | Notes |
+|-------------|---------------|-------|
+|`NWAU##_CALCULATOR_ACUTE.sas`|`nwau_py/calculators/acute.py`|Matches SAS acute logic|
+|`NWAU##_CALCULATOR_ED.sas`|`nwau_py/calculators/ed.py`|Equivalent ED calculations|
+|`NWAU##_CALCULATOR_MH.sas`|`nwau_py/calculators/mh.py`|Mental health consumer model|
+|`NWAU##_CALCULATOR_SUBACUTE.sas`|`nwau_py/calculators/subacute.py`|SNAP based calculator|
+|`NWAU##_CALCULATOR_OUTPATIENTS.sas`|`nwau_py/calculators/outpatients.py`|Non-admitted activity|
+|`Calculate Adjusted NWAU.sas`|`nwau_py/calculators/adjust.py`|Applies HAC and AHR adjustments|
+|`Avoidable Hospital Readmission Grouper.sas`|`nwau_py/groupers/ahr.py`|Readmission grouper|
+|`Hospital Acquired Complication Grouper.sas`|`nwau_py/groupers/hac.py`|HAC grouper|
+|`Scorer_v3.py`|`src/nwau_py/scoring/scorer.py`|LightGBM readmission model|
 
 ## Usage
 
@@ -133,7 +201,6 @@ result = calculate_acute(patient_df, AcuteParams(), year="2025")
 ```
 
 Additional modules under `nwau_py.calculators` provide helpers for acute, emergency, mental health and other activity types. See `examples/run_acute.py` for a minimal demonstration.
-
 
 #### Calculator examples
 
