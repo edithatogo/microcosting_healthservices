@@ -53,3 +53,10 @@ figure used for funding.
 ## Documentation
 
 Detailed notes on each calculator module are available in [docs/calculators.md](docs/calculators.md).
+
+## Golden Fixture Packs
+
+The project now includes manifest-driven synthetic fixture packs for cross-language parity checks.
+Use the shared helpers in `nwau_py.fixtures` to load a pack, validate the manifest, and execute
+manifest-declared cases against calculator inputs. The current pilot pack lives under
+`tests/fixtures/golden/acute_2025/`.

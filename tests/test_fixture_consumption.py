@@ -7,6 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -36,10 +37,25 @@ def _load_weights(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
     return weights
 
 
-def test_acute_fixture_pack_output_parity(monkeypatch):
+def _load_pack():
     pack = fixtures.load_fixture_pack(FIXTURE_MANIFEST)
+    assert pack.manifest.schema_version == "1.0"
+    assert pack.manifest.fixture_id == "acute_2025"
+    assert pack.manifest.calculator == "acute"
+    assert pack.manifest.pricing_year == "2025"
+    assert pack.manifest.service_stream == "admitted acute"
+    assert pack.manifest.cross_language_ready is True
+    assert pack.manifest.privacy_classification == "synthetic"
+    assert pack.manifest.source_basis.kind == "synthetic_sample"
+    assert pack.manifest.source_basis.input_source.endswith("acute_input.csv")
+    assert pack.manifest.source_basis.expected_output_source.endswith(
+        "acute_expected.csv"
+    )
+    return pack
+
+
+def _calculate_from_fixture(monkeypatch, pack):
     input_df = fixtures.read_payload_frame(pack, "input")
-    expected_df = fixtures.read_payload_frame(pack, "expected_output")
 
     monkeypatch.setattr(acute, "_load_price_weights", _load_weights)
 
@@ -49,20 +65,48 @@ def test_acute_fixture_pack_output_parity(monkeypatch):
         year=pack.manifest.pricing_year,
         ref_dir=BASE / pack.manifest.pricing_year,
     )
+    expected_df = fixtures.read_payload_frame(pack, "expected_output")
+    return result, expected_df
+
+
+def test_acute_fixture_pack_output_parity(monkeypatch):
+    pack = _load_pack()
+    result, expected_df = _calculate_from_fixture(monkeypatch, pack)
+    case = fixtures.FixtureCase(
+        pack=pack,
+        calculator=acute.calculate_acute,
+        calculator_params=acute.AcuteParams(),
+        result_column="NWAU25",
+        parity_type="output parity",
+    )
+
+    fixtures.assert_fixture_case_output(case, result, expected_df)
 
     assert np.allclose(
         result["NWAU25"].to_numpy(),
         expected_df["NWAU25"].to_numpy(),
         rtol=pack.manifest.precision.tolerance.relative,
         atol=pack.manifest.precision.tolerance.absolute,
-    ), f"fixture={pack.manifest.fixture_id} calculator={pack.manifest.calculator}"
+    ), case.provenance_label
 
 
-def test_acute_fixture_pack_metadata_matches_expected_shape():
-    pack = fixtures.load_fixture_pack(FIXTURE_MANIFEST)
+def test_acute_fixture_pack_regression_parity_uses_manifest_provenance():
+    pack = _load_pack()
+    assert pack.manifest.provenance["created_from"] == (
+        "tests/data/acute_input.csv and tests/data/acute_expected.csv"
+    )
+    assert "synthetic fixture pack" in pack.manifest.provenance["notes"][0].lower()
     assert pack.manifest.payloads["input"].row_count == len(
         fixtures.read_payload_frame(pack, "input")
     )
     assert pack.manifest.payloads["expected_output"].row_count == len(
         fixtures.read_payload_frame(pack, "expected_output")
+    )
+    assert (
+        pack.manifest.precision.tolerance.absolute
+        == pytest.approx(0.0001)
+    )
+    assert (
+        pack.manifest.precision.tolerance.relative
+        == pytest.approx(0.0001)
     )

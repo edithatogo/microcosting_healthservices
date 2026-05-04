@@ -16,6 +16,16 @@ FIXTURE_MANIFEST = (
 )
 
 
+def _manifest_payload() -> dict:
+    return json.loads(FIXTURE_MANIFEST.read_text(encoding="utf-8"))
+
+
+def _write_manifest(tmp_path: Path, payload: dict) -> Path:
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(json.dumps(payload), encoding="utf-8")
+    return manifest_path
+
+
 def test_fixture_manifest_loads_the_acute_pack():
     manifest = fixtures.load_fixture_manifest(FIXTURE_MANIFEST)
 
@@ -62,10 +72,54 @@ def test_fixture_manifest_rejects_missing_required_metadata(tmp_path, field):
 
 
 def test_fixture_manifest_rejects_unexpected_privacy_classification(tmp_path):
-    payload = json.loads(FIXTURE_MANIFEST.read_text(encoding="utf-8"))
+    payload = _manifest_payload()
     payload["privacy_classification"] = "restricted"
     manifest_path = tmp_path / "broken-manifest.json"
     manifest_path.write_text(json.dumps(payload), encoding="utf-8")
 
     with pytest.raises(fixtures.FixtureManifestError):
+        fixtures.load_fixture_manifest(manifest_path)
+
+
+@pytest.mark.parametrize(
+    "field_path,value,reason",
+    [
+        (("calculator",), "mystery-engine", "calculator identifier should be constrained"),
+        (("pricing_year",), "2025-26", "pricing_year should remain a simple year label"),
+        (("service_stream",), "unclassified", "service_stream should be constrained"),
+        (("source_basis", "kind"), "manual_spreadsheet", "source_basis.kind should be constrained"),
+        (("precision", "rounding_policy"), "bankers_rounding", "rounding_policy should be constrained"),
+    ],
+)
+def test_fixture_manifest_rejects_unapproved_contract_values(
+    tmp_path, field_path, value, reason
+):
+    payload = _manifest_payload()
+    target = payload
+    for key in field_path[:-1]:
+        target = target[key]
+    target[field_path[-1]] = value
+
+    manifest_path = _write_manifest(tmp_path, payload)
+
+    with pytest.raises(fixtures.FixtureManifestError, match=reason):
+        fixtures.load_fixture_manifest(manifest_path)
+
+
+def test_fixture_manifest_requires_cross_language_readiness_flag_true(tmp_path):
+    payload = _manifest_payload()
+    payload["cross_language_ready"] = False
+    manifest_path = _write_manifest(tmp_path, payload)
+
+    with pytest.raises(fixtures.FixtureManifestError, match="cross_language_ready"):
+        fixtures.load_fixture_manifest(manifest_path)
+
+
+@pytest.mark.parametrize("field", ["created_from", "notes"])
+def test_fixture_manifest_rejects_missing_provenance_metadata(tmp_path, field):
+    payload = _manifest_payload()
+    payload["provenance"].pop(field)
+    manifest_path = _write_manifest(tmp_path, payload)
+
+    with pytest.raises(fixtures.FixtureManifestError, match="provenance"):
         fixtures.load_fixture_manifest(manifest_path)

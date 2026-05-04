@@ -8,15 +8,34 @@ by Python, C#, or web tooling without embedding harness-specific objects.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Iterable
 
+import numpy as np
 import pandas as pd
 
 SUPPORTED_MANIFEST_SCHEMA_VERSION = "1.0"
 SUPPORTED_PRIVACY_CLASSIFICATIONS = {"synthetic", "deidentified", "public"}
 SUPPORTED_PAYLOAD_FORMATS = {"csv", "parquet"}
+SUPPORTED_SERVICE_STREAMS = {
+    "admitted acute",
+    "subacute",
+    "emergency department",
+    "non-admitted",
+    "mental health",
+    "readmission",
+}
+SUPPORTED_SOURCE_BASIS_KINDS = {
+    "synthetic_sample",
+    "regression_sample",
+    "derived_sample",
+    "source_extract",
+}
+SUPPORTED_ROUNDING_POLICIES = {
+    "compare exact decimal values after calculator output rounding",
+}
 
 
 class FixtureManifestError(ValueError):
@@ -97,6 +116,33 @@ class FixturePack:
         return self.pack_dir / self.manifest.payloads[role].path
 
 
+@dataclass(frozen=True, slots=True)
+class FixtureCase:
+    """A runnable fixture pack entry for a specific calculator."""
+
+    pack: FixturePack
+    calculator: Callable[[pd.DataFrame, Any], pd.DataFrame]
+    calculator_params: Any
+    result_column: str
+    parity_type: str = "output parity"
+
+    @property
+    def fixture_id(self) -> str:
+        return self.pack.manifest.fixture_id
+
+    @property
+    def tolerance(self) -> FixtureTolerance:
+        return self.pack.manifest.precision.tolerance
+
+    @property
+    def provenance_label(self) -> str:
+        return (
+            f"fixture={self.pack.manifest.fixture_id} "
+            f"calculator={self.pack.manifest.calculator} "
+            f"parity={self.parity_type}"
+        )
+
+
 def _require_mapping(value: Any, *, field: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise FixtureManifestError(f"{field} must be a mapping")
@@ -125,6 +171,21 @@ def _require_float(value: Any, *, field: str) -> float:
     if not isinstance(value, (int, float)) or isinstance(value, bool):
         raise FixtureManifestError(f"{field} must be numeric")
     return float(value)
+
+
+def _require_choice(
+    value: Any,
+    *,
+    field: str,
+    choices: set[str],
+    message: str | None = None,
+) -> str:
+    value_str = _require_str(value, field=field)
+    if value_str not in choices:
+        if message is not None:
+            raise FixtureManifestError(message)
+        raise FixtureManifestError(f"{field} must be one of {sorted(choices)}")
+    return value_str
 
 
 def _parse_payload(role: str, payload: dict[str, Any]) -> FixturePayload:
@@ -169,13 +230,26 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
 
     fixture_id = _require_str(manifest.get("fixture_id"), field="fixture_id")
     calculator = _require_str(manifest.get("calculator"), field="calculator")
+    if not re.fullmatch(r"[a-z][a-z0-9_]*", calculator):
+        raise FixtureManifestError(
+            "calculator identifier should be constrained to lowercase snake_case"
+        )
     pricing_year = _require_str(manifest.get("pricing_year"), field="pricing_year")
-    service_stream = _require_str(
-        manifest.get("service_stream"), field="service_stream"
+    if not re.fullmatch(r"\d{4}", pricing_year):
+        raise FixtureManifestError(
+            "pricing_year should remain a simple year label"
+        )
+    service_stream = _require_choice(
+        manifest.get("service_stream"),
+        field="service_stream",
+        choices=SUPPORTED_SERVICE_STREAMS,
+        message="service_stream should be constrained",
     )
     cross_language_ready = _require_bool(
         manifest.get("cross_language_ready"), field="cross_language_ready"
     )
+    if not cross_language_ready:
+        raise FixtureManifestError("cross_language_ready must be true")
     privacy_classification = _require_str(
         manifest.get("privacy_classification"), field="privacy_classification"
     )
@@ -189,7 +263,12 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
         manifest.get("source_basis"), field="source_basis"
     )
     source_basis = FixtureSourceBasis(
-        kind=_require_str(source_basis_raw.get("kind"), field="source_basis.kind"),
+        kind=_require_choice(
+            source_basis_raw.get("kind"),
+            field="source_basis.kind",
+            choices=SUPPORTED_SOURCE_BASIS_KINDS,
+            message="source_basis.kind should be constrained",
+        ),
         description=_require_str(
             source_basis_raw.get("description"), field="source_basis.description"
         ),
@@ -217,9 +296,11 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
     if tolerance.absolute < 0 or tolerance.relative < 0:
         raise FixtureManifestError("tolerances must be non-negative")
     precision = FixturePrecision(
-        rounding_policy=_require_str(
+        rounding_policy=_require_choice(
             precision_raw.get("rounding_policy"),
             field="precision.rounding_policy",
+            choices=SUPPORTED_ROUNDING_POLICIES,
+            message="rounding_policy should be constrained",
         ),
         tolerance=tolerance,
     )
@@ -232,7 +313,19 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
     if "input" not in payloads or "expected_output" not in payloads:
         raise FixtureManifestError("payloads must include input and expected_output")
 
-    provenance = _require_mapping(manifest.get("provenance"), field="provenance")
+    provenance_raw = _require_mapping(manifest.get("provenance"), field="provenance")
+    created_from = _require_str(
+        provenance_raw.get("created_from"), field="provenance.created_from"
+    )
+    notes_raw = provenance_raw.get("notes")
+    if not isinstance(notes_raw, list) or not notes_raw:
+        raise FixtureManifestError("provenance.notes must be a non-empty list")
+    if not all(isinstance(note, str) and note.strip() for note in notes_raw):
+        raise FixtureManifestError("provenance.notes must be a non-empty list of strings")
+    provenance = {
+        "created_from": created_from,
+        "notes": tuple(notes_raw),
+    }
 
     return FixtureManifest(
         schema_version=schema_version,
@@ -259,6 +352,97 @@ def load_fixture_pack(manifest_path: str | Path) -> FixturePack:
         pack_dir=manifest_path.parent,
         manifest=manifest,
     )
+
+
+def discover_fixture_packs(root: str | Path) -> list[FixturePack]:
+    """Return every validated fixture pack below ``root``."""
+
+    root_path = Path(root)
+    packs: list[FixturePack] = []
+    if not root_path.exists():
+        return packs
+    for manifest_path in sorted(root_path.rglob("manifest.json")):
+        try:
+            packs.append(load_fixture_pack(manifest_path))
+        except FixtureManifestError:
+            continue
+    return packs
+
+
+def iter_fixture_cases(
+    packs: Iterable[FixturePack],
+    *,
+    calculator_map: dict[str, tuple[Callable[[pd.DataFrame, Any], pd.DataFrame], Any, str]],
+) -> list[FixtureCase]:
+    """Return runnable fixture cases for the requested packs."""
+
+    cases: list[FixtureCase] = []
+    for pack in packs:
+        manifest = pack.manifest
+        if manifest.calculator not in calculator_map:
+            continue
+        calculator, params, result_column = calculator_map[manifest.calculator]
+        cases.append(
+            FixtureCase(
+                pack=pack,
+                calculator=calculator,
+                calculator_params=params,
+                result_column=result_column,
+            )
+        )
+    return cases
+
+
+def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
+    """Execute a fixture case and return the calculator output frame."""
+
+    input_df = read_payload_frame(case.pack, "input")
+    return case.calculator(
+        input_df,
+        case.calculator_params,
+        year=case.pack.manifest.pricing_year,
+    )
+
+
+def assert_fixture_case_output(
+    case: FixtureCase,
+    result: pd.DataFrame,
+    expected: pd.DataFrame,
+) -> None:
+    """Assert parity for a fixture case with manifest-backed provenance."""
+
+    tolerance = case.tolerance
+    if case.result_column not in result.columns:
+        raise FixtureManifestError(
+            f"{case.provenance_label} missing result column {case.result_column!r}"
+        )
+    if case.result_column not in expected.columns:
+        raise FixtureManifestError(
+            f"{case.provenance_label} missing expected column {case.result_column!r}"
+        )
+    actual = result[case.result_column].to_numpy()
+    reference = expected[case.result_column].to_numpy()
+    if len(actual) != len(reference):
+        raise FixtureManifestError(
+            f"{case.provenance_label} length mismatch: {len(actual)} != {len(reference)}"
+        )
+    actual_float = np.asarray(actual, dtype=float)
+    reference_float = np.asarray(reference, dtype=float)
+    matched = np.isclose(
+        actual_float,
+        reference_float,
+        rtol=tolerance.relative,
+        atol=tolerance.absolute,
+        equal_nan=True,
+    )
+    if not matched.all():
+        first_bad = int(np.flatnonzero(~matched)[0])
+        raise FixtureManifestError(
+            f"{case.provenance_label} exceeded tolerance "
+            f"at index {first_bad}: actual={actual_float[first_bad]!r} "
+            f"expected={reference_float[first_bad]!r} "
+            f"abs={tolerance.absolute} rel={tolerance.relative}"
+        )
 
 
 def read_payload_frame(pack: FixturePack, role: str) -> pd.DataFrame:
