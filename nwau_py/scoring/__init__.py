@@ -7,6 +7,6 @@ _SRC = Path(__file__).resolve().parents[2] / "src" / "nwau_py" / "scoring"
 if _SRC.exists():
     __path__.append(str(_SRC))
 
-from .scorer import score_readmission  # noqa: E402
+from .score import score_readmission  # noqa: E402
 
 __all__ = ["score_readmission"]

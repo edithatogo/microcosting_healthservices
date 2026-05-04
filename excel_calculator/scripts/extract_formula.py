@@ -48,10 +48,7 @@ STEPS = [
 def build_paths(year: str) -> tuple[Path, Path]:
     yy = year[-2:]
     input_file = (
-        BASE_DIR
-        / "archive"
-        / year
-        / f"nwau{yy}_calculator_for_acute_activity.xlsb"
+        BASE_DIR / "archive" / year / f"nwau{yy}_calculator_for_acute_activity.xlsb"
     )
     output_path = BASE_DIR / "data" / year / "formula.json"
     return input_file, output_path

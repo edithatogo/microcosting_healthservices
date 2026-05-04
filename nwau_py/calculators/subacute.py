@@ -199,12 +199,8 @@ def calculate_subacute(
                 pc_df = load_sas_table(
                     sas_table("postcode_to_{ra}.sas7bdat", year=year, base_dir=ref_dir)
                 )
-                ra_col = next(
-                    (c for c in pc_df.columns if c.lower() == ra.lower()), ra
-                )
-                pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
-                )
+                ra_col = next((c for c in pc_df.columns if c.lower() == ra.lower()), ra)
+                pc_df = pc_df.rename(columns={"POSTCODE": pat_pc, ra_col: pat_ra_col})
                 merged = merged.merge(
                     pc_df[[pat_pc, pat_ra_col]], on=pat_pc, how="left"
                 )

@@ -1,4 +1,5 @@
 """Helpers for applying Excel-derived funding formulae."""
+
 from __future__ import annotations
 
 import json
@@ -13,8 +14,7 @@ def load_weights(csv_path: str | bytes | os.PathLike[str]) -> DataFrame:
     """Load a weight table from ``csv_path`` replacing newlines in headers."""
     df = pd.read_csv(csv_path, engine="python")
     df.columns = [
-        c.replace("\n", " ").strip() if isinstance(c, str) else c
-        for c in df.columns
+        c.replace("\n", " ").strip() if isinstance(c, str) else c for c in df.columns
     ]
     return df
 

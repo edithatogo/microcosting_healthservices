@@ -3,10 +3,10 @@
 This project provides Python translations of the IHACPA SAS funding
 calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
-logic. The Python implementation now matches the official SAS results
-for all calculators. Results have been verified against the 2025 SAS release.
-A lightweight command line interface is available via the
-`funding-calculator` script.
+logic. The implementation is being brought into explicit parity with the
+official SAS calculators, but validation is tracked per calculator and year
+rather than claimed as complete across the whole repository. A lightweight
+command line interface is available via the `funding-calculator` script.
 
 ## Calculator modules
 
@@ -22,8 +22,8 @@ Each module below mirrors a SAS program from the IHACPA package.
 |`adjust`|`Calculate Adjusted NWAU.sas`|Combines base NWAU with Hospital Acquired Complication (HAC) and Avoidable Hospital Readmission (AHR) adjustments.|
 
 Historical SAS calculators from IHACPA should be extracted to
-`archive/sas/<YEAR>/`.  Rename the downloaded directory so only the year
-remains (for example `archive/sas/2025`).  Each folder then contains the
+`archive/sas/<YEAR>/`. Rename the downloaded directory so only the year
+remains (for example `archive/sas/2025`). Each folder then contains the
 original SAS programs and data tables for that pricing year.
 
 ## Calculators
@@ -42,16 +42,20 @@ validated weights and formulas.
 | Adjustment | `Calculate Adjusted NWAU.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
 | Readmission | `Avoidable Hospital Readmission Grouper 030.sas` | ✓ | | | | | | | | | | | ✓ | ✓ |
 
-Weights and formulas are verified for 2024 and 2025 only. Earlier years will be
-added once their outputs are validated.
+Weights and formulas are currently verified for 2024 and 2025. Earlier years
+remain in progress until their outputs are validated against trusted reference
+material.
 
 ## Installation
 
-Install the package and its dependencies using `pip`:
+The preferred development workflow uses `uv`:
 
 ```bash
-pip install -e .
+uv sync
 ```
+
+Extract the official SAS calculators under `archive/sas/<YEAR>/` so the
+Python modules can load the reference tables for each year.
 
 ### Dependencies
 
@@ -61,20 +65,23 @@ The calculators rely on several core Python packages:
 - **LightGBM** for readmission risk scoring
 - **PyArrow** (optional) to cache SAS tables in Parquet format
 
-`requirements.txt` installs the runtime dependencies while
-`requirements-dev.txt` adds the optional packages used by the test suite.
+The active development stack also uses:
 
-Extract the official SAS calculators under `archive/sas/<YEAR>/` so the
-Python modules can load the reference tables for each year.
+- **uv** for environment and dependency management
+- **Ruff** for linting and formatting
+- **ty** for type checking
+- **pytest** and **Codecov** for test execution and coverage reporting
+- **Hypothesis** for property-based tests
+- **mutmut** for mutation testing
+- **Scalene** for profiling
 
-To run the tests, install the additional development requirements and then run
-`pytest`:
+Use `uv run` to execute tools inside the project environment:
 
 ```bash
-pip install -r requirements-dev.txt
+uv run pytest
+uv run ruff check .
+uv run ty check
 ```
-These packages include `pytest`, `numpy`, `pandas`, `lightgbm`, `pyarrow`,
-`pyxlsb`, `pyreadstat` and `click`.
 
 ## Historical data
 
@@ -171,17 +178,29 @@ python -m nwau_py.cli.main acute patient_data.csv --output funding.csv
 Replace `acute` with `ed` or `non-admitted` for other activity types. The
 `--year` option selects which SAS release to use.
 
-After installing the development requirements you can run the tests and linting
-with:
+After installing the development environment you can run the tests, linting,
+type checking, property tests, mutation testing, and profiling entry points
+with `uv run`. Coverage reports are generated locally for Codecov upload in CI.
 
 ```bash
-pytest
-ruff check .
+uv run pytest
+uv run pytest --cov=nwau_py --cov=src/nwau_py --cov-report=term-missing
+uv run pytest -m hypothesis
+uv run mutmut run
+uv run scalene nwau_py/cli/main.py
 ```
 
 See `nwau_py/docs/calculators.md` for an overview of each calculator module.
 The `nwau_py` package exposes both a command line interface and functions for
 use within Python.
+
+## Validation Status
+
+Validation claims in this repository are intentionally specific. Prefer
+calculator- and year-scoped statements backed by fixture packs, parity tests,
+or archived source artifacts. Avoid broad claims that the entire project or all
+years are fully validated unless the supporting evidence is committed alongside
+the claim.
 
 ## Remoteness classification
 
@@ -303,4 +322,3 @@ result = calculate_outpatients(op_df, OutpatientParams())
 from nwau_py.calculators import calculate_adjusted_nwau
 result = calculate_adjusted_nwau(weight_df)
 ```
-

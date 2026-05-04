@@ -22,7 +22,9 @@ MANIFEST_SCHEMA_VERSION = "1"
 DEFAULT_TRACKED_MANIFEST_DIR = Path("data/provenance/ihacpa")
 DEFAULT_TRACKED_MANIFEST_JSON = DEFAULT_TRACKED_MANIFEST_DIR / "sources.json"
 DEFAULT_TRACKED_MANIFEST_CSV = DEFAULT_TRACKED_MANIFEST_DIR / "sources.csv"
-DEFAULT_SOURCE_PAGE_SNAPSHOT = DEFAULT_TRACKED_MANIFEST_DIR / "snapshots" / "source-page.html"
+DEFAULT_SOURCE_PAGE_SNAPSHOT = (
+    DEFAULT_TRACKED_MANIFEST_DIR / "snapshots" / "source-page.html"
+)
 DEFAULT_RAW_ARCHIVE_DIR = Path("archive/ihacpa/raw")
 
 MANIFEST_CSV_FIELDNAMES = [
@@ -352,7 +354,9 @@ class SourceArchiveManifest:
 def tracked_manifest_paths(base_dir: Path | str | None = None) -> ManifestPaths:
     """Return the tracked manifest locations used outside raw storage."""
 
-    manifest_dir = Path(base_dir) if base_dir is not None else DEFAULT_TRACKED_MANIFEST_DIR
+    manifest_dir = (
+        Path(base_dir) if base_dir is not None else DEFAULT_TRACKED_MANIFEST_DIR
+    )
     return ManifestPaths(
         manifest_dir=manifest_dir,
         json_path=manifest_dir / "sources.json",
@@ -476,10 +480,7 @@ def stable_artifact_id(
     """Return a stable identifier derived from the artifact metadata."""
 
     prefix = f"{year_label}-{(artifact_kind or ArtifactKind.UNKNOWN).value}-{label}"
-    slug = [
-        char.lower() if char.isalnum() else "-"
-        for char in prefix
-    ]
+    slug = [char.lower() if char.isalnum() else "-" for char in prefix]
     compact = "".join(slug)
     compact = "-".join(part for part in compact.split("-") if part)
     digest = hashlib.sha256(artifact_url.encode("utf-8")).hexdigest()[:10]

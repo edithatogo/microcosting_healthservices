@@ -4,20 +4,18 @@ from pathlib import Path
 import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-SHEET_NAME = 'Parameters'
+SHEET_NAME = "Parameters"
 
 
 def build_paths(year: str) -> tuple[Path, Path]:
     """Return the workbook and output CSV paths for ``year``."""
     yy = year[-2:]
     input_file = (
-        BASE_DIR
-        / "archive"
-        / year
-        / f"nwau{yy}_calculator_for_acute_activity.xlsb"
+        BASE_DIR / "archive" / year / f"nwau{yy}_calculator_for_acute_activity.xlsb"
     )
     output_path = BASE_DIR / "data" / year / "weights.csv"
     return input_file, output_path
+
 
 def main(argv: list[str] | None = None) -> None:
     """Extract price weights from the official workbook."""
@@ -33,5 +31,6 @@ def main(argv: list[str] | None = None) -> None:
     df.to_csv(output_path, index=False)
     print(f"Wrote {len(df)} rows to {output_path}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -11,9 +11,7 @@ YEARS = [str(y) for y in range(2014, 2026)]
 def main() -> None:
     for year in YEARS:
         workbook = (
-            ARCHIVE_DIR
-            / year
-            / f"nwau{year[-2:]}_calculator_for_acute_activity.xlsb"
+            ARCHIVE_DIR / year / f"nwau{year[-2:]}_calculator_for_acute_activity.xlsb"
         )
         if not workbook.exists():
             print(f"Workbook for {year} not found, skipping", file=sys.stderr)

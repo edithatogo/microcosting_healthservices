@@ -1,0 +1,75 @@
+name: Slow Validation
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: slow-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  property:
+    name: Property checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync environment
+        run: uv sync --locked
+
+      - name: Run property-focused tests
+        run: uv run --with pytest --with hypothesis pytest
+
+  mutation:
+    name: Mutation checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync environment
+        run: uv sync --locked
+
+      - name: Run mutmut
+        run: uv run --with mutmut mutmut run
+
+  profiling:
+    name: Profiling checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync environment
+        run: uv sync --locked
+
+      - name: Run Scalene profiling
+        run: uv run --with scalene scalene --cli --outfile scalene.out --html python -m pytest

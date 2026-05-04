@@ -1,0 +1,14 @@
+[environment]
+python-version = "3.11"
+root = [".", "./src", "./excel_calculator/src"]
+
+[src]
+include = ["nwau_py", "src", "excel_calculator/src"]
+
+[analysis]
+replace-imports-with-any = [
+    "pandas.**",
+    "numpy.**",
+    "pyreadstat.**",
+    "lightgbm.**",
+]

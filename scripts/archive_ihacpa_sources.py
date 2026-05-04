@@ -13,8 +13,8 @@ import argparse
 import json
 import re
 import subprocess
-import time
 import sys
+import time
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from html.parser import HTMLParser
@@ -27,10 +27,10 @@ from nwau_py.provenance import (
     AcquisitionStatus,
     ArtifactKind,
     RunContext,
-    SourceArtifact,
     SourceArchiveManifest,
-    SourcePageSnapshot,
+    SourceArtifact,
     SourceHost,
+    SourcePageSnapshot,
     normalize_acquisition_status,
     normalize_artifact_kind,
     normalize_service_stream,
@@ -156,8 +156,7 @@ class NwauCalculatorPageParser(HTMLParser):
         if artifact_kind is ArtifactKind.UNKNOWN:
             artifact_kind = (
                 ArtifactKind.SAS
-                if "sas" in label.lower()
-                or lower.endswith((".zip", ".7z"))
+                if "sas" in label.lower() or lower.endswith((".zip", ".7z"))
                 else ArtifactKind.EXCEL
             )
         artifact_type = artifact_kind.value
@@ -173,9 +172,7 @@ class NwauCalculatorPageParser(HTMLParser):
                 year_start=self.current_year_start,
                 artifact_type=artifact_type,
                 artifact_kind=artifact_kind,
-                service_stream=(
-                    normalize_service_stream(artifact_kind, label)
-                ),
+                service_stream=(normalize_service_stream(artifact_kind, label)),
                 label=label,
                 source_page_url=self.page_url,
                 artifact_url=href,
@@ -240,7 +237,9 @@ def snapshot_source_page(
         response.close()
 
     snapshot_path = provenance_dir / "snapshots" / "source-page.html"
-    snapshot = write_source_page_snapshot(body.decode("utf-8", errors="replace"), snapshot_path)
+    snapshot = write_source_page_snapshot(
+        body.decode("utf-8", errors="replace"), snapshot_path
+    )
 
     snapshot_metadata: dict[str, object] = {
         "requested_url": metadata.requested_url,
@@ -263,7 +262,9 @@ def download_artifact(item: SourceArtifact, root: Path, timeout: int) -> None:
 
     response, metadata = fetch(item.artifact_url, timeout)
     try:
-        path = target_dir / safe_filename(item, metadata.final_url, metadata.content_type)
+        path = target_dir / safe_filename(
+            item, metadata.final_url, metadata.content_type
+        )
 
         item.final_url = metadata.final_url
         item.content_type = metadata.content_type
@@ -320,7 +321,9 @@ def parse_artifacts(
     provenance_dir: Path,
     timeout: int,
 ) -> tuple[list[SourceArtifact], SourcePageSnapshot, dict[str, object]]:
-    html, snapshot, snapshot_metadata = snapshot_source_page(page_url, provenance_dir, timeout)
+    html, snapshot, snapshot_metadata = snapshot_source_page(
+        page_url, provenance_dir, timeout
+    )
     parser = NwauCalculatorPageParser(page_url)
     parser.feed(html)
     return parser.items, snapshot, snapshot_metadata

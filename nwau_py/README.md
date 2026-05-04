@@ -4,16 +4,19 @@ This package provides utilities for working with IHACPA funding weights.
 
 ## Installation
 
-Install from source using `pip`:
+The project is standardizing on `uv` for local development and validation.
+Install and sync the environment with:
 
 ```bash
-pip install .
+uv sync
 ```
 
 The SAS calculators for each pricing year should be extracted under
 `archive/sas/<YEAR>/` so the modules can read the reference tables.
 
-This requires Python 3.8+ and depends on `pandas`, `pyxlsb`, `pyreadstat` and `lightgbm`.
+Development targets Python 3.10 through 3.14. The runtime stack is being
+updated around `uv`, `ty`, `Ruff`, `pytest`, `Codecov`, `Hypothesis`,
+`mutmut`, and `Scalene` alongside the calculator libraries.
 
 ## Data preparation
 
@@ -34,6 +37,14 @@ python -m nwau_py.cli.main acute patient_data.csv --output funding.csv --year 20
 
 `patient_data.csv` should contain the variables expected by the SAS programs.
 The output CSV will include an `NWAU25` column with the calculated weights.
+
+## Validation Workflow
+
+The package is validated through manifest-driven fixture packs and explicit
+parity checks rather than broad claims of complete coverage. Use the shared
+fixture helpers in `nwau_py.fixtures` to load packs, read payloads, and run
+runner-neutral checks that can later be consumed by Python, C#, and web
+tooling.
 
 ## Formula JSON
 
@@ -56,7 +67,17 @@ Detailed notes on each calculator module are available in [docs/calculators.md](
 
 ## Golden Fixture Packs
 
-The project now includes manifest-driven synthetic fixture packs for cross-language parity checks.
-Use the shared helpers in `nwau_py.fixtures` to load a pack, validate the manifest, and execute
-manifest-declared cases against calculator inputs. The current pilot pack lives under
-`tests/fixtures/golden/acute_2025/`.
+The project includes manifest-driven synthetic fixture packs for cross-language parity checks.
+The current pilot pack lives under `tests/fixtures/golden/acute_2025/` and contains a JSON
+manifest plus tabular `input.csv` and `expected.csv` payloads.
+
+Use `nwau_py.fixtures` to work with these packs from Python:
+
+- `load_fixture_pack()` validates the manifest and resolves payload paths.
+- `discover_fixture_packs()` finds packs under a fixture root.
+- `read_payload_frame()` loads the manifest-declared input or expected output tables.
+- `iter_fixture_cases()` and `run_fixture_case()` drive calculator execution from the manifest.
+- `assert_fixture_case_output()` checks the result against the declared tolerance and rounding policy.
+
+This keeps the Python package aligned with the same manifest-driven workflow that future C# and web
+consumers can use.

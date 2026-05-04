@@ -4,6 +4,12 @@
 
 Move the Python project toward the approved toolchain: `uv`, a committed `uv.lock`, Python 3.10-3.14, Codecov, `ty`, Ruff, Hypothesis, mutmut, Scalene, Renovate, Vale, and staged CI.
 
+## Current State
+
+- The migration is underway.
+- Legacy compatibility files and tools still exist in the repository snapshot this track is documenting, but they are transitional rather than authoritative.
+- The track should describe the intended toolchain explicitly so the implementation work can replace the transitional surface without ambiguity.
+
 ## Requirements
 
 - Dependency resolution must come from `pyproject.toml` plus a committed `uv.lock`; `requirements*.txt` are transitional only.
@@ -14,6 +20,7 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - Hypothesis, mutmut, and Scalene must be available without slowing every normal PR run.
 - Renovate must propose dependency and GitHub Actions updates.
 - Vale must lint documentation prose and validation claims.
+- The docs should distinguish transitional compatibility artifacts from the intended migrated toolchain in every acceptance statement.
 
 ## Acceptance Criteria
 
@@ -21,3 +28,4 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - Slower mutation/property/profiling workflows are separate, scheduled, or manual.
 - Documentation explains the local `uv`, Ruff, `ty`, pytest, and Vale commands.
 - The lockfile and supported Python matrix are documented as the intended source of truth for installs and CI.
+- The track documents which files or tools are transitional and which are intended-state.

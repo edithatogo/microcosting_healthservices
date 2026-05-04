@@ -1,0 +1,11 @@
+extends: existence
+message: Use a precise calculator/year claim with supporting evidence instead of a broad validation statement.
+level: warning
+ignorecase: true
+tokens:
+  - '\bfully validated\b'
+  - '\bverified against the 2025 SAS release\b'
+  - '\bmatches the official SAS results\b'
+  - '\ball calculators\b'
+  - '\bsupports \d{4}\b'
+  - '\bcomplete validation\b'

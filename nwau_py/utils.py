@@ -116,4 +116,3 @@ def impute_adjustment(
     if len(common) == 0:
         return 0.0
     return float((weights.loc[common] * series.loc[common]).sum())
-

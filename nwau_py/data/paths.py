@@ -36,4 +36,3 @@ def sas_table(
     ra = ra_suffix(year)
     base = Path(base_dir) if base_dir is not None else sas_ref_dir(year)
     return base / pattern.format(year=year, suffix=suffix, ra=ra, ra_year=ra[2:])
-

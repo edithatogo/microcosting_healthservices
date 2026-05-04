@@ -15,6 +15,11 @@ identical for the final acute, subacute, outpatient and readmission logic.
 
 The SAS programs are stored under `archive/sas/NEP25_SAS_NWAU_calculator/calculators`. The Python functions focus on the core weighting formulae and use pandas for data manipulation. See the source code of each module for details of the translation.
 
+For cross-language parity work, the package also ships manifest-driven fixture packs under
+`tests/fixtures/golden/`, with the acute pilot pack at `tests/fixtures/golden/acute_2025/`. The
+shared loader helpers live in `nwau_py.fixtures` and let Python tests consume the same manifest and
+payload layout used by future runners.
+
 ## Usage examples
 
 Below are minimal examples for each calculator. Dataframes should provide the columns referenced in the IHACPA documentation.

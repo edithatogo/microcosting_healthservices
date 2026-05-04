@@ -9,6 +9,7 @@ import pyreadstat
 
 try:
     import pyarrow  # noqa: F401
+
     _PARQUET_SUPPORTED = True
 except Exception:  # pragma: no cover - pyarrow is optional
     _PARQUET_SUPPORTED = False

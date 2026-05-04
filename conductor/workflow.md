@@ -8,6 +8,7 @@
 4. **High Code Coverage:** Aim for >80% code coverage for all modules in the short term, with a planned maturity target of >90% coverage as the library stabilizes
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
+7. **Transitional vs Intended Tooling:** Clearly distinguish temporary compatibility tooling from intended migrated tooling. Do not describe legacy files or tools as authoritative once the migration track has defined their replacement.
 
 ## Task Workflow
 
@@ -40,8 +41,8 @@ All tasks follow a strict lifecycle:
 
 7. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
-   - Update `tech-stack.md` with new design
-   - Add dated note explaining the change
+   - Update `tech-stack.md` with a new design or a dated transitional-state note
+   - Make it explicit whether the change is transitional compatibility or intended-state tooling
    - Resume implementation
 
 8. **Commit Code Changes:**
@@ -96,10 +97,10 @@ All tasks follow a strict lifecycle:
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Synchronize the environment with the command:** `uv sync --group dev --group test --group coverage --group typing`
+        1.  **Synchronize the environment with the command:** `uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs`
         2.  **Run the targeted test command:** `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
         3.  **Confirm that you see:** A passing test run with coverage output and no Ruff, `ty`, or Vale errors.
-        ```
+```
 
         **For a Release or Supply-Chain Change:**
         ```

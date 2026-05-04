@@ -1,4 +1,8 @@
+click
+lightgbm
+numpy
 pandas
+pyarrow
+pydantic
 pyxlsb
 pyreadstat
-lightgbm

@@ -1,187 +1,169 @@
-import importlib.util
-import sys
 from pathlib import Path
 
 import pandas as pd
-import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from nwau_py.utils import ra_suffix
-
-pytest.skip("Outpatient tests require full dataset", allow_module_level=True)
-
-spec = importlib.util.spec_from_file_location(
-    "outpatients",
-    Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "outpatients.py",
-)
-outpatients = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(outpatients)
+import nwau_py.calculators.outpatients as outpatients
 
 
-class _MultiProv(pd.DataFrame):
-    def __init__(self, val: float):
-        super().__init__({"adj_multiprov": [val]})
-        self.val = val
+def _weights(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "TIER2_CLINIC": [20.48, 20.5, 20.56, 40.62],
+            "clinic_pw": [1.0, 2.0, 3.0, 4.0],
+            "tier2_adj_paed": [1.1, 1.2, 1.3, 1.4],
+        }
+    )
 
-    def __radd__(self, other: float) -> float:  # type: ignore[override]
-        return other + self.val
 
-WEIGHTS = pd.DataFrame(
-    {
-        "TIER2_CLINIC": [10.01],
-        "clinic_pw": [0.1],
-        "tier2_adj_paed": [1.0],
-        "adj_indigenous": [0.1],
-        "adj_remoteness": [0.2],
-        "adj_treat_remoteness": [0.03],
-        "adj_multiprov": [0.2],
-    }
-)
-IND_ADJ = pd.DataFrame(
-    {"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.03]}
-)
-PAT_REM_ADJ = pd.DataFrame(
-    {"_pat_remoteness": [0, 3], "adj_remoteness": [0.0, 0.09]}
-)
-TREAT_REM_ADJ = pd.DataFrame(
-    {"_treat_remoteness": [0, 1], "adj_treat_remoteness": [0.0, 0.02]}
-)
-HOSP_RA = pd.DataFrame({"APCID": ["H1"], "_hosp_ra_2021": [1]})
-POSTCODE_RA = pd.DataFrame({"POSTCODE": [2000], "ra2021": [2]})
-SA2_RA = pd.DataFrame({"SA2": [12345], "ra2021": [3]})
-ICU_LIST = pd.DataFrame({"APCID": ["H1"], "_est_eligible_paed_flag": [1]})
-MULTI_PROV = 0.5
+def _sequence(*frames: pd.DataFrame):
+    state = {"index": 0}
 
-@pytest.fixture(autouse=True)
-def patch_loaders(monkeypatch):
-    def _hospital(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        ra = ra_suffix(year)
-        return pd.DataFrame({"APCID": ["APC1"], f"_hosp_ra_{ra[2:]}": [5]})
+    def _loader(*_args, **_kwargs):
+        index = state["index"]
+        state["index"] = index + 1
+        if index < len(frames):
+            return frames[index].copy()
+        return pd.DataFrame()
 
-    def _postcode(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        ra = ra_suffix(year)
-        return pd.DataFrame({"POSTCODE": ["PC1"], ra: [4]})
+    return _loader
 
-    def _sa2(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        ra = ra_suffix(year)
-        return pd.DataFrame({"SA2": [123], ra: [3]})
 
-    def _icu(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return pd.DataFrame({"APCID": ["APC1"], "_est_eligible_paed_flag": [1]})
+def _load_multi_prov_adj(*_args, **_kwargs) -> float:
+    return 0.1
 
-    monkeypatch.setattr(outpatients, "_load_hospital_ra", _hospital)
-    monkeypatch.setattr(outpatients, "_load_postcode_ra", _postcode)
-    monkeypatch.setattr(outpatients, "_load_sa2_ra", _sa2)
-    monkeypatch.setattr(outpatients, "_load_icu_list", _icu)
+
+def _load_hospital_ra(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"APCID": ["A1", "A2", "A3", "A4"], "_hosp_ra_2021": [1, 1, 1, 1]})
+
+
+def _load_postcode_ra(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"POSTCODE": ["P1"], "ra2021": [1]})
+
+
+def _load_sa2_ra(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"SA2": [100], "ra2021": [1]})
+
+
+def _load_icu_list(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame(
+        {"APCID": ["A1", "A2", "A3", "A4"], "_est_eligible_paed_flag": [1, 1, 1, 1]}
+    )
+
+
+def _load_ind_adj(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"_pat_ind_flag": [0, 1], "adj_indigenous": [0.0, 0.2]})
+
+
+def _load_pat_rem_adj(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"_pat_remoteness": [1], "adj_remoteness": [0.1]})
+
+
+def _load_treat_rem_adj(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame({"_treat_remoteness": [1], "adj_treat_remoteness": [0.05]})
+
+
+def _load_weights_alt(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame(
+        {
+            "TIER2_CLINIC": [20.5],
+            "clinic_pw": [1.5],
+            "tier2_adj_paed": [1.0],
+        }
+    )
+
+
+def _patch_common(monkeypatch):
+    monkeypatch.setattr(outpatients, "_load_weights", _weights)
+    monkeypatch.setattr(outpatients, "_load_multi_prov_adj", _load_multi_prov_adj)
+    monkeypatch.setattr(outpatients, "_load_hospital_ra", _load_hospital_ra)
+    monkeypatch.setattr(outpatients, "_load_postcode_ra", _load_postcode_ra)
+    monkeypatch.setattr(outpatients, "_load_sa2_ra", _load_sa2_ra)
+    monkeypatch.setattr(outpatients, "_load_icu_list", _load_icu_list)
     monkeypatch.setattr(
         outpatients,
         "_load_ind_adj",
-        lambda *_: pd.DataFrame({
-            "_pat_ind_flag": [0, 1],
-            "adj_indigenous": [0.0, 0.05],
-        }),
+        _sequence(pd.DataFrame(), pd.DataFrame(), _load_ind_adj(), pd.DataFrame()),
     )
     monkeypatch.setattr(
         outpatients,
         "_load_pat_rem_adj",
-        lambda *_: pd.DataFrame({"_pat_remoteness": [3], "adj_remoteness": [0.1]}),
+        _sequence(pd.DataFrame(), _load_pat_rem_adj(), pd.DataFrame()),
     )
     monkeypatch.setattr(
         outpatients,
         "_load_treat_rem_adj",
-        lambda *_: pd.DataFrame({
-            "_treat_remoteness": [5],
-            "adj_treat_remoteness": [0.02],
-        }),
+        _sequence(pd.DataFrame(), _load_treat_rem_adj(), pd.DataFrame()),
     )
-    monkeypatch.setattr(outpatients, "_load_multi_prov_adj", lambda *_: 0.2)
 
 
-def test_patient_level_with_adjustments(monkeypatch):
-    monkeypatch.setattr(
-        outpatients,
-        "_load_weights",
-        lambda *_: pd.DataFrame(
-            {"TIER2_CLINIC": [10.01], "clinic_pw": [0.1], "tier2_adj_paed": [1.5]}
-        ),
-    )
-    df = pd.DataFrame(
+def test_calculate_outpatients_basic_and_branch_coverage(monkeypatch):
+    _patch_common(monkeypatch)
+    data = pd.DataFrame(
         {
-            "TIER2_CLINIC": [10.01],
-            "SERVICE_DATE": [pd.Timestamp("2025-07-01")],
-            "BIRTH_DATE": [pd.Timestamp("2010-01-01")],
-            "PAT_POSTCODE": ["PC1"],
-            "PAT_SA2": [123],
-            "APCID": ["APC1"],
-            "INDSTAT": [1],
-            "PAT_MULTIPROV_FLAG": [0],
-            "FUNDSC": [1],
+            "TIER2_CLINIC": [20.5, 20.48, 20.5, 20.5],
+            "APCID": ["A1", "A2", "A3", "A4"],
+            "PAT_POSTCODE": ["P1", "P1", "P1", "P1"],
+            "PAT_SA2": [100, 100, 100, 100],
+            "SERVICE_DATE": [
+                pd.Timestamp("2024-07-01"),
+                pd.Timestamp("2024-07-01"),
+                pd.Timestamp("2024-07-01"),
+                pd.Timestamp("2024-07-01"),
+            ],
+            "BIRTH_DATE": [
+                pd.Timestamp("2015-01-01"),
+                pd.Timestamp("2015-01-01"),
+                pd.Timestamp("1980-01-01"),
+                pd.Timestamp("2015-01-01"),
+            ],
+            "INDSTAT": [1, 0, 0, 1],
+            "FUNDSC": [1, 1, 1, 1],
+            "PAT_MULTIPROV_FLAG": [1, 1, 1, 0],
+            "EST_REMOTENESS": [1, 1, 1, 1],
         }
     )
 
     result = outpatients.calculate_outpatients(
-        df,
-        outpatients.OutpatientParams(debug_mode=True, est_remoteness_option=1),
-        year="2025",
-        ref_dir=Path("unused"),
-    )
-
-    assert result["_treat_remoteness"].iloc[0] == 5
-    assert result["_pat_eligible_paed_flag"].iloc[0] == 1
-    assert result["NWAU25"].iloc[0] == pytest.approx(0.1725)
-
-
-def test_clinic_level_multiprovider(monkeypatch):
-    monkeypatch.setattr(
-        outpatients,
-        "_load_weights",
-        lambda *_: pd.DataFrame({"TIER2_CLINIC": [10.01], "clinic_pw": [1.0]}),
-    )
-    df = pd.DataFrame(
-        {
-            "TIER2_CLINIC": [10.01],
-            "GROUP_EVENT_COUNT": [10],
-            "INDIV_EVENT_COUNT": [5],
-            "MULTI_DISP_CONF_COUNT": [2],
-            "PAT_MULTIPROV_FLAG": [1],
-        }
-    )
-
-    result = outpatients.calculate_outpatients(
-        df,
-        outpatients.OutpatientParams(data_type=2, debug_mode=True),
-        year="2025",
-        ref_dir=Path("unused"),
-    )
-
-    assert result["NWAU25"].iloc[0] == pytest.approx(20.4)
-    assert result["Error_Code"].iloc[0] == 0
-
-
-def test_error_on_missing_weights(monkeypatch):
-    monkeypatch.setattr(
-        outpatients,
-        "_load_weights",
-        lambda *_: pd.DataFrame(
-            {"TIER2_CLINIC": [99.99], "clinic_pw": [1.0], "tier2_adj_paed": [1.0]}
-        ),
-    )
-    df = pd.DataFrame(
-        {
-            "TIER2_CLINIC": [10.01],
-            "SERVICE_DATE": [pd.Timestamp("2025-07-01")],
-            "BIRTH_DATE": [pd.Timestamp("2010-01-01")],
-            "FUNDSC": [1],
-        }
-    )
-
-    result = outpatients.calculate_outpatients(
-        df,
+        data,
         outpatients.OutpatientParams(debug_mode=True),
         year="2025",
         ref_dir=Path("unused"),
     )
 
-    assert result["Error_Code"].iloc[0] == 3
-    assert result["NWAU25"].iloc[0] == 0
+    assert len(result) == 4
+    assert result["Error_Code"].tolist() == [0, 0, 0, 0]
+    assert result["_pat_eligible_paed_flag"].tolist() == [1, 1, 0, 1]
+    assert result["_pat_remoteness"].tolist() == [1, 1, 1, 1]
+    assert result["NWAU25"].gt(0).all()
+    assert result["NWAU25"].nunique() > 1
+
+
+def test_calculate_outpatients_data_type_two(monkeypatch):
+    _patch_common(monkeypatch)
+    monkeypatch.setattr(outpatients, "_load_weights", _load_weights_alt)
+    data = pd.DataFrame(
+        {
+            "TIER2_CLINIC": [20.5],
+            "GROUP_EVENT_COUNT": [1],
+            "INDIV_EVENT_COUNT": [2],
+            "MULTI_DISP_CONF_COUNT": [3],
+            "FUNDSC": [1],
+            "PAT_MULTIPROV_FLAG": [1],
+            "EST_REMOTENESS": [1],
+        }
+    )
+
+    result = outpatients.calculate_outpatients(
+        data,
+        outpatients.OutpatientParams(
+            data_type=2,
+            est_remoteness_option=2,
+            paed_option=2,
+            debug_mode=True,
+        ),
+        year="2025",
+        ref_dir=Path("unused"),
+    )
+
+    assert result["Error_Code"].iloc[0] == 0
+    assert result["NWAU25"].iloc[0] > 0

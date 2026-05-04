@@ -9,6 +9,7 @@ from nwau_py.utils import impute_adjustment, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
 
+
 @dataclass
 class MHParams:
     """Configuration options for the mental health calculator."""
@@ -30,7 +31,6 @@ class MHParams:
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> dict[str, pd.DataFrame]:
     """Load reference tables used by the MH calculator."""
-
 
     def _read(name: str) -> pd.DataFrame:
         df = pd.read_sas(
@@ -191,11 +191,12 @@ def calculate_mh(
     # ------------------------------------------------------------------
     # GWAU calculation
     # ------------------------------------------------------------------
-    gwau = result["_w01"] * result["adj_specpaed"] * (
-        1
-        + result["adj_indigenous"]
-        + result["adj_remoteness"]
-    ) * (1 + result["adj_treat_remoteness"])
+    gwau = (
+        result["_w01"]
+        * result["adj_specpaed"]
+        * (1 + result["adj_indigenous"] + result["adj_remoteness"])
+        * (1 + result["adj_treat_remoteness"])
+    )
 
     # ------------------------------------------------------------------
     # Private patient deductions (admitted only)
@@ -227,6 +228,7 @@ def calculate_mh(
         result = result.drop(columns=[c for c in result.columns if c.startswith("_")])
     if params.clear_data:
         import shutil
+
         shutil.rmtree(".cache", ignore_errors=True)
 
     return result

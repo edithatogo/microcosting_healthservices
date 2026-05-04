@@ -2,7 +2,7 @@
 
 ## Phase 1: uv, Lockfile, and Python Matrix
 
-- [ ] Task: Write tests or checks for dependency resolution
+- [~] Task: Write tests or checks for dependency resolution
     - [ ] Verify runtime, dev, docs, test, coverage, typing, property, mutation, and profiling groups resolve from `uv.lock`
     - [ ] Verify Python 3.10-3.14 markers are represented
 - [ ] Task: Configure uv and CI matrix
@@ -19,7 +19,7 @@
 - [ ] Task: Add quality tooling
     - [ ] Configure Codecov
     - [ ] Configure ty
-    - [ ] Remove mypy as the documented forward path
+    - [ ] Document `mypy` as transitional only while `ty` becomes the forward path
 - [ ] Task: Conductor - User Manual Verification 'Fast Quality Gates' (Protocol in workflow.md)
 
 ## Phase 3: Advanced Validation Jobs

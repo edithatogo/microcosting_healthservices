@@ -1,8 +1,8 @@
 # Tech Stack
 
-## Current Stack
+## Transitional Repository State
 
-The project is currently a Python package and CLI for IHACPA NWAU calculator parity.
+The repository still contains a transitional Python package and CLI surface for IHACPA NWAU calculator parity. This section records the current evidence that the modernization track is replacing or normalizing.
 
 Current repository evidence shows:
 
@@ -10,12 +10,12 @@ Current repository evidence shows:
 - Python runtime requirement currently declared as `>=3.8`.
 - `setuptools` build backend.
 - Runtime dependencies currently include `pandas`, `pyxlsb`, `pyreadstat`, and `lightgbm`.
-- `pyarrow` is present in development requirements and used as an optional cache/storage dependency.
+- `pyarrow` is present in the current tooling surface as an optional cache/storage dependency.
 - Tests use `pytest`.
 - Linting uses `ruff`.
 - Type checking currently references `mypy`.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
-- The CLI is exposed through the `funding-calculator` entry point using `click`.
+- The CLI is exposed through the `funding-calculator` entry point and still depends on the legacy dependency surface during the migration.
 
 ## Target Platform
 
@@ -140,6 +140,12 @@ Renovate should be configured to avoid unsafe automatic upgrades for tools or li
 
 ## Migration Guidance
 
+Treat the transitional tools and files as compatibility scaffolding, not as the long-term contract:
+
+- `requirements.txt` and `requirements-dev.txt` are compatibility views during the `uv` migration.
+- `mypy` remains a comparator until the `ty` migration is complete.
+- `pandas` remains the current implementation substrate until the Polars and Arrow migration is verified.
+
 The current pandas implementation should not be replaced casually. Migration to Polars, Arrow-backed storage, Pydantic validation, JAX/XLA calculation paths, and stricter abstraction should be planned in phases with parity tests protecting behavior.
 
-Each migration phase should preserve or improve calculator fidelity against IHACPA reference sources.
+Each migration phase should preserve or improve calculator fidelity against IHACPA reference sources and should be documented in this file as either transitional or intended-state tooling.

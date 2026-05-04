@@ -233,10 +233,9 @@ def calculate_outpatients(
     ind_df = _load_ind_adj(ref_dir, year)
 
     adj_multi_val = adj_multi
-    merged["adj_multiprov"] = (
-        merged.get("adj_multiprov", pd.Series(adj_multi_val, index=merged.index))
-        .fillna(adj_multi_val)
-    )
+    merged["adj_multiprov"] = merged.get(
+        "adj_multiprov", pd.Series(adj_multi_val, index=merged.index)
+    ).fillna(adj_multi_val)
     adj_multi_series = merged["adj_multiprov"].fillna(adj_multi_val)
 
     adj_multi = _load_multi_prov_adj(ref_dir, year)
@@ -279,9 +278,7 @@ def calculate_outpatients(
                     (c for c in pc_df.columns if c.lower() == ra.lower()),
                     ra,
                 )
-                pc_df = pc_df.rename(
-                    columns={"POSTCODE": pat_pc, ra_col: pat_ra_col}
-                )
+                pc_df = pc_df.rename(columns={"POSTCODE": pat_pc, ra_col: pat_ra_col})
                 pc_df = pc_df.rename(columns={"POSTCODE": pat_pc, ra_col: pat_ra_col})
                 merged = merged.merge(
                     pc_df[[pat_pc, pat_ra_col]],

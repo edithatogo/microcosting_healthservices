@@ -1,8 +1,13 @@
 click
+hypothesis
 lightgbm
+mutmut
 numpy
 pandas
 pyarrow
+pydantic
 pyreadstat
-pyxlsb
 pytest
+pyxlsb
+scalene
+ty

@@ -9,9 +9,10 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -121,7 +122,7 @@ class FixtureCase:
     """A runnable fixture pack entry for a specific calculator."""
 
     pack: FixturePack
-    calculator: Callable[[pd.DataFrame, Any], pd.DataFrame]
+    calculator: Callable[..., pd.DataFrame]
     calculator_params: Any
     result_column: str
     parity_type: str = "output parity"
@@ -236,9 +237,7 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
         )
     pricing_year = _require_str(manifest.get("pricing_year"), field="pricing_year")
     if not re.fullmatch(r"\d{4}", pricing_year):
-        raise FixtureManifestError(
-            "pricing_year should remain a simple year label"
-        )
+        raise FixtureManifestError("pricing_year should remain a simple year label")
     service_stream = _require_choice(
         manifest.get("service_stream"),
         field="service_stream",
@@ -321,7 +320,9 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
     if not isinstance(notes_raw, list) or not notes_raw:
         raise FixtureManifestError("provenance.notes must be a non-empty list")
     if not all(isinstance(note, str) and note.strip() for note in notes_raw):
-        raise FixtureManifestError("provenance.notes must be a non-empty list of strings")
+        raise FixtureManifestError(
+            "provenance.notes must be a non-empty list of strings"
+        )
     provenance = {
         "created_from": created_from,
         "notes": tuple(notes_raw),
@@ -372,7 +373,7 @@ def discover_fixture_packs(root: str | Path) -> list[FixturePack]:
 def iter_fixture_cases(
     packs: Iterable[FixturePack],
     *,
-    calculator_map: dict[str, tuple[Callable[[pd.DataFrame, Any], pd.DataFrame], Any, str]],
+    calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
 ) -> list[FixtureCase]:
     """Return runnable fixture cases for the requested packs."""
 
@@ -424,7 +425,8 @@ def assert_fixture_case_output(
     reference = expected[case.result_column].to_numpy()
     if len(actual) != len(reference):
         raise FixtureManifestError(
-            f"{case.provenance_label} length mismatch: {len(actual)} != {len(reference)}"
+            f"{case.provenance_label} length mismatch: "
+            f"{len(actual)} != {len(reference)}"
         )
     actual_float = np.asarray(actual, dtype=float)
     reference_float = np.asarray(reference, dtype=float)
@@ -464,7 +466,6 @@ def read_payload_frame(pack: FixturePack, role: str) -> pd.DataFrame:
         )
     if len(frame) != payload.row_count:
         raise FixtureManifestError(
-            f"{role} row count {len(frame)} does not match manifest "
-            f"{payload.row_count}"
+            f"{role} row count {len(frame)} does not match manifest {payload.row_count}"
         )
     return frame

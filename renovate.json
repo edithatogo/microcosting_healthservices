@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency update dashboard",
+  "enabledManagers": ["pep621", "pip_requirements", "github-actions"],
+  "labels": ["dependencies"],
+  "rangeStrategy": "pin",
+  "schedule": ["after 6am and before 9am on monday"],
+  "timezone": "Australia/Sydney",
+  "packageRules": [
+    {
+      "matchManagers": ["pep621", "pip_requirements"],
+      "groupName": "Python dependencies and toolchain",
+      "dependencyDashboardApproval": true,
+      "separateMinorPatch": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "dependencyDashboardApproval": true,
+      "separateMinorPatch": true
+    }
+  ]
+}
