@@ -1,51 +1,107 @@
 """Archive IHACPA NWAU calculator source artifacts.
 
 The script reads the public IHACPA NWAU calculators page, downloads listed
-calculator artifacts, and writes JSON/CSV manifests with provenance metadata.
+calculator artifacts, and writes provenance metadata to a tracked location.
 Raw binaries are intentionally written under ``archive/ihacpa/raw/``, which is
 ignored by Git until the project chooses Git LFS, release assets, or external
-object storage.
+object storage. The durable manifest is written outside that raw storage.
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
-import hashlib
 import json
 import re
+import subprocess
 import time
-from dataclasses import asdict, dataclass
+import sys
+from dataclasses import dataclass
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import unquote, urljoin, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+from nwau_py.provenance import (
+    AcquisitionStatus,
+    ArtifactKind,
+    RunContext,
+    SourceArtifact,
+    SourceArchiveManifest,
+    SourcePageSnapshot,
+    SourceHost,
+    normalize_acquisition_status,
+    normalize_artifact_kind,
+    normalize_service_stream,
+    sha256_file,
+    stable_artifact_id,
+    tracked_manifest_paths,
+    write_manifest_csv,
+    write_manifest_json,
+    write_source_page_snapshot,
+)
 
 PAGE_URL = "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators"
 USER_AGENT = (
     "Mozilla/5.0 microcosting-healthservices-source-archiver/0.1 "
     "(+https://github.com/edithatogo/microcosting_healthservices)"
 )
+SCRIPT_VERSION = "0.2"
+DEFAULT_OUTPUT_DIR = Path("archive/ihacpa/raw")
+DEFAULT_PROVENANCE_DIR = Path("data/provenance/ihacpa")
 
 
 @dataclass
-class SourceArtifact:
-    year_label: str
-    year_start: int
-    artifact_type: str
-    service_stream: str
-    label: str
-    source_page_url: str
-    artifact_url: str
-    final_url: str = ""
-    content_type: str = ""
-    status: str = "listed"
-    path: str = ""
-    bytes: int = 0
-    sha256: str = ""
-    downloaded_at: str = ""
-    error: str = ""
+class FetchMetadata:
+    requested_url: str
+    final_url: str
+    status_code: int
+    content_type: str
+    headers: dict[str, str]
+    redirect_chain: list[dict[str, str]]
+    fetched_at: str
+
+
+class RedirectTrackingHandler(HTTPRedirectHandler):
+    """Capture redirect metadata while preserving urllib redirect behavior."""
+
+    def __init__(self, redirect_chain: list[dict[str, str]]) -> None:
+        super().__init__()
+        self.redirect_chain = redirect_chain
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # type: ignore[override]
+        self.redirect_chain.append(
+            {
+                "from_url": req.full_url,
+                "to_url": newurl,
+                "status_code": str(code),
+                "location": headers.get("Location", ""),
+                "content_type": headers.get("Content-Type", ""),
+            }
+        )
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def now_iso() -> str:
+    return datetime.now(UTC).isoformat()
+
+
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[1]
+
+
+def git_commit(root: Path) -> str:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except Exception:  # pragma: no cover - git availability varies by environment
+        return ""
+    return result.stdout.strip()
 
 
 class NwauCalculatorPageParser(HTMLParser):
@@ -96,36 +152,65 @@ class NwauCalculatorPageParser(HTMLParser):
         if not self.current_year_label or not (downloadable or box_share):
             return
 
-        artifact_type = (
-            "sas"
-            if "sas" in label.lower()
-            or lower.endswith((".zip", ".7z"))
-            or box_share
-            else "excel"
-        )
+        artifact_kind = normalize_artifact_kind(label, href)
+        if artifact_kind is ArtifactKind.UNKNOWN:
+            artifact_kind = (
+                ArtifactKind.SAS
+                if "sas" in label.lower()
+                or lower.endswith((".zip", ".7z"))
+                else ArtifactKind.EXCEL
+            )
+        artifact_type = artifact_kind.value
         self.items.append(
             SourceArtifact(
+                artifact_id=stable_artifact_id(
+                    self.current_year_label,
+                    label,
+                    href,
+                    artifact_kind=artifact_kind,
+                ),
                 year_label=self.current_year_label,
                 year_start=self.current_year_start,
                 artifact_type=artifact_type,
+                artifact_kind=artifact_kind,
                 service_stream=(
-                    "SAS-based calculators" if artifact_type == "sas" else label
+                    normalize_service_stream(artifact_kind, label)
                 ),
                 label=label,
                 source_page_url=self.page_url,
                 artifact_url=href,
+                source_host=SourceHost.BOX if box_share else SourceHost.IHACPA,
             )
         )
 
 
-def fetch(url: str, timeout: int) -> object:
-    """Open ``url`` with retry support."""
+def fetch(url: str, timeout: int) -> tuple[object, FetchMetadata]:
+    """Open ``url`` with retry support and return response metadata."""
 
     last_error: Exception | None = None
     for attempt in range(1, 4):
         try:
+            redirects: list[dict[str, str]] = []
             request = Request(url, headers={"User-Agent": USER_AGENT})
-            return urlopen(request, timeout=timeout)
+            opener = build_opener(RedirectTrackingHandler(redirects))
+            response = opener.open(request, timeout=timeout)
+            headers = {key: value for key, value in response.headers.items()}
+            metadata = FetchMetadata(
+                requested_url=url,
+                final_url=response.geturl(),
+                status_code=int(response.getcode() or 0),
+                content_type=response.headers.get("content-type", ""),
+                headers=headers,
+                redirect_chain=redirects,
+                fetched_at=now_iso(),
+            )
+            return response, metadata
+        except HTTPError as exc:
+            if exc.code >= 500:
+                last_error = exc
+                time.sleep(attempt)
+                continue
+            raise
         except Exception as exc:  # pragma: no cover - network variability
             last_error = exc
             time.sleep(attempt)
@@ -143,31 +228,61 @@ def safe_filename(item: SourceArtifact, final_url: str, content_type: str) -> st
     return re.sub(r"[^A-Za-z0-9._%()+ -]+", "_", name)
 
 
-def checksum(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as file:
-        for chunk in iter(lambda: file.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+def snapshot_source_page(
+    page_url: str,
+    provenance_dir: Path,
+    timeout: int,
+) -> tuple[str, SourcePageSnapshot, dict[str, object]]:
+    response, metadata = fetch(page_url, timeout)
+    try:
+        body = response.read()
+    finally:
+        response.close()
+
+    snapshot_path = provenance_dir / "snapshots" / "source-page.html"
+    snapshot = write_source_page_snapshot(body.decode("utf-8", errors="replace"), snapshot_path)
+
+    snapshot_metadata: dict[str, object] = {
+        "requested_url": metadata.requested_url,
+        "final_url": metadata.final_url,
+        "status_code": metadata.status_code,
+        "content_type": metadata.content_type,
+        "headers": metadata.headers,
+        "redirect_chain": metadata.redirect_chain,
+        "fetched_at": metadata.fetched_at,
+        "path": snapshot.path,
+        "bytes": snapshot.byte_count,
+        "sha256": snapshot.sha256,
+    }
+    return body.decode("utf-8", errors="replace"), snapshot, snapshot_metadata
 
 
 def download_artifact(item: SourceArtifact, root: Path, timeout: int) -> None:
     target_dir = root / str(item.year_start) / item.artifact_type
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    with fetch(item.artifact_url, timeout) as response:
-        final_url = response.geturl()
-        content_type = response.headers.get("content-type", "")
-        path = target_dir / safe_filename(item, final_url, content_type)
+    response, metadata = fetch(item.artifact_url, timeout)
+    try:
+        path = target_dir / safe_filename(item, metadata.final_url, metadata.content_type)
 
-        item.final_url = final_url
-        item.content_type = content_type
+        item.final_url = metadata.final_url
+        item.content_type = metadata.content_type
         item.path = str(path)
+        item.local_path = str(path)
+        item.redirect_chain = metadata.redirect_chain
 
         if path.exists() and path.stat().st_size > 0:
-            item.status = "downloaded"
+            item.status = normalize_acquisition_status(
+                item.artifact_url,
+                final_url=metadata.final_url,
+                content_type=metadata.content_type,
+                downloaded=True,
+            ).value
+            item.lifecycle.acquisition_status = AcquisitionStatus(item.status)
             item.bytes = path.stat().st_size
-            item.sha256 = checksum(path)
+            item.checksum_algorithm = "sha256"
+            item.checksum = sha256_file(path)
+            item.checksum_checked_at = now_iso()
             return
 
         tmp_path = path.with_suffix(path.suffix + ".part")
@@ -179,48 +294,87 @@ def download_artifact(item: SourceArtifact, root: Path, timeout: int) -> None:
                 file.write(chunk)
         tmp_path.replace(path)
 
-        item.status = "downloaded"
+        item.status = normalize_acquisition_status(
+            item.artifact_url,
+            final_url=metadata.final_url,
+            content_type=metadata.content_type,
+            downloaded=True,
+        ).value
+        item.lifecycle.acquisition_status = AcquisitionStatus(item.status)
         item.bytes = path.stat().st_size
-        item.sha256 = checksum(path)
-        item.downloaded_at = datetime.now(UTC).isoformat()
+        item.checksum_algorithm = "sha256"
+        item.checksum = sha256_file(path)
+        item.downloaded_at = now_iso()
+        item.checksum_checked_at = now_iso()
 
-        if "text/html" in content_type and "box.com" in item.artifact_url:
-            item.status = "external-html-only"
+        if item.status == AcquisitionStatus.EXTERNAL_HTML_ONLY.value:
+            item.lifecycle.acquisition_status = AcquisitionStatus.EXTERNAL_HTML_ONLY
+            item.bytes = 0
+            item.downloaded_at = ""
+    finally:
+        response.close()
 
 
-def parse_artifacts(page_url: str, timeout: int) -> list[SourceArtifact]:
-    with fetch(page_url, timeout) as response:
-        html = response.read().decode("utf-8", errors="replace")
+def parse_artifacts(
+    page_url: str,
+    provenance_dir: Path,
+    timeout: int,
+) -> tuple[list[SourceArtifact], SourcePageSnapshot, dict[str, object]]:
+    html, snapshot, snapshot_metadata = snapshot_source_page(page_url, provenance_dir, timeout)
     parser = NwauCalculatorPageParser(page_url)
     parser.feed(html)
-    return parser.items
+    return parser.items, snapshot, snapshot_metadata
 
 
-def write_manifests(items: list[SourceArtifact], root: Path) -> None:
-    root.mkdir(parents=True, exist_ok=True)
-    manifest_json = root / "manifest.json"
-    manifest_csv = root / "manifest.csv"
+def write_manifests(
+    items: list[SourceArtifact],
+    provenance_dir: Path,
+    *,
+    page_url: str,
+    source_snapshot: SourcePageSnapshot,
+    invocation_args: tuple[str, ...],
+    run_started_at: str,
+) -> None:
+    provenance_dir.mkdir(parents=True, exist_ok=True)
+    manifest_paths = tracked_manifest_paths(provenance_dir)
+    run_context = RunContext(
+        script_name=Path(__file__).name,
+        script_version=SCRIPT_VERSION,
+        git_commit=git_commit(repo_root()),
+        invocation_args=invocation_args,
+        source_page_url=page_url,
+        source_page_snapshot=source_snapshot,
+        started_at=run_started_at,
+        completed_at=now_iso(),
+    )
+    manifest = SourceArchiveManifest(
+        schema_version="1",
+        generated_at=now_iso(),
+        run_context=run_context,
+        artifacts=tuple(items),
+    )
 
-    rows = [asdict(item) for item in items]
-    manifest_json.write_text(json.dumps(rows, indent=2) + "\n")
-
-    if rows:
-        with manifest_csv.open("w", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=list(rows[0].keys()))
-            writer.writeheader()
-            writer.writerows(rows)
+    write_manifest_json(manifest, manifest_paths.json_path)
+    write_manifest_csv(manifest, manifest_paths.csv_path)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--page-url", default=PAGE_URL)
-    parser.add_argument("--output-dir", default="archive/ihacpa/raw")
+    parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
+    parser.add_argument("--provenance-dir", default=str(DEFAULT_PROVENANCE_DIR))
     parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--list-only", action="store_true")
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
-    items = parse_artifacts(args.page_url, args.timeout)
+    provenance_dir = Path(args.provenance_dir)
+    run_started_at = now_iso()
+    items, source_snapshot, _snapshot_metadata = parse_artifacts(
+        args.page_url,
+        provenance_dir,
+        args.timeout,
+    )
 
     if not args.list_only:
         for item in items:
@@ -230,7 +384,14 @@ def main() -> None:
                 item.status = "failed"
                 item.error = f"{type(exc).__name__}: {exc}"
 
-    write_manifests(items, output_dir)
+    write_manifests(
+        items,
+        provenance_dir,
+        page_url=args.page_url,
+        source_snapshot=source_snapshot,
+        invocation_args=tuple(sys.argv[1:]),
+        run_started_at=run_started_at,
+    )
 
     counts: dict[str, int] = {}
     for item in items:

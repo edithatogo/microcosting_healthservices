@@ -10,11 +10,15 @@ IHACPA calculator artifacts include large Excel, SAS, ZIP, and 7Z files. They ar
 
 ## Decision
 
-Commit durable IHACPA provenance manifests, acquisition scripts, checksums, extraction code, and documentation to Git. Store raw IHACPA binaries outside normal Git history by default, using external object storage as the primary storage backend unless a later project decision explicitly chooses Git LFS or GitHub release assets for a narrower slice of artifacts.
+Commit durable IHACPA provenance manifests, acquisition scripts, checksums, extraction code, and documentation to Git. The durable manifest should live in a tracked provenance path such as `data/provenance/ihacpa/sources.json`, not in ignored raw storage.
 
-The committed manifest location is part of the durable project record and should live outside ignored raw storage, for example under `data/provenance/ihacpa/`.
+Store raw IHACPA binaries outside normal Git history by default, using external object storage as the primary storage backend unless a later project decision explicitly chooses Git LFS or GitHub release assets for a narrower slice of artifacts.
+
+Transient acquisition output may still be written under `archive/ihacpa/raw/` during download runs, but that location is not the canonical project record.
 
 Any acquisition pass must record run context, source-page snapshot location, redirect information, checksum algorithm, checksum value, and artifact status. Any restore workflow must verify checksums before extraction or validation.
+
+Box-hosted links that only expose HTML share pages are acceptable as recorded provenance gaps, but they should be marked as `external-html-only` until a direct-download or manual retrieval path produces a verifiable raw artifact.
 
 ## Consequences
 
