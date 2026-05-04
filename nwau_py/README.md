@@ -67,17 +67,22 @@ Detailed notes on each calculator module are available in [docs/calculators.md](
 
 ## Golden Fixture Packs
 
-The project includes manifest-driven synthetic fixture packs for cross-language parity checks.
-The current pilot pack lives under `tests/fixtures/golden/acute_2025/` and contains a JSON
-manifest plus tabular `input.csv` and `expected.csv` payloads.
+The project uses manifest-driven fixture packs for cross-language parity checks.
+The current pilot pack lives under `tests/fixtures/golden/acute_2025/` and includes
+a JSON manifest plus `input.csv` and `expected.csv` payloads.
 
-Use `nwau_py.fixtures` to work with these packs from Python:
+Use `nwau_py.fixtures` to work with these packs:
 
 - `load_fixture_pack()` validates the manifest and resolves payload paths.
 - `discover_fixture_packs()` finds packs under a fixture root.
 - `read_payload_frame()` loads the manifest-declared input or expected output tables.
-- `iter_fixture_cases()` and `run_fixture_case()` drive calculator execution from the manifest.
+- `iter_fixture_cases()` maps manifests to calculator cases.
+- `fixture_case_params()` turns cases into pytest parameters with stable ids.
+- `run_fixture_case()` executes a calculator against one manifest case.
+- `run_fixture_suite()` executes and validates a set of cases.
+- `run_fixture_suite_from_root()` discovers packs and runs every valid case in order.
 - `assert_fixture_case_output()` checks the result against the declared tolerance and rounding policy.
 
-This keeps the Python package aligned with the same manifest-driven workflow that future C# and web
-consumers can use.
+Pytest coverage is generated from the same manifests by parameterizing over the
+discovered fixture cases. That keeps the test matrix and the helper runner in
+sync without hard-coding runner-specific logic.

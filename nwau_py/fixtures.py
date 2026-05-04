@@ -144,6 +144,33 @@ class FixtureCase:
         )
 
 
+@dataclass(frozen=True, slots=True)
+class FixtureRunResult:
+    """Executed fixture case with captured payloads."""
+
+    case: FixtureCase
+    result: pd.DataFrame
+    expected: pd.DataFrame | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class FixtureRunner:
+    """Runner-neutral execution wrapper for a set of fixture cases."""
+
+    execute_case: Callable[[FixtureCase], pd.DataFrame] | None = None
+
+    def run_case(self, case: FixtureCase) -> FixtureRunResult:
+        """Execute a single fixture case and wrap the result."""
+
+        executor = self.execute_case or run_fixture_case
+        return FixtureRunResult(case=case, result=executor(case))
+
+    def run_cases(self, cases: Iterable[FixtureCase]) -> list[FixtureRunResult]:
+        """Execute a batch of fixture cases in order."""
+
+        return [self.run_case(case) for case in cases]
+
+
 def _require_mapping(value: Any, *, field: str) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise FixtureManifestError(f"{field} must be a mapping")
@@ -394,6 +421,39 @@ def iter_fixture_cases(
     return cases
 
 
+def fixture_case_param_id(case: FixtureCase) -> str:
+    """Return a stable pytest id for a fixture case."""
+
+    return (
+        f"{case.pack.manifest.fixture_id}"
+        f"[{case.pack.manifest.calculator}]"
+        f"/{case.result_column}"
+        f"/{case.parity_type.replace(' ', '_')}"
+    )
+
+
+def fixture_case_params(cases: Iterable[FixtureCase]) -> list[Any]:
+    """Return pytest parameter sets for fixture cases with stable ids.
+
+    The pytest import is intentionally local so the helper remains usable in
+    non-pytest runners.
+    """
+
+    import pytest
+
+    return [pytest.param(case, id=fixture_case_param_id(case)) for case in cases]
+
+
+def iter_fixture_pytest_params(
+    cases: Iterable[FixtureCase],
+) -> list[Any]:
+    """Return pytest parameters for a fixture-case iterable."""
+
+    import pytest
+
+    return [pytest.param(case, id=case.fixture_id) for case in cases]
+
+
 def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
     """Execute a fixture case and return the calculator output frame."""
 
@@ -403,6 +463,36 @@ def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
         case.calculator_params,
         year=case.pack.manifest.pricing_year,
     )
+
+
+def run_fixture_suite(cases: Iterable[FixtureCase]) -> list[FixtureRunResult]:
+    """Execute and validate a collection of fixture cases."""
+
+    results: list[FixtureRunResult] = []
+    for case in cases:
+        result = run_fixture_case(case)
+        expected = read_payload_frame(case.pack, "expected_output")
+        assert_fixture_case_output(case, result, expected)
+        results.append(
+            FixtureRunResult(
+                case=case,
+                result=result,
+                expected=expected,
+            )
+        )
+    return results
+
+
+def run_fixture_suite_from_root(
+    root: str | Path,
+    *,
+    calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
+) -> list[FixtureRunResult]:
+    """Discover, materialize, and execute fixture cases from a fixture root."""
+
+    packs = discover_fixture_packs(root)
+    cases = iter_fixture_cases(packs, calculator_map=calculator_map)
+    return run_fixture_suite(cases)
 
 
 def assert_fixture_case_output(
