@@ -89,6 +89,21 @@ The Excel workbooks may also be archived under
 original spreadsheets.
 
 
+Directory layout
+----------------
+```
+archive/
+  sas/<YEAR>/        # SAS reference tables
+excel_calculator/
+  data/
+    weights.csv      # default (current year)
+    formula.json
+    <YEAR>/weights.csv
+    <YEAR>/formula.json
+```
+Dropping the SAS folder and matching `weights.csv`/`formula.json` files for a
+new edition is all that's required to add support for that year.
+
 The repository currently includes verified weights and formulas for the 2024
 and 2025 editions. Additional years can be added once their outputs are
 validated.

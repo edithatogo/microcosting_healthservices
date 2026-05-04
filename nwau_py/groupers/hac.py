@@ -6,6 +6,7 @@ from functools import lru_cache
 import pandas as pd
 import pyreadstat
 
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -15,7 +16,7 @@ _DEFAULT_YEAR = "2025"
 def load_hac_mapping(edition: str = "07", *, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     """Return diagnosis-to-HAC mapping for the given ICD edition and year."""
     ref_dir = sas_ref_dir(year)
-    path = ref_dir / f"hac_map_{edition}.sas7bdat"
+    path = sas_table(f"hac_map_{edition}.sas7bdat", base_dir=ref_dir)
     df, _ = pyreadstat.read_sas7bdat(str(path))
     df["DDX"] = df["DDX"].astype(str)
     return df

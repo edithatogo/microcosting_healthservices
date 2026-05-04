@@ -6,6 +6,7 @@ import pandas as pd
 import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
+from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -24,8 +25,9 @@ class OutpatientParams:
 
 
 def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    df = pd.read_sas(ref_dir / f"nep{suffix}_op_price_weights.sas7bdat")
+    df = pd.read_sas(
+        sas_table("nep{suffix}_op_price_weights.sas7bdat", year=year, base_dir=ref_dir)
+    )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     if "tier2_clinic" in df.columns:
@@ -36,10 +38,11 @@ def _load_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 
 
 def _load_hospital_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
     ra = ra_suffix(year)
     ra_year = ra[2:]
-    df = load_sas_table(ref_dir / f"nep{suffix}_hospital_{ra}.sas7bdat")
+    df = load_sas_table(
+        sas_table("nep{suffix}_hospital_{ra}.sas7bdat", year=year, base_dir=ref_dir)
+    )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     apc_col = [c for c in df.columns if c.startswith("APCID")][0]
@@ -50,7 +53,9 @@ def _load_hospital_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 
 def _load_postcode_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     ra = ra_suffix(year)
-    df = load_sas_table(ref_dir / f"postcode_to_{ra}.sas7bdat")
+    df = load_sas_table(
+        sas_table("postcode_to_{ra}.sas7bdat", year=year, base_dir=ref_dir)
+    )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
@@ -60,9 +65,9 @@ def _load_postcode_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 def _load_sa2_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     ra = ra_suffix(year)
     paths = [
-        ref_dir / f"sa2_to_{ra}.sas7bdat",
-        ref_dir / f"asgs_to_{ra}.sas7bdat",
-        ref_dir / f"sla_to_{ra}.sas7bdat",
+        sas_table("sa2_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+        sas_table("asgs_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
+        sas_table("sla_to_{ra}.sas7bdat", year=year, base_dir=ref_dir),
     ]
     for path in paths:
         try:
@@ -80,8 +85,13 @@ def _load_sa2_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 
 
 def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    df = pd.read_sas(ref_dir / f"nep{suffix}_icu_paed_eligibility_list.sas7bdat")
+    df = pd.read_sas(
+        sas_table(
+            "nep{suffix}_icu_paed_eligibility_list.sas7bdat",
+            year=year,
+            base_dir=ref_dir,
+        )
+    )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
     apc_col = [c for c in df.columns if c.startswith("APCID")][0]
@@ -89,8 +99,11 @@ def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
 
 
 def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
-    suffix = str(year)[-2:]
-    path = ref_dir / f"nep{suffix}_op_multi_prov_adj.sas7bdat"
+    path = sas_table(
+        "nep{suffix}_op_multi_prov_adj.sas7bdat",
+        year=year,
+        base_dir=ref_dir,
+    )
     try:
         df = load_sas_table(path)
         for col in df.select_dtypes(include="object").columns:
@@ -110,8 +123,11 @@ def _load_multi_prov_adj(ref_dir: Path, year: str) -> float:
 
 
 def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_ind.sas7bdat"
+    path = sas_table(
+        "nep{suffix}_aa_mh_sa_na_adj_ind.sas7bdat",
+        year=year,
+        base_dir=ref_dir,
+    )
     try:
         df = load_sas_table(path)
         for col in df.select_dtypes(include="object").columns:
@@ -131,8 +147,11 @@ def _load_ind_adj(ref_dir: Path, year: str) -> pd.DataFrame:
 
 
 def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat"
+    path = sas_table(
+        "nep{suffix}_aa_mh_sa_na_adj_rem.sas7bdat",
+        year=year,
+        base_dir=ref_dir,
+    )
     try:
         df = load_sas_table(path)
         for col in df.select_dtypes(include="object").columns:
@@ -152,8 +171,11 @@ def _load_pat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
 
 
 def _load_treat_rem_adj(ref_dir: Path, year: str) -> pd.DataFrame:
-    suffix = str(year)[-2:]
-    path = ref_dir / f"nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat"
+    path = sas_table(
+        "nep{suffix}_aa_mh_sa_na_adj_treat_rem.sas7bdat",
+        year=year,
+        base_dir=ref_dir,
+    )
     try:
         df = load_sas_table(path)
         for col in df.select_dtypes(include="object").columns:
