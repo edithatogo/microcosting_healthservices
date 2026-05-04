@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import sys
 from collections.abc import Callable
-from pathlib import Path
 from typing import IO, Any
 
 import click
@@ -18,6 +16,7 @@ from nwau_py.calculators import (
     calculate_ed,
     calculate_outpatients,
 )
+from nwau_py.runtime import run_csv_calculation
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
@@ -32,19 +31,16 @@ def _run(
     year: str | None,
     ref_dir: str | None,
 ) -> None:
-    df = pd.read_csv(input_csv)
-    result = calculator(
-        df,
-        params,
-        year=year or "2025",
-        ref_dir=Path(ref_dir) if ref_dir else None,
+    run_csv_calculation(
+        input_csv=input_csv,
+        output=output,
+        calculator=calculator,
+        params=params,
+        year=year,
+        ref_dir=ref_dir,
+        read_csv=pd.read_csv,
+        write_csv=_write_output,
     )
-    outfh = sys.stdout if output == "-" else open(output, "w", newline="")
-    try:
-        _write_output(result, outfh)
-    finally:
-        if outfh is not sys.stdout:
-            outfh.close()
 
 
 def _common_options(func):

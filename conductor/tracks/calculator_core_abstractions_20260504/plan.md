@@ -26,11 +26,12 @@
 
 ## Phase 3: Adapter Boundaries
 
-- [ ] Task: Write tests proving CLI and library paths share the same core behavior
+- [ ] Task: Write tests proving CLI and library paths share the same adapter helper and core behavior
     - [ ] Use shared fixtures
     - [ ] Assert equivalent outputs
 - [ ] Task: Separate delivery adapters from calculator core
     - [ ] Define adapter responsibilities for CLI, Python API, web, and C#
     - [ ] Document prohibited adapter behavior
     - [ ] Keep adapter code limited to parsing, validation, orchestration, and formatting
+    - [ ] Reuse a shared adapter helper where CLI and library parity needs to stay aligned
 - [ ] Task: Conductor - User Manual Verification 'Adapter Boundaries' (Protocol in workflow.md)
