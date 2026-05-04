@@ -12,6 +12,7 @@ This project handles health funding calculator logic and may be used with patien
 - Keep raw IHACPA calculator artifacts separate from extracted and validated datasets.
 - Record source provenance and checksums for downloaded public artifacts.
 - Treat calculator outputs derived from real data as sensitive unless an explicit governance decision says otherwise.
+- Record privacy classification for every example, fixture, and output bundle.
 
 ## Browser and Web-App Constraints
 
@@ -23,7 +24,20 @@ If real-data calculation is supported later, use a secured service boundary with
 
 Power Platform integration should keep Dataverse and app workflows separate from the calculation engine. The C# engine should expose explicit input and output contracts, avoid hidden persistence, and log operational metadata without logging patient-level fields.
 
+## Governance Process
+
+- Every new fixture pack, sample output set, and source-manifest schema change should be reviewed for privacy impact before release.
+- Assign an owner for privacy incidents, manifest corrections, and release blocking data issues.
+- Retain raw source artifacts only according to the approved source-archive storage policy.
+- Document redaction rules for logs, screenshots, and exported diagnostics, then test them.
+
+## Classification Tiers
+
+- `public`: approved published sample data or non-sensitive documentation examples.
+- `synthetic`: fabricated data intended to exercise edge cases without real-world records.
+- `derived-sensitive`: outputs or aggregates produced from real data that still require protection.
+- `restricted`: source extracts, patient-level records, or operational data that must never enter the repo.
+
 ## Test Data Policy
 
 Golden fixtures should be small, synthetic, and designed to exercise edge cases. If a fixture is derived from an official calculator example, document the source and transformation.
-

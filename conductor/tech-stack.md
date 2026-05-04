@@ -27,6 +27,8 @@ Supported Python versions should be covered in CI and Codecov reporting. Compati
 
 Use `uv` for dependency management, lockfile generation, local development workflows, and CI installation.
 
+Use `pyproject.toml` plus a committed `uv.lock` as the source of truth for environment resolution. Keep `requirements.txt` and `requirements-dev.txt` only as transitional compatibility artifacts or generated views during the migration to `uv`.
+
 The project should maintain clear dependency groups for:
 
 - Runtime dependencies.
@@ -36,6 +38,8 @@ The project should maintain clear dependency groups for:
 - Performance and profiling tools.
 
 Use Renovate for automated dependency update proposals, including Python tooling, GitHub Actions, documentation tooling, and any package manager files managed by `uv`.
+
+The supported Python matrix is 3.10 through 3.14. Repository metadata should be brought into alignment with that support window as the tooling track lands.
 
 ## DataFrame and Compute Stack
 
@@ -87,7 +91,7 @@ Use mutmut for mutation testing of core calculation logic, especially arithmetic
 
 Use Scalene for profiling performance and memory behavior during calculator execution, extraction workflows, and DataFrame conversion paths.
 
-Use `ty` instead of `mypy` for Python type checking.
+Use `ty` instead of `mypy` for Python type checking. Treat `mypy` as transitional only until the migration is complete.
 
 Use Ruff for linting and formatting unless a future decision explicitly replaces it.
 

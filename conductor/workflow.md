@@ -34,7 +34,7 @@ All tasks follow a strict lifecycle:
 
 6. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example, in a Python project, this might look like:
    ```bash
-   pytest --cov=app --cov-report=html
+   uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
    ```
    Target: >80% coverage for new code in the short term. As the library matures, raise the target toward >90% coverage, especially for core calculator logic, validation, and source-parity behavior. The specific tools and commands will vary by language and framework.
 
@@ -82,7 +82,7 @@ All tasks follow a strict lifecycle:
 
 3.  **Execute Automated Tests with Proactive Debugging:**
     -   Before execution, you **must** announce the exact shell command you will use to run the tests.
-    -   **Example Announcement:** "I will now run the automated test suite to verify the phase. **Command:** `CI=true npm test`"
+    -   **Example Announcement:** "I will now run the automated test suite to verify the phase. **Command:** `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml`"
     -   Execute the announced command.
     -   If tests fail, you **must** inform the user and begin debugging. You may attempt to propose a fix a **maximum of two times**. If the tests still fail after your second proposed fix, you **must stop**, report the persistent failure, and ask the user for guidance.
 
@@ -91,24 +91,24 @@ All tasks follow a strict lifecycle:
     -   You **must** generate a step-by-step plan that walks the user through the verification process, including any necessary commands and specific, expected outcomes.
     -   The plan you present to the user **must** follow this format:
 
-        **For a Frontend Change:**
+        **For a Python Change:**
         ```
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Start the development server with the command:** `npm run dev`
-        2.  **Open your browser to:** `http://localhost:3000`
-        3.  **Confirm that you see:** The new user profile page, with the user's name and email displayed correctly.
+        1.  **Synchronize the environment with the command:** `uv sync --group dev --group test --group coverage --group typing`
+        2.  **Run the targeted test command:** `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
+        3.  **Confirm that you see:** A passing test run with coverage output and no Ruff, `ty`, or Vale errors.
         ```
 
-        **For a Backend Change:**
+        **For a Release or Supply-Chain Change:**
         ```
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Ensure the server is running.**
-        2.  **Execute the following command in your terminal:** `curl -X POST http://localhost:8080/api/v1/users -d '{"name": "test"}'`
-        3.  **Confirm that you receive:** A JSON response with a status of `201 Created`.
+        1.  **Ensure the workspace is synchronized with the committed lockfile.**
+        2.  **Execute the following command in your terminal:** `uv run ruff check . && uv run ty check && uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
+        3.  **Confirm that you receive:** A clean quality-gate run with coverage ready for Codecov and no documentation lint failures.
         ```
 
 5.  **Await Explicit User Feedback:**
@@ -150,27 +150,31 @@ Before marking any task complete, verify:
 
 ## Development Commands
 
-**AI AGENT INSTRUCTION: This section should be adapted to the project's specific language, framework, and build tools.**
+Use the locked Python commands below for setup, daily development, and pre-commit verification.
 
 ### Setup
 ```bash
-# Example: Commands to set up the development environment (e.g., install dependencies, configure database)
-# e.g., for a Node.js project: npm install
-# e.g., for a Go project: go mod tidy
+uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
+uv lock
 ```
 
 ### Daily Development
 ```bash
-# Example: Commands for common daily tasks (e.g., start dev server, run tests, lint, format)
-# e.g., for a Node.js project: npm run dev, npm test, npm run lint
-# e.g., for a Go project: go run main.go, go test ./..., go fmt ./...
+uv run ruff format --check .
+uv run ruff check .
+uv run ty check
+uv run pytest
+uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+uv run vale conductor README.md docs
 ```
 
 ### Before Committing
 ```bash
-# Example: Commands to run all pre-commit checks (e.g., format, lint, type check, run tests)
-# e.g., for a Node.js project: npm run check
-# e.g., for a Go project: make check (if a Makefile exists)
+uv run ruff format --check .
+uv run ruff check .
+uv run ty check
+uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+uv run vale conductor README.md docs
 ```
 
 ## Testing Requirements
@@ -300,29 +304,26 @@ A task is complete when:
 
 ## Deployment Workflow
 
-### Pre-Deployment Checklist
-- [ ] All tests passing
-- [ ] Coverage >80%
-- [ ] No linting errors
-- [ ] Mobile testing complete
-- [ ] Environment variables configured
-- [ ] Database migrations ready
-- [ ] Backup created
+### Pre-Release Checklist
+- [ ] `uv run ruff format --check .` passes
+- [ ] `uv run ruff check .` passes
+- [ ] `uv run ty check` passes
+- [ ] `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80` passes
+- [ ] `uv run vale conductor README.md docs` passes
+- [ ] Coverage report is uploaded to Codecov from CI
 
-### Deployment Steps
-1. Merge feature branch to main
-2. Tag release with version
-3. Push to deployment service
-4. Run database migrations
-5. Verify deployment
-6. Test critical paths
-7. Monitor for errors
+### Release Steps
+1. Merge the validated feature branch to `main`
+2. Tag the release with the package version
+3. Build the distribution with `uv build`
+4. Verify installability with `uv sync --locked`
+5. Publish the release artifacts and associated checksums
+6. Verify the release notes capture calculator, data bundle, and validation changes
 
-### Post-Deployment
-1. Monitor analytics
-2. Check error logs
-3. Gather user feedback
-4. Plan next iteration
+### Post-Release
+1. Confirm CI is green on the release commit
+2. Check source checksum and artifact provenance records
+3. Record any follow-up validation work in `plan.md`
 
 ## Continuous Improvement
 

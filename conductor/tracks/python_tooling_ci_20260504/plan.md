@@ -1,25 +1,26 @@
 # Plan: Python Tooling and CI Modernization
 
-## Phase 1: uv and Python Matrix
+## Phase 1: uv, Lockfile, and Python Matrix
 
 - [ ] Task: Write tests or checks for dependency resolution
-    - [ ] Verify runtime, dev, docs, test, profiling, and mutation groups resolve
+    - [ ] Verify runtime, dev, docs, test, coverage, typing, property, mutation, and profiling groups resolve from `uv.lock`
     - [ ] Verify Python 3.10-3.14 markers are represented
 - [ ] Task: Configure uv and CI matrix
-    - [ ] Add dependency groups
+    - [ ] Add dependency groups and committed lockfile workflow
     - [ ] Add Python 3.10, 3.11, 3.12, 3.13, and 3.14 GitHub Actions jobs
-- [ ] Task: Conductor - User Manual Verification 'uv and Python Matrix' (Protocol in workflow.md)
+    - [ ] Enforce locked installs in CI
+- [ ] Task: Conductor - User Manual Verification 'uv, Lockfile, and Python Matrix' (Protocol in workflow.md)
 
-## Phase 2: Quality Gates
+## Phase 2: Fast Quality Gates
 
 - [ ] Task: Write CI checks for quality tools
-    - [ ] Verify ruff, ty, pytest, and coverage commands run locally
+    - [ ] Verify `ruff format --check`, `ruff check`, `ty check`, `pytest`, and coverage commands run locally in the intended CI order
     - [ ] Verify Codecov upload is configured
 - [ ] Task: Add quality tooling
     - [ ] Configure Codecov
     - [ ] Configure ty
     - [ ] Remove mypy as the documented forward path
-- [ ] Task: Conductor - User Manual Verification 'Quality Gates' (Protocol in workflow.md)
+- [ ] Task: Conductor - User Manual Verification 'Fast Quality Gates' (Protocol in workflow.md)
 
 ## Phase 3: Advanced Validation Jobs
 
@@ -40,4 +41,3 @@
     - [ ] Configure Renovate package rules
     - [ ] Configure Vale terminology and validation language rules
 - [ ] Task: Conductor - User Manual Verification 'Maintenance Automation and Prose Quality' (Protocol in workflow.md)
-
