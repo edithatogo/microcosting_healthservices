@@ -4,6 +4,9 @@
 - [Product Definition](./product.md)
 - [Product Guidelines](./product-guidelines.md)
 - [Tech Stack](./tech-stack.md)
+- [Data Governance](./data-governance.md)
+- [Source Archive Policy](./source-archive.md)
+- [Validation Vocabulary](./validation-vocabulary.md)
 
 ## Workflow
 - [Workflow](./workflow.md)

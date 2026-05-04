@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ty/
+.coverage
+htmlcov/
+
+# Environments and local tooling
+.venv/
+.env
+.env.*
+uv.lock
+
+# Generated/cache data
+.cache/
+dist/
+build/
+
+# Raw external source archives are large provenance artifacts.
+# Store them via Git LFS, release assets, or external object storage once policy is finalized.
+archive/ihacpa/raw/
+

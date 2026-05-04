@@ -52,6 +52,20 @@ The command line interface and Python API should remain dependable and predictab
 
 Convenience features are useful only when they do not obscure source provenance or calculator behavior.
 
+## Data Governance
+
+Product decisions must protect sensitive health data. Documentation, examples, tests, browser workflows, and screenshots should use synthetic, de-identified, or officially published sample data only.
+
+The GitHub Pages web app should be safe by default and should not encourage upload of real patient-level data into a static browser workflow. Any future real-data workflow must use a documented secure service boundary.
+
+Power Platform integration should keep app orchestration separate from the calculation engine. The calculation engine should expose explicit contracts and avoid logging patient-level fields.
+
+## Validation Claims
+
+Validation claims must use precise language. Prefer terms such as source parity, output parity, regression parity, and cross-engine parity over broad claims that a year or calculator is simply "supported."
+
+If source materials disagree, documentation should identify the disagreement, the chosen authority, and the reason for that choice.
+
 ## Design Tone
 
 The project should read like a technical reference for health funding calculator parity rather than a promotional product. It should be calm, specific, and transparent about limits.
