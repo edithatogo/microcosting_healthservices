@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "fixture_id": "acute_2025",
+  "calculator": "acute",
+  "pricing_year": "2025",
+  "service_stream": "admitted acute",
+  "cross_language_ready": true,
+  "privacy_classification": "synthetic",
+  "source_basis": {
+    "kind": "synthetic_sample",
+    "description": "Derived from the existing synthetic acute sample data used by the Python regression tests.",
+    "input_source": "../../data/acute_input.csv",
+    "expected_output_source": "../../data/acute_expected.csv"
+  },
+  "payloads": {
+    "input": {
+      "path": "input.csv",
+      "format": "csv",
+      "row_count": 3,
+      "columns": [
+        "DRG",
+        "LOS",
+        "ICU_HOURS",
+        "ICU_OTHER",
+        "PAT_SAMEDAY_FLAG",
+        "PAT_PRIVATE_FLAG",
+        "PAT_COVID_FLAG"
+      ]
+    },
+    "expected_output": {
+      "path": "expected.csv",
+      "format": "csv",
+      "row_count": 3,
+      "columns": [
+        "NWAU25"
+      ]
+    }
+  },
+  "precision": {
+    "rounding_policy": "compare exact decimal values after calculator output rounding",
+    "tolerance": {
+      "absolute": 0.0001,
+      "relative": 0.0001
+    }
+  },
+  "provenance": {
+    "created_from": "tests/data/acute_input.csv and tests/data/acute_expected.csv",
+    "notes": [
+      "Synthetic fixture pack for cross-language parity checks.",
+      "No patient-level or production data included."
+    ]
+  }
+}
