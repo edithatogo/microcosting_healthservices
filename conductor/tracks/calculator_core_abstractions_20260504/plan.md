@@ -2,26 +2,27 @@
 
 ## Phase 1: Contract Tests
 
-- [ ] Task: Write tests for parameter and schema boundaries
-    - [ ] Validate pricing-year selection
-    - [ ] Validate required input fields and output columns
+- [~] Task: Write tests for contract-backed parameter and schema boundaries
+    - [ ] Validate pricing-year selection against the public API contract
+    - [ ] Validate required input fields and output columns from the contract shape
     - [ ] Validate explicit error shapes for invalid contract inputs
 - [ ] Task: Introduce calculator contract types
     - [ ] Add parameter, input, output, and provenance model concepts
     - [ ] Keep behavior-compatible adapters for existing calculators
     - [ ] Bind these types to the public API contract definitions
-- [ ] Task: Conductor - User Manual Verification 'Contract Tests' (Protocol in workflow.md)
+- [ ] Task: Conductor - User Manual Verification 'Contract Tests and Boundary Shape' (Protocol in workflow.md)
 
 ## Phase 2: Reference Data Boundaries
 
-- [ ] Task: Write tests for reference data resolution
-    - [ ] Verify explicit data bundle selection
-    - [ ] Verify missing data produces clear errors
+- [ ] Task: Write tests for reference bundle resolution
+    - [ ] Verify explicit bundle selection by year, calculator, and manifest identity
+    - [ ] Verify missing or mismatched bundles produce clear errors
 - [ ] Task: Implement reference data abstraction
     - [ ] Separate raw archive, extracted data, and runtime bundle locations
     - [ ] Add provenance metadata to runtime resolution
     - [ ] Make bundle selection deterministic from year, calculator, and manifest identity
-- [ ] Task: Conductor - User Manual Verification 'Reference Data Boundaries' (Protocol in workflow.md)
+    - [ ] Keep acute and other calculators consuming resolved reference helpers instead of loading bundles inline
+- [ ] Task: Conductor - User Manual Verification 'Reference Bundle Boundaries' (Protocol in workflow.md)
 
 ## Phase 3: Adapter Boundaries
 

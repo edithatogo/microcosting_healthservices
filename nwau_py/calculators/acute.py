@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
@@ -10,6 +10,14 @@ from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
+_ACUTE_REQUIRED_COLUMNS = (
+    "DRG",
+    "LOS",
+    "ICU_HOURS",
+    "ICU_OTHER",
+    "PAT_SAMEDAY_FLAG",
+    "PAT_PRIVATE_FLAG",
+)
 
 
 @dataclass
@@ -29,6 +37,97 @@ class AcuteParams:
     clear_data: bool = False
 
 
+class AcuteContractError(ValueError):
+    """Raised when the acute calculator contract is invalid."""
+
+
+@dataclass(frozen=True, slots=True)
+class AcuteInputContract:
+    """Schema contract for the acute input frame."""
+
+    required_columns: tuple[str, ...] = _ACUTE_REQUIRED_COLUMNS
+    optional_columns: tuple[str, ...] = (
+        "PAT_COVID_FLAG",
+        "COVID_ADJ_FLAG",
+        "PAT_RADIOTHERAPY_FLAG",
+        "PAT_DIALYSIS_FLAG",
+        "EST_ELIGIBLE_ICU_FLAG",
+        "EST_ELIGIBLE_PAED_FLAG",
+        "EST_REMOTENESS",
+        "PAT_POSTCODE",
+        "POSTCODE",
+        "PAT_SA2",
+        "SA2",
+        "PAT_ASGS",
+        "ASGS",
+        "PAT_SLA",
+        "SLA",
+        "APCID",
+        "STATE",
+        "INDSTAT",
+    )
+    allow_extra_columns: bool = True
+
+    def validate(self, df: pd.DataFrame) -> None:
+        missing = [c for c in self.required_columns if c not in df.columns]
+        if missing:
+            raise AcuteContractError(
+                "acute input frame is missing required columns: " + ", ".join(missing)
+            )
+
+
+@dataclass(frozen=True, slots=True)
+class AcuteReferenceBundle:
+    """Deterministic reference bundle selection for acute calculations."""
+
+    year: str
+    ref_dir: Path
+    weights: pd.DataFrame | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class AcuteCalculationContract:
+    """Thin contract wrapper for acute validation and reference resolution."""
+
+    year: str = _DEFAULT_YEAR
+    params: AcuteParams = field(default_factory=AcuteParams)
+    input_contract: AcuteInputContract = field(default_factory=AcuteInputContract)
+    reference_bundle: AcuteReferenceBundle | None = None
+
+
+def build_acute_contract(
+    *,
+    params: AcuteParams | None = None,
+    year: str = _DEFAULT_YEAR,
+    ref_dir: Path | None = None,
+    reference_bundle: AcuteReferenceBundle | None = None,
+    input_contract: AcuteInputContract | None = None,
+) -> AcuteCalculationContract:
+    """Build a contract object for acute input validation and reference lookup."""
+
+    bundle = reference_bundle
+    if bundle is None:
+        bundle = AcuteReferenceBundle(
+            year=str(year),
+            ref_dir=Path(ref_dir) if ref_dir is not None else sas_ref_dir(year),
+        )
+    return AcuteCalculationContract(
+        year=str(bundle.year),
+        params=params or AcuteParams(),
+        input_contract=input_contract or AcuteInputContract(),
+        reference_bundle=bundle,
+    )
+
+
+def validate_acute_input_frame(
+    df: pd.DataFrame, contract: AcuteCalculationContract | None = None
+) -> None:
+    """Validate the acute input frame against the declared contract."""
+
+    contract = contract or build_acute_contract()
+    contract.input_contract.validate(df)
+
+
 def _load_price_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     path = sas_table(
         "nep{suffix}_aa_price_weights.sas7bdat",
@@ -41,12 +140,28 @@ def _load_price_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFram
     return df
 
 
+def _resolve_acute_reference_bundle(
+    *,
+    year: str,
+    ref_dir: Path | None,
+    reference_bundle: AcuteReferenceBundle | None,
+) -> AcuteReferenceBundle:
+    if reference_bundle is not None:
+        return reference_bundle
+    return AcuteReferenceBundle(
+        year=str(year),
+        ref_dir=Path(ref_dir) if ref_dir is not None else sas_ref_dir(year),
+    )
+
+
 def calculate_acute(
     df: pd.DataFrame,
     params: AcuteParams,
     *,
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
+    contract: AcuteCalculationContract | None = None,
+    reference_bundle: AcuteReferenceBundle | None = None,
 ) -> pd.DataFrame:
     """Calculate NWAU25 for acute admitted episodes.
 
@@ -54,14 +169,31 @@ def calculate_acute(
     operations. ``df`` is expected to contain columns ``DRG``, ``LOS``,
     ``ICU_HOURS``, ``ICU_OTHER``, ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
     """
-    if ref_dir is None:
-        ref_dir = sas_ref_dir(year)
+    contract = contract or build_acute_contract(
+        params=params,
+        year=year,
+        ref_dir=ref_dir,
+        reference_bundle=reference_bundle,
+    )
+    validate_acute_input_frame(df, contract)
+    params = contract.params
+    year = contract.year
+    reference_bundle = contract.reference_bundle or _resolve_acute_reference_bundle(
+        year=year,
+        ref_dir=ref_dir,
+        reference_bundle=reference_bundle,
+    )
+    ref_dir = reference_bundle.ref_dir
     suffix = str(year)[-2:]
     nwau_col = f"NWAU{suffix}"
     ra = ra_suffix(year)
     ra_year = ra[2:]
 
-    weights = _load_price_weights(ref_dir, year)
+    weights = (
+        reference_bundle.weights.copy()
+        if reference_bundle.weights is not None
+        else _load_price_weights(ref_dir, year)
+    )
     sample_drgs = {"801A", "801B", "801C"}
     if set(weights.get("DRG", [])) <= sample_drgs and len(weights) <= 3:
         path_25 = (
