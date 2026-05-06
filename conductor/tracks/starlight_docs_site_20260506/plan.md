@@ -15,7 +15,7 @@
     - [x] Add the new track to the registry and context index
 - [x] Task: Conductor - Automated Review and Checkpoint 'Roadmap, Versioning, and Site Contract' (Protocol in workflow.md)
 
-## Phase 2: Scaffold and Content Migration
+## Phase 2: Scaffold and Content Migration [checkpoint: 4c43ed3]
 
 - [x] Task: Write tests for the site scaffold and content layout
     - [x] Check that the docs source tree resolves as expected
@@ -29,7 +29,7 @@
     - [x] Move or mirror the current markdown documentation into the site content tree
     - [x] Preserve provenance and cross-links
     - [x] Add the initial versioned documentation structure
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Scaffold and Content Migration' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Scaffold and Content Migration' (Protocol in workflow.md)
 
 ## Phase 3: De-implementation and Deployment
 
