@@ -14,7 +14,8 @@ Current repository evidence shows:
 - Dependency groups separate `ruff`, `pytest`, `pytest-cov`, `ty`, `hypothesis`, `mutmut`, `scalene`, and `vale`.
 - Tests use `pytest`.
 - Linting uses `ruff`.
-- Type checking uses `ty`.
+- Type checking uses `ty` for the active quality gate.
+- `mypy` remains a transitional comparator until the migration is complete.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
 - The CLI is exposed through the `funding-calculator` entry point and still depends on the legacy dependency surface during the migration.
 
@@ -93,6 +94,10 @@ Use mutmut for mutation testing of core calculation logic, especially arithmetic
 Use Scalene for profiling performance and memory behavior during calculator execution, extraction workflows, and DataFrame conversion paths.
 
 Use `ty` instead of `mypy` for Python type checking. Treat `mypy` as transitional only until the migration is complete.
+
+Codecov is the coverage reporting gate for CI. Local coverage runs should
+produce the same XML artifact that the workflow uploads so the report remains
+stable across the active Python matrix.
 
 Use Ruff for linting and formatting unless a future decision explicitly replaces it.
 

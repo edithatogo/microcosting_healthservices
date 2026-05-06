@@ -14,12 +14,17 @@ uv sync --group dev --group test --group coverage --group typing --group propert
 The SAS calculators for each pricing year should be extracted under
 `archive/sas/<YEAR>/` so the modules can read the reference tables.
 
-Development targets Python 3.10 through 3.14. The current tooling stack uses
-`uv`, `Ruff`, `pytest`, `pytest-cov`, `ty`, `Codecov`, `Hypothesis`,
+Development targets Python 3.10 through 3.14. The current quality-gate stack
+uses `uv`, `Ruff`, `pytest`, `pytest-cov`, `ty`, `Codecov`, `Hypothesis`,
 `mutmut`, `Scalene`, and on-demand `Vale` alongside the calculator
-libraries. The calculator implementation still uses pandas in places, while
-the longer-term data stack is moving toward Arrow-backed interchange and
-Polars where parity work allows it.
+libraries. `ty` is the active type checker in this phase; `mypy` remains only
+as a transitional comparator while the migration is completed. Codecov is fed
+by the XML coverage artifact produced in CI so the same report can be reviewed
+in the UI and in local runs.
+
+The calculator implementation still uses pandas in places, while the
+longer-term data stack is moving toward Arrow-backed interchange and Polars
+where parity work allows it.
 
 ## Data preparation
 

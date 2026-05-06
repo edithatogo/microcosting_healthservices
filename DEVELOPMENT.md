@@ -21,16 +21,19 @@ uv run scalene nwau_py/cli/main.py
 uv run --with vale vale conductor README.md docs
 ```
 
-Codecov consumes the generated coverage report in CI. Keep local coverage runs
-focused on the packages that own calculator behavior so the uploaded report
-remains meaningful.
+Codecov consumes the XML coverage report produced in CI. Keep local coverage
+runs focused on the packages that own calculator behavior so the uploaded
+report stays representative of the calculator surface under validation.
 
 ## Tooling Notes
 
 - **Ruff** handles linting and formatting.
-- **ty** is the preferred type checker.
+- **ty** is the active type checker for the current phase.
+- **mypy** is transitional only and remains in the repo as a comparator while
+  the `ty` migration is being completed.
 - **pytest** runs the test suite.
-- **pytest-cov** records coverage for Codecov.
+- **pytest-cov** records coverage for Codecov and keeps the CI gate aligned
+  with the uploaded XML report.
 - **Hypothesis** is used for property-based tests around calculator contracts.
 - **mutmut** is reserved for targeted mutation testing on pure calculation
   code.

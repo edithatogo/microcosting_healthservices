@@ -6,10 +6,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT_FILE = ROOT / "pyproject.toml"
 LOCK_FILE = ROOT / "uv.lock"
+CODECOV_FILE = ROOT / ".github" / "codecov.yml"
 PR_CI_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "pr-ci.yml"
 SLOW_VALIDATION_WORKFLOW_FILE = (
     ROOT / ".github" / "workflows" / "slow-validation.yml"
 )
+TY_FILE = ROOT / "ty.toml"
+DEVELOPMENT_FILE = ROOT / "DEVELOPMENT.md"
+PACKAGE_README_FILE = ROOT / "nwau_py" / "README.md"
 CONDUCTOR_WORKFLOW_FILE = ROOT / "conductor" / "workflow.md"
 
 EXPECTED_GROUP_PACKAGES = {
@@ -77,6 +81,39 @@ def test_uv_lock_records_the_supported_python_window_and_tooling_packages():
     )
 
 
+def test_codecov_configuration_pins_the_current_coverage_contract():
+    codecov = _read_text(CODECOV_FILE)
+
+    assert "coverage:" in codecov
+    assert "range: 80..100" in codecov
+    assert "round: down" in codecov
+    assert "precision: 2" in codecov
+
+
+def test_ty_toml_matches_the_current_top_level_shape():
+    ty_config = _load_toml(TY_FILE)
+
+    assert set(ty_config) == {"environment", "src", "analysis"}
+
+    environment = ty_config["environment"]
+    assert isinstance(environment, dict)
+    assert environment["python-version"] == "3.11"
+    assert environment["root"] == [".", "./src", "./excel_calculator/src"]
+
+    src = ty_config["src"]
+    assert isinstance(src, dict)
+    assert src["include"] == ["nwau_py", "src", "excel_calculator/src"]
+
+    analysis = ty_config["analysis"]
+    assert isinstance(analysis, dict)
+    assert analysis["replace-imports-with-any"] == [
+        "pandas.**",
+        "numpy.**",
+        "pyreadstat.**",
+        "lightgbm.**",
+    ]
+
+
 def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
     workflow = _read_text(PR_CI_WORKFLOW_FILE)
 
@@ -142,3 +179,25 @@ def test_conductor_workflow_documents_the_target_uv_command_sequence():
     assert "uv run pytest" in workflow
     assert coverage_command in workflow
     assert "uv run vale conductor README.md docs" in workflow
+
+
+def test_development_docs_pin_the_current_tooling_contract():
+    development = _read_text(DEVELOPMENT_FILE)
+    readme = _read_text(PACKAGE_README_FILE)
+
+    assert (
+        "uv sync --group dev --group test --group coverage --group typing "
+        "--group property --group mutation --group profiling --group docs"
+        in development
+    )
+    assert "uv run ty check" in development
+    assert "uv run --with vale vale conductor README.md docs" in development
+    assert "Codecov consumes the XML coverage report produced in CI" in development
+
+    assert (
+        "uv sync --group dev --group test --group coverage --group typing "
+        "--group property --group mutation --group profiling --group docs"
+        in readme
+    )
+    assert "Codecov" in readme
+    assert "ty" in readme
