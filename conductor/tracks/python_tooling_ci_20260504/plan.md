@@ -16,7 +16,7 @@
 - [x] Task: Write CI checks for quality tools [435716a]
     - [x] Verify `ruff format --check`, `ruff check`, `ty check`, `pytest`, and coverage commands run locally in the intended CI order
     - [x] Verify Codecov upload is configured
-- [x] Task: Add quality tooling [435716a]
+- [x] Task: Add quality tooling [b4893ee]
     - [x] Configure Codecov
     - [x] Configure ty
     - [x] Document `mypy` as transitional only while `ty` becomes the forward path
