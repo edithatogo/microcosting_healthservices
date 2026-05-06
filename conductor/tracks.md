@@ -50,7 +50,8 @@ This file tracks the delivery order for the project. The focused tracks below ar
 
 ## Umbrella Coordination
 
-- **Modernization Foundation**: [./tracks/modernization_foundation_20260504/](./tracks/modernization_foundation_20260504/)
-  - Coordination only.
-  - Retained to preserve sequencing and governance context.
-  - Do not duplicate work already owned by the focused tracks above.
+- [x] **Track: Modernization Foundation**
+  *Link: [./tracks/modernization_foundation_20260504/](./tracks/modernization_foundation_20260504/)*
+  *Coordination only.*
+  *Retained to preserve sequencing and governance context.*
+  *Do not duplicate work already owned by the focused tracks above.*
