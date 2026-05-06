@@ -4,7 +4,7 @@ The preferred development workflow is `uv`-based and keeps the local
 environment aligned with the repo's approved stack.
 
 ```bash
-uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 ```
 
 ## Day-to-day Commands
@@ -57,11 +57,14 @@ control.
 
 ## Dependency Notes
 
-The current calculator implementation depends on several core libraries:
+The current calculator implementation still uses pandas-based paths and depends
+on several core libraries:
 
-- **NumPy** and **Pandas** for existing data handling paths
+- **NumPy** for numerical helpers
+- **Pandas** for legacy data handling paths that remain under parity validation
+- **Polars** and **PyArrow** for Arrow/Parquet interoperability and the newer
+  bundle layer
 - **LightGBM** for readmission risk scoring
-- **PyArrow** (optional) for Arrow/Parquet interoperability and cached tables
 
 The repository is standardizing on `uv` for dependency management and on the
 Python 3.10 to 3.14 support window described in the project docs. The longer-

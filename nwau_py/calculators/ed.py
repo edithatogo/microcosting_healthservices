@@ -60,7 +60,7 @@ def calculate_ed(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Translate ``NWAU25_CALCULATOR_ED.sas`` using pandas."""
+    """Implement ``NWAU25_CALCULATOR_ED.sas`` against loaded reference tables."""
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]

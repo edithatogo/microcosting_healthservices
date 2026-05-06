@@ -7,7 +7,7 @@ The module keeps bundle selection narrow and explicit:
 - `resolve_reference_bundle` selects exactly one bundle manifest and validates
   its identity and required metadata.
 - `ReferenceBundle` is a strict, immutable manifest view that stays free of
-  pandas or calculator implementation dependencies.
+  table-engine or calculator implementation dependencies.
 """
 
 from __future__ import annotations

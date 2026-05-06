@@ -49,10 +49,11 @@ def calculate_subacute(
 ) -> pd.DataFrame:
     """Calculate NWAU25 for subacute episodes.
 
-    This function mirrors ``NWAU25_CALCULATOR_SUBACUTE.sas``. ``df`` should
-    contain at least the columns ``ANSNAP``, ``ADM_DATE``, ``SEP_DATE``,
-    ``LEAVE_DAYS`` and ``BIRTH_DATE``. Private/public flags are expected in
-    ``PAT_PRIVATE_FLAG`` and ``PAT_PUBLIC_FLAG``.
+    This function mirrors ``NWAU25_CALCULATOR_SUBACUTE.sas`` through loaded
+    reference tables. ``df`` should contain at least the columns ``ANSNAP``,
+    ``ADM_DATE``, ``SEP_DATE``, ``LEAVE_DAYS`` and ``BIRTH_DATE``.
+    Private/public flags are expected in ``PAT_PRIVATE_FLAG`` and
+    ``PAT_PUBLIC_FLAG``.
     """
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)

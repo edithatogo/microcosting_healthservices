@@ -8,7 +8,7 @@ The project is standardizing on `uv` for local development and validation.
 Install and sync the environment with:
 
 ```bash
-uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 ```
 
 The SAS calculators for each pricing year should be extracted under

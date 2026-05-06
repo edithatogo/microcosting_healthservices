@@ -23,8 +23,8 @@ def calculate_adjusted_nwau(
 
     Parameters
     ----------
-    df : pd.DataFrame
-        Input data containing base NWAU and adjustment columns.
+    df
+        Input table containing base NWAU and adjustment columns.
     base_nwau_col : str, default ``"nwau25"``
         Column with the unadjusted NWAU amount.
     weight_col : str, default ``"_w01"``
@@ -44,7 +44,7 @@ def calculate_adjusted_nwau(
         suppressed.
     error_col : str, optional
         Column used to zero HAC adjustments when non-zero.
-    complexity_df : :class:`pandas.DataFrame`, optional
+    complexity_df
         Mapping of complexity score to risk category for each HAC.
     ahr_flag_cols, ahr_adj_cols : sequence of str, optional
         Pairs of flag and adjustment columns for AHR categories.
@@ -54,7 +54,7 @@ def calculate_adjusted_nwau(
 
     Returns
     -------
-    pd.DataFrame
+    tabular frame
         ``df`` with new columns ``nwau25_adjusted`` and risk adjustment
         diagnostics such as ``AHRgroup`` and ``HACgroup``. When
         ``complexity_df`` is supplied ``complexity`` and ``complexityGroup`` are

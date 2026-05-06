@@ -33,7 +33,7 @@ Accuracy is the highest priority. If a simpler implementation conflicts with ver
 
 Source traceability is required. Calculator logic, weights, formulas, and adjustment behavior should be linked back to the relevant SAS, Excel, or supporting reference source wherever practical.
 
-Validation status must be explicit. Supported pricing years should distinguish between archived source availability, extracted weights and formulas, and fully validated Python output.
+Validation status must be explicit. Supported pricing years should distinguish between archived source availability, extracted weights and formulas, and Python output that has an evidence-backed validation record.
 
 The Python implementation should remain practical to use. The CLI and package API should make common batch calculation workflows straightforward while preserving the underlying calculator detail needed for auditability.
 

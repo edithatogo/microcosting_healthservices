@@ -9,7 +9,7 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - The migration is underway.
 - Legacy compatibility files and tools still exist in the repository snapshot this track is documenting, but they are transitional rather than authoritative.
 - The track should describe the intended toolchain explicitly so the implementation work can replace the transitional surface without ambiguity.
-- Phase 2, Fast Quality Gates, is now the active focus. The quality-tooling changes are ready, and this phase now documents the finalized CI/tooling contract rather than the transitional setup.
+- Phase 4, Maintenance Automation and Prose Quality, is complete. The Renovate/Vale contract is finalized and the remaining text now serves as the authoritative record for that tooling surface.
 
 ## Requirements
 
@@ -22,7 +22,7 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - Renovate must propose dependency and GitHub Actions updates.
 - Vale must lint documentation prose and validation claims.
 - The docs should distinguish transitional compatibility artifacts from the intended migrated toolchain in every acceptance statement.
-- Phase 3's validation-jobs slice is complete once the workflow/test changes are ready; the remaining checkpoint is the user-manual verification task.
+- Phase 3's validation-jobs slice is complete and documented as such in the plan.
 
 ## Acceptance Criteria
 

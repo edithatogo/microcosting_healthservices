@@ -6,7 +6,8 @@ This module keeps the CLI-facing boundary small:
 - call a calculator callable with the loaded table and runtime parameters;
 - write the resulting table back to CSV using a caller-provided writer.
 
-The helper stays free of calculator math and does not depend on pandas.
+The helper stays free of calculator math and does not depend on a specific
+tabular backend.
 """
 
 from __future__ import annotations

@@ -190,29 +190,32 @@ def test_development_docs_pin_the_current_tooling_contract():
     development = _read_text(DEVELOPMENT_FILE)
     root_readme = _read_text(ROOT_README_FILE)
     readme = _read_text(PACKAGE_README_FILE)
+    normalized_development = " ".join(development.split())
+    normalized_root_readme = " ".join(root_readme.split())
+    normalized_readme = " ".join(readme.split())
 
     assert (
-        "uv sync --group dev --group test --group coverage --group typing "
+        "uv sync --locked --group dev --group test --group coverage --group typing "
         "--group property --group mutation --group profiling --group docs"
-        in development
+        in normalized_development
     )
-    assert "uv run ty check" in development
-    assert "uv run --with vale vale conductor README.md docs" in development
-    assert "Codecov consumes the XML coverage report produced in CI" in development
+    assert "uv run ty check" in normalized_development
+    assert "uv run --with vale vale conductor README.md docs" in normalized_development
+    assert "Codecov consumes the XML coverage report produced in CI" in normalized_development
 
     assert (
         "uv run pytest --cov=nwau_py --cov-report=term-missing "
         "--cov-report=xml --cov-fail-under=80"
-        in root_readme
+        in normalized_root_readme
     )
 
     assert (
-        "uv sync --group dev --group test --group coverage --group typing "
+        "uv sync --locked --group dev --group test --group coverage --group typing "
         "--group property --group mutation --group profiling --group docs"
-        in readme
+        in normalized_readme
     )
-    assert "Codecov" in readme
-    assert "ty" in readme
+    assert "Codecov" in normalized_readme
+    assert "ty" in normalized_readme
 
 
 def test_mypy_ini_documents_the_transitional_comparator_note():

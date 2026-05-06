@@ -52,10 +52,10 @@ Any validation claim should be backed by a structured record with at least these
 - Reviewer or approver, when human sign-off is required.
 - Result summary and linked evidence location.
 
-Prefer precise claims such as "2024 acute output-parity validated against fixture pack `acute-2024-v3`" or "fixture manifest `acute-2024-v3` is cross-language ready" rather than broad statements like "supports 2024".
+Prefer precise claims such as "2024 acute output-parity validated against fixture pack `acute-2024-v3`" or "fixture manifest `acute-2024-v3` is cross-language ready" rather than broad year-level support claims.
 
 ## Claims Policy
 
-Do not use broad language such as "supports 2024" unless the support type is stated and the evidence record is available.
+Do not use broad year-level support language unless the support type is stated and the evidence record is available.
 
 If SAS, Excel, and another reference source disagree, document the disagreement and identify which source is treated as authoritative for the affected behavior.

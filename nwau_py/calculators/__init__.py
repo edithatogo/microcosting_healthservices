@@ -1,4 +1,4 @@
-"""Funding calculators."""
+"""Calculator entry points and contract types."""
 
 from .acute import (
     AcuteCalculationContract,

@@ -5,8 +5,11 @@ calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
 logic. The implementation is being brought into explicit parity with the
 official SAS calculators, but validation is tracked per calculator and year
-rather than claimed as complete across the whole repository. A lightweight
-command line interface is available via the `funding-calculator` script.
+rather than claimed as complete across the whole repository. The current
+implementation still uses pandas-based paths, while the longer-term data
+stack is moving toward Arrow-backed interchange and Polars where parity work
+allows it. A lightweight command line interface is available via the
+`funding-calculator` script.
 
 ## Calculator modules
 
@@ -14,7 +17,7 @@ Each module below mirrors a SAS program from the IHACPA package.
 
 | Module | SAS source | Notes |
 |-------|-----------|-------|
-|`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using pandas operations.|
+|`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using the current tabular Python execution paths.|
 |`ed`|`NWAU25_CALCULATOR_ED.sas`|Handles Emergency Department/Service activity. Supports UDG and AECC classifications with remoteness and indigenous adjustments.|
 |`mh`|`NWAU25_CALCULATOR_MH.sas`|Implements the mental health consumer model. Applies private patient services and accommodation adjustments.|
 |`subacute`|`NWAU25_CALCULATOR_SUBACUTE.sas`|Calculates NWAU25 for subacute admitted activity based on SNAP.|
@@ -51,7 +54,7 @@ material.
 The preferred development workflow uses `uv`:
 
 ```bash
-uv sync
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 ```
 
 Extract the official SAS calculators under `archive/sas/<YEAR>/` so the
@@ -61,9 +64,10 @@ Python modules can load the reference tables for each year.
 
 The calculators rely on several core Python packages:
 
-- **NumPy** and **Pandas** for data manipulation
+- **NumPy** for numerical helpers
+- **Pandas** for legacy tabular paths that remain under parity validation
+- **Polars** and **PyArrow** for Arrow/Parquet interoperability and the newer bundle layer
 - **LightGBM** for readmission risk scoring
-- **PyArrow** (optional) to cache SAS tables in Parquet format
 
 The active development stack also uses:
 
@@ -287,7 +291,7 @@ The calculators can also be called directly from Python:
 ```python
 from nwau_py.calculators import AcuteParams, calculate_acute
 
-patient_df = ...  # pandas DataFrame containing your episode level data
+patient_df = ...  # tabular episode-level data frame
 result = calculate_acute(patient_df, AcuteParams())
 ```
 
@@ -297,7 +301,7 @@ Additional modules under `nwau_py.calculators` provide helpers for acute, emerge
 
 #### Calculator examples
 
-The individual calculators can be invoked directly when you need fine grained control. Each function expects a pandas DataFrame and returns the input with an additional `NWAU25` column.
+The individual calculators can be invoked directly when you need fine grained control. Each function expects a tabular input frame and returns the input with an additional `NWAU25` column.
 
 ```python
 from nwau_py.calculators import AcuteParams, calculate_acute

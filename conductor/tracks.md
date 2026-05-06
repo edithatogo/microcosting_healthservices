@@ -13,7 +13,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: source archive manifesting and known-good reference artifacts.*
    *Gate: define validation evidence and fixture contracts before broad tooling or architecture migrations.*
 
-3. [ ] **Track: Python Tooling and CI Modernization**
+3. [x] **Track: Python Tooling and CI Modernization**
    *Link: [./tracks/python_tooling_ci_20260504/](./tracks/python_tooling_ci_20260504/)*
    *Depends on: source archive provenance and validation fixture shape.*
    *Gate: lock the supported Python/tooling matrix, CI, coverage, type checking, linting, and profiling entry points before larger refactors.*

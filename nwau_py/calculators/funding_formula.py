@@ -1,4 +1,4 @@
-"""Helpers for applying Excel-derived funding formulae."""
+"""Helpers for evaluating formula contracts against tabular weight inputs."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from pandas import DataFrame
 
 
 def load_weights(csv_path: str | bytes | os.PathLike[str]) -> DataFrame:
-    """Load a weight table from ``csv_path`` replacing newlines in headers."""
+    """Load a weight table from ``csv_path`` and normalize header text."""
     df = pd.read_csv(csv_path, engine="python")
     df.columns = [
         c.replace("\n", " ").strip() if isinstance(c, str) else c for c in df.columns
@@ -20,13 +20,13 @@ def load_weights(csv_path: str | bytes | os.PathLike[str]) -> DataFrame:
 
 
 def load_formula(json_path: str | bytes | os.PathLike[str]) -> dict[str, Any]:
-    """Return the JSON funding formula from ``json_path``."""
+    """Return the JSON formula contract from ``json_path``."""
     with open(json_path) as fh:
         return json.load(fh)
 
 
 def calculate_funding(weights_df: DataFrame, formula: dict[str, Any]) -> pd.Series:
-    """Evaluate ``formula`` against ``weights_df``."""
+    """Evaluate ``formula`` against ``weights_df`` using the declared symbols."""
     env = {sym: weights_df[col] for sym, col in formula["variables"].items()}
     for step in formula["steps"]:
         lhs, expr = step.split("=")

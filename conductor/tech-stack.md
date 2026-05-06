@@ -1,6 +1,6 @@
 # Tech Stack
 
-## Transitional Repository State
+## Current Repository State
 
 The repository still contains a transitional Python package and CLI surface for IHACPA NWAU calculator parity. This section records the current evidence that the modernization track is replacing or normalizing.
 
@@ -9,15 +9,15 @@ Current repository evidence shows:
 - Python package metadata in `pyproject.toml`.
 - Python runtime requirement currently declared as `>=3.10,<3.15`.
 - `setuptools` build backend.
-- Runtime dependencies currently include `click`, `lightgbm`, `numpy`, `pandas`, `pyarrow`, `pydantic`, `pyreadstat`, and `pyxlsb`.
+- Runtime dependencies currently include `click`, `lightgbm`, `numpy`, `pandas`, `polars`, `pyarrow`, `pydantic`, `pyreadstat`, and `pyxlsb`.
 - `pyarrow` is present in the current tooling surface as an optional cache/storage dependency.
-- Dependency groups separate `ruff`, `pytest`, `pytest-cov`, `ty`, `hypothesis`, `mutmut`, `scalene`, and `vale`.
+- Dependency groups separate `dev`, `test`, `coverage`, `typing`, `property`, `mutation`, `profiling`, and `docs`, which provision Ruff, pytest, pytest-cov, ty, Hypothesis, mutmut, Scalene, and Vale.
 - Tests use `pytest`.
 - Linting uses `ruff`.
 - Type checking uses `ty` for the active quality gate.
 - `mypy` remains a transitional comparator until the migration is complete.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
-- The CLI is exposed through the `funding-calculator` entry point and still depends on the legacy dependency surface during the migration.
+- The CLI is exposed through the `funding-calculator` entry point.
 
 ## Target Platform
 

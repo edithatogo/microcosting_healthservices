@@ -7,6 +7,7 @@
 - [Data Governance](./data-governance.md)
 - [Source Archive Policy](./source-archive.md)
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)
+- [Calculator Core Boundary ADR](../docs/adr/0006-calculator-core-boundary.md)
 - [Public Calculator API Contract](./public-api-contract.md)
 - [GitHub Pages Web Architecture](./web-architecture.md)
 - [C# Calculation Engine Architecture](./csharp-architecture.md)

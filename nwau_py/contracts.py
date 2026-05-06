@@ -5,9 +5,9 @@ The models in this module stay deliberately narrow:
 - They validate calculator identifiers and pricing-year labels using the
   repository's existing edition naming convention.
 - They record schema metadata and required columns without depending on pandas
-  or any calculator implementation.
+  or any calculator implementation backend.
 - They expose small helpers that adapter layers can use before handing data to
-  a specific runtime or backend.
+  a specific runtime, storage format, or table engine.
 """
 
 from __future__ import annotations

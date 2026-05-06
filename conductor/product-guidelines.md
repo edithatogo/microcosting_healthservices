@@ -62,7 +62,7 @@ Power Platform integration should keep app orchestration separate from the calcu
 
 ## Validation Claims
 
-Validation claims must use precise language. Prefer terms such as source parity, output parity, regression parity, and cross-engine parity over broad claims that a year or calculator is simply "supported."
+Validation claims must use precise language. Prefer terms such as source parity, output parity, regression parity, cross-engine parity, fixture parity, and manifest parity over broad claims that a year or calculator is simply "supported."
 
 If source materials disagree, documentation should identify the disagreement, the chosen authority, and the reason for that choice.
 

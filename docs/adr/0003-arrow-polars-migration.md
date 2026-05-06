@@ -8,6 +8,9 @@ Proposed
 
 The current implementation uses pandas broadly. The target stack prefers Polars and Arrow-backed data for performance, cross-library compatibility, and cleaner data bundle boundaries.
 
+This migration sits behind the accepted bundle boundary in ADR 0002 and the
+calculator core boundary in ADR 0006.
+
 ## Decision
 
 Migrate in phases. Use Arrow/Parquet as the canonical persisted data bundle format, introduce Polars behind stable interfaces, and protect each migration with source and output parity fixtures.
@@ -15,4 +18,3 @@ Migrate in phases. Use Arrow/Parquet as the canonical persisted data bundle form
 ## Consequences
 
 The project avoids a broad behavioral rewrite while making the desired data architecture explicit.
-

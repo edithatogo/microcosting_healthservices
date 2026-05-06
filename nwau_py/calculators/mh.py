@@ -15,12 +15,12 @@ class MHParams:
     """Configuration options for the mental health calculator."""
 
     # ``ppsa_option`` selects whether the private patient service adjustment is
-    # applied using the national (1) or state level (2) tables.
+    # applied using the national (1) or state-level (2) reference tables.
     ppsa_option: int = 1
 
     # Flags indicating whether admitted and community substreams should be
-    # processed.  Both are enabled by default to mimic the SAS template program
-    # behaviour.
+    # processed. Both are enabled by default to match the source calculator
+    # defaults.
     adm_sstream: int = 1
     cmty_sstream: int = 1
     remoteness_distribution: dict[str, float] | None = None
@@ -63,10 +63,10 @@ def calculate_mh(
 ) -> pd.DataFrame:
     """Calculate mental health NWAU.
 
-    This function mirrors the logic of ``NWAU25_CALCULATOR_MH.sas`` using
-    pandas operations.  The input dataframe should contain the patient level
-    variables referenced below (e.g. ``AMHCC``, ``LOS``, ``PAT_PRIVATE_FLAG``
-    etc.).
+    This function mirrors the logic of ``NWAU25_CALCULATOR_MH.sas`` through
+    loaded reference tables and tabular joins. The input frame should contain
+    the patient-level variables referenced below (e.g. ``AMHCC``, ``LOS``,
+    ``PAT_PRIVATE_FLAG`` etc.).
     """
 
     if ref_dir is None:

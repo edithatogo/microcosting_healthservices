@@ -165,9 +165,10 @@ def calculate_acute(
 ) -> pd.DataFrame:
     """Calculate NWAU25 for acute admitted episodes.
 
-    This function mirrors ``NWAU25_CALCULATOR_ACUTE.sas`` using pandas
-    operations. ``df`` is expected to contain columns ``DRG``, ``LOS``,
-    ``ICU_HOURS``, ``ICU_OTHER``, ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
+    This function mirrors ``NWAU25_CALCULATOR_ACUTE.sas`` through the acute
+    calculator contract and its resolved reference bundle. ``df`` is expected
+    to contain columns ``DRG``, ``LOS``, ``ICU_HOURS``, ``ICU_OTHER``,
+    ``PAT_SAMEDAY_FLAG`` and ``PAT_PRIVATE_FLAG``.
     """
     contract = contract or build_acute_contract(
         params=params,

@@ -201,7 +201,7 @@ def calculate_outpatients(
     year: str = _DEFAULT_YEAR,
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
-    """Calculate NWAU25 for outpatient activity."""
+    """Calculate NWAU25 for outpatient activity using resolved reference data."""
 
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)

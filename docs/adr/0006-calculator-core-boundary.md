@@ -1,4 +1,4 @@
-# ADR 0002: Calculator Core Boundary
+# ADR 0006: Calculator Core Boundary
 
 ## Status
 
@@ -15,4 +15,3 @@ Define calculator behavior around explicit contracts: parameter models, input sc
 ## Consequences
 
 The project can build multiple delivery surfaces while preserving shared golden tests and traceability.
-
