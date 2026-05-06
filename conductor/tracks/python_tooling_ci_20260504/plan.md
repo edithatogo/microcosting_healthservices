@@ -24,10 +24,10 @@
 
 ## Phase 3: Advanced Validation Jobs
 
-- [x] Task: Add focused tests for Hypothesis strategies and mutmut configuration
+- [x] Task: Add focused tests for Hypothesis strategies and mutmut configuration [1f9c8f8]
     - [x] Cover calculator invariants and boundary conditions
     - [x] Define mutation target modules
-- [x] Task: Add scheduled or manual jobs for Hypothesis, mutmut, and Scalene
+- [x] Task: Add scheduled or manual jobs for Hypothesis, mutmut, and Scalene [1f9c8f8]
     - [x] Keep normal PR feedback fast
     - [x] Store profiling output outside source files
 - [ ] Task: Conductor - User Manual Verification 'Advanced Validation Jobs' (Protocol in workflow.md)
