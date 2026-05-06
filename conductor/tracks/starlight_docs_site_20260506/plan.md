@@ -31,34 +31,34 @@
     - [x] Add the initial versioned documentation structure
 - [x] Task: Conductor - Automated Review and Checkpoint 'Scaffold and Content Migration' (Protocol in workflow.md)
 
-## Phase 3: De-implementation and Deployment
+## Phase 3: De-implementation and Deployment [checkpoint: f82cd6f]
 
-- [ ] Task: Write tests for the deployment and de-implementation path
-    - [ ] Check that the legacy docs entry points are no longer authoritative
-    - [ ] Check that the GitHub Actions build/deploy workflow is defined
-    - [ ] Check that the site can be built for GitHub Pages
-- [ ] Task: Remove or redirect the legacy docs entry points
-    - [ ] Retire temporary docs bootstrap files
-    - [ ] Replace duplicate entry points with the Starlight site
-    - [ ] Keep redirects or migration notes where they are needed
-- [ ] Task: Add and stabilize GitHub Actions deployment
-    - [ ] Add build, link-check, and deployment jobs
-    - [ ] Review failing checks until they pass
-    - [ ] Verify the GitHub Pages publish path
-- [ ] Task: Conductor - Automated Review and Checkpoint 'De-implementation and Deployment' (Protocol in workflow.md)
+- [x] Task: Write tests for the deployment and de-implementation path
+    - [x] Check that the legacy docs entry points are no longer authoritative
+    - [x] Check that the GitHub Actions build/deploy workflow is defined
+    - [x] Check that the site can be built for GitHub Pages
+- [x] Task: Remove or redirect the legacy docs entry points
+    - [x] Retire temporary docs bootstrap files
+    - [x] Replace duplicate entry points with the Starlight site
+    - [x] Keep redirects or migration notes where they are needed
+- [x] Task: Add and stabilize GitHub Actions deployment
+    - [x] Add build, link-check, and deployment jobs
+    - [x] Review failing checks until they pass
+    - [x] Verify the GitHub Pages publish path
+- [x] Task: Conductor - Automated Review and Checkpoint 'De-implementation and Deployment' (Protocol in workflow.md)
 
-## Phase 4: Refinement and Feature Completion
+## Phase 4: Refinement and Feature Completion [checkpoint: f82cd6f]
 
-- [ ] Task: Write tests for the docs-site features that must be exercised
-    - [ ] Verify version switcher or version navigation behavior
-    - [ ] Verify search behavior
-    - [ ] Verify any generated API-doc pages if adopted
-- [ ] Task: Refine the website until the planned features are actually used
-    - [ ] Tighten navigation, landing pages, and cross-links
-    - [ ] Exercise the chosen plugins in the published site
-    - [ ] Improve accessibility and mobile behavior
-- [ ] Task: Finalize docs-site governance and handoff
-    - [ ] Record the versioning and plugin decisions in conductor docs
-    - [ ] Document how the site is deployed and maintained
-    - [ ] Confirm the site is ready for continued content growth
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Refinement and Feature Completion' (Protocol in workflow.md)
+- [x] Task: Write tests for the docs-site features that must be exercised
+    - [x] Verify version switcher or version navigation behavior
+    - [x] Verify search behavior
+    - [x] Verify any generated API-doc pages if adopted
+- [x] Task: Refine the website until the planned features are actually used
+    - [x] Tighten navigation, landing pages, and cross-links
+    - [x] Exercise the chosen plugins in the published site
+    - [x] Improve accessibility and mobile behavior
+- [x] Task: Finalize docs-site governance and handoff
+    - [x] Record the versioning and plugin decisions in conductor docs
+    - [x] Document how the site is deployed and maintained
+    - [x] Confirm the site is ready for continued content growth
+- [x] Task: Conductor - Automated Review and Checkpoint 'Refinement and Feature Completion' (Protocol in workflow.md)
