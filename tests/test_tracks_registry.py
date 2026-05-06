@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 TRACKS = Path(__file__).resolve().parents[1] / "conductor" / "tracks.md"
 
 
@@ -19,6 +18,7 @@ def test_tracks_registry_orders_the_focused_tracks():
         "C# Calculation Engine and Power Platform Adapter",
         "Release and Supply-Chain Governance",
         "Starlight Documentation Site and Versioning",
+        "Ecosystem Standards and Language Readiness",
     ]
 
     positions = [text.index(name) for name in expected]
@@ -35,8 +35,23 @@ def test_tracks_registry_records_dependency_and_gate_language():
         "Depends on: calculator core abstractions and golden fixtures.",
         "Depends on: calculator core abstractions and stable validation fixtures.",
         "Depends on: public API contract, validation fixtures, and governance rules",
-        "Depends on: public API contract, calculator core abstractions, and golden fixtures.",
+        (
+            "Depends on: public API contract, calculator core abstractions, "
+            "and golden fixtures."
+        ),
         "Depends on: CI, validation evidence, and contract stability.",
-        "Depends on: public calculator contracts, validation vocabulary, docs governance, and GitHub Pages delivery rules.",
+        (
+            "Depends on: public calculator contracts, validation vocabulary, "
+            "docs governance, and GitHub Pages delivery rules."
+        ),
+        (
+            "Depends on: public calculator contracts, golden fixtures, release "
+            "governance, Starlight documentation, and Power Platform boundary "
+            "documentation."
+        ),
+        (
+            "Gate: assess scientific software standards, language packaging "
+            "maturity, C# and Power Platform implementation readiness"
+        ),
     ]:
         assert phrase in text
