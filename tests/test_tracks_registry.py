@@ -18,6 +18,7 @@ def test_tracks_registry_orders_the_focused_tracks():
         "GitHub Pages Web App Prototype",
         "C# Calculation Engine and Power Platform Adapter",
         "Release and Supply-Chain Governance",
+        "Starlight Documentation Site and Versioning",
     ]
 
     positions = [text.index(name) for name in expected]
@@ -36,5 +37,6 @@ def test_tracks_registry_records_dependency_and_gate_language():
         "Depends on: public API contract, validation fixtures, and governance rules",
         "Depends on: public API contract, calculator core abstractions, and golden fixtures.",
         "Depends on: CI, validation evidence, and contract stability.",
+        "Depends on: public calculator contracts, validation vocabulary, docs governance, and GitHub Pages delivery rules.",
     ]:
         assert phrase in text

@@ -23,3 +23,4 @@
 ## Management
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
+- [Starlight Docs Site Track](./tracks/starlight_docs_site_20260506/)

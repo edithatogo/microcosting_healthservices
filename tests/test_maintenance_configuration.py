@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RENOVATE_FILE = ROOT / "renovate.json"
 VALE_STYLE_FILE = ROOT / ".vale" / "styles" / "Project" / "ValidationClaims.yml"
+TECH_STACK_FILE = ROOT / "conductor" / "tech-stack.md"
 
 
 def _read_text(path: Path) -> str:
@@ -95,3 +96,13 @@ def test_vale_validation_claims_style_pins_the_expected_tokens_and_message():
         if line.startswith("  - ")
     ]
     assert tokens == expected_tokens
+
+
+def test_tech_stack_documents_the_starlight_docs_site_contract():
+    tech_stack = _read_text(TECH_STACK_FILE)
+
+    assert "## Starlight Documentation Site" in tech_stack
+    assert "@astrojs/starlight" in tech_stack
+    assert "0.35.2" in tech_stack
+    assert "starlight-links-validator" in tech_stack
+    assert "starlight-openapi" in tech_stack

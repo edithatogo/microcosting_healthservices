@@ -138,6 +138,20 @@ The documentation system should support:
 
 Use Vale for prose linting so documentation remains precise, conservative, and consistent with project terminology.
 
+## Starlight Documentation Site
+
+The public documentation site should be implemented with Astro and Starlight.
+
+Current roadmap assumptions:
+
+- Pin `@astrojs/starlight` to the current stable `0.35.2` baseline initially and let Renovate advance it through reviewable pull requests.
+- Use Starlight on GitHub Pages with a static build output.
+- Treat versioned documentation as a first-class requirement for calculator release and pricing-year docs.
+- Keep the default Pagefind search unless a stronger search service becomes necessary.
+- Include `starlight-links-validator` in CI to catch broken links early.
+- Evaluate `starlight-openapi` if generated API documentation becomes part of the public docs surface.
+- Avoid adding plugins that do not support docs quality, versioning, navigation, or generated reference content.
+
 ## Dependency and Maintenance Automation
 
 Use Renovate to keep dependencies and GitHub Actions current through reviewable pull requests.
