@@ -38,7 +38,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: public API contract, validation fixtures, and governance rules for demo-only flows.*
    *Gate: implement the browser-facing prototype only after a contract and privacy boundary exist.*
 
-8. [ ] **Track: C# Calculation Engine and Power Platform Adapter**
+8. [x] **Track: C# Calculation Engine and Power Platform Adapter**
    *Link: [./tracks/csharp_power_platform_engine_20260504/](./tracks/csharp_power_platform_engine_20260504/)*
    *Depends on: public API contract, calculator core abstractions, and golden fixtures.*
    *Gate: keep Power Platform orchestration separate from the calculation engine and drive parity from shared fixtures.*
