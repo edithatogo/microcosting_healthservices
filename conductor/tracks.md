@@ -43,7 +43,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: public API contract, calculator core abstractions, and golden fixtures.*
    *Gate: keep Power Platform orchestration separate from the calculation engine and drive parity from shared fixtures.*
 
-9. [ ] **Track: Release and Supply-Chain Governance**
+9. [x] **Track: Release and Supply-Chain Governance**
    *Link: [./tracks/release_supply_chain_governance_20260504/](./tracks/release_supply_chain_governance_20260504/)*
    *Depends on: CI, validation evidence, and contract stability.*
    *Gate: add release policy, signed artifacts, dependency automation, and provenance controls after the implementation pipeline is stable.*
