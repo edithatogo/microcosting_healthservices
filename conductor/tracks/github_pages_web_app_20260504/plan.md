@@ -1,35 +1,35 @@
 # Plan: GitHub Pages Web App Prototype
 
-## Phase 1: Demo Architecture and Boundary
+## Phase 1: Demo Architecture and Boundary [checkpoint: c762b81]
 
-- [ ] Task: Write checks for static deployment assumptions
-    - [ ] Verify build output can be served from GitHub Pages
-    - [ ] Verify demo mode depends only on synthetic fixtures and public contract metadata
-    - [ ] Verify no server-only calculation dependency is required for demo mode
-- [ ] Task: Document web architecture
-    - [ ] Define contract-driven UI capabilities
-    - [ ] Define privacy-safe demo data workflow
-    - [ ] Define the secure service boundary for any future real-data workflow outside GitHub Pages
-- [ ] Task: Conductor - User Manual Verification 'Demo Architecture and Boundary' (Protocol in workflow.md)
+- [x] Task: Write checks for static deployment assumptions [c762b81]
+    - [x] Verify build output can be served from GitHub Pages
+    - [x] Verify demo mode depends only on synthetic fixtures and public contract metadata
+    - [x] Verify no server-only calculation dependency is required for demo mode
+- [x] Task: Document web architecture [c762b81]
+    - [x] Define contract-driven UI capabilities
+    - [x] Define privacy-safe demo data workflow
+    - [x] Define the secure service boundary for any future real-data workflow outside GitHub Pages
+- [x] Task: Conductor - User Manual Verification 'Demo Architecture and Boundary' (Protocol in workflow.md) [c762b81]
 
-## Phase 2: Prototype Shell
+## Phase 2: Prototype Shell [checkpoint: c762b81]
 
-- [ ] Task: Write UI smoke tests
-    - [ ] Verify calculator/year selection from metadata
-    - [ ] Verify synthetic fixture execution or display
-    - [ ] Verify real-data entry points are absent from the Pages demo
-- [ ] Task: Build prototype shell
-    - [ ] Add GitHub Pages build/deploy path
-    - [ ] Add fixture-backed demonstration workflow
-    - [ ] Consume public contract metadata for supported calculators and fields
-- [ ] Task: Conductor - User Manual Verification 'Prototype Shell' (Protocol in workflow.md)
+- [x] Task: Write UI smoke tests [c762b81]
+    - [x] Verify calculator/year selection from metadata
+    - [x] Verify synthetic fixture execution or display
+    - [x] Verify real-data entry points are absent from the Pages demo
+- [x] Task: Build prototype shell [c762b81]
+    - [x] Add GitHub Pages build/deploy path
+    - [x] Add fixture-backed demonstration workflow
+    - [x] Consume public contract metadata for supported calculators and fields
+- [x] Task: Conductor - User Manual Verification 'Prototype Shell' (Protocol in workflow.md) [c762b81]
 
-## Phase 3: Secure Real-Data Boundary
+## Phase 3: Secure Real-Data Boundary [checkpoint: c762b81]
 
-- [ ] Task: Write boundary checks for real-data workflows
-    - [ ] Verify real-data requests are routed to a secured service boundary
-    - [ ] Verify the Pages demo does not expose upload or persistence paths for patient data
-- [ ] Task: Document real-data service boundary
-    - [ ] Define how the secure service boundary validates contracts and fixture parity
-    - [ ] Define how the boundary integrates with the public API contract and golden fixtures
-- [ ] Task: Conductor - User Manual Verification 'Secure Real-Data Boundary' (Protocol in workflow.md)
+- [x] Task: Write boundary checks for real-data workflows [c762b81]
+    - [x] Verify real-data requests are routed to a secured service boundary
+    - [x] Verify the Pages demo does not expose upload or persistence paths for patient data
+- [x] Task: Document real-data service boundary [c762b81]
+    - [x] Define how the secure service boundary validates contracts and fixture parity
+    - [x] Define how the boundary integrates with the public API contract and golden fixtures
+- [x] Task: Conductor - User Manual Verification 'Secure Real-Data Boundary' (Protocol in workflow.md) [c762b81]
