@@ -17,6 +17,7 @@ dependencies = [
     "pandas",
     "pyarrow",
     "pydantic",
+    "polars",
     "pyreadstat",
     "pyxlsb",
 ]

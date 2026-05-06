@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "acute_2025",
+  "calculator": "acute",
+  "pricing_year": "2025",
+  "source_artifact_id": "ihacpa-acute-2025-sas",
+  "source_page_url": "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators",
+  "checksum": "d17f47348b6d2a69d2176a0215c8fb11afc2de5063071c81b216e28793bdb785",
+  "backend_neutral": true,
+  "payloads": {
+    "input": {
+      "path": "input.parquet",
+      "format": "parquet",
+      "row_count": 3,
+      "columns": [
+        "DRG",
+        "LOS",
+        "ICU_HOURS",
+        "ICU_OTHER",
+        "PAT_SAMEDAY_FLAG",
+        "PAT_PRIVATE_FLAG",
+        "PAT_COVID_FLAG"
+      ]
+    },
+    "expected_output": {
+      "path": "expected_output.parquet",
+      "format": "parquet",
+      "row_count": 3,
+      "columns": [
+        "NWAU25"
+      ]
+    }
+  },
+  "provenance": {
+    "created_from": "tests/data/acute_input.csv and tests/data/acute_expected.csv",
+    "notes": [
+      "synthetic Arrow/Parquet bundle for bundle-contract tests",
+      "no patient-level data included"
+    ]
+  }
+}
