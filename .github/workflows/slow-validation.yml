@@ -27,10 +27,10 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Sync environment
-        run: uv sync --locked
+        run: uv sync --locked --group test --group property
 
       - name: Run property-focused tests
-        run: uv run --with pytest --with hypothesis pytest
+        run: uv run pytest
 
   mutation:
     name: Mutation checks
@@ -48,10 +48,10 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Sync environment
-        run: uv sync --locked
+        run: uv sync --locked --group test --group mutation
 
       - name: Run mutmut
-        run: uv run --with mutmut mutmut run
+        run: uv run mutmut run
 
   profiling:
     name: Profiling checks
@@ -69,7 +69,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Sync environment
-        run: uv sync --locked
+        run: uv sync --locked --group test --group profiling
 
       - name: Run Scalene profiling
-        run: uv run --with scalene scalene --cli --outfile scalene.out --html python -m pytest
+        run: uv run scalene --cli --outfile scalene.out --html python -m pytest

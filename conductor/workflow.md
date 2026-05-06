@@ -8,7 +8,7 @@
 4. **High Code Coverage:** Aim for >80% code coverage for all modules in the short term, with a planned maturity target of >90% coverage as the library stabilizes
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
-7. **Transitional vs Intended Tooling:** Clearly distinguish temporary compatibility tooling from intended migrated tooling. Do not describe legacy files or tools as authoritative once the migration track has defined their replacement.
+7. **Transitional-State vs Intended-State Tooling:** Clearly distinguish temporary compatibility tooling from intended-state tooling. Do not describe legacy files, compatibility shims, or migration-only tools as authoritative once the replacement track has defined the target state.
 
 ## Task Workflow
 
@@ -35,6 +35,7 @@ All tasks follow a strict lifecycle:
 
 6. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example, in a Python project, this might look like:
    ```bash
+   uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
    uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
    ```
    Target: >80% coverage for new code in the short term. As the library matures, raise the target toward >90% coverage, especially for core calculator logic, validation, and source-parity behavior. The specific tools and commands will vary by language and framework.
@@ -42,7 +43,7 @@ All tasks follow a strict lifecycle:
 7. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
    - Update `tech-stack.md` with a new design or a dated transitional-state note
-   - Make it explicit whether the change is transitional compatibility or intended-state tooling
+   - Make it explicit whether the change is transitional-state compatibility or intended-state tooling
    - Resume implementation
 
 8. **Commit Code Changes:**
@@ -155,12 +156,13 @@ Use the locked Python commands below for setup, daily development, and pre-commi
 
 ### Setup
 ```bash
-uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 uv lock
 ```
 
 ### Daily Development
 ```bash
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 uv run ruff format --check .
 uv run ruff check .
 uv run ty check
@@ -171,6 +173,7 @@ uv run vale conductor README.md docs
 
 ### Before Committing
 ```bash
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 uv run ruff format --check .
 uv run ruff check .
 uv run ty check

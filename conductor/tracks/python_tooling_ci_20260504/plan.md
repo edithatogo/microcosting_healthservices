@@ -6,7 +6,7 @@
     - [x] Verify runtime, dev, docs, test, coverage, typing, property, mutation, and profiling groups resolve from `uv.lock`
     - [x] Verify Python 3.10-3.14 markers are represented
 - [ ] Task: Configure uv and CI matrix
-    - [ ] Add dependency groups and committed lockfile workflow
+    - [x] Add dependency groups and committed lockfile workflow
     - [ ] Add Python 3.10, 3.11, 3.12, 3.13, and 3.14 GitHub Actions jobs
     - [ ] Enforce locked installs in CI
 - [ ] Task: Conductor - User Manual Verification 'uv, Lockfile, and Python Matrix' (Protocol in workflow.md)

@@ -3,10 +3,14 @@ from __future__ import annotations
 import tomllib
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT_FILE = ROOT / "pyproject.toml"
 LOCK_FILE = ROOT / "uv.lock"
+PR_CI_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "pr-ci.yml"
+SLOW_VALIDATION_WORKFLOW_FILE = (
+    ROOT / ".github" / "workflows" / "slow-validation.yml"
+)
+CONDUCTOR_WORKFLOW_FILE = ROOT / "conductor" / "workflow.md"
 
 EXPECTED_GROUP_PACKAGES = {
     "dev": {"ruff"},
@@ -22,6 +26,10 @@ EXPECTED_GROUP_PACKAGES = {
 
 def _load_toml(path: Path) -> dict[str, object]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
+
+
+def _read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
 
 
 def test_pyproject_declares_the_expected_dependency_groups():
@@ -67,3 +75,70 @@ def test_uv_lock_records_the_supported_python_window_and_tooling_packages():
     assert any(
         "python_full_version >= '3.14'" in marker for marker in resolution_markers
     )
+
+
+def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
+    workflow = _read_text(PR_CI_WORKFLOW_FILE)
+
+    assert 'python-version: "3.11"' in workflow
+    assert '  - "3.10"' in workflow
+    assert '  - "3.14"' in workflow
+    assert "run: uv sync --locked" in workflow
+    assert "Phase 1 quality checks (Python 3.11)" in workflow
+    assert "Phase 2 tests (Python ${{ matrix.python-version }})" in workflow
+    assert "Phase 3 coverage and Codecov (Python 3.11)" in workflow
+    assert "run: uv run ruff format --check ." in workflow
+    assert "run: uv run ruff check ." in workflow
+    assert "run: uv run ty check" in workflow
+    assert "run: uv run pytest" in workflow
+    assert (
+        "run: uv run --with pytest --with pytest-cov pytest --cov=nwau_py"
+        not in workflow
+    )
+    assert "run: uv run pytest --cov=nwau_py --cov-report=term-missing" in workflow
+
+    assert workflow.index("Sync environment") < workflow.index("Check formatting")
+    assert workflow.index("Check formatting") < workflow.index("Run lint")
+    assert workflow.index("Run lint") < workflow.index("Run type check")
+    assert workflow.index("Run type check") < workflow.index("Run tests")
+    assert workflow.index("Run tests") < workflow.index("Run coverage")
+
+
+def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
+    workflow = _read_text(SLOW_VALIDATION_WORKFLOW_FILE)
+    scalene_command = (
+        "run: uv run scalene --cli --outfile scalene.out --html python -m pytest"
+    )
+
+    assert "run: uv sync --locked --group test --group property" in workflow
+    assert "run: uv sync --locked --group test --group mutation" in workflow
+    assert "run: uv sync --locked --group test --group profiling" in workflow
+    assert "run: uv run pytest" in workflow
+    assert "run: uv run mutmut run" in workflow
+    assert scalene_command in workflow
+
+    assert (
+        workflow.index("Property checks")
+        < workflow.index("Run property-focused tests")
+    )
+    assert workflow.index("Mutation checks") < workflow.index("Run mutmut")
+    assert workflow.index("Profiling checks") < workflow.index("Run Scalene profiling")
+
+
+def test_conductor_workflow_documents_the_target_uv_command_sequence():
+    workflow = _read_text(CONDUCTOR_WORKFLOW_FILE)
+    coverage_command = (
+        "uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml"
+    )
+
+    assert (
+        "uv sync --locked --group dev --group test --group coverage --group typing "
+        "--group property --group mutation --group profiling --group docs"
+        in workflow
+    )
+    assert "uv run ruff format --check ." in workflow
+    assert "uv run ruff check ." in workflow
+    assert "uv run ty check" in workflow
+    assert "uv run pytest" in workflow
+    assert coverage_command in workflow
+    assert "uv run vale conductor README.md docs" in workflow

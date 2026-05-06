@@ -14,11 +14,11 @@ uv run ruff format --check .
 uv run ruff check .
 uv run ty check
 uv run pytest
-uv run pytest --cov=nwau_py --cov=src/nwau_py --cov-report=term-missing --cov-report=xml
+uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml
 uv run pytest -m hypothesis
 uv run mutmut run
 uv run scalene nwau_py/cli/main.py
-uv run vale conductor README.md docs
+uv run --with vale vale conductor README.md docs
 ```
 
 Codecov consumes the generated coverage report in CI. Keep local coverage runs
@@ -36,15 +36,18 @@ remains meaningful.
   code.
 - **Scalene** is used for profiling and memory analysis when a change affects
   compute-heavy paths.
-- **Vale** lints prose and validation language.
+- **Vale** lints prose and validation language and is run on demand with
+  `uv run --with vale vale`.
 
 ## Dependency Notes
 
-The calculators depend on several core libraries:
+The current calculator implementation depends on several core libraries:
 
-- **NumPy** and **Pandas** for data handling
+- **NumPy** and **Pandas** for existing data handling paths
 - **LightGBM** for readmission risk scoring
-- **PyArrow** (optional) to cache SAS tables in Parquet format
+- **PyArrow** (optional) for Arrow/Parquet interoperability and cached tables
 
-The repository is being standardized on `uv` for dependency management and on
-the 3.10 to 3.14 Python support window described in the project docs.
+The repository is standardizing on `uv` for dependency management and on the
+Python 3.10 to 3.14 support window described in the project docs. The longer-
+term stack is moving toward stricter validation, Arrow-backed interchange, and
+Polars-based data handling where parity work allows it.
