@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TRACK = ROOT / "conductor" / "tracks" / "starlight_docs_site_20260506"
+TRACK = ROOT / "conductor" / "archive" / "starlight_docs_site_20260506"
 CONDUCTOR_INDEX = ROOT / "conductor" / "index.md"
 
 
@@ -46,4 +46,4 @@ def test_starlight_docs_site_track_metadata_and_docs_exist():
     assert "Specification" in index
     assert "Implementation Plan" in index
     assert "Metadata" in index
-    assert "[Starlight Docs Site Track](./tracks/starlight_docs_site_20260506/)" in conductor_index
+    assert "[Starlight Docs Site Track](./archive/starlight_docs_site_20260506/)" in conductor_index
