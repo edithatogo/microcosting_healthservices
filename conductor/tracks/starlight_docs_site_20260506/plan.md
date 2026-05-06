@@ -17,18 +17,18 @@
 
 ## Phase 2: Scaffold and Content Migration
 
-- [ ] Task: Write tests for the site scaffold and content layout
-    - [ ] Check that the docs source tree resolves as expected
-    - [ ] Check that versioned content directories and sidebar groups are present
-    - [ ] Check that chosen plugins are wired into the scaffold
-- [ ] Task: Implement the Starlight scaffold
-    - [ ] Create the Astro/Starlight project structure
-    - [ ] Add the baseline config, theme, and sidebar layout
-    - [ ] Wire in the chosen validation and docs-quality plugins
-- [ ] Task: Migrate the existing docs content
-    - [ ] Move or mirror the current markdown documentation into the site content tree
-    - [ ] Preserve provenance and cross-links
-    - [ ] Add the initial versioned documentation structure
+- [x] Task: Write tests for the site scaffold and content layout
+    - [x] Check that the docs source tree resolves as expected
+    - [x] Check that versioned content directories and sidebar groups are present
+    - [x] Check that chosen plugins are wired into the scaffold
+- [x] Task: Implement the Starlight scaffold
+    - [x] Create the Astro/Starlight project structure
+    - [x] Add the baseline config, theme, and sidebar layout
+    - [x] Wire in the chosen validation and docs-quality plugins
+- [x] Task: Migrate the existing docs content
+    - [x] Move or mirror the current markdown documentation into the site content tree
+    - [x] Preserve provenance and cross-links
+    - [x] Add the initial versioned documentation structure
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Scaffold and Content Migration' (Protocol in workflow.md)
 
 ## Phase 3: De-implementation and Deployment

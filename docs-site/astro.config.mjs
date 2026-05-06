@@ -29,6 +29,10 @@ export default defineConfig({
           label: 'Overview',
           items: ['index', 'migration/legacy-docs'],
         },
+        {
+          label: 'Governance',
+          autogenerate: { directory: 'governance' },
+        },
       ],
       plugins: [
         starlightVersions({

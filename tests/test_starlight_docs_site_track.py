@@ -22,9 +22,9 @@ def test_starlight_docs_site_track_metadata_and_docs_exist():
     assert metadata == {
         "track_id": "starlight_docs_site_20260506",
         "type": "feature",
-        "status": "new",
+        "status": "in_progress",
         "created_at": "2026-05-06T08:18:23Z",
-        "updated_at": "2026-05-06T08:18:23Z",
+        "updated_at": "2026-05-06T12:18:43Z",
         "description": "Starlight documentation site and versioning",
     }
 
