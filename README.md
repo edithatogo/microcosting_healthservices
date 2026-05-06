@@ -83,6 +83,10 @@ uv run ruff check .
 uv run ty check
 ```
 
+### Maintenance automation
+Dependency updates are reviewed through Renovate, and documentation or
+validation claims are checked with Vale before they are merged.
+
 ## Historical data
 
 Place each year's SAS calculator under `archive/sas/<YEAR>/` and ensure the

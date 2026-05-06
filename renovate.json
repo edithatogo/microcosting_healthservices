@@ -11,7 +11,33 @@
   "packageRules": [
     {
       "matchManagers": ["pep621", "pip_requirements"],
-      "groupName": "Python dependencies and toolchain",
+      "matchPackageNames": [
+        "click",
+        "lightgbm",
+        "numpy",
+        "pandas",
+        "pyarrow",
+        "pydantic",
+        "pyreadstat",
+        "pyxlsb"
+      ],
+      "groupName": "Runtime calculator dependencies",
+      "dependencyDashboardApproval": true,
+      "separateMinorPatch": true
+    },
+    {
+      "matchManagers": ["pep621", "pip_requirements"],
+      "matchPackageNames": [
+        "hypothesis",
+        "mutmut",
+        "pytest",
+        "pytest-cov",
+        "ruff",
+        "scalene",
+        "ty",
+        "vale"
+      ],
+      "groupName": "Toolchain and validation dependencies",
       "dependencyDashboardApproval": true,
       "separateMinorPatch": true
     },

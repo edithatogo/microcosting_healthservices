@@ -180,6 +180,13 @@ The repository also defines a manual and scheduled slow-validation workflow for 
 - Profiling checks use `uv sync --locked --group test --group profiling` followed by `mkdir -p .cache/validation/scalene && uv run scalene --cli --outfile .cache/validation/scalene/scalene.out --html python -m pytest`.
 - Treat `.cache/validation/scalene/` as generated output and do not commit the profiling artifacts.
 
+### Maintenance Automation
+Phase 4 treats maintenance automation as part of the quality gate, not as a separate afterthought.
+
+- **Renovate** keeps dependency and GitHub Actions updates flowing through reviewable pull requests; treat each update as a validation event when it can affect calculator behavior, tooling, or documentation output.
+- **Vale** enforces prose quality and validation-language discipline; run it locally before committing and require it to pass when phase 4 documents or claims validation status changes.
+- Phase 4 is complete only when the Renovate configuration is in place, Vale is wired into the documentation gate, and the workflow text makes their roles explicit.
+
 ### Before Committing
 ```bash
 uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs

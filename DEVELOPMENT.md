@@ -25,6 +25,11 @@ Codecov consumes the XML coverage report produced in CI. Keep local coverage
 runs focused on the packages that own calculator behavior so the uploaded
 report stays representative of the calculator surface under validation.
 
+Renovate manages dependency update pull requests for the repository. Review
+those updates against the current `uv`-based workflow and the calculator
+validation surface before merging, especially when they touch runtime
+dependencies, tooling, or lockfile state.
+
 The slow-validation workflow is split across a weekly `schedule` trigger and a
 manual `workflow_dispatch` trigger in `.github/workflows/slow-validation.yml`.
 Its profiling job writes cache-backed Scalene output under
@@ -46,7 +51,8 @@ control.
 - **Scalene** is used for profiling and memory analysis when a change affects
   compute-heavy paths. Slow-validation profiling writes reports to
   `.cache/validation/scalene/`.
-- **Vale** lints prose and validation language and is run on demand with
+- **Vale** lints prose and validation language, including validation claims
+  that need to stay conservative and evidence-based. It is run on demand with
   `uv run --with vale vale`.
 
 ## Dependency Notes
