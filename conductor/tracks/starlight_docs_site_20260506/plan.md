@@ -1,6 +1,6 @@
 # Plan: Starlight Documentation Site and Versioning
 
-## Phase 1: Roadmap, Versioning, and Site Contract
+## Phase 1: Roadmap, Versioning, and Site Contract [checkpoint: 44e493d]
 
 - [x] Task: Write tests or checks for the docs-site contract
     - [x] Pin the Starlight version baseline
