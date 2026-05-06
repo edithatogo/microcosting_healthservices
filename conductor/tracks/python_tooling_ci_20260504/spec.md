@@ -9,7 +9,7 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - The migration is underway.
 - Legacy compatibility files and tools still exist in the repository snapshot this track is documenting, but they are transitional rather than authoritative.
 - The track should describe the intended toolchain explicitly so the implementation work can replace the transitional surface without ambiguity.
-- Phase 2, Fast Quality Gates, is now the active focus. The CI check wiring is complete, and the remaining work is to finish the quality-tooling configuration itself.
+- Phase 2, Fast Quality Gates, is now the active focus. The quality-tooling changes are ready, and this phase now documents the finalized CI/tooling contract rather than the transitional setup.
 
 ## Requirements
 

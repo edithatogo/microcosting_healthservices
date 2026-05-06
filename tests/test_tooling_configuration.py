@@ -12,6 +12,8 @@ SLOW_VALIDATION_WORKFLOW_FILE = (
     ROOT / ".github" / "workflows" / "slow-validation.yml"
 )
 TY_FILE = ROOT / "ty.toml"
+MYPY_FILE = ROOT / "mypy.ini"
+ROOT_README_FILE = ROOT / "README.md"
 DEVELOPMENT_FILE = ROOT / "DEVELOPMENT.md"
 PACKAGE_README_FILE = ROOT / "nwau_py" / "README.md"
 CONDUCTOR_WORKFLOW_FILE = ROOT / "conductor" / "workflow.md"
@@ -183,6 +185,7 @@ def test_conductor_workflow_documents_the_target_uv_command_sequence():
 
 def test_development_docs_pin_the_current_tooling_contract():
     development = _read_text(DEVELOPMENT_FILE)
+    root_readme = _read_text(ROOT_README_FILE)
     readme = _read_text(PACKAGE_README_FILE)
 
     assert (
@@ -195,9 +198,23 @@ def test_development_docs_pin_the_current_tooling_contract():
     assert "Codecov consumes the XML coverage report produced in CI" in development
 
     assert (
+        "uv run pytest --cov=nwau_py --cov-report=term-missing "
+        "--cov-report=xml --cov-fail-under=80"
+        in root_readme
+    )
+
+    assert (
         "uv sync --group dev --group test --group coverage --group typing "
         "--group property --group mutation --group profiling --group docs"
         in readme
     )
     assert "Codecov" in readme
     assert "ty" in readme
+
+
+def test_mypy_ini_documents_the_transitional_comparator_note():
+    mypy = _read_text(MYPY_FILE)
+
+    assert "Transitional comparator only" in mypy
+    assert "`mypy` is not the active checker." in mypy
+    assert "migration to `ty`" in mypy

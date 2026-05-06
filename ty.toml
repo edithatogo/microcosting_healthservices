@@ -1,3 +1,4 @@
+# Active type-checker configuration for the current migration phase.
 [environment]
 python-version = "3.11"
 root = [".", "./src", "./excel_calculator/src"]

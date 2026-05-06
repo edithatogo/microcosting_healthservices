@@ -16,10 +16,10 @@
 - [x] Task: Write CI checks for quality tools [435716a]
     - [x] Verify `ruff format --check`, `ruff check`, `ty check`, `pytest`, and coverage commands run locally in the intended CI order
     - [x] Verify Codecov upload is configured
-- [ ] Task: Add quality tooling
-    - [ ] Configure Codecov
-    - [ ] Configure ty
-    - [ ] Document `mypy` as transitional only while `ty` becomes the forward path
+- [x] Task: Add quality tooling [435716a]
+    - [x] Configure Codecov
+    - [x] Configure ty
+    - [x] Document `mypy` as transitional only while `ty` becomes the forward path
 - [ ] Task: Conductor - User Manual Verification 'Fast Quality Gates' (Protocol in workflow.md)
 
 ## Phase 3: Advanced Validation Jobs

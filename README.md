@@ -141,7 +141,7 @@ validated.
    `weights.csv` and `formula.json` to `excel_calculator/data/<YEAR>/`.
 3. If the remoteness classification year changes update
    `nwau_py/utils.RA_VERSION` accordingly.
-4. All calculators can then be invoked with ``--year <YEAR>`` or by
+4. Each calculator can then be invoked with ``--year <YEAR>`` or by
    passing ``year="<YEAR>"`` when calling the Python functions.
 
 ## SAS program mapping
@@ -183,8 +183,10 @@ type checking, property tests, mutation testing, and profiling entry points
 with `uv run`. Coverage reports are generated locally for Codecov upload in CI.
 
 ```bash
+uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 uv run pytest
-uv run pytest --cov=nwau_py --cov=src/nwau_py --cov-report=term-missing
+uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+uv run ty check
 uv run pytest -m hypothesis
 uv run mutmut run
 uv run scalene nwau_py/cli/main.py
@@ -198,9 +200,9 @@ use within Python.
 
 Validation claims in this repository are intentionally specific. Prefer
 calculator- and year-scoped statements backed by fixture packs, parity tests,
-or archived source artifacts. Avoid broad claims that the entire project or all
-years are fully validated unless the supporting evidence is committed alongside
-the claim.
+or archived source artifacts. Avoid broad claims about project-wide or
+all-years validation unless the supporting evidence is committed alongside the
+claim.
 
 ## Remoteness classification
 
