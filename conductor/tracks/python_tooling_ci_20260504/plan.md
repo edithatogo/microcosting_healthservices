@@ -34,10 +34,10 @@
 
 ## Phase 4: Maintenance Automation and Prose Quality
 
-- [ ] Task: Validate Renovate and Vale configuration
-    - [ ] Ensure calculator-impacting dependencies are not automerged unsafely
-    - [ ] Ensure Vale flags unsupported validation claims
-- [ ] Task: Add Renovate and Vale
-    - [ ] Configure Renovate package rules
-    - [ ] Configure Vale terminology and validation language rules
+- [x] Task: Validate Renovate and Vale configuration [4a51bdf]
+    - [x] Ensure calculator-impacting dependencies are not automerged unsafely
+    - [x] Ensure Vale flags unsupported validation claims
+- [x] Task: Add Renovate and Vale [4a51bdf]
+    - [x] Configure Renovate package rules
+    - [x] Configure Vale terminology and validation language rules
 - [ ] Task: Conductor - User Manual Verification 'Maintenance Automation and Prose Quality' (Protocol in workflow.md)
