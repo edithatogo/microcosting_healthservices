@@ -30,3 +30,11 @@ Create self-describing fixture packs that enforce parity across Python, future C
 - Privacy classification, source basis, tolerance, and rounding policy are enforced by schema validation.
 - Python tests can read the pilot pack through the shared manifest contract and surface provenance in failures.
 - The fixture format is suitable for web and future cross-language parity checks.
+
+## Parity Workflow
+
+1. Python, C#, and web runners all resolve the same committed manifest and payload paths.
+2. Each runner validates the shared metadata before execution, including privacy classification, source basis, tolerance, rounding policy, and cross-language readiness.
+3. The runner then loads the payloads using its own native reader while preserving the field names and value semantics declared in the manifest.
+4. Any fixture marked `cross_language_ready: true` becomes release-blocking for downstream surfaces until all supported runners can consume the same pack without translation of the core contract.
+5. Any pack that fails validation remains a regression fixture only and must not be used as a cross-language release gate.
