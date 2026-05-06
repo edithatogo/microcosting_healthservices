@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import Protocol
 from urllib.error import HTTPError
 from urllib.parse import unquote, urljoin, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
@@ -61,6 +62,20 @@ class FetchMetadata:
     headers: dict[str, str]
     redirect_chain: list[dict[str, str]]
     fetched_at: str
+
+
+class ResponseProtocol(Protocol):
+    """Minimal urllib response surface used by the archiver."""
+
+    headers: dict[str, str]
+
+    def geturl(self) -> str: ...
+
+    def getcode(self) -> int | None: ...
+
+    def read(self, size: int = -1) -> bytes: ...
+
+    def close(self) -> None: ...
 
 
 class RedirectTrackingHandler(HTTPRedirectHandler):
@@ -181,7 +196,7 @@ class NwauCalculatorPageParser(HTMLParser):
         )
 
 
-def fetch(url: str, timeout: int) -> tuple[object, FetchMetadata]:
+def fetch(url: str, timeout: int) -> tuple[ResponseProtocol, FetchMetadata]:
     """Open ``url`` with retry support and return response metadata."""
 
     last_error: Exception | None = None

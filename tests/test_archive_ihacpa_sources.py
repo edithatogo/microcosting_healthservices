@@ -8,7 +8,6 @@ from pathlib import Path
 
 import pytest
 
-
 SCRIPT_PATH = (
     Path(__file__).resolve().parents[1] / "scripts" / "archive_ihacpa_sources.py"
 )
@@ -25,7 +24,7 @@ class FakeResponse:
         self._body = io.BytesIO(body)
         self.headers = {"content-type": content_type}
 
-    def __enter__(self) -> "FakeResponse":
+    def __enter__(self) -> FakeResponse:
         return self
 
     def __exit__(self, exc_type, exc, tb) -> bool:
@@ -79,7 +78,9 @@ def _artifact(
         artifact_type=artifact_kind.value,
         artifact_kind=artifact_kind,
         service_stream=(
-            "SAS-based calculators" if artifact_kind is archive.ArtifactKind.SAS else label
+            "SAS-based calculators"
+            if artifact_kind is archive.ArtifactKind.SAS
+            else label
         ),
         label=label,
         source_page_url=archive.PAGE_URL,
@@ -209,7 +210,9 @@ def test_download_writes_raw_artifact_and_tracked_provenance_manifest(
     assert manifest["artifacts"][0]["path"] == str(raw_file)
 
 
-def test_box_hosted_html_share_is_recorded_without_direct_download(tmp_path, monkeypatch):
+def test_box_hosted_html_share_is_recorded_without_direct_download(
+    tmp_path, monkeypatch
+):
     artifact = _artifact(
         "2021-22 SAS calculator share page",
         "https://www.box.com/s/example-share",

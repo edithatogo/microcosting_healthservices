@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import nwau_py.provenance as provenance
 
-
 PAGE_URL = "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators"
 
 

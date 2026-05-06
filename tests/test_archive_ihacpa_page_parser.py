@@ -1,10 +1,9 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.archive_ihacpa_sources import NwauCalculatorPageParser
-
 
 FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures" / "ihacpa" / "page"
 PAGE_URL = "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators"
