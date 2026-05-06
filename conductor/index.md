@@ -6,6 +6,7 @@
 - [Tech Stack](./tech-stack.md)
 - [Data Governance](./data-governance.md)
 - [Source Archive Policy](./source-archive.md)
+- [Public Calculator API Contract](./public-api-contract.md)
 - [Validation Vocabulary](./validation-vocabulary.md)
 
 ## Workflow
