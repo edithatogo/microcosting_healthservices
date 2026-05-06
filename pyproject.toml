@@ -23,7 +23,15 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "ruff",
+]
+test = [
     "pytest",
+]
+coverage = [
+    "pytest-cov",
+]
+typing = [
     "ty",
 ]
 property = [
@@ -34,6 +42,9 @@ mutation = [
 ]
 profiling = [
     "scalene",
+]
+docs = [
+    "vale",
 ]
 
 [project.scripts]

@@ -113,9 +113,7 @@ def _select_bundle_dir(root: Path, bundle_id: str | None) -> Path:
         return bundle_dir
 
     if not bundle_dirs:
-        raise FileNotFoundError(
-            f"no reference bundle manifests found in {root}"
-        )
+        raise FileNotFoundError(f"no reference bundle manifests found in {root}")
     if len(bundle_dirs) > 1:
         raise ValueError(
             "ambiguous reference bundle selection; provide bundle_id explicitly"

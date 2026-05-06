@@ -4,20 +4,21 @@ The preferred development workflow is `uv`-based and keeps the local
 environment aligned with the repo's approved stack.
 
 ```bash
-uv sync
+uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 ```
 
 ## Day-to-day Commands
 
 ```bash
-uv run ruff check .
 uv run ruff format --check .
+uv run ruff check .
 uv run ty check
 uv run pytest
 uv run pytest --cov=nwau_py --cov=src/nwau_py --cov-report=term-missing --cov-report=xml
 uv run pytest -m hypothesis
 uv run mutmut run
 uv run scalene nwau_py/cli/main.py
+uv run vale conductor README.md docs
 ```
 
 Codecov consumes the generated coverage report in CI. Keep local coverage runs
@@ -29,11 +30,13 @@ remains meaningful.
 - **Ruff** handles linting and formatting.
 - **ty** is the preferred type checker.
 - **pytest** runs the test suite.
+- **pytest-cov** records coverage for Codecov.
 - **Hypothesis** is used for property-based tests around calculator contracts.
 - **mutmut** is reserved for targeted mutation testing on pure calculation
   code.
 - **Scalene** is used for profiling and memory analysis when a change affects
   compute-heavy paths.
+- **Vale** lints prose and validation language.
 
 ## Dependency Notes
 

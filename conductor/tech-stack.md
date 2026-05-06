@@ -7,13 +7,14 @@ The repository still contains a transitional Python package and CLI surface for 
 Current repository evidence shows:
 
 - Python package metadata in `pyproject.toml`.
-- Python runtime requirement currently declared as `>=3.8`.
+- Python runtime requirement currently declared as `>=3.10,<3.15`.
 - `setuptools` build backend.
-- Runtime dependencies currently include `pandas`, `pyxlsb`, `pyreadstat`, and `lightgbm`.
+- Runtime dependencies currently include `click`, `lightgbm`, `numpy`, `pandas`, `pyarrow`, `pydantic`, `pyreadstat`, and `pyxlsb`.
 - `pyarrow` is present in the current tooling surface as an optional cache/storage dependency.
+- Dependency groups separate `ruff`, `pytest`, `pytest-cov`, `ty`, `hypothesis`, `mutmut`, `scalene`, and `vale`.
 - Tests use `pytest`.
 - Linting uses `ruff`.
-- Type checking currently references `mypy`.
+- Type checking uses `ty`.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
 - The CLI is exposed through the `funding-calculator` entry point and still depends on the legacy dependency surface during the migration.
 

@@ -8,15 +8,16 @@ The project is standardizing on `uv` for local development and validation.
 Install and sync the environment with:
 
 ```bash
-uv sync
+uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
 ```
 
 The SAS calculators for each pricing year should be extracted under
 `archive/sas/<YEAR>/` so the modules can read the reference tables.
 
 Development targets Python 3.10 through 3.14. The runtime stack is being
-updated around `uv`, `ty`, `Ruff`, `pytest`, `Codecov`, `Hypothesis`,
-`mutmut`, and `Scalene` alongside the calculator libraries.
+updated around `uv`, `Ruff`, `pytest`, `pytest-cov`, `ty`, `Codecov`,
+`Hypothesis`, `mutmut`, `Scalene`, and `Vale` alongside the calculator
+libraries.
 
 ## Data preparation
 

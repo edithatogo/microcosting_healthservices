@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
-from typing import ClassVar
+from typing import Any, ClassVar, cast
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
@@ -73,9 +73,7 @@ def _missing_required_columns(
     field: str,
 ) -> tuple[str, ...]:
     actual = _normalize_columns(actual_columns, field=f"{field}.actual_columns")
-    required = _normalize_columns(
-        required_columns, field=f"{field}.required_columns"
-    )
+    required = _normalize_columns(required_columns, field=f"{field}.required_columns")
     actual_set = set(actual)
     return tuple(column for column in required if column not in actual_set)
 
@@ -183,13 +181,13 @@ class CalculatorContract(BaseModel):
     @classmethod
     def _validate_columns(
         cls,
-        value: object,
+        value: Any,
     ) -> tuple[str, ...]:
         if value is None:
             raise ValueError("columns must not be empty")
         if isinstance(value, (str, bytes)):
             raise ValueError("columns must be an iterable of column names")
-        return _normalize_columns(value, field="columns")
+        return _normalize_columns(cast(Iterable[str], value), field="columns")
 
     def validate_input_columns(self, actual_columns: Iterable[str]) -> None:
         """Validate adapter input columns against the contract."""
