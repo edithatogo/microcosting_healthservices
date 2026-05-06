@@ -22,6 +22,7 @@ Move the Python project toward the approved toolchain: `uv`, a committed `uv.loc
 - Renovate must propose dependency and GitHub Actions updates.
 - Vale must lint documentation prose and validation claims.
 - The docs should distinguish transitional compatibility artifacts from the intended migrated toolchain in every acceptance statement.
+- Phase 3's validation-jobs slice is complete once the workflow/test changes are ready; the remaining checkpoint is the user-manual verification task.
 
 ## Acceptance Criteria
 

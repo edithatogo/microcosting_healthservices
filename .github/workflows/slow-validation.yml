@@ -2,6 +2,8 @@ name: Slow Validation
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 0"
 
 concurrency:
   group: slow-validation-${{ github.ref }}
@@ -72,4 +74,4 @@ jobs:
         run: uv sync --locked --group test --group profiling
 
       - name: Run Scalene profiling
-        run: uv run scalene --cli --outfile scalene.out --html python -m pytest
+        run: mkdir -p .cache/validation/scalene && uv run scalene --cli --outfile .cache/validation/scalene/scalene.out --html python -m pytest

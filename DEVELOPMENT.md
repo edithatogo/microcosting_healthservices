@@ -25,6 +25,12 @@ Codecov consumes the XML coverage report produced in CI. Keep local coverage
 runs focused on the packages that own calculator behavior so the uploaded
 report stays representative of the calculator surface under validation.
 
+The slow-validation workflow is split across a weekly `schedule` trigger and a
+manual `workflow_dispatch` trigger in `.github/workflows/slow-validation.yml`.
+Its profiling job writes cache-backed Scalene output under
+`.cache/validation/scalene/` so the generated reports stay out of version
+control.
+
 ## Tooling Notes
 
 - **Ruff** handles linting and formatting.
@@ -38,7 +44,8 @@ report stays representative of the calculator surface under validation.
 - **mutmut** is reserved for targeted mutation testing on pure calculation
   code.
 - **Scalene** is used for profiling and memory analysis when a change affects
-  compute-heavy paths.
+  compute-heavy paths. Slow-validation profiling writes reports to
+  `.cache/validation/scalene/`.
 - **Vale** lints prose and validation language and is run on demand with
   `uv run --with vale vale`.
 

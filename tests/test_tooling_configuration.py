@@ -146,9 +146,12 @@ def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
 def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
     workflow = _read_text(SLOW_VALIDATION_WORKFLOW_FILE)
     scalene_command = (
-        "run: uv run scalene --cli --outfile scalene.out --html python -m pytest"
+        "run: mkdir -p .cache/validation/scalene && uv run scalene --cli "
+        "--outfile .cache/validation/scalene/scalene.out --html python -m pytest"
     )
 
+    assert "schedule:" in workflow
+    assert '    - cron: "0 3 * * 0"' in workflow
     assert "run: uv sync --locked --group test --group property" in workflow
     assert "run: uv sync --locked --group test --group mutation" in workflow
     assert "run: uv sync --locked --group test --group profiling" in workflow

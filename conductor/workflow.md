@@ -171,6 +171,15 @@ uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fai
 uv run vale conductor README.md docs
 ```
 
+### Slow Validation
+The repository also defines a manual and scheduled slow-validation workflow for property, mutation, and profiling checks.
+
+- Trigger it with `workflow_dispatch` or the weekly schedule in `.github/workflows/slow-validation.yml`.
+- Property checks use `uv sync --locked --group test --group property` followed by `uv run pytest`.
+- Mutation checks use `uv sync --locked --group test --group mutation` followed by `uv run mutmut run`.
+- Profiling checks use `uv sync --locked --group test --group profiling` followed by `mkdir -p .cache/validation/scalene && uv run scalene --cli --outfile .cache/validation/scalene/scalene.out --html python -m pytest`.
+- Treat `.cache/validation/scalene/` as generated output and do not commit the profiling artifacts.
+
 ### Before Committing
 ```bash
 uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs

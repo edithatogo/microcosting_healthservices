@@ -5,6 +5,12 @@ from pathlib import Path
 HYPOTHESIS_MAX_EXAMPLES = 5
 HYPOTHESIS_DEADLINE_MS = None
 
+VALIDATION_SCHEDULED_MODE = "scheduled"
+VALIDATION_MANUAL_MODE = "manual"
+VALIDATION_MODES = (VALIDATION_SCHEDULED_MODE, VALIDATION_MANUAL_MODE)
+
+VALIDATION_CACHE_DIR = Path(".cache/validation")
+
 MUTATION_TARGETS = (
     "nwau_py/calculators/adjust.py",
     "nwau_py/calculators/funding_formula.py",
@@ -19,7 +25,7 @@ MUTATION_EXCLUSIONS = (
     "nwau_py/scoring/score.py",
 )
 
-SCALENE_OUTPUT_DIR = Path(".cache/validation/scalene")
+SCALENE_OUTPUT_DIR = VALIDATION_CACHE_DIR / "scalene"
 
 
 def hypothesis_settings_kwargs() -> dict[str, object]:

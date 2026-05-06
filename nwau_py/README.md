@@ -22,6 +22,11 @@ as a transitional comparator while the migration is completed. Codecov is fed
 by the XML coverage artifact produced in CI so the same report can be reviewed
 in the UI and in local runs.
 
+The slow-validation workflow is split between a weekly scheduled run and a
+manual `workflow_dispatch` run. Its profiling job writes Scalene output under
+`.cache/validation/scalene/`, which keeps generated reports outside version
+control while still making them easy to inspect locally.
+
 The calculator implementation still uses pandas in places, while the
 longer-term data stack is moving toward Arrow-backed interchange and Polars
 where parity work allows it.
