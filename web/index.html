@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NWAU Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Demo only</p>
+        <h1>IHACPA calculator preview</h1>
+        <p class="lede">
+          Static GitHub Pages shell driven by synthetic fixtures and the public
+          calculator contract.
+        </p>
+      </header>
+
+      <section class="panel">
+        <div class="controls">
+          <label>
+            Calculator
+            <select id="calculator"></select>
+          </label>
+          <label>
+            Pricing year
+            <select id="pricing-year"></select>
+          </label>
+        </div>
+
+        <div class="notice">
+          No real patient data is accepted here. Demo output is loaded from
+          committed fixture data.
+        </div>
+
+        <div id="summary" class="summary"></div>
+
+        <table class="results">
+          <thead>
+            <tr>
+              <th>DRG</th>
+              <th>LOS</th>
+              <th>NWAU</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "contract": {
+    "schema_version": "1.0",
+    "calculator": "acute",
+    "pricing_year": "2025"
+  },
+  "rows": [
+    {"DRG": "801A", "LOS": 1, "NWAU": 0.42},
+    {"DRG": "801B", "LOS": 2, "NWAU": 0.73},
+    {"DRG": "801C", "LOS": 3, "NWAU": 1.18}
+  ]
+}

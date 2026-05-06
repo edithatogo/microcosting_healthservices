@@ -8,6 +8,7 @@
 - [Source Archive Policy](./source-archive.md)
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)
 - [Public Calculator API Contract](./public-api-contract.md)
+- [GitHub Pages Web Architecture](./web-architecture.md)
 - [Release Policy](./release-policy.md)
 - [Supply-Chain Controls](./supply-chain-controls.md)
 - [Validation Vocabulary](./validation-vocabulary.md)
