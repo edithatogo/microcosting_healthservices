@@ -7,6 +7,8 @@ hero:
   actions:
     - text: 2025 version
       link: /versions/2025/
+    - text: Governance
+      link: /governance/
     - text: Migration notes
       link: /migration/legacy-docs/
 ---
@@ -14,4 +16,8 @@ hero:
 This site is the documentation front door for the project.
 
 It is built with Starlight, versioned for release and pricing-year guidance,
-and deployed as a static GitHub Pages site.
+deployed as a static GitHub Pages site, and searchable with the built-in
+Pagefind index.
+
+Use the versioned docs for calculator-specific guidance and the governance
+pages for the current product, validation, and release rules.

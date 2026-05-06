@@ -37,3 +37,15 @@ def test_docs_site_sidebar_exposes_the_migrated_governance_content():
     assert "autogenerate" in config
     assert "governance" in config
     assert "Overview" in config
+
+
+def test_docs_site_landing_and_migration_pages_expose_the_final_surface():
+    index = _read_text(SITE / "src" / "content" / "docs" / "index.md")
+    migration = _read_text(SITE / "src" / "content" / "docs" / "migration" / "legacy-docs.md")
+
+    assert "Governance" in index
+    assert "Pagefind" in index
+    assert "versioned docs" in index
+    assert "Legacy docs entry points are no longer authoritative." in migration
+    assert "governance and" in migration
+    assert "provenance references" in migration
