@@ -2,9 +2,9 @@
 
 ## Phase 1: uv, Lockfile, and Python Matrix
 
-- [~] Task: Write tests or checks for dependency resolution
-    - [ ] Verify runtime, dev, docs, test, coverage, typing, property, mutation, and profiling groups resolve from `uv.lock`
-    - [ ] Verify Python 3.10-3.14 markers are represented
+- [x] Task: Write tests or checks for dependency resolution [3cf8d6a]
+    - [x] Verify runtime, dev, docs, test, coverage, typing, property, mutation, and profiling groups resolve from `uv.lock`
+    - [x] Verify Python 3.10-3.14 markers are represented
 - [ ] Task: Configure uv and CI matrix
     - [ ] Add dependency groups and committed lockfile workflow
     - [ ] Add Python 3.10, 3.11, 3.12, 3.13, and 3.14 GitHub Actions jobs
