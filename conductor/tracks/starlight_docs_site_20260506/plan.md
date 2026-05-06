@@ -2,18 +2,18 @@
 
 ## Phase 1: Roadmap, Versioning, and Site Contract
 
-- [ ] Task: Write tests or checks for the docs-site contract
-    - [ ] Pin the Starlight version baseline
-    - [ ] Assert the required plugin and integration list
-    - [ ] Define the versioned-docs policy for pricing years and releases
-- [ ] Task: Draft the site architecture and migration roadmap
-    - [ ] Document the source content inventory
-    - [ ] Document the versioning and navigation model
-    - [ ] Document the migration and de-implementation strategy
-- [ ] Task: Update conductor setup for the Starlight stack
-    - [ ] Reflect the Starlight roadmap in `tech-stack.md`
-    - [ ] Add the new track to the registry and context index
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Roadmap, Versioning, and Site Contract' (Protocol in workflow.md)
+- [x] Task: Write tests or checks for the docs-site contract
+    - [x] Pin the Starlight version baseline
+    - [x] Assert the required plugin and integration list
+    - [x] Define the versioned-docs policy for pricing years and releases
+- [x] Task: Draft the site architecture and migration roadmap
+    - [x] Document the source content inventory
+    - [x] Document the versioning and navigation model
+    - [x] Document the migration and de-implementation strategy
+- [x] Task: Update conductor setup for the Starlight stack
+    - [x] Reflect the Starlight roadmap in `tech-stack.md`
+    - [x] Add the new track to the registry and context index
+- [x] Task: Conductor - Automated Review and Checkpoint 'Roadmap, Versioning, and Site Contract' (Protocol in workflow.md)
 
 ## Phase 2: Scaffold and Content Migration
 

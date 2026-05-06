@@ -7,7 +7,7 @@ Replace the current documentation front door with a Starlight-based static site 
 ## Requirements
 
 - Use Astro and Starlight as the canonical docs-site framework.
-- Pin `@astrojs/starlight` to the current stable `0.35.2` baseline initially, with Renovate responsible for future upgrades through reviewable pull requests.
+- Pin `@astrojs/starlight` to the current stable `0.38.5` baseline initially, with Renovate responsible for future upgrades through reviewable pull requests.
 - Support versioned documentation for calculator releases and pricing years.
 - Keep the site static-host compatible for GitHub Pages.
 - Use the default Pagefind search unless the roadmap later justifies a stronger external search provider.

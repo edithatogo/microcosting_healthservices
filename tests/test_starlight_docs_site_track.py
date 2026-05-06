@@ -30,7 +30,7 @@ def test_starlight_docs_site_track_metadata_and_docs_exist():
 
     assert "Starlight-based static site" in spec
     assert "@astrojs/starlight" in spec
-    assert "0.35.2" in spec
+    assert "0.38.5" in spec
     assert "starlight-links-validator" in spec
     assert "starlight-openapi" in spec
     assert "Pagefind" in spec

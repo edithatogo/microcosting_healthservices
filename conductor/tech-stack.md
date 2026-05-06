@@ -144,7 +144,7 @@ The public documentation site should be implemented with Astro and Starlight.
 
 Current roadmap assumptions:
 
-- Pin `@astrojs/starlight` to the current stable `0.35.2` baseline initially and let Renovate advance it through reviewable pull requests.
+- Pin `@astrojs/starlight` to the current stable `0.38.5` baseline initially and let Renovate advance it through reviewable pull requests.
 - Use Starlight on GitHub Pages with a static build output.
 - Treat versioned documentation as a first-class requirement for calculator release and pricing-year docs.
 - Keep the default Pagefind search unless a stronger search service becomes necessary.

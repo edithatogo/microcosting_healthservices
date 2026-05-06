@@ -11,6 +11,10 @@ stack is moving toward Arrow-backed interchange and Polars where parity work
 allows it. A lightweight command line interface is available via the
 `funding-calculator` script.
 
+The public documentation site is being migrated to the Starlight scaffold in
+`docs-site/` and will become the canonical docs front door as the track
+completes.
+
 ## Calculator modules
 
 Each module below mirrors a SAS program from the IHACPA package.

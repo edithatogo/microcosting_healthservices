@@ -1,0 +1,17 @@
+{
+  "name": "docs-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "linkcheck": "astro build"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.38.5",
+    "astro": "6.2.2",
+    "starlight-links-validator": "0.24.0",
+    "starlight-versions": "0.8.2"
+  }
+}

@@ -48,7 +48,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: CI, validation evidence, and contract stability.*
    *Gate: add release policy, signed artifacts, dependency automation, and provenance controls after the implementation pipeline is stable.*
 
-10. [ ] **Track: Starlight Documentation Site and Versioning**
+10. [~] **Track: Starlight Documentation Site and Versioning**
    *Link: [./tracks/starlight_docs_site_20260506/](./tracks/starlight_docs_site_20260506/)*
    *Depends on: public calculator contracts, validation vocabulary, docs governance, and GitHub Pages delivery rules.*
    *Gate: define and ship the Starlight documentation platform, its versioning model, migration path, plugin set, and deployment workflow before any docs-site decommissioning is considered.*
