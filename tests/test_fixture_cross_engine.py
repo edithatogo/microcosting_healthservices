@@ -6,11 +6,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import nwau_py.fixtures as fixtures
-
+import nwau_py.fixtures as fixtures  # noqa: E402
 
 FIXTURE_MANIFEST = (
-    Path(__file__).resolve().parent / "fixtures" / "golden" / "acute_2025" / "manifest.json"
+    Path(__file__).resolve().parent
+    / "fixtures"
+    / "golden"
+    / "acute_2025"
+    / "manifest.json"
 )
 
 

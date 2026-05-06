@@ -4,7 +4,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
 
 ## Delivery Order
 
-1. [ ] **Track: Source Archive and Provenance Registry**
+1. [x] **Track: Source Archive and Provenance Registry**
    *Link: [./tracks/source_archive_provenance_20260504/](./tracks/source_archive_provenance_20260504/)*
    *Gate: establish source acquisition, storage policy, and manifest provenance before downstream validation or implementation work.*
 

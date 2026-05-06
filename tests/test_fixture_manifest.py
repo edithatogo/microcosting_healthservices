@@ -8,11 +8,14 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import nwau_py.fixtures as fixtures
-
+import nwau_py.fixtures as fixtures  # noqa: E402
 
 FIXTURE_MANIFEST = (
-    Path(__file__).resolve().parent / "fixtures" / "golden" / "acute_2025" / "manifest.json"
+    Path(__file__).resolve().parent
+    / "fixtures"
+    / "golden"
+    / "acute_2025"
+    / "manifest.json"
 )
 
 
@@ -84,11 +87,27 @@ def test_fixture_manifest_rejects_unexpected_privacy_classification(tmp_path):
 @pytest.mark.parametrize(
     "field_path,value,reason",
     [
-        (("calculator",), "mystery-engine", "calculator identifier should be constrained"),
-        (("pricing_year",), "2025-26", "pricing_year should remain a simple year label"),
+        (
+            ("calculator",),
+            "mystery-engine",
+            "calculator identifier should be constrained",
+        ),
+        (
+            ("pricing_year",),
+            "2025-26",
+            "pricing_year should remain a simple year label",
+        ),
         (("service_stream",), "unclassified", "service_stream should be constrained"),
-        (("source_basis", "kind"), "manual_spreadsheet", "source_basis.kind should be constrained"),
-        (("precision", "rounding_policy"), "bankers_rounding", "rounding_policy should be constrained"),
+        (
+            ("source_basis", "kind"),
+            "manual_spreadsheet",
+            "source_basis.kind should be constrained",
+        ),
+        (
+            ("precision", "rounding_policy"),
+            "bankers_rounding",
+            "rounding_policy should be constrained",
+        ),
     ],
 )
 def test_fixture_manifest_rejects_unapproved_contract_values(

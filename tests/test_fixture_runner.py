@@ -16,8 +16,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import nwau_py.fixtures as fixtures
 
 PYREADSTAT = types.ModuleType("pyreadstat")
-PYREADSTAT.ReadstatError = Exception
-PYREADSTAT._readstat_parser = types.SimpleNamespace(PyreadstatError=Exception)
+setattr(PYREADSTAT, "ReadstatError", Exception)
+setattr(
+    PYREADSTAT,
+    "_readstat_parser",
+    types.SimpleNamespace(PyreadstatError=Exception),
+)
 sys.modules.setdefault("pyreadstat", PYREADSTAT)
 
 ACUTE_PATH = (
