@@ -98,7 +98,7 @@ All tasks follow a strict lifecycle:
         The automated tests have passed. For manual verification, please follow these steps:
 
         **Manual Verification Steps:**
-        1.  **Synchronize the environment with the command:** `uv sync --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs`
+        1.  **Synchronize the environment with the command:** `uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs`
         2.  **Run the targeted test command:** `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
         3.  **Confirm that you see:** A passing test run with coverage output and no Ruff, `ty`, or Vale errors.
 ```

@@ -178,6 +178,12 @@ def test_conductor_workflow_documents_the_target_uv_command_sequence():
         "--group property --group mutation --group profiling --group docs"
         in workflow
     )
+    assert (
+        "**Synchronize the environment with the command:** "
+        "`uv sync --locked --group dev --group test --group coverage --group "
+        "typing --group property --group mutation --group profiling --group docs`"
+        in workflow
+    )
     assert "uv run ruff format --check ." in workflow
     assert "uv run ruff check ." in workflow
     assert "uv run ty check" in workflow
