@@ -2,5 +2,5 @@
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
+- [Parallelization Plan](./parallelization.md)
 - [Metadata](./metadata.json)
-

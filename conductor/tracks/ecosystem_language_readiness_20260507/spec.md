@@ -18,6 +18,13 @@ The project already has strong Python, fixture, provenance, and documentation fo
 
 ## Functional Requirements
 
+- Record prerequisite dependencies before implementation begins:
+  - public calculator contract,
+  - golden fixture runner,
+  - release and supply-chain governance,
+  - Starlight documentation site,
+  - C# and Power Platform boundary documentation,
+  - and source provenance policy.
 - Produce a current-state matrix for each language and platform surface:
   - Python package and CLI.
   - Starlight documentation site.
@@ -57,6 +64,40 @@ The project already has strong Python, fixture, provenance, and documentation fo
   - openEHR and CDA only where a future clinical repository or document-ingestion scope justifies them.
 - Produce a prioritized implementation roadmap after the assessment.
 
+## Dependency Model
+
+The implementation roadmap must preserve the following dependency order:
+
+- Repository surface inventory precedes all ecosystem recommendations.
+- Standards references precede any claim that a language surface is ready for contribution.
+- Shared public contracts and golden fixtures precede any non-Python implementation claim.
+- C# engine packaging precedes Power Platform calculation parity.
+- Power Platform solution ALM precedes deployment claims.
+- Health interoperability standards remain advisory until a separate connector or PAS integration track is created.
+- Publication and community submission recommendations depend on documented licensing, citation, contribution, validation, and governance readiness.
+
+## Parallelization Model
+
+This track should be prepared for six subagents with disjoint write ownership:
+
+- Worker 1 owns repository inventory and standards matrix schema.
+- Worker 2 owns Python, pyOpenSci, PyPA, docs-site, and JOSS readiness.
+- Worker 3 owns R, rOpenSci, CRAN-style, and statistical-software readiness.
+- Worker 4 owns Julia package, registry, documentation, and kernel-prototype readiness.
+- Worker 5 owns .NET, C#, NuGet, Source Link, Power Platform ALM, and custom connector readiness.
+- Worker 6 owns health-funding, PAS, HL7 v2, FHIR, IHE, ICD, ACHI, AR-DRG, ICD-11, openEHR, CDA, and community contribution guidance.
+
+The merge order should be inventory, standards references, decision matrix, health standards, contribution roadmap, and final governance alignment.
+
+## Additional Improvements To Consider
+
+- Add `CITATION.cff`, citation guidance, and a publication-readiness checklist if the project targets JOSS or similar scientific software venues.
+- Add `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` readiness checks if they are not already present or complete.
+- Tighten docs-site package metadata with `packageManager` and `engines` once the Node/npm version policy is final.
+- Treat R and Julia as wrapper or prototype candidates until usage demand and fixture parity justify a full port.
+- Treat C# as the preferred Power Platform calculation engine only after executable .NET parity tests pass against shared fixtures.
+- Keep HL7, FHIR, IHE, and openEHR work as standards guidance until a separate implementation track defines connector scope and privacy controls.
+
 ## Non-Functional Requirements
 
 - Recommendations must distinguish verified repository state from inferred future direction.
@@ -68,6 +109,8 @@ The project already has strong Python, fixture, provenance, and documentation fo
 ## Acceptance Criteria
 
 - A standards matrix exists and covers Python, R, Julia, C#, Power Platform, docs-site, and health interoperability surfaces.
+- A dependency graph exists and makes the order of implementation claims explicit.
+- A subagent parallelization plan exists with disjoint write scopes and merge order.
 - The matrix identifies current repo artifacts, missing artifacts, package maturity, and recommended action for each surface.
 - The roadmap records whether R and Julia should be wrappers, ports, prototypes, or deferred.
 - The roadmap states whether C# currently implements Power Platform logic and what is needed before it does.
@@ -84,4 +127,3 @@ The project already has strong Python, fixture, provenance, and documentation fo
 - Implementing HL7, FHIR, IHE, openEHR, or PAS connectors.
 - Changing calculator behavior.
 - Making new validation claims without fixture evidence.
-

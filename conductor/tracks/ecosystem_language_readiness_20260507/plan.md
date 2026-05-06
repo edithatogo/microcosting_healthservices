@@ -4,8 +4,13 @@
 
 - [ ] Task: Write tests for the ecosystem readiness documentation contract
     - [ ] Verify the standards matrix file exists
+    - [ ] Verify the dependency graph and parallelization plan exist
     - [ ] Verify the matrix covers Python, R, Julia, C#, Power Platform, docs-site, and health interoperability
     - [ ] Verify the track registry includes the new roadmap
+- [ ] Task: Document dependency graph and parallel execution model
+    - [ ] Record prerequisite tracks and source documents
+    - [ ] Record phase dependencies and merge order
+    - [ ] Assign six subagent workstreams with disjoint write ownership
 - [ ] Task: Document current repository language and packaging surfaces
     - [ ] Record implemented Python and docs-site package surfaces
     - [ ] Record missing R, Julia, C#, and Power Platform artifacts
@@ -33,6 +38,7 @@
     - [ ] Define near-term packaging and publication improvements
     - [ ] Define medium-term C# and Power Platform implementation gates
     - [ ] Define deferred R, Julia, and additional platform criteria
+    - [ ] Define additional standards and platform tracks that should be created separately
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Language and Platform Decision Matrix' (Protocol in workflow.md)
 
 ## Phase 3: Health Standards and Community Contribution Roadmap
@@ -47,7 +53,7 @@
     - [ ] Separate near-term integration targets from watch-list standards
 - [ ] Task: Document contribution and publication pathways
     - [ ] Identify pyOpenSci, rOpenSci, Julia community, JOSS, health economics, health informatics, and govtech contribution paths
+    - [ ] Assess citation, contribution, code of conduct, license, and governance prerequisites
     - [ ] Define prerequisites before submitting to each community
     - [ ] Record governance and validation risks for external contribution
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Health Standards and Community Contribution Roadmap' (Protocol in workflow.md)
-
