@@ -9,6 +9,8 @@
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)
 - [Public Calculator API Contract](./public-api-contract.md)
 - [GitHub Pages Web Architecture](./web-architecture.md)
+- [C# Calculation Engine Architecture](./csharp-architecture.md)
+- [Power Platform Boundary](./power-platform-boundary.md)
 - [Release Policy](./release-policy.md)
 - [Supply-Chain Controls](./supply-chain-controls.md)
 - [Validation Vocabulary](./validation-vocabulary.md)
