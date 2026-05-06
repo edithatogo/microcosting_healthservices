@@ -13,9 +13,9 @@
 
 ## Phase 2: Fast Quality Gates
 
-- [ ] Task: Write CI checks for quality tools
-    - [ ] Verify `ruff format --check`, `ruff check`, `ty check`, `pytest`, and coverage commands run locally in the intended CI order
-    - [ ] Verify Codecov upload is configured
+- [x] Task: Write CI checks for quality tools [435716a]
+    - [x] Verify `ruff format --check`, `ruff check`, `ty check`, `pytest`, and coverage commands run locally in the intended CI order
+    - [x] Verify Codecov upload is configured
 - [ ] Task: Add quality tooling
     - [ ] Configure Codecov
     - [ ] Configure ty
