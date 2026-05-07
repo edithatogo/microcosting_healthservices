@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This track is designed for six subagents working in parallel while preserving the calculator contract and validation boundaries.
+This track is designed for six subagents working in parallel while preserving
+the repository-evidence boundary and the distinction between current package
+management, docs-site readiness, and deferred language surfaces.
 
 ## Dependencies
 
@@ -11,54 +13,57 @@ The following completed work is treated as prerequisite context:
 - Public calculator API contract.
 - Cross-language golden fixture runner.
 - Release and supply-chain governance.
-- Starlight documentation site.
-- C# calculation engine architecture.
-- Power Platform boundary documentation.
-- Source archive and provenance policy.
+- Docs-site architecture and deployment surface.
 - Validation vocabulary.
 
 ## Subagent Workstreams
 
 1. Repository inventory and matrix schema.
-   Owns current-state inspection, standards matrix structure, and artifact inventory.
+   Owns current-state inspection, standards matrix structure, and artifact
+   inventory.
 
-2. Python, docs-site, and publication readiness.
-   Owns pyOpenSci, PyPA, docs-site package metadata, JOSS, citation, contribution, and governance readiness.
+2. Python package readiness.
+   Owns the current Python packaging and version-management assessment,
+   including pyproject/lockfile evidence, transitional artifacts, CI, tests,
+   governance files, and publication readiness criteria.
 
-3. R readiness.
-   Owns rOpenSci, CRAN-style checks, `testthat`, `roxygen2`, `pkgdown`, `srr`, `pkgcheck`, reverse dependency checks, and R wrapper versus port recommendations.
+3. Docs-site package maturity.
+   Owns the current docs-site npm/package-lock evidence, Node/version policy,
+   build/deploy workflow, and GitHub Pages readiness criteria.
 
-4. Julia readiness.
-   Owns Julia package structure, `Project.toml`, `[compat]`, `test/runtests.jl`, Documenter.jl, registry readiness, TagBot, and kernel-prototype recommendations.
+4. Deferred surfaces.
+   Owns the missing C#, Power Platform, R, and Julia artifact inventory and
+   the wrapper/prototype/defer decision criteria for those surfaces.
 
-5. C#, .NET, and Power Platform readiness.
-   Owns .NET SDK pinning, solution/project layout, NuGet packaging, Source Link, deterministic builds, symbols, custom connectors, managed solutions, source-controlled solution files, and Power Platform ALM.
+5. Standards matrix integration.
+   Owns the dependency graph, recommendation matrix, and distinction between
+   current evidence, transitional artifacts, and intended-state guidance.
 
-6. Health standards and community pathways.
-   Owns ICD-10-AM, ACHI, ACS, AR-DRG, ICD-11, HL7 v2, FHIR R4/R5, IHE PAM/PDQ/PIX/PIXm/PDQm/PMIR, openEHR, CDA, health economics, health informatics, govtech, and public-sector contribution pathways.
+6. Final governance alignment.
+   Owns consistency checks across the spec, plan, metadata, and index files.
 
 ## Write Ownership
 
-- Standards matrix: Worker 1 owns the schema; workers 2 through 6 add rows for their domains.
-- Decision matrix: Worker 1 owns consistency; workers 2 through 6 provide domain recommendations.
-- Health standards guidance: Worker 6 owns the section.
-- Publication and community guidance: Worker 2 owns scientific software readiness; Worker 6 owns health and government communities.
-- C# and Power Platform sections: Worker 5 owns the section.
-- Final Conductor plan and registry updates: parent agent owns integration.
+- Standards matrix: Worker 1 owns the schema; workers 2 through 4 add their
+  domain rows.
+- Python readiness: Worker 2 owns the section.
+- Docs-site readiness: Worker 3 owns the section.
+- Deferred-surface guidance: Worker 4 owns the section.
+- Decision matrix and recommendation ordering: Worker 5 owns the integration.
+- Final Conductor alignment: parent agent owns the merge.
 
 ## Merge Order
 
-1. Inventory and schema.
-2. Standards references.
-3. Language and platform recommendations.
-4. Health standards guidance.
-5. Contribution and publication guidance.
-6. Final dependency, validation, and Conductor consistency pass.
+1. Repository inventory and schema.
+2. Python readiness assessment.
+3. Docs-site maturity recommendations.
+4. Deferred surface guidance.
+5. Final dependency, validation, and Conductor consistency pass.
 
 ## Coordination Rules
 
 - Workers must not broaden implementation or validation claims.
-- Workers must distinguish implemented surfaces from planned surfaces.
+- Workers must distinguish current evidence from future recommendations.
 - Workers must cite official or authoritative sources for external standards.
-- Workers must preserve the shared public contract and golden fixtures as the parity gate.
-- Workers must leave implementation of new languages or connectors to later tracks unless this track explicitly creates a follow-on roadmap item.
+- Workers must preserve the shared public contract and golden fixtures as the
+  parity gate for any later implementation claim.
