@@ -19,22 +19,22 @@
     - [x] Cover parameter validation and numeric precision expectations
     - [x] Cover source-provenance metadata attached to formula behavior
 - [x] Task: Implement the acute 2025 Rust kernel [d4ce021]
-    - [ ] Keep formula functions deterministic and free of hidden global state
-    - [ ] Keep reference data access separate from formula execution
-    - [ ] Preserve traceability to SAS and Python reference behavior
+    - [x] Keep formula functions deterministic and free of hidden global state [d4ce021]
+    - [x] Keep reference data access separate from formula execution [d4ce021]
+    - [x] Preserve traceability to SAS and Python reference behavior [d4ce021]
 - [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Acute 2025 Formula Kernel' (Protocol in workflow.md) [d4ce021]
 
-## Phase 3: Python Binding and Adapter
+## Phase 3: Python Binding and Adapter [checkpoint: 731db86]
 
-- [ ] Task: Write Python binding tests
-    - [ ] Verify Python can call the Rust-backed acute path
-    - [ ] Verify the binding preserves input and output schema names
-    - [ ] Verify the binding remains opt-in and does not replace default Python execution
-- [ ] Task: Implement the Python binding adapter
-    - [ ] Add PyO3/maturin build integration
-    - [ ] Expose an explicit Rust-backed acute 2025 entry point
-    - [ ] Add CLI or API opt-in wiring without changing current defaults
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Binding and Adapter' (Protocol in workflow.md)
+- [x] Task: Write Python binding tests [731db86]
+    - [x] Verify Python can call the Rust-backed acute path [731db86]
+    - [x] Verify the binding preserves input and output schema names [731db86]
+    - [x] Verify the binding remains opt-in and does not replace default Python execution [731db86]
+- [x] Task: Implement the Python binding adapter [731db86]
+    - [x] Add PyO3/maturin build integration [731db86]
+    - [x] Expose an explicit Rust-backed acute 2025 entry point [731db86]
+    - [x] Add CLI or API opt-in wiring without changing current defaults [731db86]
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Binding and Adapter' (Protocol in workflow.md) [731db86]
 
 ## Phase 4: Parity, Performance, and Canary Documentation
 
