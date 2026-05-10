@@ -63,7 +63,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: public calculator contracts, Arrow/Parquet bundle guidance, golden fixtures, ecosystem readiness, and existing C# and Power Platform boundary documentation.*
    *Gate: define Rust as the intended future calculator core and document formula, parameter, schema, reference data, provenance, validation, and adapter boundaries before Rust implementation begins.*
 
-13. [ ] **Track: Rust Acute 2025 Proof of Concept with Python Bindings**
+13. [x] **Track: Rust Acute 2025 Proof of Concept with Python Bindings**
    *Link: [./tracks/rust_acute_python_poc_20260510/](./tracks/rust_acute_python_poc_20260510/)*
    *Depends on: Rust core architecture, acute 2025 golden fixtures, Python packaging, and Arrow-compatible batch contract decisions.*
    *Gate: implement the first Rust-backed acute 2025 canary behind explicit Python opt-in and prove fixture parity before any default runtime change.*
