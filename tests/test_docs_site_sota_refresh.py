@@ -8,6 +8,13 @@ HOME = DOCS_SITE / "index.mdx"
 COVERS = DOCS_SITE / "versions" / "index.mdx"
 COVERAGE = DOCS_SITE / "governance" / "calculator-coverage.mdx"
 CONTRACT = DOCS_SITE / "governance" / "public-calculator-contract.mdx"
+CONTRACT_SCHEMA = (
+    ROOT
+    / "docs-site"
+    / "public"
+    / "contracts"
+    / "public-calculator-contract.v1.schema.json"
+)
 EXTENSIONS = DOCS_SITE / "governance" / "starlight-extensions.mdx"
 SOURCE_ARCHIVE = DOCS_SITE / "governance" / "source-archive.md"
 GOVERNANCE_INDEX = DOCS_SITE / "governance" / "index.mdx"
@@ -99,6 +106,23 @@ def test_docs_site_contract_page_records_the_runtime_neutral_boundary():
         assert phrase in contract
 
 
+def test_docs_site_contract_schema_is_published_as_machine_readable_artifact():
+    schema = _read(CONTRACT_SCHEMA)
+
+    for phrase in [
+        '"title": "Public Calculator Contract"',
+        '"schema_version"',
+        '"calculator_id"',
+        '"pricing_year"',
+        '"required_input_columns"',
+        '"required_output_columns"',
+        '"acute"',
+        '"adjust"',
+        '"NWAU25"',
+    ]:
+        assert phrase in schema
+
+
 def test_docs_site_source_archive_page_records_explicit_gaps():
     source_archive = _read(SOURCE_ARCHIVE)
 
@@ -117,6 +141,7 @@ def test_docs_site_governance_index_prioritizes_the_curated_paths():
     assert "Versioning" in governance
     assert "Starlight extensions" in governance
     assert "Public calculator contract" in governance
+    assert "Contract schema" in governance
     assert "Source archive" in governance
     assert "Rust core architecture" in governance
     assert "Public readiness" in governance

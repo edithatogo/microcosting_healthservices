@@ -71,6 +71,7 @@ def test_docs_site_landing_and_migration_pages_expose_the_final_surface():
     assert "Pagefind" in index
     assert "Calculator coverage matrix" in index
     assert "Public calculator contract" in index
+    assert "Contract schema" in index
     assert "Source archive" in index
     assert "Current contract" in index
     assert "Versioning guide" in index

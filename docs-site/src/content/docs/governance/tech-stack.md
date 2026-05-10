@@ -27,4 +27,6 @@ The repository’s public calculator contract page is the right place to anchor
 future OpenAPI generation because it already documents the versioning,
 required fields, and error model.
 
+The companion JSON Schema lives at `/contracts/public-calculator-contract.v1.schema.json`.
+
 See the canonical source in [Conductor tech-stack.md](../../../../conductor/tech-stack.md).

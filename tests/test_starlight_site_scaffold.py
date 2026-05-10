@@ -33,6 +33,7 @@ def test_starlight_scaffold_files_exist():
         / "docs"
         / "governance"
         / "public-calculator-contract.mdx",
+        SITE / "public" / "contracts" / "public-calculator-contract.v1.schema.json",
         SITE
         / "src"
         / "content"
