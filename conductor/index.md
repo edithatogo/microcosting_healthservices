@@ -9,6 +9,7 @@
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)
 - [Calculator Core Boundary ADR](../docs/adr/0006-calculator-core-boundary.md)
 - [Rust Core Architecture ADR](../docs/adr/0007-rust-core-architecture-and-calculator-abstraction.md)
+- [Current Calculator Boundary Audit](../docs/audits/20260510-current-calculator-boundary-audit.md)
 - [Public Calculator API Contract](./public-api-contract.md)
 - [GitHub Pages Web Architecture](./web-architecture.md)
 - [C# Calculation Engine Architecture](./csharp-architecture.md)
