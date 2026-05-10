@@ -12,16 +12,16 @@
     - [x] Record where existing Arrow/Parquet bundles and golden fixtures already satisfy the target contract
 - [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Current-State Architecture Audit' (Protocol in workflow.md)
 
-## Phase 2: Rust-Core Target Architecture ADR
+## Phase 2: Rust-Core Target Architecture ADR [checkpoint: c357f5e]
 
-- [ ] Task: Write tests for the new ADR and documentation links
-    - [ ] Verify the ADR exists and is referenced from Conductor and Starlight navigation where appropriate
-    - [ ] Verify the ADR names Rust as the intended future core and Python as the current validated path
-- [ ] Task: Add the Rust-core architecture ADR
-    - [ ] Define crate responsibilities, adapter boundaries, and promotion gates
-    - [ ] Record why Arrow-compatible batch contracts are primary
-    - [ ] Supersede the C#-engine-first assumption without removing Power Platform support
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust-Core Target Architecture ADR' (Protocol in workflow.md)
+- [x] Task: Write tests for the new ADR and documentation links [5b7fd22]
+    - [x] Verify the ADR exists and is referenced from Conductor and Starlight navigation where appropriate
+    - [x] Verify the ADR names Rust as the intended future core and Python as the current validated path
+- [x] Task: Add the Rust-core architecture ADR [2151123]
+    - [x] Define crate responsibilities, adapter boundaries, and promotion gates
+    - [x] Record why Arrow-compatible batch contracts are primary
+    - [x] Supersede the C#-engine-first assumption without removing Power Platform support
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust-Core Target Architecture ADR' (Protocol in workflow.md) [c357f5e]
 
 ## Phase 3: Contract and Schema Boundary Design
 
