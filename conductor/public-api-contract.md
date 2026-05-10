@@ -6,6 +6,9 @@ This document defines the versioned public calculator contract that downstream
 adapters must treat as the source of truth. It is intentionally narrow and
 documents the current acute calculator surface first.
 
+The contract is runtime-neutral and batch-first. Formula logic belongs in the
+calculator core, not in adapters.
+
 ## Contract Versioning
 
 - Contract version: `1.0`
@@ -51,9 +54,12 @@ Contract violations should surface structured, explainable errors:
 - Adapters may parse inputs, validate the contract, select the requested year,
   and format outputs.
 - Adapters must not embed calculator math or source-bundle lookup behavior.
+- The same contract should be consumable by Rust, Python, C#, web, Power
+  Platform, R, Julia, Go, and TypeScript surfaces without changing the core
+  schema.
 
 ## Generation Readiness
 
-The contract shape is suitable for later OpenAPI or C# model generation because
-it exposes explicit schema versions, supported identifiers, required columns,
-and structured validation errors.
+The contract shape is suitable for later OpenAPI or client model generation
+because it exposes explicit schema versions, supported identifiers, required
+columns, and structured validation errors.

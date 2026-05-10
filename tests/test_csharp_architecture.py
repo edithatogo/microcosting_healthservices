@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 C_SHARP_ARCH = ROOT / "conductor" / "csharp-architecture.md"
 POWER_PLATFORM = ROOT / "conductor" / "power-platform-boundary.md"
@@ -15,8 +14,9 @@ def _read(path: Path) -> str:
 
 def test_csharp_architecture_records_service_boundary():
     text = _read(C_SHARP_ARCH)
-    assert "C# engine" in text
-    assert "service boundary" in text
+    assert "downstream adapter or service integration target" in text
+    assert "formula logic should" in text
+    assert "Rust core" in text
     assert "Power Platform" in text
     assert "shared golden fixtures" in text
 
@@ -24,7 +24,8 @@ def test_csharp_architecture_records_service_boundary():
 def test_power_platform_boundary_records_orchestration_only_rules():
     text = _read(POWER_PLATFORM)
     assert "orchestrate calculator workflows" in text
-    assert "calculation should happen in the C# service boundary" in text
+    assert "secured service boundary" in text
+    assert "Rust-backed core" in text
     assert "Custom Connector or Azure Function" in text
 
 

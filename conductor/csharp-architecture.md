@@ -2,15 +2,18 @@
 
 ## Purpose
 
-The C# engine is the calculation boundary for downstream Power Platform and
-service integrations. It should consume the public calculator contract and the
+The C# surface is a downstream adapter or service integration target, not the
+calculation boundary. It should consume the public calculator contract and the
 shared golden fixtures rather than re-implementing contract decisions.
 
 ## Layout
 
-- A service project should own the calculation logic.
+- A service project may wrap the calculator core, but the formula logic should
+  live in the Rust core rather than in C#.
 - A thin adapter layer should translate contract inputs and outputs.
 - Power Platform should call the service boundary, not calculation math.
+- If the C# path is retained, it should remain a downstream adapter or service
+  façade over the shared contract.
 
 ## Logging
 
@@ -23,4 +26,5 @@ shared golden fixtures rather than re-implementing contract decisions.
 - Shared fixture packs should drive regression and parity tests.
 - The same manifest and payload contract should be usable from Python, C#, and
   the web demo.
-
+- The same manifest and payload contract should also be usable by future Rust
+  and other language surfaces.

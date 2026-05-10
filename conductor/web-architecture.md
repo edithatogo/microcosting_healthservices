@@ -12,6 +12,8 @@ driven outputs without accepting real patient data.
 - No upload, persistence, or authenticated real-data workflow belongs in the
   Pages-hosted shell.
 - Any real-data path must go through a separate secured service boundary.
+- The browser surface should stay contract-consuming and never own calculator
+  math.
 
 ## Demo Shell
 
@@ -20,6 +22,8 @@ driven outputs without accepting real patient data.
   contract metadata.
 - The shell should display a synthetic fixture result table rather than perform
   server-side calculation.
+- The demo may eventually consume a Rust-backed core through a secure boundary,
+  but the Pages-hosted shell itself stays static and synthetic.
 
 ## Privacy Rules
 

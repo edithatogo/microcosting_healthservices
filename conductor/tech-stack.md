@@ -18,6 +18,8 @@ Current repository evidence shows:
 - `mypy` remains a transitional comparator until the migration is complete.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
 - The CLI is exposed through the `funding-calculator` entry point.
+- Rust is the intended future calculator core, but no Rust workspace exists yet.
+- Python remains the current validated runtime path until Rust parity is proven.
 
 ## Target Platform
 
@@ -49,6 +51,8 @@ The target DataFrame engine should be Polars rather than pandas.
 
 Arrow should be the canonical interchange and storage format for tabular reference data, extracted calculator tables, intermediate reusable datasets, and cross-library compatibility. DataFrame boundaries should prefer Arrow-compatible schemas so data can move between Polars, Python libraries, and future compute backends without lossy conversion.
 
+For calculator execution, Arrow-compatible batch input and output should be treated as the primary kernel contract for any future Rust core. Scalar helpers may exist for unit tests or formula composition, but the calculation boundary itself should remain batch-oriented and language-neutral.
+
 JAX/XLA should be considered for calculation paths where vectorized numerical behavior, compilation, batching, or accelerator portability provides a measurable benefit. JAX should not obscure calculator traceability; calculation behavior must remain explainable against IHACPA source logic.
 
 Existing pandas code should be treated as legacy implementation detail until replaced or wrapped behind stable abstractions.
@@ -76,10 +80,11 @@ The project should enforce strict abstraction between:
 - Reference data loading.
 - Source provenance and validation metadata.
 - CLI and user-facing workflow code.
+- Rust-core kernel logic and language adapters.
 
 Calculator functions should avoid hidden global state. Calculation behavior should be deterministic for a given input dataset, pricing year, parameter model, and reference data bundle.
 
-The architecture should make it possible to compare implementations against SAS, Excel, compiled/Python reference files, and extracted Arrow-backed datasets.
+The architecture should make it possible to compare implementations against SAS, Excel, compiled/Python reference files, and extracted Arrow-backed datasets. Rust is the intended future core implementation, while Python remains the baseline for validation and promotion until parity is recorded.
 
 ## Testing and Quality
 
@@ -165,6 +170,7 @@ Treat the transitional tools and files as compatibility scaffolding, not as the 
 - `requirements.txt` and `requirements-dev.txt` are compatibility views during the `uv` migration.
 - `mypy` remains a comparator until the `ty` migration is complete.
 - `pandas` remains the current implementation substrate until the Polars and Arrow migration is verified.
+- Rust-core migration should be calculator-by-calculator and fixture-gated. Adapter code in Python, C#, web, Power Platform, R, Julia, Go, and TypeScript must not duplicate formula logic.
 
 The current pandas implementation should not be replaced casually. Migration to Polars, Arrow-backed storage, Pydantic validation, JAX/XLA calculation paths, and stricter abstraction should be planned in phases with parity tests protecting behavior.
 
