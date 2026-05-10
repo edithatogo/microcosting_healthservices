@@ -8,6 +8,7 @@ from .acute import (
     AcuteReferenceBundle,
     build_acute_contract,
     calculate_acute,
+    calculate_acute_rust_2025,
     validate_acute_input_frame,
 )
 from .adjust import calculate_adjusted_nwau
@@ -30,6 +31,7 @@ __all__ = [
     "AcuteCalculationContract",
     "build_acute_contract",
     "validate_acute_input_frame",
+    "calculate_acute_rust_2025",
     "calculate_ed",
     "EDParams",
     "calculate_mh",

@@ -7,6 +7,9 @@ import pyreadstat
 
 from nwau_py.data.loader import load_sas_table
 from nwau_py.data.paths import sas_table
+from nwau_py.rust_bridge import (
+    calculate_acute_2025_row as _rust_calculate_acute_2025_row,
+)
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
 
 _DEFAULT_YEAR = "2025"
@@ -152,6 +155,104 @@ def _resolve_acute_reference_bundle(
         year=str(year),
         ref_dir=Path(ref_dir) if ref_dir is not None else sas_ref_dir(year),
     )
+
+
+def _acute_reference_row_from_weights(row: pd.Series) -> dict[str, object]:
+    """Build the Rust kernel reference-row contract from a resolved weight row."""
+
+    return {
+        "drg": str(row["DRG"]),
+        "inlier_lower_bound": float(row.get("drg_inlier_lb", 0.0) or 0.0),
+        "inlier_upper_bound": float(row.get("drg_inlier_ub", 0.0) or 0.0),
+        "paediatric_multiplier": float(row.get("drg_adj_paed", 1.0) or 1.0),
+        "same_day_list_flag": bool(float(row.get("drg_samedaylist_flag", 0) or 0.0)),
+        "bundled_icu_flag": bool(float(row.get("drg_bundled_icu_flag", 0) or 0.0)),
+        "same_day_base_weight": float(row.get("drg_pw_sso_base", 0.0) or 0.0),
+        "same_day_per_diem": float(row.get("drg_pw_sso_perdiem", 0.0) or 0.0),
+        "inlier_weight": float(row.get("drg_pw_inlier", 0.0) or 0.0),
+        "long_stay_per_diem": float(row.get("drg_pw_lso_perdiem", 0.0) or 0.0),
+        "private_service_adjustment": float(
+            row.get("drg_adj_privpat_serv", 0.0) or 0.0
+        ),
+    }
+
+
+def _acute_rust_adjustments(params: AcuteParams) -> dict[str, object]:
+    """Build the adjustment contract for the Rust acute kernel."""
+
+    return {
+        "icu_rate": 0.0,
+        "covid_adjustment": 0.0,
+        "indigenous_adjustment": 0.0,
+        "remoteness_adjustment": 0.0,
+        "treatment_remoteness_adjustment": 0.0,
+        "radiotherapy_adjustment": 0.0,
+        "dialysis_adjustment": 0.0,
+        "private_accommodation_same_day": 0.0,
+        "private_accommodation_overnight": 0.0,
+    }
+
+
+def calculate_acute_rust_2025(
+    df: pd.DataFrame,
+    params: AcuteParams,
+    *,
+    year: str = _DEFAULT_YEAR,
+    ref_dir: Path | None = None,
+    contract: AcuteCalculationContract | None = None,
+    reference_bundle: AcuteReferenceBundle | None = None,
+) -> pd.DataFrame:
+    """Calculate the acute 2025 pilot using the Rust kernel for the core formula.
+
+    The function is intentionally opt-in and conservative: it only targets the
+    acute 2025 pilot pack and returns the original columns plus an ``NWAU25``
+    column computed by the Rust kernel.
+    """
+
+    contract = contract or build_acute_contract(
+        params=params,
+        year=year,
+        ref_dir=ref_dir,
+        reference_bundle=reference_bundle,
+    )
+    validate_acute_input_frame(df, contract)
+    reference_bundle = contract.reference_bundle or _resolve_acute_reference_bundle(
+        year=year,
+        ref_dir=ref_dir,
+        reference_bundle=reference_bundle,
+    )
+    weights = (
+        reference_bundle.weights.copy()
+        if reference_bundle.weights is not None
+        else _load_price_weights(reference_bundle.ref_dir, contract.year)
+    )
+
+    merged = df.merge(weights, on="DRG", how="left")
+    nwau_col = f"NWAU{str(contract.year)[-2:]}"
+    rust_adjustments = _acute_rust_adjustments(contract.params)
+    output = df.copy()
+    output[nwau_col] = 0.0
+
+    for idx, row in merged.iterrows():
+        rust_output = _rust_calculate_acute_2025_row(
+            row[[
+                "DRG",
+                "LOS",
+                "ICU_HOURS",
+                "ICU_OTHER",
+                "PAT_SAMEDAY_FLAG",
+                "PAT_PRIVATE_FLAG",
+                "PAT_COVID_FLAG",
+            ]].to_dict(),
+            _acute_reference_row_from_weights(row),
+            rust_adjustments,
+        )
+        output.at[idx, nwau_col] = float(rust_output["NWAU25"])
+
+    if not params.debug_mode:
+        for col in [c for c in output.columns if c.startswith("_")]:
+            output = output.drop(columns=col)
+    return output
 
 
 def calculate_acute(

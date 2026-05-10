@@ -59,6 +59,12 @@ fixture helpers in `nwau_py.fixtures` to load packs, read payloads, and run
 runner-neutral checks that can later be consumed by Python, C#, and web
 tooling.
 
+For the acute 2025 pilot there is also an explicit Rust-backed opt-in path,
+`nwau_py.calculators.calculate_acute_rust_2025()`, which loads the optional
+`nwau_py._rust` extension through `nwau_py.rust_bridge` and returns the same
+`NWAU25` values for the synthetic fixture pack without changing the default
+Python calculator path.
+
 ## Formula JSON
 
 The file `excel_calculator/data/formula.json` is a structured representation of
