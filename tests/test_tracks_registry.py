@@ -19,6 +19,11 @@ def test_tracks_registry_orders_the_focused_tracks():
         "Release and Supply-Chain Governance",
         "Starlight Documentation Site and Versioning",
         "Ecosystem Standards and Language Readiness",
+        "Rust Core Architecture and Calculator Abstraction",
+        "Rust Acute 2025 Proof of Concept with Python Bindings",
+        "Multi-Surface Binding and Delivery Roadmap",
+        "Rust CI, Pre-Commit, and Supply-Chain Hardening",
+        "Documentation, Release, and Public Readiness",
     ]
 
     positions = [text.index(name) for name in expected]
@@ -52,6 +57,22 @@ def test_tracks_registry_records_dependency_and_gate_language():
         (
             "Gate: assess scientific software standards, language packaging "
             "maturity, C# and Power Platform implementation readiness"
+        ),
+        "Depends on: public calculator contracts, Arrow/Parquet bundle guidance",
+        "Gate: define Rust as the intended future calculator core",
+        "Depends on: Rust core architecture, acute 2025 golden fixtures",
+        "Gate: implement the first Rust-backed acute 2025 canary",
+        "Depends on: Rust core architecture, Rust/Python proof-of-concept results",
+        (
+            "Gate: define binding and delivery sequencing for Python, R, Julia, "
+            "C#, Rust, Go, TypeScript/WASM, Streamlit, GitHub Pages, and Power Platform"
+        ),
+        "Depends on: Python tooling and CI modernization, release governance",
+        "Gate: align branch triggers, pre-commit hooks, Rust quality gates",
+        "Depends on: Rust core architecture, binding delivery roadmap",
+        (
+            "Gate: publish conservative docs for current versus intended "
+            "Rust-backed behavior"
         ),
     ]:
         assert phrase in text
