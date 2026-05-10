@@ -32,6 +32,20 @@ Every release should identify:
 - Renovate updates that touch calculator-impacting dependencies require review
   against the validation surface.
 
+## Calculator Migration Policy
+
+Calculator migration should remain calculator-by-calculator rather than
+wide-bang.
+
+- Rust promotion requires golden fixture parity and explicit validation status.
+- Python remains the default runtime path until a calculator-specific
+  promotion record exists.
+- Promotion records should name the calculator, pricing year, parity type,
+  fixture set, tolerance, reviewer, and any known gaps.
+- Canary runs, parity evidence, performance measurements, rollback guidance,
+  and release-note requirements should be recorded before any Rust-backed path
+  becomes default.
+
 ## Reviewer Rule
 
 Do not merge a release that broadens a validation claim without a matching
