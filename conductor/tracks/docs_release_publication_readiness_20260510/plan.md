@@ -9,7 +9,7 @@
     - [ ] Add Rust-core architecture, migration, and binding roadmap pages
     - [ ] Link relevant Conductor governance docs into Starlight navigation
     - [ ] Preserve conservative validation language
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Starlight Architecture Content' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Starlight Architecture Content' (Protocol in workflow.md)
 
 ## Phase 2: API and Reference Generation Plan
 
@@ -20,7 +20,7 @@
     - [ ] Define how public contracts, Rust API docs, Python docs, and WASM docs should surface
     - [ ] Evaluate Starlight OpenAPI or equivalent integration only where it supports real public contracts
     - [ ] Record documentation ownership for each language surface
-- [ ] Task: Conductor - Automated Review and Checkpoint 'API and Reference Generation Plan' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'API and Reference Generation Plan' (Protocol in workflow.md)
 
 ## Phase 3: Release Notes, Provenance, and Validation Status
 
@@ -31,7 +31,7 @@
     - [ ] Define version relationships between package, core crate, data bundle, and binding packages
     - [ ] Define release-note requirements for calculator behavior changes
     - [ ] Document provenance and validation evidence expected for Rust-backed releases
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Release Notes, Provenance, and Validation Status' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Release Notes, Provenance, and Validation Status' (Protocol in workflow.md)
 
 ## Phase 4: Public Repo Hygiene and Contributor Pathway
 
@@ -42,4 +42,4 @@
     - [ ] Add or update contributor pathway, security policy recommendation, citation guidance, and validation vocabulary links
     - [ ] Record any unresolved public-readiness gaps as follow-on work
     - [ ] Confirm GitHub Pages documentation remains the public docs front door
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Public Repo Hygiene and Contributor Pathway' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Public Repo Hygiene and Contributor Pathway' (Protocol in workflow.md)

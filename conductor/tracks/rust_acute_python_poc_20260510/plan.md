@@ -10,7 +10,7 @@
     - [ ] Add core and Python binding crates with explicit responsibilities
     - [ ] Add formatting, linting, and test entry points
     - [ ] Document how the workspace maps to the architecture ADR
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Rust Workspace and Kernel Contract' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Workspace and Kernel Contract' (Protocol in workflow.md)
 
 ## Phase 2: Acute 2025 Formula Kernel
 
@@ -22,7 +22,7 @@
     - [ ] Keep formula functions deterministic and free of hidden global state
     - [ ] Keep reference data access separate from formula execution
     - [ ] Preserve traceability to SAS and Python reference behavior
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Acute 2025 Formula Kernel' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Acute 2025 Formula Kernel' (Protocol in workflow.md)
 
 ## Phase 3: Python Binding and Adapter
 
@@ -34,7 +34,7 @@
     - [ ] Add PyO3/maturin build integration
     - [ ] Expose an explicit Rust-backed acute 2025 entry point
     - [ ] Add CLI or API opt-in wiring without changing current defaults
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Python Binding and Adapter' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Binding and Adapter' (Protocol in workflow.md)
 
 ## Phase 4: Parity, Performance, and Canary Documentation
 
@@ -46,4 +46,4 @@
     - [ ] Record validation evidence and known limitations
     - [ ] Record performance measurements without making unsupported claims
     - [ ] Document rollback and non-default runtime behavior
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Parity, Performance, and Canary Documentation' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Parity, Performance, and Canary Documentation' (Protocol in workflow.md)

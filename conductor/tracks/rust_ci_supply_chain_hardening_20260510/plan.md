@@ -10,7 +10,7 @@
     - [ ] Record current Python, docs, and slow-validation gates
     - [ ] Identify branch, tool, and workflow drift
     - [ ] Record required pre-push checks for future implementation work
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Existing CI and Pre-Commit Audit' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Existing CI and Pre-Commit Audit' (Protocol in workflow.md)
 
 ## Phase 2: Python Gate Alignment
 
@@ -21,7 +21,7 @@
     - [ ] Fix branch trigger drift
     - [ ] Replace stale pre-commit hooks or document them as transitional
     - [ ] Keep local and GitHub Actions commands consistent
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Python Gate Alignment' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Gate Alignment' (Protocol in workflow.md)
 
 ## Phase 3: Rust Gate Addition
 
@@ -32,7 +32,7 @@
     - [ ] Add `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test`
     - [ ] Evaluate `cargo nextest` without requiring it before it adds value
     - [ ] Wire Rust checks into pre-push guidance
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Rust Gate Addition' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Gate Addition' (Protocol in workflow.md)
 
 ## Phase 4: Security, Provenance, and Release Automation
 
@@ -43,4 +43,4 @@
     - [ ] Evaluate `cargo audit`, `cargo deny`, SBOM generation, signing, attestations, and `cargo-dist`
     - [ ] Update Renovate and release policy docs for Rust dependencies
     - [ ] Document GitHub Actions passing requirements before push/merge claims
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Security, Provenance, and Release Automation' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Security, Provenance, and Release Automation' (Protocol in workflow.md)

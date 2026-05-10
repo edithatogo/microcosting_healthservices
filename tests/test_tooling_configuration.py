@@ -8,9 +8,7 @@ PROJECT_FILE = ROOT / "pyproject.toml"
 LOCK_FILE = ROOT / "uv.lock"
 CODECOV_FILE = ROOT / ".github" / "codecov.yml"
 PR_CI_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "pr-ci.yml"
-SLOW_VALIDATION_WORKFLOW_FILE = (
-    ROOT / ".github" / "workflows" / "slow-validation.yml"
-)
+SLOW_VALIDATION_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "slow-validation.yml"
 TY_FILE = ROOT / "ty.toml"
 MYPY_FILE = ROOT / "mypy.ini"
 ROOT_README_FILE = ROOT / "README.md"
@@ -159,9 +157,8 @@ def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
     assert "run: uv run mutmut run" in workflow
     assert scalene_command in workflow
 
-    assert (
-        workflow.index("Property checks")
-        < workflow.index("Run property-focused tests")
+    assert workflow.index("Property checks") < workflow.index(
+        "Run property-focused tests"
     )
     assert workflow.index("Mutation checks") < workflow.index("Run mutmut")
     assert workflow.index("Profiling checks") < workflow.index("Run Scalene profiling")
@@ -169,20 +166,22 @@ def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
 
 def test_conductor_workflow_documents_the_target_uv_command_sequence():
     workflow = _read_text(CONDUCTOR_WORKFLOW_FILE)
+    normalized = " ".join(workflow.split())
     coverage_command = (
         "uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml"
     )
 
     assert (
         "uv sync --locked --group dev --group test --group coverage --group typing "
-        "--group property --group mutation --group profiling --group docs"
-        in workflow
+        "--group property --group mutation --group profiling --group docs" in workflow
     )
+    assert "conductor-review" in workflow
+    assert "manual verification" not in workflow.lower()
+    assert "user confirmation" not in workflow.lower()
+    assert "Do not pause for manual confirmation" in workflow
     assert (
-        "**Synchronize the environment with the command:** "
-        "`uv sync --locked --group dev --group test --group coverage --group "
-        "typing --group property --group mutation --group profiling --group docs`"
-        in workflow
+        "automatically continue with the next incomplete task or next track"
+        in normalized
     )
     assert "uv run ruff format --check ." in workflow
     assert "uv run ruff check ." in workflow
@@ -207,12 +206,14 @@ def test_development_docs_pin_the_current_tooling_contract():
     )
     assert "uv run ty check" in normalized_development
     assert "uv run --with vale vale conductor README.md docs" in normalized_development
-    assert "Codecov consumes the XML coverage report produced in CI" in normalized_development
+    assert (
+        "Codecov consumes the XML coverage report produced in CI"
+        in normalized_development
+    )
 
     assert (
         "uv run pytest --cov=nwau_py --cov-report=term-missing "
-        "--cov-report=xml --cov-fail-under=80"
-        in normalized_root_readme
+        "--cov-report=xml --cov-fail-under=80" in normalized_root_readme
     )
 
     assert (

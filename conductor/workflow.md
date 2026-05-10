@@ -88,53 +88,32 @@ All tasks follow a strict lifecycle:
     -   Execute the announced command.
     -   If tests fail, you **must** inform the user and begin debugging. You may attempt to propose a fix a **maximum of two times**. If the tests still fail after your second proposed fix, you **must stop**, report the persistent failure, and ask the user for guidance.
 
-4.  **Propose a Detailed, Actionable Manual Verification Plan:**
-    -   **CRITICAL:** To generate the plan, first analyze `product.md`, `product-guidelines.md`, and `plan.md` to determine the user-facing goals of the completed phase.
-    -   You **must** generate a step-by-step plan that walks the user through the verification process, including any necessary commands and specific, expected outcomes.
-    -   The plan you present to the user **must** follow this format:
+4.  **Run `conductor-review` and Auto-Fix:**
+    -   Use the `conductor-review` skill to inspect the current phase or track against the spec, plan, workflow, tests, and changed files.
+    -   Apply every high-confidence fix directly.
+    -   Rerun the narrowest validation that proves the fix.
+    -   Repeat the review-fix-validation loop until the work is stable or the bounded retry budget is exhausted.
 
-        **For a Python Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Synchronize the environment with the command:** `uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs`
-        2.  **Run the targeted test command:** `uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
-        3.  **Confirm that you see:** A passing test run with coverage output and no Ruff, `ty`, or Vale errors.
-```
-
-        **For a Release or Supply-Chain Change:**
-        ```
-        The automated tests have passed. For manual verification, please follow these steps:
-
-        **Manual Verification Steps:**
-        1.  **Ensure the workspace is synchronized with the committed lockfile.**
-        2.  **Execute the following command in your terminal:** `uv run ruff check . && uv run ty check && uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80`
-        3.  **Confirm that you receive:** A clean quality-gate run with coverage ready for Codecov and no documentation lint failures.
-        ```
-
-5.  **Await Explicit User Feedback:**
-    -   After presenting the detailed plan, ask the user for confirmation: "**Does this meet your expectations? Please confirm with yes or provide feedback on what needs to be changed.**"
-    -   **PAUSE** and await the user's response. Do not proceed without an explicit yes or confirmation.
-
-6.  **Create Checkpoint Commit:**
+5.  **Create Checkpoint Commit:**
     -   Stage all changes. If no changes occurred in this step, proceed with an empty commit.
     -   Perform the commit with a clear and concise message (e.g., `conductor(checkpoint): Checkpoint end of Phase X`).
 
-7.  **Attach Auditable Verification Report using Git Notes:**
-    -   **Step 7.1: Draft Note Content:** Create a detailed verification report including the automated test command, the manual verification steps, and the user's confirmation.
-    -   **Step 7.2: Attach Note:** Use the `git notes` command and the full commit hash from the previous step to attach the full report to the checkpoint commit.
+6.  **Attach Auditable Verification Report using Git Notes:**
+    -   **Step 6.1: Draft Note Content:** Create a detailed verification report including the automated test command, the `conductor-review` findings, and the fixes applied.
+    -   **Step 6.2: Attach Note:** Use the `git notes` command and the full commit hash from the previous step to attach the full report to the checkpoint commit.
 
-8.  **Get and Record Phase Checkpoint SHA:**
-    -   **Step 8.1: Get Commit Hash:** Obtain the hash of the *just-created checkpoint commit* (`git log -1 --format="%H"`).
-    -   **Step 8.2: Update Plan:** Read `plan.md`, find the heading for the completed phase, and append the first 7 characters of the commit hash in the format `[checkpoint: <sha>]`.
-    -   **Step 8.3: Write Plan:** Write the updated content back to `plan.md`.
+7.  **Get and Record Phase Checkpoint SHA:**
+    -   **Step 7.1: Get Commit Hash:** Obtain the hash of the *just-created checkpoint commit* (`git log -1 --format="%H"`).
+    -   **Step 7.2: Update Plan:** Read `plan.md`, find the heading for the completed phase, and append the first 7 characters of the commit hash in the format `[checkpoint: <sha>]`.
+    -   **Step 7.3: Write Plan:** Write the updated content back to `plan.md`.
 
-9. **Commit Plan Update:**
+8. **Commit Plan Update:**
     - **Action:** Stage the modified `plan.md` file.
     - **Action:** Commit this change with a descriptive message following the format `conductor(plan): Mark phase '<PHASE NAME>' as complete`.
 
-10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed verification report attached as a git note.
+9.  **Auto-Advance:** Once the checkpoint is recorded, automatically continue with the next incomplete task or next track. Do not pause for manual confirmation unless the workflow is blocked by missing context or a failing bounded retry.
+
+10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed automated review report attached as a git note.
 
 ### Quality Gates
 

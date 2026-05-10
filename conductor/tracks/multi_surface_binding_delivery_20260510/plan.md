@@ -10,7 +10,7 @@
     - [ ] Record recommended tools and risks for each language
     - [ ] Define stable ABI, Arrow, WASM, and service-boundary options
     - [ ] Record sequencing after Rust/Python parity
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Binding Matrix and Adapter Contract' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Binding Matrix and Adapter Contract' (Protocol in workflow.md)
 
 ## Phase 2: TypeScript/WASM and GitHub Pages Delivery
 
@@ -22,7 +22,7 @@
     - [ ] Define wasm-bindgen or wasm-pack evaluation criteria
     - [ ] Define fixture-backed browser parity workflow
     - [ ] Update web architecture and docs-site guidance
-- [ ] Task: Conductor - Automated Review and Checkpoint 'TypeScript/WASM and GitHub Pages Delivery' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'TypeScript/WASM and GitHub Pages Delivery' (Protocol in workflow.md)
 
 ## Phase 3: Streamlit and Service/API Delivery
 
@@ -33,7 +33,7 @@
     - [ ] Define local/demo Streamlit workflow and data constraints
     - [ ] Define secure service boundary options for real-data workflows
     - [ ] Define observability and logging limits for sensitive fields
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Streamlit and Service/API Delivery' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Streamlit and Service/API Delivery' (Protocol in workflow.md)
 
 ## Phase 4: R, Julia, C#, Go, and Power Platform Packaging Plans
 
@@ -44,4 +44,4 @@
     - [ ] Evaluate extendr for R, jlrs or Julia ccall for Julia, and ABI or service wrappers for C# and Go
     - [ ] Define package/versioning expectations for each surface
     - [ ] Define when each surface can claim parity or release readiness
-- [ ] Task: Conductor - Automated Review and Checkpoint 'R, Julia, C#, Go, and Power Platform Packaging Plans' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'R, Julia, C#, Go, and Power Platform Packaging Plans' (Protocol in workflow.md)

@@ -10,7 +10,7 @@
     - [x] Map formulae, parameters, schemas, reference loading, provenance, and adapter responsibilities
     - [x] Identify remaining pandas-coupled execution paths
     - [x] Record where existing Arrow/Parquet bundles and golden fixtures already satisfy the target contract
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Current-State Architecture Audit' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Current-State Architecture Audit' (Protocol in workflow.md)
 
 ## Phase 2: Rust-Core Target Architecture ADR
 
@@ -21,7 +21,7 @@
     - [ ] Define crate responsibilities, adapter boundaries, and promotion gates
     - [ ] Record why Arrow-compatible batch contracts are primary
     - [ ] Supersede the C#-engine-first assumption without removing Power Platform support
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Rust-Core Target Architecture ADR' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust-Core Target Architecture ADR' (Protocol in workflow.md)
 
 ## Phase 3: Contract and Schema Boundary Design
 
@@ -32,7 +32,7 @@
     - [ ] Update public API contract guidance for Rust-backed batch execution
     - [ ] Update C#, Power Platform, and web architecture docs to consume the Rust-core contract
     - [ ] Document scalar helper limits and batch-first interface expectations
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Contract and Schema Boundary Design' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Contract and Schema Boundary Design' (Protocol in workflow.md)
 
 ## Phase 4: Migration and Promotion Policy
 
@@ -43,4 +43,4 @@
     - [ ] Define canary, parity, performance, rollback, and release-note requirements
     - [ ] Define how validation claims appear in docs and release metadata
     - [ ] Update product and tech-stack docs only where the architecture materially changes them
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Migration and Promotion Policy' (Protocol in workflow.md)
+- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Migration and Promotion Policy' (Protocol in workflow.md)

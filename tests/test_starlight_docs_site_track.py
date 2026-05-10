@@ -46,4 +46,7 @@ def test_starlight_docs_site_track_metadata_and_docs_exist():
     assert "Specification" in index
     assert "Implementation Plan" in index
     assert "Metadata" in index
-    assert "[Starlight Docs Site Track](./archive/starlight_docs_site_20260506/)" in conductor_index
+    assert (
+        "[Starlight Docs Site Track](./archive/starlight_docs_site_20260506/)"
+        in conductor_index
+    )
