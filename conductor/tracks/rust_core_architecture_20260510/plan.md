@@ -3,14 +3,14 @@
 ## Phase 1: Current-State Architecture Audit [checkpoint: c052777]
 
 - [x] Task: Write tests for Rust architecture governance [2151123]
-    - [ ] Verify the tracks registry contains the Rust architecture roadmap in the expected order
-    - [ ] Verify architecture docs distinguish current Python behavior from intended Rust-core behavior
-    - [ ] Verify Power Platform remains orchestration-only
+    - [x] Verify the tracks registry contains the Rust architecture roadmap in the expected order
+    - [x] Verify architecture docs distinguish current Python behavior from intended Rust-core behavior
+    - [x] Verify Power Platform remains orchestration-only
 - [x] Task: Audit current calculator boundaries [43d4a0a]
     - [x] Map formulae, parameters, schemas, reference loading, provenance, and adapter responsibilities
     - [x] Identify remaining pandas-coupled execution paths
     - [x] Record where existing Arrow/Parquet bundles and golden fixtures already satisfy the target contract
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Current-State Architecture Audit' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Current-State Architecture Audit' (Protocol in workflow.md) [43d4a0a]
 
 ## Phase 2: Rust-Core Target Architecture ADR [checkpoint: c357f5e]
 
