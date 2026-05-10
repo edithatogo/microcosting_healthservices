@@ -20,6 +20,19 @@ The GitHub Pages web app must default to synthetic examples and client-side demo
 
 If real-data calculation is supported later, use a secured service boundary with documented privacy, retention, audit, and access controls.
 
+## Streamlit Constraints
+
+Streamlit is a Python-hosted analyst surface for local or demo use. It should
+consume the same public contracts and synthetic fixture packs as the other
+delivery surfaces.
+
+- Do not expose unrestricted file upload paths for patient-level data.
+- Log operational metadata, not patient-level fields.
+- Keep raw calculation inputs and outputs behind the same privacy rules as the
+  rest of the repository.
+- Route any real-data workflow through the secured service boundary rather than
+  the Streamlit app itself.
+
 ## Power Platform Constraints
 
 Power Platform integration should keep Dataverse and app workflows separate from the calculation engine. The C# engine should expose explicit input and output contracts, avoid hidden persistence, and log operational metadata without logging patient-level fields.
