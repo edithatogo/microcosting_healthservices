@@ -6,7 +6,7 @@ fn kernel_label() -> &'static str {
 }
 
 #[pymodule]
-fn nwau_py_rust(_py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn _rust(_py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(kernel_label, m)?)?;
     Ok(())
 }

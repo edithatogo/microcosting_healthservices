@@ -10,6 +10,11 @@ name = "nwau_py_rust"
 path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
 
+[features]
+default = ["abi3-py311"]
+extension-module = ["pyo3/extension-module"]
+abi3-py311 = ["pyo3/abi3-py311"]
+
 [dependencies]
-pyo3 = { version = "0.22", features = ["extension-module"] }
+pyo3 = { version = "0.22" }
 nwau-core = { path = "../nwau-core" }
