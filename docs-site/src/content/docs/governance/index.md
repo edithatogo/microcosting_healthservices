@@ -10,6 +10,8 @@ Conductor docs.
 - [Workflow](./workflow/)
 - [Validation vocabulary](./validation-vocabulary/)
 - [Data governance](./data-governance/)
+- [Rust core architecture](./rust-core-architecture/)
+- [Public readiness](./public-readiness/)
 - [Streamlit delivery](./streamlit-delivery/)
 - [Downstream packaging plans](./downstream-packaging-plans/)
 - [Web and Power Platform delivery](./web-and-power-platform-delivery/)

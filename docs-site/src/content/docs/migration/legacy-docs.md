@@ -15,3 +15,4 @@ This page records the migration path:
   surface.
 - The remaining root and Conductor markdown files are now governance and
   provenance references, not the docs front door.
+- Rust migration status is tracked separately from the legacy-docs migration note so the site can explain that Rust is still opt-in and not the default runtime.
