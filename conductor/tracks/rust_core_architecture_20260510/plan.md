@@ -34,13 +34,13 @@
     - [x] Document scalar helper limits and batch-first interface expectations
 - [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Contract and Schema Boundary Design' (Protocol in workflow.md) [c3e2eb1]
 
-## Phase 4: Migration and Promotion Policy
+## Phase 4: Migration and Promotion Policy [checkpoint: 5ccffec]
 
-- [ ] Task: Write migration policy tests
-    - [ ] Verify Rust promotion requires golden fixture parity and explicit validation status
-    - [ ] Verify Python remains default until a calculator-specific promotion record exists
-- [ ] Task: Document calculator-by-calculator migration policy
-    - [ ] Define canary, parity, performance, rollback, and release-note requirements
-    - [ ] Define how validation claims appear in docs and release metadata
-    - [ ] Update product and tech-stack docs only where the architecture materially changes them
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Migration and Promotion Policy' (Protocol in workflow.md)
+- [x] Task: Write migration policy tests [e067ef6]
+    - [x] Verify Rust promotion requires golden fixture parity and explicit validation status
+    - [x] Verify Python remains default until a calculator-specific promotion record exists
+- [x] Task: Document calculator-by-calculator migration policy [e067ef6]
+    - [x] Define canary, parity, performance, rollback, and release-note requirements
+    - [x] Define how validation claims appear in docs and release metadata
+    - [x] Update product and tech-stack docs only where the architecture materially changes them
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Migration and Promotion Policy' (Protocol in workflow.md) [5ccffec]
