@@ -1,16 +1,16 @@
 # Plan: Rust Acute 2025 Proof of Concept with Python Bindings
 
-## Phase 1: Rust Workspace and Kernel Contract
+## Phase 1: Rust Workspace and Kernel Contract [checkpoint: a6b3fc4]
 
-- [ ] Task: Write failing tests for Rust workspace expectations
-    - [ ] Verify the Rust workspace files exist
-    - [ ] Verify Rust package metadata names the acute 2025 proof of concept
-    - [ ] Verify Python packaging can locate the binding scaffold
-- [ ] Task: Scaffold the Rust workspace
-    - [ ] Add core and Python binding crates with explicit responsibilities
-    - [ ] Add formatting, linting, and test entry points
-    - [ ] Document how the workspace maps to the architecture ADR
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Workspace and Kernel Contract' (Protocol in workflow.md)
+- [x] Task: Write failing tests for Rust workspace expectations [d0ddb5d]
+    - [x] Verify the Rust workspace files exist
+    - [x] Verify Rust package metadata names the acute 2025 proof of concept
+    - [x] Verify Python packaging can locate the binding scaffold
+- [x] Task: Scaffold the Rust workspace [6df096a]
+    - [x] Add core and Python binding crates with explicit responsibilities
+    - [x] Add formatting, linting, and test entry points
+    - [x] Document how the workspace maps to the architecture ADR
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Workspace and Kernel Contract' (Protocol in workflow.md) [a6b3fc4]
 
 ## Phase 2: Acute 2025 Formula Kernel
 
