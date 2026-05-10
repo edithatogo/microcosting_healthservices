@@ -10,6 +10,7 @@ Conductor docs.
 - [Workflow](./workflow/)
 - [Validation vocabulary](./validation-vocabulary/)
 - [Data governance](./data-governance/)
+- [Web and Power Platform delivery](./web-and-power-platform-delivery/)
 - [Source archive policy](./source-archive/)
 - [Release policy](./release-policy/)
 - [Supply-chain controls](./supply-chain-controls/)
