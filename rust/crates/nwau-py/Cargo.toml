@@ -1,0 +1,15 @@
+[package]
+name = "nwau-py"
+version = "0.1.0"
+edition = "2021"
+description = "Acute 2025 Python binding scaffold for the NWAU proof of concept"
+license = "Apache-2.0"
+
+[lib]
+name = "nwau_py_rust"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+nwau-core = { path = "../nwau-core" }

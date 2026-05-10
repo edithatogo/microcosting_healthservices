@@ -1,0 +1,12 @@
+[package]
+name = "nwau-core"
+version = "0.1.0"
+edition = "2021"
+description = "Acute 2025 Rust core for the NWAU proof of concept"
+license = "Apache-2.0"
+
+[lib]
+name = "nwau_core"
+path = "src/lib.rs"
+
+[dependencies]
