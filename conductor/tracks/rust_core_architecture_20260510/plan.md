@@ -23,16 +23,16 @@
     - [x] Supersede the C#-engine-first assumption without removing Power Platform support
 - [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust-Core Target Architecture ADR' (Protocol in workflow.md) [c357f5e]
 
-## Phase 3: Contract and Schema Boundary Design
+## Phase 3: Contract and Schema Boundary Design [checkpoint: c3e2eb1]
 
-- [ ] Task: Write contract tests for boundary documentation
-    - [ ] Verify formulae, parameters, schemas, bundles, provenance, and validation status are documented as separate concepts
-    - [ ] Verify adapters are prohibited from duplicating formula logic
-- [ ] Task: Update contract and boundary documents
-    - [ ] Update public API contract guidance for Rust-backed batch execution
-    - [ ] Update C#, Power Platform, and web architecture docs to consume the Rust-core contract
-    - [ ] Document scalar helper limits and batch-first interface expectations
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Contract and Schema Boundary Design' (Protocol in workflow.md)
+- [x] Task: Write contract tests for boundary documentation [38dc15e]
+    - [x] Verify formulae, parameters, schemas, bundles, provenance, and validation status are documented as separate concepts
+    - [x] Verify adapters are prohibited from duplicating formula logic
+- [x] Task: Update contract and boundary documents [2151123]
+    - [x] Update public API contract guidance for Rust-backed batch execution
+    - [x] Update C#, Power Platform, and web architecture docs to consume the Rust-core contract
+    - [x] Document scalar helper limits and batch-first interface expectations
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Contract and Schema Boundary Design' (Protocol in workflow.md) [c3e2eb1]
 
 ## Phase 4: Migration and Promotion Policy
 
