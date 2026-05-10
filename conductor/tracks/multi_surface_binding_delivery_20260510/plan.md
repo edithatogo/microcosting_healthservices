@@ -14,15 +14,15 @@
 
 ## Phase 2: TypeScript/WASM and GitHub Pages Delivery
 
-- [ ] Task: Write tests for browser delivery boundaries
-    - [ ] Verify GitHub Pages remains synthetic/demo-only
-    - [ ] Verify TypeScript/WASM plans consume generated or shared contracts
-    - [ ] Verify no real-data upload workflow is introduced
-- [ ] Task: Document TypeScript and GitHub Pages delivery
-    - [ ] Define wasm-bindgen or wasm-pack evaluation criteria
-    - [ ] Define fixture-backed browser parity workflow
-    - [ ] Update web architecture and docs-site guidance
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'TypeScript/WASM and GitHub Pages Delivery' (Protocol in workflow.md)
+- [x] Task: Write tests for browser delivery boundaries
+    - [x] Verify GitHub Pages remains synthetic/demo-only
+    - [x] Verify TypeScript/WASM plans consume generated or shared contracts
+    - [x] Verify no real-data upload workflow is introduced
+- [x] Task: Document TypeScript and GitHub Pages delivery
+    - [x] Define wasm-bindgen or wasm-pack evaluation criteria
+    - [x] Define fixture-backed browser parity workflow
+    - [x] Update web architecture and docs-site guidance
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'TypeScript/WASM and GitHub Pages Delivery' (Protocol in workflow.md) [31f8af0]
 
 ## Phase 3: Streamlit and Service/API Delivery
 
