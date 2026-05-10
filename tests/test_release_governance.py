@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE_POLICY = ROOT / "conductor" / "release-policy.md"
 SUPPLY_CHAIN = ROOT / "conductor" / "supply-chain-controls.md"
@@ -20,6 +19,8 @@ def test_release_policy_documents_required_release_metadata():
     assert "Validation status" in text
     assert "Source checksum set" in text
     assert "Lockfile revision used for the build" in text
+    assert "crate version" in text
+    assert "binding package version" in text
 
 
 def test_supply_chain_controls_record_verification_expectations():
@@ -28,6 +29,9 @@ def test_supply_chain_controls_record_verification_expectations():
     assert "Use locked installs for build and validation jobs" in text
     assert "Publish SBOMs and signed artifacts" in text
     assert "Review Renovate updates" in text
+    assert "cargo audit" in text
+    assert "cargo deny" in text
+    assert "GitHub Actions checks have passed" in text
 
 
 def test_project_index_links_the_release_governance_docs():

@@ -15,6 +15,9 @@ uv run ruff check .
 uv run ty check
 uv run pytest
 uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml
+cd rust && cargo fmt --all --check
+cd rust && cargo clippy --all-targets --all-features -- -D warnings
+cd rust && cargo test
 uv run pytest -m hypothesis
 uv run mutmut run
 uv run scalene nwau_py/cli/main.py
@@ -42,6 +45,8 @@ control.
 - **ty** is the active type checker for the current phase.
 - **mypy** is transitional only and remains in the repo as a comparator while
   the `ty` migration is being completed.
+- **cargo fmt**, **cargo clippy**, and **cargo test** are the Rust quality
+  gates for the committed workspace.
 - **pytest** runs the test suite.
 - **pytest-cov** records coverage for Codecov and keeps the CI gate aligned
   with the uploaded XML report.
@@ -68,5 +73,6 @@ on several core libraries:
 
 The repository is standardizing on `uv` for dependency management and on the
 Python 3.10 to 3.14 support window described in the project docs. The longer-
-term stack is moving toward stricter validation, Arrow-backed interchange, and
-Polars-based data handling where parity work allows it.
+term stack is moving toward stricter validation, Arrow-backed interchange,
+Polars-based data handling, and Rust-backed kernels where parity work allows
+it.

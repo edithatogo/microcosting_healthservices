@@ -22,6 +22,9 @@ Every release should identify:
 - Source checksum set.
 - Lockfile revision used for the build.
 - Evidence-backed parity records for the release claim.
+- For Rust artifacts, crate version, workspace lockfile revision, and binding package version.
+- For browser artifacts, the build hash or package version for the generated
+  fixture/demo bundle.
 
 ## Supply-Chain Controls
 
@@ -29,8 +32,12 @@ Every release should identify:
 - Source artifact checksums must be verified before extraction or validation.
 - SBOM generation should be available for published artifacts.
 - Signed artifacts should be used where the distribution channel supports them.
+- Rust releases should evaluate `cargo audit`, `cargo deny`, SBOM generation,
+  signing, and attestations before the release claim expands.
 - Renovate updates that touch calculator-impacting dependencies require review
   against the validation surface.
+- GitHub Actions must pass before any push, merge, or release claim is made for
+  the affected branch or tag.
 
 ## Calculator Migration Policy
 

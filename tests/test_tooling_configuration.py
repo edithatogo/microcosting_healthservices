@@ -121,17 +121,21 @@ def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
     assert 'python-version: "3.11"' in workflow
     assert "branches:" in workflow
     assert "      - master" in workflow
-    assert "      - main" in workflow
+    assert "      - main" not in workflow
     assert '  - "3.10"' in workflow
     assert '  - "3.14"' in workflow
     assert "run: uv sync --locked" in workflow
     assert "Phase 1 quality checks (Python 3.11)" in workflow
     assert "Phase 2 tests (Python ${{ matrix.python-version }})" in workflow
     assert "Phase 3 coverage and Codecov (Python 3.11)" in workflow
+    assert "Phase 3 Rust checks" in workflow
     assert "run: uv run ruff format --check ." in workflow
     assert "run: uv run ruff check ." in workflow
     assert "run: uv run ty check" in workflow
     assert "run: uv run pytest" in workflow
+    assert "cargo fmt --all --check" in workflow
+    assert "cargo clippy --all-targets --all-features -- -D warnings" in workflow
+    assert "cargo test" in workflow
     assert (
         "run: uv run --with pytest --with pytest-cov pytest --cov=nwau_py"
         not in workflow
@@ -153,6 +157,9 @@ def test_pre_commit_configuration_matches_the_current_python_quality_gate():
     assert "uv run ruff check ." in config
     assert "uv run ty check" in config
     assert "uv run pytest" in config
+    assert "cargo fmt --manifest-path rust/Cargo.toml --all --check" in config
+    assert "cargo clippy --manifest-path rust/Cargo.toml --all-targets" in config
+    assert "cargo test --manifest-path rust/Cargo.toml" in config
     assert "uv run --with vale vale conductor README.md docs" in config
     assert "pre-commit/mirrors-mypy" not in config
     assert "mypy" not in config
@@ -205,6 +212,12 @@ def test_conductor_workflow_documents_the_target_uv_command_sequence():
     assert "uv run ty check" in workflow
     assert "uv run pytest" in workflow
     assert coverage_command in workflow
+    assert "cd rust && cargo fmt --all --check" in workflow
+    assert (
+        "cd rust && cargo clippy --all-targets --all-features -- -D warnings"
+        in workflow
+    )
+    assert "cd rust && cargo test" in workflow
     assert "uv run vale conductor README.md docs" in workflow
 
 
@@ -222,6 +235,12 @@ def test_development_docs_pin_the_current_tooling_contract():
         in normalized_development
     )
     assert "uv run ty check" in normalized_development
+    assert "cd rust && cargo fmt --all --check" in normalized_development
+    assert (
+        "cd rust && cargo clippy --all-targets --all-features -- -D warnings"
+        in normalized_development
+    )
+    assert "cd rust && cargo test" in normalized_development
     assert "uv run --with vale vale conductor README.md docs" in normalized_development
     assert (
         "Codecov consumes the XML coverage report produced in CI"
@@ -240,6 +259,11 @@ def test_development_docs_pin_the_current_tooling_contract():
     )
     assert "Codecov" in normalized_readme
     assert "ty" in normalized_readme
+    assert "cargo fmt --all --check" in normalized_readme
+    assert (
+        "cargo clippy --all-targets --all-features -- -D warnings" in normalized_readme
+    )
+    assert "cargo test" in normalized_readme
 
 
 def test_mypy_ini_documents_the_transitional_comparator_note():

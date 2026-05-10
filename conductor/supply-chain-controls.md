@@ -14,7 +14,10 @@ supply-chain governance track.
    validation status in release artifacts.
 5. Publish SBOMs and signed artifacts when the distribution channel supports
    them.
-6. Review Renovate updates that touch runtime dependencies, toolchain
+6. For Rust work, add `cargo audit` and `cargo deny` to the release review
+   checklist before claims about published artifacts expand.
+7. Do not claim a push or merge is ready until the relevant GitHub Actions checks have passed.
+8. Review Renovate updates that touch runtime dependencies, toolchain
    dependencies, or GitHub Actions before merging.
 
 ## Evidence

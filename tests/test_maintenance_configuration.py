@@ -16,20 +16,22 @@ def _read_text(path: Path) -> str:
 def test_renovate_package_rules_pin_the_phase_4_maintenance_contract():
     renovate = json.loads(_read_text(RENOVATE_FILE))
 
+    assert "cargo" in renovate["enabledManagers"]
+
     expected_package_rules = [
         {
             "matchManagers": ["pep621", "pip_requirements"],
             "matchPackageNames": [
                 "click",
                 "lightgbm",
-            "numpy",
-            "pandas",
-            "pyarrow",
-            "pydantic",
-            "polars",
-            "pyreadstat",
-            "pyxlsb",
-        ],
+                "numpy",
+                "pandas",
+                "pyarrow",
+                "pydantic",
+                "polars",
+                "pyreadstat",
+                "pyxlsb",
+            ],
             "groupName": "Runtime calculator dependencies",
             "dependencyDashboardApproval": True,
             "separateMinorPatch": True,
@@ -53,6 +55,12 @@ def test_renovate_package_rules_pin_the_phase_4_maintenance_contract():
         {
             "matchManagers": ["github-actions"],
             "groupName": "GitHub Actions",
+            "dependencyDashboardApproval": True,
+            "separateMinorPatch": True,
+        },
+        {
+            "matchManagers": ["cargo"],
+            "groupName": "Rust dependencies",
             "dependencyDashboardApproval": True,
             "separateMinorPatch": True,
         },

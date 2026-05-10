@@ -11,6 +11,7 @@ Conductor docs.
 - [Validation vocabulary](./validation-vocabulary/)
 - [Data governance](./data-governance/)
 - [Rust core architecture](./rust-core-architecture/)
+- [Reference generation](./reference-generation/)
 - [Public readiness](./public-readiness/)
 - [Streamlit delivery](./streamlit-delivery/)
 - [Downstream packaging plans](./downstream-packaging-plans/)

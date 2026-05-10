@@ -15,6 +15,10 @@ The public documentation site is being migrated to the Starlight scaffold in
 `docs-site/` and will become the canonical docs front door as the track
 completes.
 
+The repository also contains a Rust workspace scaffold for calculator-core
+migration. Python remains the current validated runtime path until Rust parity
+is proven calculator by calculator.
+
 ## Calculator modules
 
 Each module below mirrors a SAS program from the IHACPA package.

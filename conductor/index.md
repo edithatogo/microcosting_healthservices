@@ -16,6 +16,8 @@
 - [Power Platform Boundary](./power-platform-boundary.md)
 - [Release Policy](./release-policy.md)
 - [Supply-Chain Controls](./supply-chain-controls.md)
+- [Reference Generation](./reference-generation.md)
+- [Public Readiness](./public-readiness.md)
 - [Validation Vocabulary](./validation-vocabulary.md)
 
 ## Workflow

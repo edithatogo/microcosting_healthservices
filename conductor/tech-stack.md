@@ -16,10 +16,13 @@ Current repository evidence shows:
 - Linting uses `ruff`.
 - Type checking uses `ty` for the active quality gate.
 - `mypy` remains a transitional comparator until the migration is complete.
+- Rust quality gates use `cargo fmt`, `cargo clippy`, and `cargo test` against
+  the committed workspace.
 - The implementation currently uses pandas broadly across calculator modules, groupers, scoring, CLI, tests, and extraction scripts.
 - The CLI is exposed through the `funding-calculator` entry point.
-- Rust is the intended future calculator core, but no Rust workspace exists yet.
-- Python remains the current validated runtime path until Rust parity is proven.
+- Rust is the intended future calculator core, and the repository now contains
+  the Rust workspace scaffold plus a canary acute proof of concept.
+- Python remains the current validated runtime path until Rust parity is proven calculator by calculator.
 
 ## Target Platform
 
@@ -105,6 +108,9 @@ produce the same XML artifact that the workflow uploads so the report remains
 stable across the active Python matrix.
 
 Use Ruff for linting and formatting unless a future decision explicitly replaces it.
+
+Use Rustfmt and Clippy for Rust code formatting and linting, and keep Rust
+tests in the CI gate once the workspace is part of the active track.
 
 ## Logging and Observability
 

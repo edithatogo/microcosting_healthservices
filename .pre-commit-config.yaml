@@ -21,6 +21,21 @@ repos:
         entry: uv run pytest
         language: system
         pass_filenames: false
+      - id: cargo-fmt
+        name: cargo fmt --check
+        entry: cargo fmt --manifest-path rust/Cargo.toml --all --check
+        language: system
+        pass_filenames: false
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: cargo clippy --manifest-path rust/Cargo.toml --all-targets --all-features -- -D warnings
+        language: system
+        pass_filenames: false
+      - id: cargo-test
+        name: cargo test
+        entry: cargo test --manifest-path rust/Cargo.toml
+        language: system
+        pass_filenames: false
       - id: vale
         name: vale docs
         entry: uv run --with vale vale conductor README.md docs

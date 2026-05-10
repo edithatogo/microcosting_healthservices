@@ -40,6 +40,8 @@ All tasks follow a strict lifecycle:
    ```
    Target: >80% coverage for new code in the short term. As the library matures, raise the target toward >90% coverage, especially for core calculator logic, validation, and source-parity behavior. The specific tools and commands will vary by language and framework.
 
+   For Rust code, run `cargo fmt --all --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test` against the committed workspace.
+
 7. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
    - Update `tech-stack.md` with a new design or a dated transitional-state note
@@ -147,6 +149,9 @@ uv run ruff check .
 uv run ty check
 uv run pytest
 uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+cd rust && cargo fmt --all --check
+cd rust && cargo clippy --all-targets --all-features -- -D warnings
+cd rust && cargo test
 uv run vale conductor README.md docs
 ```
 
@@ -173,6 +178,9 @@ uv run ruff format --check .
 uv run ruff check .
 uv run ty check
 uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+cd rust && cargo fmt --all --check
+cd rust && cargo clippy --all-targets --all-features -- -D warnings
+cd rust && cargo test
 uv run vale conductor README.md docs
 ```
 
