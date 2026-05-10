@@ -25,22 +25,22 @@
 
 ## Phase 3: Rust Gate Addition
 
-- [ ] Task: Write tests for Rust workflow expectations
-    - [ ] Verify Rust checks are present once `Cargo.toml` exists
-    - [ ] Verify Rust gates include formatting, clippy, and tests
-- [ ] Task: Add Rust CI and local gate documentation
-    - [ ] Add `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test`
-    - [ ] Evaluate `cargo nextest` without requiring it before it adds value
-    - [ ] Wire Rust checks into pre-push guidance
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Gate Addition' (Protocol in workflow.md)
+- [x] Task: Write tests for Rust workflow expectations [ee7ad94]
+    - [x] Verify Rust checks are present once `Cargo.toml` exists
+    - [x] Verify Rust gates include formatting, clippy, and tests
+- [x] Task: Add Rust CI and local gate documentation [ee7ad94]
+    - [x] Add `cargo fmt --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test`
+    - [x] Evaluate `cargo nextest` without requiring it before it adds value
+    - [x] Wire Rust checks into pre-push guidance
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Gate Addition' (Protocol in workflow.md) [ee7ad94]
 
-## Phase 4: Security, Provenance, and Release Automation
+## Phase 4: Security, Provenance, and Release Automation [checkpoint: ee7ad94]
 
-- [ ] Task: Write tests for supply-chain governance coverage
-    - [ ] Verify Python, Node/docs-site, and Rust ecosystems are covered
-    - [ ] Verify release automation is gated on provenance and validation status
-- [ ] Task: Add Rust supply-chain and release-hardening guidance
-    - [ ] Evaluate `cargo audit`, `cargo deny`, SBOM generation, signing, attestations, and `cargo-dist`
-    - [ ] Update Renovate and release policy docs for Rust dependencies
-    - [ ] Document GitHub Actions passing requirements before push/merge claims
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Security, Provenance, and Release Automation' (Protocol in workflow.md)
+- [x] Task: Write tests for supply-chain governance coverage [ee7ad94]
+    - [x] Verify Python, Node/docs-site, and Rust ecosystems are covered
+    - [x] Verify release automation is gated on provenance and validation status
+- [x] Task: Add Rust supply-chain and release-hardening guidance [ee7ad94]
+    - [x] Evaluate `cargo audit`, `cargo deny`, SBOM generation, signing, attestations, and `cargo-dist`
+    - [x] Update Renovate and release policy docs for Rust dependencies
+    - [x] Document GitHub Actions passing requirements before push/merge claims
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Security, Provenance, and Release Automation' (Protocol in workflow.md) [ee7ad94]

@@ -73,12 +73,12 @@ This file tracks the delivery order for the project. The focused tracks below ar
    *Depends on: Rust core architecture, Rust/Python proof-of-concept results, public contracts, web architecture, and Power Platform boundary rules.*
    *Gate: define binding and delivery sequencing for Python, R, Julia, C#, Rust, Go, TypeScript/WASM, Streamlit, GitHub Pages, and Power Platform before implementing additional adapters.*
 
-15. [ ] **Track: Rust CI, Pre-Commit, and Supply-Chain Hardening**
+15. [x] **Track: Rust CI, Pre-Commit, and Supply-Chain Hardening**
    *Link: [./tracks/rust_ci_supply_chain_hardening_20260510/](./tracks/rust_ci_supply_chain_hardening_20260510/)*
    *Depends on: Python tooling and CI modernization, release governance, docs-site workflow, and Rust workspace decisions.*
    *Gate: align branch triggers, pre-commit hooks, Rust quality gates, dependency review, advisory checks, provenance, and release hardening before Rust code is treated as merge-ready.*
 
-16. [ ] **Track: Documentation, Release, and Public Readiness**
+16. [x] **Track: Documentation, Release, and Public Readiness**
    *Link: [./tracks/docs_release_publication_readiness_20260510/](./tracks/docs_release_publication_readiness_20260510/)*
    *Depends on: Rust core architecture, binding delivery roadmap, Starlight documentation, release governance, validation vocabulary, and public repository status.*
    *Gate: publish conservative docs for current versus intended Rust-backed behavior, release status, contributor workflows, public-readiness gaps, and safe delivery surfaces.*
