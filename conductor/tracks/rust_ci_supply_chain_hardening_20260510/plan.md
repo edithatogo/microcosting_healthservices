@@ -1,27 +1,27 @@
 # Plan: Rust CI, Pre-Commit, and Supply-Chain Hardening
 
-## Phase 1: Existing CI and Pre-Commit Audit
+## Phase 1: Existing CI and Pre-Commit Audit [checkpoint: f9b1fad]
 
-- [ ] Task: Write tests for quality-gate alignment
-    - [ ] Verify workflow branch triggers include the actual default branch
-    - [ ] Verify pre-commit does not contradict the documented type-checking gate
-    - [ ] Verify docs-site CI remains wired to Starlight content changes
-- [ ] Task: Audit CI and local hooks
-    - [ ] Record current Python, docs, and slow-validation gates
-    - [ ] Identify branch, tool, and workflow drift
-    - [ ] Record required pre-push checks for future implementation work
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Existing CI and Pre-Commit Audit' (Protocol in workflow.md)
+- [x] Task: Write tests for quality-gate alignment
+    - [x] Verify workflow branch triggers include the actual default branch
+    - [x] Verify pre-commit does not contradict the documented type-checking gate
+    - [x] Verify docs-site CI remains wired to Starlight content changes
+- [x] Task: Audit CI and local hooks
+    - [x] Record current Python, docs, and slow-validation gates
+    - [x] Identify branch, tool, and workflow drift
+    - [x] Record required pre-push checks for future implementation work
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Existing CI and Pre-Commit Audit' (Protocol in workflow.md)
 
-## Phase 2: Python Gate Alignment
+## Phase 2: Python Gate Alignment [checkpoint: f9b1fad]
 
-- [ ] Task: Write tests for Python quality command documentation
-    - [ ] Verify workflow, tech-stack, and development docs agree on Ruff, ty, pytest, coverage, and Vale
-    - [ ] Verify mypy is described only as transitional if retained
-- [ ] Task: Align Python CI and pre-commit
-    - [ ] Fix branch trigger drift
-    - [ ] Replace stale pre-commit hooks or document them as transitional
-    - [ ] Keep local and GitHub Actions commands consistent
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Gate Alignment' (Protocol in workflow.md)
+- [x] Task: Write tests for Python quality command documentation
+    - [x] Verify workflow, tech-stack, and development docs agree on Ruff, ty, pytest, coverage, and Vale
+    - [x] Verify mypy is described only as transitional if retained
+- [x] Task: Align Python CI and pre-commit
+    - [x] Fix branch trigger drift
+    - [x] Replace stale pre-commit hooks or document them as transitional
+    - [x] Keep local and GitHub Actions commands consistent
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Gate Alignment' (Protocol in workflow.md)
 
 ## Phase 3: Rust Gate Addition
 
