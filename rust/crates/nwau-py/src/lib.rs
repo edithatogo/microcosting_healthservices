@@ -1,3 +1,5 @@
+#![allow(clippy::useless_conversion)]
+
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 
@@ -8,9 +10,9 @@ fn kernel_label() -> &'static str {
 
 #[allow(clippy::too_many_arguments)]
 #[pyfunction]
-fn calculate_acute_2025_row(
-    py: Python<'_>,
-    drg: &str,
+fn calculate_acute_2025_row<'py>(
+    py: Python<'py>,
+    drg: &'py str,
     los: f64,
     icu_hours: f64,
     icu_other: f64,
@@ -37,7 +39,7 @@ fn calculate_acute_2025_row(
     dialysis_adjustment: f64,
     private_accommodation_same_day: f64,
     private_accommodation_overnight: f64,
-) -> PyResult<Py<PyDict>> {
+) -> Result<Bound<'py, PyDict>, PyErr> {
     let validation = nwau_core::AcuteValidationState::valid();
     let output = nwau_core::calculate_acute_2025(
         nwau_core::AcuteEpisodeInput {
@@ -82,10 +84,13 @@ fn calculate_acute_2025_row(
     dict.set_item("Error_Code", output.error_code)?;
     dict.set_item(
         "Separation_Category",
-        output.separation_category.map(|cat| cat as i32).unwrap_or(0),
+        output
+            .separation_category
+            .map(|cat| cat as i32)
+            .unwrap_or(0),
     )?;
     dict.set_item("kernel_label", nwau_core::kernel_label())?;
-    Ok(dict.into())
+    Ok(dict)
 }
 
 #[pymodule]

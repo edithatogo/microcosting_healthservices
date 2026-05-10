@@ -235,15 +235,17 @@ def calculate_acute_rust_2025(
 
     for idx, row in merged.iterrows():
         rust_output = _rust_calculate_acute_2025_row(
-            row[[
-                "DRG",
-                "LOS",
-                "ICU_HOURS",
-                "ICU_OTHER",
-                "PAT_SAMEDAY_FLAG",
-                "PAT_PRIVATE_FLAG",
-                "PAT_COVID_FLAG",
-            ]].to_dict(),
+            row[
+                [
+                    "DRG",
+                    "LOS",
+                    "ICU_HOURS",
+                    "ICU_OTHER",
+                    "PAT_SAMEDAY_FLAG",
+                    "PAT_PRIVATE_FLAG",
+                    "PAT_COVID_FLAG",
+                ]
+            ].to_dict(),
             _acute_reference_row_from_weights(row),
             rust_adjustments,
         )

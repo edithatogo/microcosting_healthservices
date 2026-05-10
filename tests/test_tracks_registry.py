@@ -24,6 +24,8 @@ def test_tracks_registry_orders_the_focused_tracks():
         "Multi-Surface Binding and Delivery Roadmap",
         "Rust CI, Pre-Commit, and Supply-Chain Hardening",
         "Documentation, Release, and Public Readiness",
+        "Power Platform ALM App Setup and Delivery",
+        "Power BI and Power Platform CLI Tooling",
     ]
 
     positions = [text.index(name) for name in expected]
@@ -71,8 +73,10 @@ def test_tracks_registry_records_dependency_and_gate_language():
         "Gate: align branch triggers, pre-commit hooks, Rust quality gates",
         "Depends on: Rust core architecture, binding delivery roadmap",
         (
-            "Gate: publish conservative docs for current versus intended "
-            "Rust-backed behavior"
+        "Gate: publish conservative docs for current versus intended "
+        "Rust-backed behavior"
         ),
+        "Gate: research current Microsoft Power Platform ALM guidance",
+        "Power Platform CLI Tooling",
     ]:
         assert phrase in text

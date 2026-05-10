@@ -141,9 +141,7 @@ def load_bundle_manifest(manifest_path: str | Path) -> DataBundleManifest:
     if not isinstance(payload, dict):
         raise BundleContractError("bundle manifest must be a JSON object")
 
-    schema_version = _require_str(
-        payload.get("schema_version"), field="schema_version"
-    )
+    schema_version = _require_str(payload.get("schema_version"), field="schema_version")
     if schema_version != BUNDLE_SCHEMA_VERSION:
         raise BundleContractError(
             f"unsupported schema_version {schema_version!r}; "
@@ -216,9 +214,7 @@ def _ensure_payload_path(bundle: DataBundle, role: str) -> Path:
 
     path = bundle.payload_path(role)
     if not path.is_file():
-        raise BundleContractError(
-            f"payloads.{role}.path does not exist: {path}"
-        )
+        raise BundleContractError(f"payloads.{role}.path does not exist: {path}")
     if payload.format != "parquet":
         raise BundleContractError(f"payloads.{role}.format must be parquet")
     return path

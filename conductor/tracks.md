@@ -90,3 +90,14 @@ This file tracks the delivery order for the project. The focused tracks below ar
   *Coordination only.*
   *Retained to preserve sequencing and governance context.*
   *Do not duplicate work already owned by the focused tracks above.*
+
+---
+
+- [x] **Track: Power Platform ALM App Setup and Delivery**
+  *Link: [./archive/power_platform_alm_app_20260510/](./archive/power_platform_alm_app_20260510/)*
+  *Gate: research current Microsoft Power Platform ALM guidance, choose a supported source-control and deployment path, create the solution-based orchestration scaffold, and wire it into a repeatable pack/unpack and promotion workflow.*
+
+- [x] **Track: Power BI and Power Platform CLI Tooling**
+  *Link: [./archive/power_bi_cli_tooling_20260511/](./archive/power_bi_cli_tooling_20260511/)*
+  *Depends on: Power Platform ALM App Setup and Delivery.*
+  *Gate: bootstrap `az`/`pac`/`powerbi` CLI tooling, normalize PATH and version checks, explicitly reject `pacx` legacy path, and define the delivery contract for Power Platform solution and Power BI operations.*
