@@ -6,6 +6,8 @@
 - [Tech Stack](./tech-stack.md)
 - [Data Governance](./data-governance.md)
 - [Source Archive Policy](./source-archive.md)
+- [IHACPA Source Archive Matrix](./ihacpa-archive-matrix.md)
+- [IHACPA Tool Coverage Matrix](./ihacpa-tool-coverage-matrix.md)
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)
 - [Calculator Core Boundary ADR](../docs/adr/0006-calculator-core-boundary.md)
 - [Rust Core Architecture ADR](../docs/adr/0007-rust-core-architecture-and-calculator-abstraction.md)

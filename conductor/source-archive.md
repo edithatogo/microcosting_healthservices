@@ -70,3 +70,8 @@ If an artifact is recorded as `external-html-only`, the restore workflow should 
 The IHACPA NWAU calculators page was used as the source of record for the initial archive pass. It listed calculator artifacts from 2026-27 back to 2013-14. Direct IHACPA-hosted Excel files and most SAS archives were downloadable.
 
 The 2021-22 and 2022-23 SAS links resolved to Box HTML share pages instead of direct binary downloads. Those entries should remain marked as `external-html-only` until a direct-download or manually retrieved binary can be verified and restored.
+
+## Matrix Reference
+
+- See [`IHACPA Source Archive Matrix`](./ihacpa-archive-matrix.md) for the year-by-year archive inventory.
+- See [`IHACPA Tool Coverage Matrix`](./ihacpa-tool-coverage-matrix.md) for the feature-to-tool incorporation summary.
