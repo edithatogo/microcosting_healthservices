@@ -12,17 +12,17 @@
     - [x] Document how the workspace maps to the architecture ADR
 - [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Rust Workspace and Kernel Contract' (Protocol in workflow.md) [a6b3fc4]
 
-## Phase 2: Acute 2025 Formula Kernel
+## Phase 2: Acute 2025 Formula Kernel [checkpoint: d4ce021]
 
 - [x] Task: Write Rust formula tests [63b3348]
     - [x] Cover acute 2025 fixture rows and edge cases from the existing Python tests
     - [x] Cover parameter validation and numeric precision expectations
     - [x] Cover source-provenance metadata attached to formula behavior
-- [~] Task: Implement the acute 2025 Rust kernel
+- [x] Task: Implement the acute 2025 Rust kernel [d4ce021]
     - [ ] Keep formula functions deterministic and free of hidden global state
     - [ ] Keep reference data access separate from formula execution
     - [ ] Preserve traceability to SAS and Python reference behavior
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Acute 2025 Formula Kernel' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Acute 2025 Formula Kernel' (Protocol in workflow.md) [d4ce021]
 
 ## Phase 3: Python Binding and Adapter
 
