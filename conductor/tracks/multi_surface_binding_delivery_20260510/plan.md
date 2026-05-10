@@ -2,15 +2,15 @@
 
 ## Phase 1: Binding Matrix and Adapter Contract
 
-- [ ] Task: Write tests for binding matrix coverage
-    - [ ] Verify Python, R, Julia, C#, Rust, Go, and TypeScript are covered
-    - [ ] Verify each surface is classified as implemented, planned, deferred, or advisory
-    - [ ] Verify adapters are documented as thin wrappers over the Rust core
-- [ ] Task: Create the binding matrix
-    - [ ] Record recommended tools and risks for each language
-    - [ ] Define stable ABI, Arrow, WASM, and service-boundary options
-    - [ ] Record sequencing after Rust/Python parity
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Binding Matrix and Adapter Contract' (Protocol in workflow.md)
+- [x] Task: Write tests for binding matrix coverage
+    - [x] Verify Python, R, Julia, C#, Rust, Go, and TypeScript are covered
+    - [x] Verify each surface is classified as implemented, planned, deferred, or advisory
+    - [x] Verify adapters are documented as thin wrappers over the Rust core
+- [x] Task: Create the binding matrix
+    - [x] Record recommended tools and risks for each language
+    - [x] Define stable ABI, Arrow, WASM, and service-boundary options
+    - [x] Record sequencing after Rust/Python parity
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Binding Matrix and Adapter Contract' (Protocol in workflow.md) [9141601]
 
 ## Phase 2: TypeScript/WASM and GitHub Pages Delivery
 
