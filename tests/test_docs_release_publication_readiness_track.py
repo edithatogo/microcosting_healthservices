@@ -17,7 +17,7 @@ def test_phase1_rust_core_architecture_and_migration_status_are_published():
     reference_generation = GOVERNANCE / "reference-generation.md"
     public_readiness = GOVERNANCE / "public-readiness.md"
     legacy_docs = MIGRATION / "legacy-docs.md"
-    governance_index = GOVERNANCE / "index.md"
+    governance_index = GOVERNANCE / "index.mdx"
 
     assert architecture.exists()
     assert reference_generation.exists()
@@ -52,8 +52,8 @@ def test_phase2_generated_reference_and_contract_surfaces_are_documented():
     architecture = _read(GOVERNANCE / "rust-core-architecture.md")
     reference_generation = _read(GOVERNANCE / "reference-generation.md")
     public_readiness = _read(GOVERNANCE / "public-readiness.md")
-    governance_index = _read(GOVERNANCE / "index.md")
-    docs_index = _read(DOCS_SITE / "index.md")
+    governance_index = _read(GOVERNANCE / "index.mdx")
+    docs_index = _read(DOCS_SITE / "index.mdx")
 
     assert "generated reference strategy" in architecture
     assert "public contract surfaces" in architecture
@@ -67,7 +67,7 @@ def test_phase2_generated_reference_and_contract_surfaces_are_documented():
     assert "contributor" in public_readiness.lower()
     assert "de-identified" in public_readiness
     assert "fixture pack" in public_readiness
-    assert "[Rust core architecture](./rust-core-architecture/)" in governance_index
-    assert "[Reference generation](./reference-generation/)" in governance_index
-    assert "[Public readiness](./public-readiness/)" in governance_index
+    assert "Rust core architecture" in governance_index
+    assert "Reference generation" in governance_index
+    assert "Public readiness" in governance_index
     assert "migration notes" in docs_index

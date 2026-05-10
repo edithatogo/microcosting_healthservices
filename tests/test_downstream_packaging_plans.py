@@ -14,7 +14,7 @@ DOCS_SITE_PACKAGING = (
     / "downstream-packaging-plans.md"
 )
 DOCS_SITE_INDEX = (
-    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.md"
+    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.mdx"
 )
 
 
@@ -54,4 +54,4 @@ def test_downstream_packaging_guidance_is_explicit():
 
 def test_docs_site_governance_index_links_downstream_packaging():
     text = _read(DOCS_SITE_INDEX)
-    assert "[Downstream packaging plans](./downstream-packaging-plans/)" in text
+    assert "Downstream packaging plans" in text

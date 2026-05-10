@@ -16,3 +16,8 @@ This page records the migration path:
 - The remaining root and Conductor markdown files are now governance and
   provenance references, not the docs front door.
 - Rust migration status is tracked separately from the legacy-docs migration note so the site can explain that Rust is still opt-in and not the default runtime.
+
+## Current rule
+
+Use the Starlight site for the public docs front door. Treat the older
+markdown entry points as provenance, not the primary user experience.

@@ -1,0 +1,63 @@
+---
+title: Calculator coverage
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This page summarizes the current source-to-code coverage story. It is a public
+docs view of the current implementation state, not a promise that every source
+artifact has been translated into executable code.
+
+<CardGrid>
+  <Card title="Implemented calculator families">
+    Acute, ED, MH, subacute, outpatients, and adjustment logic are the active
+    executable surfaces in the repository today.
+  </Card>
+  <Card title="Adjustment helpers">
+    HAC, AHR, and complexity are currently modeled inside the adjustment
+    pipeline, not as separate calculator binaries.
+  </Card>
+  <Card title="Source archive status">
+    The archive manifest spans 2013-14 through 2026-27 and currently has 94
+    entries, 92 of which are downloaded.
+  </Card>
+</CardGrid>
+
+## Coverage matrix
+
+| Family or helper | Status | Notes |
+| --- | --- | --- |
+| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. |
+| Emergency department | Implemented | Current Python surface. |
+| Mental health | Implemented | Current Python surface. |
+| Subacute | Implemented | Current Python surface. |
+| Outpatients | Implemented | Current Python surface. |
+| Adjustment | Implemented | Includes HAC, AHR, and complexity outputs. |
+| Complexity | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| HAC | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| AHR | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| 2021-22 SAS Box page | Documented gap | Explicit `box-html-only` entry in the source archive. |
+| 2022-23 SAS Box page | Documented gap | Explicit `box-html-only` entry in the source archive. |
+
+## What this means
+
+The repository can already explain its current calculator surface clearly:
+
+1. The core executable paths are present and tested.
+2. The helper logic is explicit enough to document and validate.
+3. The remaining source gaps are recorded instead of being silently implied as
+   missing or complete.
+
+## Related pages
+
+<CardGrid>
+  <LinkCard title="Source archive" href="/governance/source-archive/">
+    Manifest completeness, gaps, and archival policy.
+  </LinkCard>
+  <LinkCard title="Rust core architecture" href="/governance/rust-core-architecture/">
+    The intended future kernel and adapter boundaries.
+  </LinkCard>
+  <LinkCard title="Public readiness" href="/governance/public-readiness/">
+    How to describe implemented versus planned behavior safely.
+  </LinkCard>
+</CardGrid>

@@ -1,0 +1,33 @@
+:root {
+  --sl-color-accent-low: #dff5f1;
+  --sl-color-accent: #0f766e;
+  --sl-color-accent-high: #083344;
+  --sl-color-text-accent: #0f766e;
+  --sl-color-bg: #f5fbfa;
+  --sl-color-bg-nav: rgba(245, 251, 250, 0.92);
+  --sl-color-hairline: rgba(8, 51, 68, 0.14);
+  --sl-content-width: 76rem;
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 32%),
+    radial-gradient(circle at left top, rgba(8, 51, 68, 0.08), transparent 24%),
+    linear-gradient(180deg, #f8fcfb 0%, #f5fbfa 100%);
+}
+
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  letter-spacing: -0.02em;
+}
+
+.sl-markdown-content .card {
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(8, 51, 68, 0.06);
+}
+
+.sl-markdown-content a {
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}

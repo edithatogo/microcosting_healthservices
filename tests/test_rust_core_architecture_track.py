@@ -16,7 +16,7 @@ ADR_0006 = ROOT / "docs" / "adr" / "0006-calculator-core-boundary.md"
 INDEX = ROOT / "conductor" / "index.md"
 TRACKS = ROOT / "conductor" / "tracks.md"
 DOCS_SITE_GOVERNANCE = (
-    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.md"
+    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.mdx"
 )
 
 
@@ -101,10 +101,8 @@ def test_governance_docs_shift_the_core_boundary_to_rust():
     assert "Rust can become the future source of truth" in adr_0006
 
     assert "Rust Core Architecture ADR" in index
-    assert "Rust core architecture ADR" in docs_site_governance
-    assert (
-        "0007-rust-core-architecture-and-calculator-abstraction" in docs_site_governance
-    )
+    assert "Rust core architecture" in docs_site_governance
+    assert "Calculator coverage" in docs_site_governance
 
 
 def test_rust_core_adr_metadata_is_disciplined():

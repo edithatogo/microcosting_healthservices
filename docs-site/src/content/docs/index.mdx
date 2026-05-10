@@ -1,0 +1,74 @@
+---
+title: Microcosting Health Services
+template: splash
+hero:
+  title: Microcosting Health Services docs
+  tagline: Versioned IHACPA calculator docs, archive coverage, and delivery guidance on Astro and Starlight.
+  actions:
+    - text: Browse 2025 docs
+      link: /versions/2025/
+    - text: Review coverage
+      link: /governance/calculator-coverage/
+    - text: Open governance
+      link: /governance/
+---
+
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+<Aside type="note" title="Current contract">
+  Python remains the validated runtime path. Rust is opt-in, the source archive
+  gaps are explicitly documented, and the docs site is published as a static
+  GitHub Pages surface.
+</Aside>
+
+## What this site gives you
+
+<CardGrid>
+  <LinkCard title="Versioned calculator docs" href="/versions/2025/">
+    Pricing-year guidance, release notes, and year-specific reference paths.
+  </LinkCard>
+  <LinkCard title="Calculator coverage matrix" href="/governance/calculator-coverage/">
+    A public summary of implemented calculators, adjustment helpers, and
+    unresolved source gaps.
+  </LinkCard>
+  <LinkCard title="Governance hub" href="/governance/">
+    Product, tech stack, workflow, release, and delivery rules in one place.
+  </LinkCard>
+  <LinkCard title="Legacy migration notes" href="/migration/legacy-docs/">
+    Where the public docs moved from, and what remains only for provenance.
+  </LinkCard>
+</CardGrid>
+
+## Current state at a glance
+
+<CardGrid>
+  <Card title="Source archive">
+    94 manifest entries are tracked. 92 are downloaded and 2 remain explicit
+    Box HTML-only gaps.
+  </Card>
+  <Card title="Implemented surface">
+    The current executable docs cover acute, ED, MH, subacute, outpatients,
+    and adjustment logic with HAC, AHR, and complexity helpers.
+  </Card>
+  <Card title="Delivery surfaces">
+    GitHub Pages, Streamlit, Power Platform, and browser-facing demos are all
+    documented as contract-bound delivery layers.
+  </Card>
+</CardGrid>
+
+## How to use the docs
+
+1. Start with the [2025 version](/versions/2025/) for the current release
+   contract.
+2. Check [calculator coverage](/governance/calculator-coverage/) to see which
+   source families are implemented versus still pending.
+3. Read the [governance hub](/governance/) for the rules around validation,
+   release, and delivery.
+4. Use the legacy migration page only as provenance for the old docs entry
+   points.
+
+## Site signals
+
+The site is built with Starlight, uses Pagefind search, keeps versioned docs
+available, and is intended to stay conservative about parity claims. The docs
+tell you what the tool actually does today, not what future tracks may enable.

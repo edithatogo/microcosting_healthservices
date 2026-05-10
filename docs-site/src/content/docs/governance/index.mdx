@@ -1,0 +1,73 @@
+---
+title: Governance
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This section mirrors the project governance and documentation policy from the
+Conductor docs, but it is curated for the public docs front door. Use it to
+find the current source of truth for contracts, validation, and delivery rules.
+
+<CardGrid>
+  <LinkCard title="Product" href="/governance/product/">
+    Mission, audience, and scope.
+  </LinkCard>
+  <LinkCard title="Tech stack" href="/governance/tech-stack/">
+    The supported runtime, docs platform, and package baseline.
+  </LinkCard>
+  <LinkCard title="Workflow" href="/governance/workflow/">
+    Validation gates and phase-checkpoint rules.
+  </LinkCard>
+  <LinkCard title="Validation vocabulary" href="/governance/validation-vocabulary/">
+    The terms used for parity and source claims.
+  </LinkCard>
+  <LinkCard title="Data governance" href="/governance/data-governance/">
+    Synthetic and de-identified data rules.
+  </LinkCard>
+  <LinkCard title="Calculator coverage" href="/governance/calculator-coverage/">
+    Which calculators and helpers are implemented today.
+  </LinkCard>
+  <LinkCard title="Source archive" href="/governance/source-archive/">
+    What source material is downloaded and what remains missing.
+  </LinkCard>
+  <LinkCard title="Rust core architecture" href="/governance/rust-core-architecture/">
+    The intended future kernel and adapter boundaries.
+  </LinkCard>
+  <LinkCard title="Reference generation" href="/governance/reference-generation/">
+    How docs should describe implemented behavior.
+  </LinkCard>
+  <LinkCard title="Public readiness" href="/governance/public-readiness/">
+    Contributor, security, and citation guidance.
+  </LinkCard>
+  <LinkCard title="Streamlit delivery" href="/governance/streamlit-delivery/">
+    The analyst-facing Python delivery surface.
+  </LinkCard>
+  <LinkCard title="Downstream packaging plans" href="/governance/downstream-packaging-plans/">
+    R, Julia, C#, Go, and Power Platform packaging rules.
+  </LinkCard>
+  <LinkCard title="Web and Power Platform delivery" href="/governance/web-and-power-platform-delivery/">
+    Browser and Power Platform contract boundaries.
+  </LinkCard>
+  <LinkCard title="Release policy" href="/governance/release-policy/">
+    What must be true before a release claim is made.
+  </LinkCard>
+  <LinkCard title="Supply-chain controls" href="/governance/supply-chain-controls/">
+    Dependency, provenance, and artifact controls.
+  </LinkCard>
+</CardGrid>
+
+## Reading order
+
+<CardGrid>
+  <Card title="1. Start with the contract">
+    Read product, tech stack, workflow, and validation vocabulary first.
+  </Card>
+  <Card title="2. Then check the boundary">
+    Review the calculator coverage, source archive, and Rust architecture pages
+    to understand what is actually implemented.
+  </Card>
+  <Card title="3. Finish with delivery">
+    Public readiness, release policy, and supply-chain controls define how the
+    docs become publishable.
+  </Card>
+</CardGrid>

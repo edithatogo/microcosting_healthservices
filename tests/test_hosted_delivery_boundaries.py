@@ -16,7 +16,7 @@ DOCS_SITE_STREAMLIT = (
     / "streamlit-delivery.md"
 )
 DOCS_SITE_INDEX = (
-    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.md"
+    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.mdx"
 )
 
 
@@ -69,4 +69,4 @@ def test_streamlit_and_service_boundaries_are_explicit():
 
 def test_docs_site_governance_index_links_streamlit_delivery():
     text = _read(DOCS_SITE_INDEX)
-    assert "[Streamlit delivery](./streamlit-delivery/)" in text
+    assert "Streamlit delivery" in text

@@ -15,7 +15,7 @@ DOCS_SITE_WEB = (
     / "web-and-power-platform-delivery.md"
 )
 DOCS_SITE_INDEX = (
-    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.md"
+    ROOT / "docs-site" / "src" / "content" / "docs" / "governance" / "index.mdx"
 )
 
 
@@ -62,7 +62,4 @@ def test_browser_delivery_boundary_language_is_explicit():
 
 def test_docs_site_governance_index_links_web_delivery_guidance():
     text = _read(DOCS_SITE_INDEX)
-    assert (
-        "[Web and Power Platform delivery](./web-and-power-platform-delivery/)"
-        in text
-    )
+    assert "Web and Power Platform delivery" in text

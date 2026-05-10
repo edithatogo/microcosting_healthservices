@@ -10,9 +10,12 @@ export default defineConfig({
     starlightLinksValidator(),
     starlight({
       title: 'Microcosting Health Services',
+      description:
+        'Versioned IHACPA calculator docs, archive coverage, and delivery guidance.',
       logo: {
         src: './src/assets/logo.svg',
       },
+      customCss: ['./src/styles/custom.css'],
       social: [
         {
           icon: 'github',
@@ -27,11 +30,32 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Overview',
-          items: ['index', 'migration/legacy-docs'],
+          items: ['index', 'versions/2025', 'migration/legacy-docs'],
+        },
+        {
+          label: 'Coverage',
+          items: [
+            'governance/calculator-coverage',
+            'governance/source-archive',
+          ],
         },
         {
           label: 'Governance',
-          autogenerate: { directory: 'governance' },
+          items: [
+            'governance/product',
+            'governance/tech-stack',
+            'governance/workflow',
+            'governance/validation-vocabulary',
+            'governance/data-governance',
+            'governance/rust-core-architecture',
+            'governance/reference-generation',
+            'governance/public-readiness',
+            'governance/streamlit-delivery',
+            'governance/downstream-packaging-plans',
+            'governance/web-and-power-platform-delivery',
+            'governance/release-policy',
+            'governance/supply-chain-controls',
+          ],
         },
       ],
       plugins: [

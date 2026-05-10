@@ -18,7 +18,14 @@ def test_starlight_scaffold_files_exist():
         SITE / "package-lock.json",
         SITE / "astro.config.mjs",
         SITE / "src" / "content" / "versions" / "2025.json",
-        SITE / "src" / "content" / "docs" / "index.md",
+        SITE / "src" / "content" / "docs" / "index.mdx",
+        SITE / "src" / "content" / "docs" / "governance" / "index.mdx",
+        SITE
+        / "src"
+        / "content"
+        / "docs"
+        / "governance"
+        / "calculator-coverage.mdx",
         SITE / "src" / "content" / "docs" / "versions" / "2025.md",
         SITE / "src" / "content" / "docs" / "migration" / "legacy-docs.md",
         WORKFLOW,
@@ -41,10 +48,11 @@ def test_starlight_package_declares_required_plugins_and_scripts():
     }
 
     dependencies = package_json["dependencies"]
-    assert dependencies["@astrojs/starlight"] == "0.38.5"
+    assert dependencies["@astrojs/starlight"] == "0.39.2"
+    assert dependencies["astro"] == "6.3.1"
     assert "starlight-links-validator" in dependencies
     assert "starlight-versions" in dependencies
-    assert package_json["dependencies"]["starlight-versions"] == "0.8.2"
+    assert package_json["dependencies"]["starlight-versions"] == "0.9.0"
 
 
 def test_starlight_config_documents_the_static_docs_site_contract():
@@ -55,6 +63,7 @@ def test_starlight_config_documents_the_static_docs_site_contract():
     assert "starlightVersions" in config
     assert "github.io/microcosting_healthservices" in config
     assert "editLink" in config
+    assert "customCss" in config
 
 
 def test_docs_site_workflow_builds_and_deploys_the_site():

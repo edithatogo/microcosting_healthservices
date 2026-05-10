@@ -111,6 +111,6 @@ def test_tech_stack_documents_the_starlight_docs_site_contract():
 
     assert "## Starlight Documentation Site" in tech_stack
     assert "@astrojs/starlight" in tech_stack
-    assert "0.38.5" in tech_stack
+    assert "0.39.2" in tech_stack
     assert "starlight-links-validator" in tech_stack
     assert "starlight-openapi" in tech_stack
