@@ -36,14 +36,14 @@
     - [x] Add CLI or API opt-in wiring without changing current defaults [731db86]
 - [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Python Binding and Adapter' (Protocol in workflow.md) [731db86]
 
-## Phase 4: Parity, Performance, and Canary Documentation
+## Phase 4: Parity, Performance, and Canary Documentation [checkpoint: 9bb72b4]
 
-- [ ] Task: Write parity and canary tests
-    - [ ] Compare Rust-backed outputs against acute 2025 golden fixtures
-    - [ ] Compare Rust-backed and Python-default outputs on the same fixture pack
-    - [ ] Verify failure reports include fixture provenance and tolerance
-- [ ] Task: Document Rust proof-of-concept status
-    - [ ] Record validation evidence and known limitations
-    - [ ] Record performance measurements without making unsupported claims
-    - [ ] Document rollback and non-default runtime behavior
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Parity, Performance, and Canary Documentation' (Protocol in workflow.md)
+- [x] Task: Write parity and canary tests [9bb72b4]
+    - [x] Compare Rust-backed outputs against acute 2025 golden fixtures [9bb72b4]
+    - [x] Compare Rust-backed and Python-default outputs on the same fixture pack [9bb72b4]
+    - [x] Verify failure reports include fixture provenance and tolerance [9bb72b4]
+- [x] Task: Document Rust proof-of-concept status [9bb72b4]
+    - [x] Record validation evidence and known limitations [9bb72b4]
+    - [x] Record performance measurements without making unsupported claims [9bb72b4]
+    - [x] Document rollback and non-default runtime behavior [9bb72b4]
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Parity, Performance, and Canary Documentation' (Protocol in workflow.md) [9bb72b4]
