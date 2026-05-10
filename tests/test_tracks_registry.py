@@ -26,6 +26,8 @@ def test_tracks_registry_orders_the_focused_tracks():
         "Documentation, Release, and Public Readiness",
         "Power Platform ALM App Setup and Delivery",
         "Power BI and Power Platform CLI Tooling",
+        "IHACPA Source Archive Gap Closure and Restore Validation",
+        "IHACPA Feature Incorporation and Calculator Coverage Roadmap",
     ]
 
     positions = [text.index(name) for name in expected]
@@ -78,5 +80,7 @@ def test_tracks_registry_records_dependency_and_gate_language():
         ),
         "Gate: research current Microsoft Power Platform ALM guidance",
         "Power Platform CLI Tooling",
+        "recover or explicitly gap-record the remaining Box-hosted SAS artifacts",
+        "map archive families and helpers to executable surfaces",
     ]:
         assert phrase in text
