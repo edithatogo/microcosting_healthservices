@@ -37,11 +37,11 @@
 
 ## Phase 4: R, Julia, C#, Go, and Power Platform Packaging Plans
 
-- [ ] Task: Write tests for downstream packaging guidance
-    - [ ] Verify R, Julia, C#, and Go plans name binding options and blockers
-    - [ ] Verify Power Platform consumes a service or custom connector only
-- [ ] Task: Document downstream packaging plans
-    - [ ] Evaluate extendr for R, jlrs or Julia ccall for Julia, and ABI or service wrappers for C# and Go
-    - [ ] Define package/versioning expectations for each surface
-    - [ ] Define when each surface can claim parity or release readiness
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'R, Julia, C#, Go, and Power Platform Packaging Plans' (Protocol in workflow.md)
+- [x] Task: Write tests for downstream packaging guidance
+    - [x] Verify R, Julia, C#, and Go plans name binding options and blockers
+    - [x] Verify Power Platform consumes a service or custom connector only
+- [x] Task: Document downstream packaging plans
+    - [x] Evaluate extendr for R, jlrs or Julia ccall for Julia, and ABI or service wrappers for C# and Go
+    - [x] Define package/versioning expectations for each surface
+    - [x] Define when each surface can claim parity or release readiness
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'R, Julia, C#, Go, and Power Platform Packaging Plans' (Protocol in workflow.md) [3676064]
