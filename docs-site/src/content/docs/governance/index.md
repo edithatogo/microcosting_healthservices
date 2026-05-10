@@ -13,3 +13,4 @@ Conductor docs.
 - [Source archive policy](./source-archive/)
 - [Release policy](./release-policy/)
 - [Supply-chain controls](./supply-chain-controls/)
+- [Rust core architecture ADR](../../../../../docs/adr/0007-rust-core-architecture-and-calculator-abstraction.md)
