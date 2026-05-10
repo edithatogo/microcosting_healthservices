@@ -15,9 +15,9 @@
 - [x] Task: Write tests that consume fixture packs through the shared manifest
     - [x] Cover the implemented acute_2025 pilot pack first
     - [x] Distinguish regression parity from output parity and preserve provenance in failures
-- [~] Task: Add a fixture runner
-    - [ ] Generate pytest cases from manifest metadata
-    - [ ] Validate privacy classification, tolerance, source basis, and cross-language readiness before execution
+- [x] Task: Add a fixture runner [0ed673f]
+    - [x] Generate pytest cases from manifest metadata
+    - [x] Validate privacy classification, tolerance, source basis, and cross-language readiness before execution
 - [x] Task: Conductor - User Manual Verification 'Python Consumption' (Protocol in workflow.md) [5956b7b]
 
 ## Phase 3: Cross-Engine Readiness [checkpoint: 5956b7b]
