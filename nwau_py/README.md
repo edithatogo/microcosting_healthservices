@@ -91,6 +91,7 @@ Use `nwau_py.fixtures` to work with these packs:
 - `read_payload_frame()` loads the manifest-declared input or expected output tables.
 - `iter_fixture_cases()` maps manifests to calculator cases.
 - `fixture_case_params()` turns cases into pytest parameters with stable ids.
+- `iter_fixture_pytest_params_from_root()` discovers packs and generates pytest parameters from manifest metadata.
 - `run_fixture_case()` executes a calculator against one manifest case.
 - `run_fixture_suite()` executes and validates a set of cases.
 - `run_fixture_suite_from_root()` discovers packs and runs every valid case in order.

@@ -454,6 +454,18 @@ def iter_fixture_pytest_params(
     return [pytest.param(case, id=case.fixture_id) for case in cases]
 
 
+def iter_fixture_pytest_params_from_root(
+    root: str | Path,
+    *,
+    calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
+) -> list[Any]:
+    """Return pytest parameters for every valid fixture pack under ``root``."""
+
+    packs = discover_fixture_packs(root)
+    cases = iter_fixture_cases(packs, calculator_map=calculator_map)
+    return iter_fixture_pytest_params(cases)
+
+
 def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
     """Execute a fixture case and return the calculator output frame."""
 

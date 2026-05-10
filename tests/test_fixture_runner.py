@@ -100,6 +100,49 @@ def test_iter_fixture_pytest_params_generate_case_ids():
     assert params[0].values[0] is case
 
 
+def test_iter_fixture_pytest_params_from_root_uses_manifest_metadata(tmp_path):
+    root = tmp_path / "golden"
+    _copy_fixture_pack(FIXTURE_ROOT / "acute_2025", root / "acute_2025", "acute_2025")
+
+    params = fixtures.iter_fixture_pytest_params_from_root(
+        root,
+        calculator_map=_calculator_map(),
+    )
+
+    assert len(params) == 1
+    assert params[0].id == "acute_2025"
+    case = params[0].values[0]
+    assert isinstance(case, fixtures.FixtureCase)
+    assert case.fixture_id == "acute_2025"
+    assert case.pack.manifest.cross_language_ready is True
+    assert case.pack.manifest.privacy_classification == "synthetic"
+    assert case.pack.manifest.source_basis.kind == "synthetic_sample"
+
+
+def test_iter_fixture_pytest_params_from_root_skips_unready_packs(tmp_path):
+    root = tmp_path / "golden"
+    valid_pack = root / "acute_2025"
+    invalid_pack = root / "acute_2025_unready"
+    _copy_fixture_pack(FIXTURE_ROOT / "acute_2025", valid_pack, "acute_2025")
+    _copy_fixture_pack(FIXTURE_ROOT / "acute_2025", invalid_pack, "acute_2025_unready")
+
+    manifest_path = invalid_pack / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["cross_language_ready"] = False
+    manifest["privacy_classification"] = "restricted"
+    manifest["source_basis"]["kind"] = "manual_spreadsheet"
+    manifest["precision"]["tolerance"]["absolute"] = -0.1
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+    params = fixtures.iter_fixture_pytest_params_from_root(
+        root,
+        calculator_map=_calculator_map(),
+    )
+
+    assert [param.id for param in params] == ["acute_2025"]
+    assert [param.values[0].fixture_id for param in params] == ["acute_2025"]
+
+
 def test_run_fixture_case_and_assert_output_parity(monkeypatch):
     pack = fixtures.load_fixture_pack(MANIFEST)
     case = fixtures.iter_fixture_cases([pack], calculator_map=_calculator_map())[0]
