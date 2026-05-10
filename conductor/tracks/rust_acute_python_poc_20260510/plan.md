@@ -14,11 +14,11 @@
 
 ## Phase 2: Acute 2025 Formula Kernel
 
-- [ ] Task: Write Rust formula tests
-    - [ ] Cover acute 2025 fixture rows and edge cases from the existing Python tests
-    - [ ] Cover parameter validation and numeric precision expectations
-    - [ ] Cover source-provenance metadata attached to formula behavior
-- [ ] Task: Implement the acute 2025 Rust kernel
+- [x] Task: Write Rust formula tests [63b3348]
+    - [x] Cover acute 2025 fixture rows and edge cases from the existing Python tests
+    - [x] Cover parameter validation and numeric precision expectations
+    - [x] Cover source-provenance metadata attached to formula behavior
+- [~] Task: Implement the acute 2025 Rust kernel
     - [ ] Keep formula functions deterministic and free of hidden global state
     - [ ] Keep reference data access separate from formula execution
     - [ ] Preserve traceability to SAS and Python reference behavior
