@@ -107,7 +107,7 @@ This file tracks the delivery order for the project. The focused tracks below ar
   *Depends on: source archive manifesting and restore-policy rules.*
   *Gate: recover or explicitly gap-record the remaining Box-hosted SAS artifacts, keep the archive manifest truthful, and validate restore behavior against the committed provenance record.*
 
-- [ ] **Track: IHACPA Feature Incorporation and Calculator Coverage Roadmap**
-  *Link: [./tracks/ihacpa_feature_incorporation_roadmap_20260511/](./tracks/ihacpa_feature_incorporation_roadmap_20260511/)*
+- [x] **Track: IHACPA Feature Incorporation and Calculator Coverage Roadmap**
+  *Link: [./archive/ihacpa_feature_incorporation_roadmap_20260511/](./archive/ihacpa_feature_incorporation_roadmap_20260511/)*
   *Depends on: source archive inventory and current calculator surfaces.*
   *Gate: map archive families and helpers to executable surfaces, classify complexity/HAC/AHR status, and close any remaining parity gaps with tests and documented follow-on work.*

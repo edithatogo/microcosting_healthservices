@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TRACK = ROOT / "conductor" / "tracks" / "ihacpa_feature_incorporation_roadmap_20260511"
+TRACK = ROOT / "conductor" / "archive" / "ihacpa_feature_incorporation_roadmap_20260511"
 TRACKS = ROOT / "conductor" / "tracks.md"
 
 
@@ -13,7 +13,12 @@ def _read_text(path: Path) -> str:
 
 
 def test_ihacpa_feature_incorporation_track_files_exist():
-    for path in [TRACK / "spec.md", TRACK / "plan.md", TRACK / "metadata.json", TRACK / "index.md"]:
+    for path in [
+        TRACK / "spec.md",
+        TRACK / "plan.md",
+        TRACK / "metadata.json",
+        TRACK / "index.md",
+    ]:
         assert path.exists(), path
 
 
@@ -25,7 +30,7 @@ def test_ihacpa_feature_incorporation_track_records_feature_matrix_scope():
     registry = _read_text(TRACKS)
 
     assert metadata["track_id"] == "ihacpa_feature_incorporation_roadmap_20260511"
-    assert metadata["status"] == "new"
+    assert metadata["status"] == "complete"
     assert "inventory" in metadata["description"].lower()
 
     for phrase in [
@@ -53,3 +58,7 @@ def test_ihacpa_feature_incorporation_track_records_feature_matrix_scope():
     assert "ihacpa_feature_incorporation_roadmap_20260511" in track_index
     assert "IHACPA Feature Incorporation and Calculator Coverage Roadmap" in registry
     assert "complexity/HAC/AHR" in registry
+    assert (
+        "[x] **Track: IHACPA Feature Incorporation and Calculator Coverage Roadmap**"
+        in registry
+    )
