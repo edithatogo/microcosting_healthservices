@@ -102,8 +102,8 @@ This file tracks the delivery order for the project. The focused tracks below ar
   *Depends on: Power Platform ALM App Setup and Delivery.*
   *Gate: bootstrap `az`/`pac`/`powerbi` CLI tooling, normalize PATH and version checks, explicitly reject `pacx` legacy path, and define the delivery contract for Power Platform solution and Power BI operations.*
 
-- [ ] **Track: IHACPA Source Archive Gap Closure and Restore Validation**
-  *Link: [./tracks/ihacpa_source_archive_gap_closure_20260511/](./tracks/ihacpa_source_archive_gap_closure_20260511/)*
+- [x] **Track: IHACPA Source Archive Gap Closure and Restore Validation**
+  *Link: [./archive/ihacpa_source_archive_gap_closure_20260511/](./archive/ihacpa_source_archive_gap_closure_20260511/)*
   *Depends on: source archive manifesting and restore-policy rules.*
   *Gate: recover or explicitly gap-record the remaining Box-hosted SAS artifacts, keep the archive manifest truthful, and validate restore behavior against the committed provenance record.*
 

@@ -71,6 +71,8 @@ The IHACPA NWAU calculators page was used as the source of record for the initia
 
 The 2021-22 and 2022-23 SAS links resolved to Box HTML share pages instead of direct binary downloads. Those entries should remain marked as `external-html-only` until a direct-download or manually retrieved binary can be verified and restored.
 
+Direct attempts to fetch those Box share URLs on 2026-05-10 returned HTTP 404, so there is no verified recoverable binary from the recorded links. The manifest should continue to represent those two entries as explicit gaps until a different approved source is found.
+
 ## Matrix Reference
 
 - See [`IHACPA Source Archive Matrix`](./ihacpa-archive-matrix.md) for the year-by-year archive inventory.

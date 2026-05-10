@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TRACK = ROOT / "conductor" / "tracks" / "ihacpa_source_archive_gap_closure_20260511"
+TRACK = ROOT / "conductor" / "archive" / "ihacpa_source_archive_gap_closure_20260511"
 TRACKS = ROOT / "conductor" / "tracks.md"
 MANIFEST = ROOT / "archive" / "ihacpa" / "raw" / "manifest.json"
 
@@ -27,7 +27,7 @@ def test_ihacpa_source_archive_gap_track_records_manifest_state():
     manifest = json.loads(_read_text(MANIFEST))
 
     assert metadata["track_id"] == "ihacpa_source_archive_gap_closure_20260511"
-    assert metadata["status"] == "new"
+    assert metadata["status"] == "complete"
     assert "source archive gaps" in metadata["description"].lower()
 
     assert len(manifest) == 94
