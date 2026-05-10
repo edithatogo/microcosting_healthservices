@@ -2,7 +2,7 @@
 
 ## Phase 1: Current-State Architecture Audit
 
-- [ ] Task: Write tests for Rust architecture governance
+- [x] Task: Write tests for Rust architecture governance [2151123]
     - [ ] Verify the tracks registry contains the Rust architecture roadmap in the expected order
     - [ ] Verify architecture docs distinguish current Python behavior from intended Rust-core behavior
     - [ ] Verify Power Platform remains orchestration-only
