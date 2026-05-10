@@ -32,6 +32,12 @@ def test_starlight_scaffold_files_exist():
         / "content"
         / "docs"
         / "governance"
+        / "public-calculator-contract.mdx",
+        SITE
+        / "src"
+        / "content"
+        / "docs"
+        / "governance"
         / "starlight-extensions.mdx",
         SITE / "src" / "content" / "docs" / "versions" / "2025.md",
         SITE / "src" / "content" / "docs" / "migration" / "legacy-docs.md",

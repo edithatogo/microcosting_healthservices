@@ -23,4 +23,8 @@ published OpenAPI surface. Consider `starlight-typedoc` only if a TypeScript
 binding surface becomes part of the public docs. Leave Algolia DocSearch out
 unless Pagefind becomes insufficient.
 
+The repository’s public calculator contract page is the right place to anchor
+future OpenAPI generation because it already documents the versioning,
+required fields, and error model.
+
 See the canonical source in [Conductor tech-stack.md](../../../../conductor/tech-stack.md).

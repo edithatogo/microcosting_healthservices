@@ -7,6 +7,7 @@ DOCS_SITE = ROOT / "docs-site" / "src" / "content" / "docs"
 HOME = DOCS_SITE / "index.mdx"
 COVERS = DOCS_SITE / "versions" / "index.mdx"
 COVERAGE = DOCS_SITE / "governance" / "calculator-coverage.mdx"
+CONTRACT = DOCS_SITE / "governance" / "public-calculator-contract.mdx"
 EXTENSIONS = DOCS_SITE / "governance" / "starlight-extensions.mdx"
 SOURCE_ARCHIVE = DOCS_SITE / "governance" / "source-archive.md"
 GOVERNANCE_INDEX = DOCS_SITE / "governance" / "index.mdx"
@@ -29,6 +30,7 @@ def test_docs_site_homepage_positions_the_current_public_contract():
         "Source archive",
         "Implemented surface",
         "Delivery surfaces",
+        "Public calculator contract",
         "GitHub Pages",
         "Power Platform",
     ]:
@@ -81,6 +83,22 @@ def test_docs_site_extensions_page_lists_recommended_starlight_plugins():
         assert phrase in extensions
 
 
+def test_docs_site_contract_page_records_the_runtime_neutral_boundary():
+    contract = _read(CONTRACT)
+
+    for phrase in [
+        "Public calculator contract",
+        "Contract version",
+        "Version `1.0`",
+        "Calculator identifiers",
+        "Required inputs",
+        "Required outputs",
+        "Generation readiness",
+        "OpenAPI",
+    ]:
+        assert phrase in contract
+
+
 def test_docs_site_source_archive_page_records_explicit_gaps():
     source_archive = _read(SOURCE_ARCHIVE)
 
@@ -98,6 +116,7 @@ def test_docs_site_governance_index_prioritizes_the_curated_paths():
     assert "Calculator coverage" in governance
     assert "Versioning" in governance
     assert "Starlight extensions" in governance
+    assert "Public calculator contract" in governance
     assert "Source archive" in governance
     assert "Rust core architecture" in governance
     assert "Public readiness" in governance

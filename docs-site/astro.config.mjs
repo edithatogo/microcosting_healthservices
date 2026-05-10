@@ -36,6 +36,7 @@ export default defineConfig({
           label: 'Coverage',
           items: [
             'governance/calculator-coverage',
+            'governance/public-calculator-contract',
             'governance/source-archive',
           ],
         },

@@ -19,6 +19,7 @@ def test_governance_pages_are_mirrored_into_the_docs_site():
         SITE / "src" / "content" / "versions" / "2025.json",
         SITE / "src" / "content" / "docs" / "governance" / "index.mdx",
         SITE / "src" / "content" / "docs" / "governance" / "calculator-coverage.mdx",
+        SITE / "src" / "content" / "docs" / "governance" / "public-calculator-contract.mdx",
         SITE / "src" / "content" / "docs" / "governance" / "starlight-extensions.mdx",
         SITE / "src" / "content" / "docs" / "governance" / "product.md",
         SITE / "src" / "content" / "docs" / "governance" / "tech-stack.md",
@@ -41,6 +42,7 @@ def test_docs_site_sidebar_exposes_the_migrated_governance_content():
     config = _read_text(SITE / "astro.config.mjs")
 
     assert "calculator-coverage" in config
+    assert "public-calculator-contract" in config
     assert "versions" in config
     assert "governance" in config
     assert "Overview" in config
@@ -68,6 +70,7 @@ def test_docs_site_landing_and_migration_pages_expose_the_final_surface():
     assert "Browse 2025 docs" in index
     assert "Pagefind" in index
     assert "Calculator coverage matrix" in index
+    assert "Public calculator contract" in index
     assert "Source archive" in index
     assert "Current contract" in index
     assert "Versioning guide" in index

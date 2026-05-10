@@ -165,6 +165,7 @@ Current roadmap assumptions:
 - Use `starlight-versions` for release-year navigation and versioned reference paths.
 - Keep the Starlight extension set minimal: use `starlight-links-validator` and `starlight-versions`; evaluate `starlight-openapi` and `starlight-typedoc` only when those surfaces are real.
 - Evaluate `starlight-openapi` if generated API documentation becomes part of the public docs surface.
+- Publish the public calculator contract in the docs site so OpenAPI or typed client generation has a clear canonical anchor when that surface is needed.
 - Avoid adding plugins that do not support docs quality, versioning, navigation, or generated reference content.
 
 ## Dependency and Maintenance Automation
