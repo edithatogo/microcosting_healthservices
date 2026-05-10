@@ -8,6 +8,7 @@ PROJECT_FILE = ROOT / "pyproject.toml"
 LOCK_FILE = ROOT / "uv.lock"
 CODECOV_FILE = ROOT / ".github" / "codecov.yml"
 PR_CI_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "pr-ci.yml"
+PRE_COMMIT_FILE = ROOT / ".pre-commit-config.yaml"
 SLOW_VALIDATION_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "slow-validation.yml"
 TY_FILE = ROOT / "ty.toml"
 MYPY_FILE = ROOT / "mypy.ini"
@@ -118,6 +119,9 @@ def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
     workflow = _read_text(PR_CI_WORKFLOW_FILE)
 
     assert 'python-version: "3.11"' in workflow
+    assert "branches:" in workflow
+    assert "      - master" in workflow
+    assert "      - main" in workflow
     assert '  - "3.10"' in workflow
     assert '  - "3.14"' in workflow
     assert "run: uv sync --locked" in workflow
@@ -139,6 +143,19 @@ def test_pr_ci_workflow_runs_the_expected_quality_and_test_sequence():
     assert workflow.index("Run lint") < workflow.index("Run type check")
     assert workflow.index("Run type check") < workflow.index("Run tests")
     assert workflow.index("Run tests") < workflow.index("Run coverage")
+
+
+def test_pre_commit_configuration_matches_the_current_python_quality_gate():
+    config = _read_text(PRE_COMMIT_FILE)
+
+    assert "repo: local" in config
+    assert "uv run ruff format --check ." in config
+    assert "uv run ruff check ." in config
+    assert "uv run ty check" in config
+    assert "uv run pytest" in config
+    assert "uv run --with vale vale conductor README.md docs" in config
+    assert "pre-commit/mirrors-mypy" not in config
+    assert "mypy" not in config
 
 
 def test_slow_validation_workflow_uses_the_expected_uv_group_commands():

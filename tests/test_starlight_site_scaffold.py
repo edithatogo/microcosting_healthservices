@@ -61,6 +61,9 @@ def test_docs_site_workflow_builds_and_deploys_the_site():
     workflow = _read_text(WORKFLOW)
 
     assert "docs-site" in workflow
+    assert 'branches: [master]' in workflow
+    assert '      - "docs-site/**"' in workflow
+    assert '      - "conductor/**"' in workflow
     assert "npm ci" in workflow
     assert "npm run build" in workflow
     assert "linkcheck" in workflow
