@@ -2,4 +2,5 @@
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
+- [Binding Matrix](./binding-matrix.md)
 - [Metadata](./metadata.json)
