@@ -30,7 +30,7 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Overview',
-          items: ['index', 'versions/2025', 'migration/legacy-docs'],
+          items: ['index', 'versions', 'versions/2025', 'migration/legacy-docs'],
         },
         {
           label: 'Coverage',

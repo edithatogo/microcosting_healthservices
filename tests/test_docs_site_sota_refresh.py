@@ -5,7 +5,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS_SITE = ROOT / "docs-site" / "src" / "content" / "docs"
 HOME = DOCS_SITE / "index.mdx"
+COVERS = DOCS_SITE / "versions" / "index.mdx"
 COVERAGE = DOCS_SITE / "governance" / "calculator-coverage.mdx"
+EXTENSIONS = DOCS_SITE / "governance" / "starlight-extensions.mdx"
 SOURCE_ARCHIVE = DOCS_SITE / "governance" / "source-archive.md"
 GOVERNANCE_INDEX = DOCS_SITE / "governance" / "index.mdx"
 
@@ -22,6 +24,7 @@ def test_docs_site_homepage_positions_the_current_public_contract():
         "Versioned IHACPA calculator docs",
         "Browse 2025 docs",
         "Review coverage",
+        "Versioning guide",
         "Current contract",
         "Source archive",
         "Implemented surface",
@@ -49,6 +52,35 @@ def test_docs_site_coverage_page_describes_current_implementation_state():
         assert phrase in coverage
 
 
+def test_docs_site_versioning_page_explains_the_version_switching_model():
+    versioning = _read(COVERS)
+
+    for phrase in [
+        "Versioning",
+        "Current version",
+        "2025 is the active versioned documentation set",
+        "version switcher",
+        "Available versions",
+        "How to read versioned docs",
+    ]:
+        assert phrase in versioning
+
+
+def test_docs_site_extensions_page_lists_recommended_starlight_plugins():
+    extensions = _read(EXTENSIONS)
+
+    for phrase in [
+        "Starlight extensions",
+        "starlight-versions",
+        "starlight-links-validator",
+        "starlight-openapi",
+        "starlight-typedoc",
+        "starlight-blog",
+        "Algolia DocSearch",
+    ]:
+        assert phrase in extensions
+
+
 def test_docs_site_source_archive_page_records_explicit_gaps():
     source_archive = _read(SOURCE_ARCHIVE)
 
@@ -64,6 +96,8 @@ def test_docs_site_governance_index_prioritizes_the_curated_paths():
     governance = _read(GOVERNANCE_INDEX)
 
     assert "Calculator coverage" in governance
+    assert "Versioning" in governance
+    assert "Starlight extensions" in governance
     assert "Source archive" in governance
     assert "Rust core architecture" in governance
     assert "Public readiness" in governance

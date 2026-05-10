@@ -159,9 +159,11 @@ Current roadmap assumptions:
 - Keep `astro` on the matching `6.3.1` baseline so the docs site and Starlight integration stay in sync.
 - Use Starlight on GitHub Pages with a static build output.
 - Treat versioned documentation as a first-class requirement for calculator release and pricing-year docs.
+- Expose versioned docs through the `/versions/` index and keep the version switcher available in the public docs header.
 - Keep the default Pagefind search unless a stronger search service becomes necessary.
 - Include `starlight-links-validator` in CI to catch broken links early.
 - Use `starlight-versions` for release-year navigation and versioned reference paths.
+- Keep the Starlight extension set minimal: use `starlight-links-validator` and `starlight-versions`; evaluate `starlight-openapi` and `starlight-typedoc` only when those surfaces are real.
 - Evaluate `starlight-openapi` if generated API documentation becomes part of the public docs surface.
 - Avoid adding plugins that do not support docs quality, versioning, navigation, or generated reference content.
 
