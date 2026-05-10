@@ -1,6 +1,6 @@
 # Plan: Rust Core Architecture and Calculator Abstraction
 
-## Phase 1: Current-State Architecture Audit
+## Phase 1: Current-State Architecture Audit [checkpoint: c052777]
 
 - [x] Task: Write tests for Rust architecture governance [2151123]
     - [ ] Verify the tracks registry contains the Rust architecture roadmap in the expected order
