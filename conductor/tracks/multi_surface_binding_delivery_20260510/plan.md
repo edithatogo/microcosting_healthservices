@@ -26,14 +26,14 @@
 
 ## Phase 3: Streamlit and Service/API Delivery
 
-- [ ] Task: Write tests for hosted delivery boundaries
-    - [ ] Verify Streamlit is documented as a Python-hosted analyst surface
-    - [ ] Verify service/API pathways preserve public contracts and privacy rules
-- [ ] Task: Document Streamlit and service delivery
-    - [ ] Define local/demo Streamlit workflow and data constraints
-    - [ ] Define secure service boundary options for real-data workflows
-    - [ ] Define observability and logging limits for sensitive fields
-- [ ] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Streamlit and Service/API Delivery' (Protocol in workflow.md)
+- [x] Task: Write tests for hosted delivery boundaries
+    - [x] Verify Streamlit is documented as a Python-hosted analyst surface
+    - [x] Verify service/API pathways preserve public contracts and privacy rules
+- [x] Task: Document Streamlit and service delivery
+    - [x] Define local/demo Streamlit workflow and data constraints
+    - [x] Define secure service boundary options for real-data workflows
+    - [x] Define observability and logging limits for sensitive fields
+- [x] Task: Conductor - Automated Review and Checkpoint via conductor-review, auto-fix, and auto-progress 'Streamlit and Service/API Delivery' (Protocol in workflow.md) [ecb6f48]
 
 ## Phase 4: R, Julia, C#, Go, and Power Platform Packaging Plans
 
