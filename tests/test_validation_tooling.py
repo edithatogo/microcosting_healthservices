@@ -232,6 +232,18 @@ def test_resolve_acute_reference_bundle_prefers_explicit_bundle():
     assert resolved is bundle
 
 
+def test_resolve_acute_reference_bundle_builds_from_year_and_ref_dir():
+    resolved = acute._resolve_acute_reference_bundle(
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+        reference_bundle=None,
+    )
+
+    assert resolved.year == "2025"
+    assert resolved.ref_dir == Path("tests/data/2025")
+    assert resolved.weights is None
+
+
 def test_acute_rust_adjustments_return_the_expected_zeroed_contract():
     adjustments = acute._acute_rust_adjustments(acute.AcuteParams())
 
