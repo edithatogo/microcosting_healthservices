@@ -308,3 +308,50 @@ def test_calculate_acute_rust_2025_uses_bridge_and_preserves_columns(monkeypatch
     assert calls and calls[0][0]["DRG"] == "801A"
     assert calls[0][1]["drg"] == "801A"
     assert calls[0][2]["icu_rate"] == 0.0
+
+
+def test_calculate_acute_rust_2025_drops_internal_columns_when_not_debug(monkeypatch):
+    frame = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "LOS": [1],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_COVID_FLAG": [0],
+        }
+    )
+    weights = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "drg_inlier_lb": [1.0],
+            "drg_inlier_ub": [2.0],
+            "drg_adj_paed": [1.0],
+            "drg_samedaylist_flag": [0],
+            "drg_bundled_icu_flag": [0],
+            "drg_pw_sso_base": [0.0],
+            "drg_pw_sso_perdiem": [0.0],
+            "drg_pw_inlier": [0.0],
+            "drg_pw_lso_perdiem": [0.0],
+            "drg_adj_privpat_serv": [0.0],
+        }
+    )
+
+    monkeypatch.setattr(
+        acute, "_load_price_weights", lambda ref_dir, year="2025": weights
+    )
+    monkeypatch.setattr(
+        acute, "_rust_calculate_acute_2025_row", lambda *args, **kwargs: {"NWAU25": 1}
+    )
+
+    result = acute.calculate_acute_rust_2025(
+        frame,
+        acute.AcuteParams(debug_mode=False),
+        year="2025",
+        ref_dir=BASE / "2025",
+    )
+
+    assert "_drg_inscope_flag" not in result.columns
+    assert "_pat_covid_flag" not in result.columns
+    assert list(result.columns) == [*list(frame.columns), "NWAU25"]
