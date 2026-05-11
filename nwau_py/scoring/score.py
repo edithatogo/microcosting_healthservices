@@ -17,20 +17,22 @@ try:
     # Try the normal import first. This will succeed when ``scorer.py`` is
     # shipped with the package (e.g. in tests where ``src`` is on the path).
     from .scorer import score_readmission
-except ImportError:  # pragma: no cover - fallback for source layout
+except ImportError as err:  # pragma: no cover - fallback for source layout
     # When running from the repository, the real implementation lives under the
     # ``src`` directory which may not be on ``sys.path`` yet.  Locate the file
     # manually and load it with ``importlib``.
     _SRC_PATH = Path(__file__).resolve().parents[2] / "src"
     _SCORER = _SRC_PATH / "nwau_py" / "scoring" / "scorer.py"
     if not _SCORER.exists():
-        raise
+        raise RuntimeError(
+            "Unable to load nwau_py.scoring.scorer from repository source"
+        ) from err
 
     spec = importlib.util.spec_from_file_location("nwau_py.scoring.scorer", _SCORER)
     if spec is None or spec.loader is None:
         raise RuntimeError(
             "Unable to load nwau_py.scoring.scorer from repository source"
-        )
+        ) from err
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     score_readmission = module.score_readmission

@@ -16,14 +16,14 @@ def main() -> None:
         if not workbook.exists():
             print(f"Workbook for {year} not found, skipping", file=sys.stderr)
             continue
-        subprocess.run(
+        subprocess.run(  # noqa: S603
             [sys.executable, BASE_DIR / "extract_weights.py", "--year", year],
             check=True,
-        )  # noqa: S603
-        subprocess.run(
+        )
+        subprocess.run(  # noqa: S603
             [sys.executable, BASE_DIR / "extract_formula.py", "--year", year],
             check=True,
-        )  # noqa: S603
+        )
 
 
 if __name__ == "__main__":

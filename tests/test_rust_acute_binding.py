@@ -19,7 +19,6 @@ sys.modules.setdefault("pyreadstat", PYREADSTAT)
 import nwau_py.calculators.acute as acute  # noqa: E402
 from nwau_py import rust_bridge  # noqa: E402
 
-
 FIXTURE_ROOT = Path(__file__).resolve().parent / "fixtures" / "golden" / "acute_2025"
 INPUT_CSV = FIXTURE_ROOT / "input.csv"
 EXPECTED_CSV = FIXTURE_ROOT / "expected.csv"

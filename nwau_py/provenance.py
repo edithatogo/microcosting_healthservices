@@ -403,7 +403,7 @@ def git_commit() -> str:
         git_path = shutil.which("git")
         if git_path is None:
             return ""
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             [git_path, "rev-parse", "HEAD"],
             check=True,
             capture_output=True,
