@@ -175,6 +175,26 @@ def test_acute_reference_row_from_weights_normalizes_core_fields():
     }
 
 
+def test_acute_reference_row_from_weights_fills_missing_optional_values():
+    row = pd.Series({"DRG": "801B"})
+
+    result = acute._acute_reference_row_from_weights(row)
+
+    assert result == {
+        "drg": "801B",
+        "inlier_lower_bound": 0.0,
+        "inlier_upper_bound": 0.0,
+        "paediatric_multiplier": 1.0,
+        "same_day_list_flag": False,
+        "bundled_icu_flag": False,
+        "same_day_base_weight": 0.0,
+        "same_day_per_diem": 0.0,
+        "inlier_weight": 0.0,
+        "long_stay_per_diem": 0.0,
+        "private_service_adjustment": 0.0,
+    }
+
+
 def test_acute_input_validation_reports_missing_required_columns():
     frame = pd.DataFrame(
         {
