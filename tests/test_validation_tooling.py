@@ -225,6 +225,22 @@ def test_validate_acute_input_frame_accepts_a_complete_frame():
     assert acute.validate_acute_input_frame(frame) is None
 
 
+def test_acute_input_contract_exposes_expected_schema_defaults():
+    contract = acute.AcuteInputContract()
+
+    assert contract.required_columns == (
+        "DRG",
+        "LOS",
+        "ICU_HOURS",
+        "ICU_OTHER",
+        "PAT_SAMEDAY_FLAG",
+        "PAT_PRIVATE_FLAG",
+    )
+    assert contract.allow_extra_columns is True
+    assert "PAT_COVID_FLAG" in contract.optional_columns
+    assert "STATE" in contract.optional_columns
+
+
 def test_build_acute_contract_uses_explicit_reference_bundle():
     bundle = acute.AcuteReferenceBundle(
         year="2025",
