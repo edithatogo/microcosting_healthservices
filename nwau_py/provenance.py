@@ -10,7 +10,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-import subprocess  # nosec: B404 - intentional internal git metadata lookup
+import subprocess  # nosec B404
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -393,7 +393,7 @@ def git_commit() -> str:
         git_path = shutil.which("git")
         if git_path is None:
             return ""
-        result = subprocess.run(  # noqa: S603  # nosec: B404,B603,B607
+        result = subprocess.run(  # noqa: S603  # nosec B603 B607
             [git_path, "rev-parse", "HEAD"],
             check=True,
             capture_output=True,

@@ -79,7 +79,7 @@ fn calculate_acute_2025_row<'py>(
         },
     );
 
-    let dict = PyDict::new_bound(py);
+    let dict = PyDict::new(py);
     dict.set_item("NWAU25", output.nwau25)?;
     dict.set_item("Error_Code", output.error_code)?;
     dict.set_item(

@@ -108,7 +108,7 @@ def repo_root() -> Path:
 
 def git_commit(root: Path) -> str:
     try:
-        result = subprocess.run(  # nosec: B404,B603,B607 - intentional git metadata read
+        result = subprocess.run(  # nosec B404 B603 B607 - intentional git metadata read
             ["git", "-C", str(root), "rev-parse", "HEAD"],
             check=True,
             capture_output=True,
