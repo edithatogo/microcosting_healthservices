@@ -382,6 +382,13 @@ def load_fixture_pack(manifest_path: str | Path) -> FixturePack:
     )
 
 
+def _safe_load_fixture_pack(manifest_path: str | Path) -> FixturePack | None:
+    try:
+        return load_fixture_pack(manifest_path)
+    except FixtureManifestError:
+        return None
+
+
 def discover_fixture_packs(root: str | Path) -> list[FixturePack]:
     """Return every validated fixture pack below ``root``."""
 
@@ -390,10 +397,9 @@ def discover_fixture_packs(root: str | Path) -> list[FixturePack]:
     if not root_path.exists():
         return packs
     for manifest_path in sorted(root_path.rglob("manifest.json")):
-        try:
-            packs.append(load_fixture_pack(manifest_path))
-        except FixtureManifestError:
-            continue
+        pack = _safe_load_fixture_pack(manifest_path)
+        if pack is not None:
+            packs.append(pack)
     return packs
 
 

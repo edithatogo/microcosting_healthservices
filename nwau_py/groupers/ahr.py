@@ -1,7 +1,7 @@
 """Avoidable Hospital Readmission (AHR) Grouper in Python.
 
 This module mirrors the SAS script ``Avoidable Hospital Readmission
-Grouper 030.sas``. It loads the ICD‑to‑AHR mappings distributed with the
+Grouper 030.sas``. It loads the ICD-to-AHR mappings distributed with the
 IHACPA SAS calculator and applies them to patient level data. The
 grouper also exposes an interface to the LightGBM based scorer used by
 IHACPA.
@@ -108,8 +108,8 @@ def flag_diagnoses(
 ) -> pd.DataFrame:
     """Flag diagnoses using the AHR mapping tables.
 
-    ``episode_df`` must contain columns ``ddx1``–``ddx100`` and matching
-    ``onset1``–``onset100`` values. Only diagnoses with onset value ``"2"``
+    ``episode_df`` must contain columns ``ddx1``-``ddx100`` and matching
+    ``onset1``-``onset100`` values. Only diagnoses with onset value ``"2"``
     (condition arose in hospital) trigger flags.
     """
     map_df = maps[edition].set_index("DDX").fillna(0)
@@ -138,10 +138,10 @@ def past_admissions(
     """Count admissions in the previous 365 days for each episode."""
     episodes = episodes.sort_values([patient_col, date_col])
     counts = pd.Series(0, index=episodes.index)
-    for pid, group in episodes.groupby(patient_col):
+    for _pid, group in episodes.groupby(patient_col):
         dates = pd.to_datetime(group[date_col])
         past_counts = []
-        for i, current in enumerate(dates):
+        for _, current in enumerate(dates):
             window_start = current - pd.Timedelta(days=365)
             past_counts.append(int(((dates < current) & (dates >= window_start)).sum()))
         counts.loc[group.index] = past_counts
@@ -208,4 +208,4 @@ def group_readmissions(
     return df
 
 
-__all__ = ["load_ahr_maps", "group_readmissions", "flag_diagnoses", "past_admissions"]
+__all__ = ["flag_diagnoses", "group_readmissions", "load_ahr_maps", "past_admissions"]

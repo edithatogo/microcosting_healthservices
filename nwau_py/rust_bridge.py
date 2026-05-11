@@ -38,6 +38,13 @@ def _load_from_path(path: Path) -> ModuleType:
     return module
 
 
+def _load_module_if_available(path: Path) -> ModuleType | None:
+    try:
+        return _load_from_path(path)
+    except Exception:
+        return None
+
+
 def load_rust_extension() -> ModuleType:
     """Load the optional Rust extension, preferring an installed build."""
 
@@ -47,10 +54,9 @@ def load_rust_extension() -> ModuleType:
         return module
     except Exception:
         for candidate in _candidate_extension_paths():
-            try:
-                return _load_from_path(candidate)
-            except Exception:
-                continue
+            module = _load_module_if_available(candidate)
+            if module is not None:
+                return module
     raise ImportError("Rust extension nwau_py._rust is not available")
 
 

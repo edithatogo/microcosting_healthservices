@@ -398,8 +398,13 @@ def git_commit() -> str:
     """Return the current Git commit hash if available."""
 
     try:
+        import shutil
+
+        git_path = shutil.which("git")
+        if git_path is None:
+            return ""
         result = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+            [git_path, "rev-parse", "HEAD"],
             check=True,
             capture_output=True,
             text=True,

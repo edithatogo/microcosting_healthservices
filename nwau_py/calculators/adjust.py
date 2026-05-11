@@ -76,7 +76,7 @@ def calculate_adjusted_nwau(
             raise ValueError("AHR flag and adjustment column counts differ")
         ahr_values = [
             result[adj].fillna(0) * result[flag].fillna(0)
-            for flag, adj in zip(ahr_flag_cols, ahr_adj_cols)
+            for flag, adj in zip(ahr_flag_cols, ahr_adj_cols, strict=True)
         ]
         ahr_df = pd.concat(ahr_values, axis=1)
         ahr_df.columns = list(ahr_adj_cols)
@@ -102,7 +102,7 @@ def calculate_adjusted_nwau(
             raise ValueError("HAC flag and adjustment column counts differ")
         hac_values = [
             result[adj].fillna(0) * result[flag].fillna(0)
-            for flag, adj in zip(hac_flag_cols, hac_adj_cols)
+            for flag, adj in zip(hac_flag_cols, hac_adj_cols, strict=True)
         ]
         hac_df = pd.concat(hac_values, axis=1)
         hac_df.columns = list(hac_adj_cols)

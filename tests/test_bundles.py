@@ -102,5 +102,7 @@ def test_bundle_reader_reports_missing_payload_files(tmp_path):
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     bundle = load_bundle(manifest_path)
 
-    with pytest.raises(BundleContractError, match="payloads.input.path does not exist"):
+    with pytest.raises(
+        BundleContractError, match=r"payloads\.input\.path does not exist"
+    ):
         read_bundle_frame(bundle, "input")

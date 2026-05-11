@@ -20,8 +20,8 @@ from pydantic import BaseModel, ConfigDict, field_validator
 
 __all__ = [
     "CALCULATOR_IDENTIFIERS",
-    "ContractValidationError",
     "CalculatorContract",
+    "ContractValidationError",
     "PricingYear",
     "validate_required_input_columns",
     "validate_required_output_columns",

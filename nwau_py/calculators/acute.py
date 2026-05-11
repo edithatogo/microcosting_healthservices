@@ -426,7 +426,7 @@ def calculate_acute(
                     base_dir=ref_dir,
                 )
             )
-            apc_col = [c for c in icu_df.columns if c.startswith("APCID")][0]
+            apc_col = next(c for c in icu_df.columns if c.startswith("APCID"))
             icu_df = icu_df.rename(columns={apc_col: "APCID"})
             icu_df = icu_df[
                 ["APCID", "_est_eligible_icu_flag", "_est_eligible_paed_flag"]
@@ -551,7 +551,7 @@ def calculate_acute(
                         base_dir=ref_dir,
                     )
                 )
-                apc_col = [c for c in hosp_df.columns if c.startswith("APCID")][0]
+                apc_col = next(c for c in hosp_df.columns if c.startswith("APCID"))
                 ra_col = next(
                     (c for c in hosp_df.columns if c.lower() == ra.lower()), ra
                 )

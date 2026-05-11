@@ -65,8 +65,14 @@ def test_power_platform_alm_track_records_scope_and_requirements():
         "Power Platform Solution and Orchestration App",
         "ALM Automation and Delivery",
         "Conductor - Automated Review and Checkpoint",
-        "via conductor-review, auto-fix, and auto-progress 'Power Platform Solution and Orchestration App'",
-        "via conductor-review, auto-fix, and auto-progress 'ALM Automation and Delivery'",
+        (
+            "via conductor-review, auto-fix, and auto-progress "
+            "'Power Platform Solution and Orchestration App'"
+        ),
+        (
+            "via conductor-review, auto-fix, and auto-progress "
+            "'ALM Automation and Delivery'"
+        ),
     ]:
         assert phrase in plan
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import nwau_py.fixtures as fixtures  # noqa: E402
+import nwau_py.fixtures as fixtures
 
 FIXTURE_MANIFEST = (
     Path(__file__).resolve().parent

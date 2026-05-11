@@ -55,11 +55,10 @@ def build_paths(year: str) -> tuple[Path, Path]:
 
 
 def extract_formula(wb_path: Path) -> str:
-    with open_workbook(wb_path) as wb:
-        with wb.get_sheet(SHEET_NAME) as sheet:
-            for r, row in enumerate(sheet.rows()):
-                if r == CELL[0]:
-                    return row[CELL[1]].v
+    with open_workbook(wb_path) as wb, wb.get_sheet(SHEET_NAME) as sheet:
+        for r, row in enumerate(sheet.rows()):
+            if r == CELL[0]:
+                return row[CELL[1]].v
     raise ValueError("Formula cell not found")
 
 
@@ -73,7 +72,7 @@ def main(argv: list[str] | None = None) -> None:
     yy = args.year[-2:]
     formula = {
         "variables": VARIABLES,
-        "steps": STEPS + [f"NWAU{yy} = T13 * NEP"],
+        "steps": [*STEPS, f"NWAU{yy} = T13 * NEP"],
         "excel_formula": formula_str,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)

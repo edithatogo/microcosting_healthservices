@@ -1,7 +1,5 @@
 """Tests for the opt-in Rust-backed acute 2025 adapter."""
 
-# ruff: noqa: I001
-
 from __future__ import annotations
 
 import sys
@@ -52,7 +50,7 @@ def test_rust_opt_in_wrapper_matches_the_acute_golden_fixture(monkeypatch):
         ref_dir=REF_DIR,
     )
 
-    assert list(result.columns) == list(input_df.columns) + ["NWAU25"]
+    assert list(result.columns) == [*list(input_df.columns), "NWAU25"]
     assert result["NWAU25"].to_numpy() == pytest.approx(expected, rel=1e-4, abs=1e-4)
 
 

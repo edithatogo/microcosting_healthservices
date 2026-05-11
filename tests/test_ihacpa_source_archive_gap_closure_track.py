@@ -14,7 +14,12 @@ def _read_text(path: Path) -> str:
 
 
 def test_ihacpa_source_archive_gap_track_files_exist():
-    for path in [TRACK / "spec.md", TRACK / "plan.md", TRACK / "metadata.json", TRACK / "index.md"]:
+    for path in [
+        TRACK / "spec.md",
+        TRACK / "plan.md",
+        TRACK / "metadata.json",
+        TRACK / "index.md",
+    ]:
         assert path.exists(), path
 
 

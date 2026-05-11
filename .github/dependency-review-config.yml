@@ -1,0 +1,13 @@
+fail-on-severity: high
+
+# Reviewed advisory exceptions (GHSA IDs).
+allow-ghsas: []
+
+# Reviewed dependency exceptions for license checks (allow list by package URL).
+allow-dependencies-licenses: []
+
+# Add SPDX allow-list entries for license exceptions when needed.
+# Example:
+# allow-licenses:
+#   - MIT
+#   - Apache-2.0

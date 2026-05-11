@@ -19,11 +19,11 @@ def main() -> None:
         subprocess.run(
             [sys.executable, BASE_DIR / "extract_weights.py", "--year", year],
             check=True,
-        )
+        )  # noqa: S603
         subprocess.run(
             [sys.executable, BASE_DIR / "extract_formula.py", "--year", year],
             check=True,
-        )
+        )  # noqa: S603
 
 
 if __name__ == "__main__":

@@ -1,15 +1,12 @@
 import re
-
 from pathlib import Path
 
 import pandas as pd
 import pytest
 
 import nwau_py.calculators.acute as acute
-
-from nwau_py.utils import ra_suffix
-
 from nwau_py.calculators import AcuteParams, calculate_acute
+from nwau_py.utils import ra_suffix
 
 DATA_DIR = Path(__file__).resolve().parents[0] / "data"
 

@@ -45,7 +45,7 @@ def _load_hospital_ra(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
-    apc_col = [c for c in df.columns if c.startswith("APCID")][0]
+    apc_col = next(c for c in df.columns if c.startswith("APCID"))
     ra_col = next((c for c in df.columns if c.lower() == ra.lower()), ra)
     df = df.rename(columns={apc_col: "APCID", ra_col: f"_hosp_ra_{ra_year}"})
     return df[["APCID", f"_hosp_ra_{ra_year}"]]
@@ -94,7 +94,7 @@ def _load_icu_list(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:
     )
     for col in df.select_dtypes(include="object").columns:
         df[col] = df[col].str.decode("ascii")
-    apc_col = [c for c in df.columns if c.startswith("APCID")][0]
+    apc_col = next(c for c in df.columns if c.startswith("APCID"))
     return df.rename(columns={apc_col: "APCID"})[["APCID", "_est_eligible_paed_flag"]]
 
 

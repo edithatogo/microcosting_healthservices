@@ -149,7 +149,7 @@ class NwauCalculatorPageParser(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag == "h2":
             text = " ".join(self._h2_text.split())
-            match = re.search(r"(20\d{2})[-–](\d{2})", text)
+            match = re.search(r"(20\d{2})-(\d{2})", text)
             if match:
                 self.current_year_start = int(match.group(1))
                 self.current_year_label = f"{match.group(1)}-{match.group(2)}"
@@ -201,34 +201,44 @@ def fetch(url: str, timeout: int) -> tuple[ResponseProtocol, FetchMetadata]:
 
     last_error: Exception | None = None
     for attempt in range(1, 4):
-        try:
-            redirects: list[dict[str, str]] = []
-            request = Request(url, headers={"User-Agent": USER_AGENT})
-            opener = build_opener(RedirectTrackingHandler(redirects))
-            response = opener.open(request, timeout=timeout)
-            headers = {key: value for key, value in response.headers.items()}
-            metadata = FetchMetadata(
-                requested_url=url,
-                final_url=response.geturl(),
-                status_code=int(response.getcode() or 0),
-                content_type=response.headers.get("content-type", ""),
-                headers=headers,
-                redirect_chain=redirects,
-                fetched_at=now_iso(),
-            )
-            return response, metadata
-        except HTTPError as exc:
-            if exc.code >= 500:
-                last_error = exc
-                time.sleep(attempt)
-                continue
-            raise
-        except Exception as exc:  # pragma: no cover - network variability
-            last_error = exc
+        attempt_result = _fetch_once(url, timeout)
+        if isinstance(attempt_result, tuple):
+            return attempt_result
+        last_error = attempt_result
+        if not isinstance(attempt_result, HTTPError):
             time.sleep(attempt)
+            continue
+        if attempt_result.code < 500:
+            raise attempt_result
+        time.sleep(attempt)
     if last_error is None:  # pragma: no cover
         raise RuntimeError("request failed without an exception")
     raise last_error
+
+
+def _fetch_once(
+    url: str, timeout: int
+) -> tuple[ResponseProtocol, FetchMetadata] | Exception:
+    try:
+        redirects: list[dict[str, str]] = []
+        request = Request(url, headers={"User-Agent": USER_AGENT})
+        opener = build_opener(RedirectTrackingHandler(redirects))
+        response = opener.open(request, timeout=timeout)
+        headers = {key: value for key, value in response.headers.items()}
+        metadata = FetchMetadata(
+            requested_url=url,
+            final_url=response.geturl(),
+            status_code=int(response.getcode() or 0),
+            content_type=response.headers.get("content-type", ""),
+            headers=headers,
+            redirect_chain=redirects,
+            fetched_at=now_iso(),
+        )
+        return response, metadata
+    except HTTPError as exc:
+        return exc
+    except Exception as exc:  # pragma: no cover - network variability
+        return exc
 
 
 def safe_filename(item: SourceArtifact, final_url: str, content_type: str) -> str:
@@ -396,11 +406,10 @@ def main() -> None:
 
     if not args.list_only:
         for item in items:
-            try:
-                download_artifact(item, output_dir, args.timeout)
-            except Exception as exc:  # pragma: no cover - network variability
+            error = _download_item(item, output_dir, args.timeout)
+            if error is not None:
                 item.status = "failed"
-                item.error = f"{type(exc).__name__}: {exc}"
+                item.error = f"{type(error).__name__}: {error}"
 
     write_manifests(
         items,
@@ -415,6 +424,14 @@ def main() -> None:
     for item in items:
         counts[item.status] = counts.get(item.status, 0) + 1
     print(json.dumps({"items": len(items), "statuses": counts}, sort_keys=True))
+
+
+def _download_item(item: SourceArtifact, root: Path, timeout: int) -> Exception | None:
+    try:
+        download_artifact(item, root, timeout)
+    except Exception as exc:  # pragma: no cover - network variability
+        return exc
+    return None
 
 
 if __name__ == "__main__":

@@ -55,13 +55,22 @@ funding-calculator = "nwau_py.cli.main:cli"
 where = [".", "excel_calculator/src"]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py310"
 line-length = 88
-exclude = ["archive/*", "tests/*"]
+exclude = ["archive/*"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP"]
+select = ["E", "F", "I", "UP", "B", "SIM", "PERF", "S", "RUF", "NPY"]
 ignore = ["UP042"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S", "NPY"]
+"**/helpers/**/*.py" = ["S", "NPY"]
+"scripts/**/*.py" = ["S", "NPY"]
+"examples/**/*.py" = ["S", "NPY"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "excel_calculator/tests"]

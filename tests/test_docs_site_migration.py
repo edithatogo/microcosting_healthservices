@@ -11,27 +11,28 @@ def _read_text(path: Path) -> str:
 
 
 def test_governance_pages_are_mirrored_into_the_docs_site():
+    docs = SITE / "src" / "content" / "docs"
     expected_paths = [
-        SITE / "src" / "content" / "docs" / "index.mdx",
-        SITE / "src" / "content" / "docs" / "versions" / "index.mdx",
-        SITE / "src" / "content" / "docs" / "migration" / "legacy-docs.md",
-        SITE / "src" / "content" / "docs" / "versions" / "2025.md",
+        docs / "index.mdx",
+        docs / "versions" / "index.mdx",
+        docs / "migration" / "legacy-docs.md",
+        docs / "versions" / "2025.md",
         SITE / "src" / "content" / "versions" / "2025.json",
-        SITE / "src" / "content" / "docs" / "governance" / "index.mdx",
-        SITE / "src" / "content" / "docs" / "governance" / "calculator-coverage.mdx",
-        SITE / "src" / "content" / "docs" / "governance" / "public-calculator-contract.mdx",
-        SITE / "src" / "content" / "docs" / "governance" / "starlight-extensions.mdx",
-        SITE / "src" / "content" / "docs" / "governance" / "product.md",
-        SITE / "src" / "content" / "docs" / "governance" / "tech-stack.md",
-        SITE / "src" / "content" / "docs" / "governance" / "workflow.md",
-        SITE / "src" / "content" / "docs" / "governance" / "validation-vocabulary.md",
-        SITE / "src" / "content" / "docs" / "governance" / "data-governance.md",
-        SITE / "src" / "content" / "docs" / "governance" / "public-readiness.md",
-        SITE / "src" / "content" / "docs" / "governance" / "reference-generation.md",
-        SITE / "src" / "content" / "docs" / "governance" / "rust-core-architecture.md",
-        SITE / "src" / "content" / "docs" / "governance" / "source-archive.md",
-        SITE / "src" / "content" / "docs" / "governance" / "release-policy.md",
-        SITE / "src" / "content" / "docs" / "governance" / "supply-chain-controls.md",
+        docs / "governance" / "index.mdx",
+        docs / "governance" / "calculator-coverage.mdx",
+        docs / "governance" / "public-calculator-contract.mdx",
+        docs / "governance" / "starlight-extensions.mdx",
+        docs / "governance" / "product.md",
+        docs / "governance" / "tech-stack.md",
+        docs / "governance" / "workflow.md",
+        docs / "governance" / "validation-vocabulary.md",
+        docs / "governance" / "data-governance.md",
+        docs / "governance" / "public-readiness.md",
+        docs / "governance" / "reference-generation.md",
+        docs / "governance" / "rust-core-architecture.md",
+        docs / "governance" / "source-archive.md",
+        docs / "governance" / "release-policy.md",
+        docs / "governance" / "supply-chain-controls.md",
     ]
 
     for path in expected_paths:

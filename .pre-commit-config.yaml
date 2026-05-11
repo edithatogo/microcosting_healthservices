@@ -6,6 +6,11 @@ repos:
         entry: uv run ruff format --check .
         language: system
         pass_filenames: false
+      - id: ruff-docstrings
+        name: ruff docstring checks
+        entry: uv run ruff check --select D --extend-exclude tests --extend-exclude helpers nwau_py excel_calculator/src
+        language: system
+        pass_filenames: false
       - id: ruff-check
         name: ruff check
         entry: uv run ruff check .

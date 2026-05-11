@@ -131,5 +131,8 @@ def test_power_bi_cli_tooling_phase1_command_contracts_and_discovery_contract():
 def test_power_bi_cli_tooling_pacx_decision_rationale_is_explicit():
     spec = _read_text(TRACK / "spec.md").lower()
     assert "decision: do not use `pacx` for this track." in spec
-    assert "not currently discoverable in this environment's supported package sources" in spec
+    assert (
+        "not currently discoverable in this environment's supported package sources"
+        in spec
+    )
     assert "supported, current microsoft toolchain" in spec

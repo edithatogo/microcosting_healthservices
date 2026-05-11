@@ -33,7 +33,9 @@ def _load_multi_prov_adj(*_args, **_kwargs) -> float:
 
 
 def _load_hospital_ra(*_args, **_kwargs) -> pd.DataFrame:
-    return pd.DataFrame({"APCID": ["A1", "A2", "A3", "A4"], "_hosp_ra_2021": [1, 1, 1, 1]})
+    return pd.DataFrame(
+        {"APCID": ["A1", "A2", "A3", "A4"], "_hosp_ra_2021": [1, 1, 1, 1]}
+    )
 
 
 def _load_postcode_ra(*_args, **_kwargs) -> pd.DataFrame:

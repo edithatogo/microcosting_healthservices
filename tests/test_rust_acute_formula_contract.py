@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 RUST_FORMULA_TEST = (
     ROOT / "rust" / "crates" / "nwau-core" / "tests" / "acute_2025_contract.rs"
