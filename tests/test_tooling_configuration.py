@@ -212,7 +212,7 @@ def test_release_drafter_workflow_updates_drafts_on_master_pushes():
     assert "branches:" in workflow
     assert "      - master" in workflow
     assert "release-drafter/release-drafter@v6" in workflow
-    assert ".github/release-drafter.yml" in workflow
+    assert "config-name: release-drafter.yml" in workflow
 
 
 def test_release_workflow_builds_and_publishes_tagged_releases():
