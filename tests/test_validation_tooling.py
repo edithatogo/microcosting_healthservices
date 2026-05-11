@@ -216,6 +216,22 @@ def test_build_acute_contract_derives_reference_bundle_from_ref_dir():
     assert contract.reference_bundle.ref_dir == Path("tests/data/2025")
 
 
+def test_resolve_acute_reference_bundle_prefers_explicit_bundle():
+    bundle = acute.AcuteReferenceBundle(
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+        weights=pd.DataFrame({"DRG": ["801A"]}),
+    )
+
+    resolved = acute._resolve_acute_reference_bundle(
+        year="2024",
+        ref_dir=Path("tests/data/2024"),
+        reference_bundle=bundle,
+    )
+
+    assert resolved is bundle
+
+
 def test_acute_rust_adjustments_return_the_expected_zeroed_contract():
     adjustments = acute._acute_rust_adjustments(acute.AcuteParams())
 
