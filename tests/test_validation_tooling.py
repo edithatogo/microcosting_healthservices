@@ -285,7 +285,9 @@ def test_calculate_acute_rust_2025_uses_bridge_and_preserves_columns(monkeypatch
         calls.append((row, reference, adjustments))
         return {"NWAU25": 3.5}
 
-    monkeypatch.setattr(acute, "_load_price_weights", lambda ref_dir, year="2025": weights)
+    monkeypatch.setattr(
+        acute, "_load_price_weights", lambda ref_dir, year="2025": weights
+    )
     monkeypatch.setattr(acute, "_rust_calculate_acute_2025_row", fake_row)
 
     result = acute.calculate_acute_rust_2025(
