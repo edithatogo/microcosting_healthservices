@@ -210,6 +210,21 @@ def test_acute_input_validation_reports_missing_required_columns():
         acute.validate_acute_input_frame(frame)
 
 
+def test_validate_acute_input_frame_accepts_a_complete_frame():
+    frame = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "LOS": [1],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+        }
+    )
+
+    assert acute.validate_acute_input_frame(frame) is None
+
+
 def test_build_acute_contract_uses_explicit_reference_bundle():
     bundle = acute.AcuteReferenceBundle(
         year="2025",
