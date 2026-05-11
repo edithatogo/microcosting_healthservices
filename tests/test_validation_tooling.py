@@ -136,3 +136,60 @@ def test_validation_tooling_hypothesis_acute_output_shape_and_finiteness(monkeyp
         assert result["NWAU25"].ge(0).all()
 
     run_case()
+
+
+def test_acute_reference_row_from_weights_normalizes_core_fields():
+    row = pd.Series(
+        {
+            "DRG": "801A",
+            "drg_inlier_lb": 1,
+            "drg_inlier_ub": 2,
+            "drg_adj_paed": 1.5,
+            "drg_samedaylist_flag": 1,
+            "drg_bundled_icu_flag": 0,
+            "drg_pw_sso_base": 3,
+            "drg_pw_sso_perdiem": 4,
+            "drg_pw_inlier": 5,
+            "drg_pw_lso_perdiem": 6,
+            "drg_adj_privpat_serv": 7,
+        }
+    )
+
+    result = acute._acute_reference_row_from_weights(row)
+
+    assert result == {
+        "drg": "801A",
+        "inlier_lower_bound": 1.0,
+        "inlier_upper_bound": 2.0,
+        "paediatric_multiplier": 1.5,
+        "same_day_list_flag": True,
+        "bundled_icu_flag": False,
+        "same_day_base_weight": 3.0,
+        "same_day_per_diem": 4.0,
+        "inlier_weight": 5.0,
+        "long_stay_per_diem": 6.0,
+        "private_service_adjustment": 7.0,
+    }
+
+
+def test_acute_input_validation_reports_missing_required_columns():
+    frame = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "LOS": [1],
+            "ICU_HOURS": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+        }
+    )
+
+    with pytest.raises(acute.AcuteContractError, match="ICU_OTHER"):
+        acute.validate_acute_input_frame(frame)
+
+
+def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
+    with pytest.raises(TypeError, match="accepts positional arguments only"):
+        acute.calculate_acute_2025_row(row={}, reference={}, adjustments={})
+
+    with pytest.raises(TypeError, match="expects row, reference, and adjustments"):
+        acute.calculate_acute_2025_row({"DRG": "801A"}, {"drg": "801A"})
