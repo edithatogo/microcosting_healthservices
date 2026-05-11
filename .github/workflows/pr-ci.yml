@@ -57,6 +57,9 @@ jobs:
       - name: Run lint
         run: uv run ruff check .
 
+      - name: Run docstring lint
+        run: uv run ruff check --select D --extend-exclude tests --extend-exclude helpers nwau_py excel_calculator/src
+
       - name: Run type check
         run: uv run ty check
 
