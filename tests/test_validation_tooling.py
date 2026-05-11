@@ -8,12 +8,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import pytest
-from nwau_py import rust_bridge
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import validation_tooling as validation
+from nwau_py import rust_bridge
 
 PYREADSTAT = types.ModuleType("pyreadstat")
 PYREADSTAT.ReadstatError = Exception
