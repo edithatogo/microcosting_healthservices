@@ -12,7 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import subprocess
+import subprocess  # nosec B404
 import sys
 import time
 from dataclasses import dataclass
