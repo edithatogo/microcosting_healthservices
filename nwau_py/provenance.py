@@ -12,7 +12,7 @@ import hashlib
 import json
 import subprocess
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -390,7 +390,7 @@ def write_source_page_snapshot(html: str, path: Path) -> SourcePageSnapshot:
         path=str(path),
         sha256=sha256_file(path),
         byte_count=path.stat().st_size,
-        captured_at=datetime.now(UTC).isoformat(),
+        captured_at=datetime.now(timezone.utc).isoformat(),
     )
 
 

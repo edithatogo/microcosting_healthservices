@@ -34,6 +34,7 @@ coverage = [
 ]
 typing = [
     "ty",
+    "pytest",
 ]
 property = [
     "hypothesis",
