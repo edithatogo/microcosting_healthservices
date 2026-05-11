@@ -297,7 +297,7 @@ def test_calculate_acute_rust_2025_uses_bridge_and_preserves_columns(monkeypatch
         ref_dir=BASE / "2025",
     )
 
-    assert list(result.columns) == list(frame.columns) + ["NWAU25"]
+    assert list(result.columns) == [*list(frame.columns), "NWAU25"]
     assert result["NWAU25"].tolist() == [3.5]
     assert calls and calls[0][0]["DRG"] == "801A"
     assert calls[0][1]["drg"] == "801A"
