@@ -13,6 +13,7 @@ concurrency:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   dependency-review:
@@ -204,8 +205,7 @@ jobs:
         with:
           files: ./coverage.xml
           fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-        continue-on-error: true
+          use_oidc: true
 
   slow_validation:
     name: "Slow validation (PR label: run-slow-validation-required)"
