@@ -295,6 +295,22 @@ def test_acute_rust_adjustments_return_the_expected_zeroed_contract():
     }
 
 
+def test_acute_rust_adjustments_ignore_parameter_values():
+    params = acute.AcuteParams(
+        icu_paed_option=99,
+        covid_option=99,
+        covid_adj_option=99,
+        radiotherapy_option=99,
+        dialysis_option=99,
+        ppservadj=99,
+        est_remoteness_option=99,
+    )
+
+    assert acute._acute_rust_adjustments(params) == acute._acute_rust_adjustments(
+        acute.AcuteParams()
+    )
+
+
 def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
     with pytest.raises(TypeError, match="accepts positional arguments only"):
         rust_bridge.calculate_acute_2025_row(row={}, reference={}, adjustments={})
