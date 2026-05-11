@@ -119,6 +119,20 @@ def test_validation_tooling_hypothesis_profile_budget_is_small():
     }
 
 
+def test_acute_params_default_flags_match_the_current_contract():
+    params = acute.AcuteParams()
+
+    assert params.icu_paed_option == 1
+    assert params.covid_option == 1
+    assert params.covid_adj_option == 1
+    assert params.radiotherapy_option == 1
+    assert params.dialysis_option == 1
+    assert params.ppservadj == 1
+    assert params.est_remoteness_option == 1
+    assert params.debug_mode is False
+    assert params.clear_data is False
+
+
 def test_validation_tooling_hypothesis_acute_output_shape_and_finiteness(monkeypatch):
     hypothesis = pytest.importorskip("hypothesis")
     from hypothesis import given, settings
