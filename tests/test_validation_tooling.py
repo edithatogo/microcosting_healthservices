@@ -190,6 +190,48 @@ def test_acute_input_validation_reports_missing_required_columns():
         acute.validate_acute_input_frame(frame)
 
 
+def test_build_acute_contract_uses_explicit_reference_bundle():
+    bundle = acute.AcuteReferenceBundle(
+        year="2025",
+        ref_dir=Path("tests/data/2025"),
+        weights=pd.DataFrame({"DRG": ["801A"]}),
+    )
+    contract = acute.build_acute_contract(
+        params=acute.AcuteParams(debug_mode=True),
+        year="2024",
+        ref_dir=Path("tests/data/2024"),
+        reference_bundle=bundle,
+    )
+
+    assert contract.year == "2025"
+    assert contract.reference_bundle is bundle
+    assert contract.params.debug_mode is True
+
+
+def test_build_acute_contract_derives_reference_bundle_from_ref_dir():
+    contract = acute.build_acute_contract(ref_dir=Path("tests/data/2025"))
+
+    assert contract.year == "2025"
+    assert contract.reference_bundle is not None
+    assert contract.reference_bundle.ref_dir == Path("tests/data/2025")
+
+
+def test_acute_rust_adjustments_return_the_expected_zeroed_contract():
+    adjustments = acute._acute_rust_adjustments(acute.AcuteParams())
+
+    assert adjustments == {
+        "icu_rate": 0.0,
+        "covid_adjustment": 0.0,
+        "indigenous_adjustment": 0.0,
+        "remoteness_adjustment": 0.0,
+        "treatment_remoteness_adjustment": 0.0,
+        "radiotherapy_adjustment": 0.0,
+        "dialysis_adjustment": 0.0,
+        "private_accommodation_same_day": 0.0,
+        "private_accommodation_overnight": 0.0,
+    }
+
+
 def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
     with pytest.raises(TypeError, match="accepts positional arguments only"):
         rust_bridge.calculate_acute_2025_row(row={}, reference={}, adjustments={})
