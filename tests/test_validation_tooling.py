@@ -255,6 +255,25 @@ def test_acute_input_contract_exposes_expected_schema_defaults():
     assert "STATE" in contract.optional_columns
 
 
+def test_load_price_weights_decodes_ascii_drg_values(monkeypatch):
+    weights = pd.DataFrame({"DRG": [b"801A", b"801B"]})
+
+    monkeypatch.setattr(
+        acute,
+        "load_sas_table",
+        lambda path, cache=True: weights.copy(),
+    )
+    monkeypatch.setattr(
+        acute,
+        "sas_table",
+        lambda *args, **kwargs: Path("tests/data/nep25_aa_price_weights.sas7bdat"),
+    )
+
+    result = acute._load_price_weights(Path("tests/data/2025"), "2025")
+
+    assert result["DRG"].tolist() == ["801A", "801B"]
+
+
 def test_build_acute_contract_uses_explicit_reference_bundle():
     bundle = acute.AcuteReferenceBundle(
         year="2025",
