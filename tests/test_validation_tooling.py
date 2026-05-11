@@ -19,7 +19,9 @@ PYREADSTAT.ReadstatError = Exception
 PYREADSTAT._readstat_parser = types.SimpleNamespace(PyreadstatError=Exception)
 sys.modules.setdefault("pyreadstat", PYREADSTAT)
 
-ACUTE_PATH = Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py"
+ACUTE_PATH = (
+    Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "acute.py"
+)
 SPEC = importlib.util.spec_from_file_location("validation_tooling_acute", ACUTE_PATH)
 assert SPEC is not None and SPEC.loader is not None
 acute = importlib.util.module_from_spec(SPEC)

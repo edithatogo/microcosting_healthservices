@@ -48,9 +48,8 @@ def test_subacute_matches_sas(monkeypatch, year):
     expected = pd.read_csv(BASE / "subacute_expected.csv")["NWAU25"].values
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return (
-            pd.read_csv(BASE / "nep25_sa_snap_price_weights.csv")
-            .rename(columns={"ansnap": "ANSNAP"})
+        return pd.read_csv(BASE / "nep25_sa_snap_price_weights.csv").rename(
+            columns={"ansnap": "ANSNAP"}
         )
 
     monkeypatch.setattr(subacute, "_load_weights", _load)
@@ -69,9 +68,8 @@ def test_outpatient_matches_sas(monkeypatch, year):
     expected = pd.read_csv(BASE / "outpatient_expected.csv")["NWAU25"].values
 
     def _load(ref_dir: Path, year: str = "2025") -> pd.DataFrame:
-        return (
-            pd.read_csv(BASE / "nep25_op_price_weights.csv")
-            .rename(columns={"tier2_clinic": "TIER2_CLINIC"})
+        return pd.read_csv(BASE / "nep25_op_price_weights.csv").rename(
+            columns={"tier2_clinic": "TIER2_CLINIC"}
         )
 
     monkeypatch.setattr(outpatients, "_load_weights", _load)

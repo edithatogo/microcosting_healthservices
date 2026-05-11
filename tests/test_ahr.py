@@ -21,12 +21,14 @@ def test_load_maps():
 
 def test_flagging_example():
     maps = load_ahr_maps(MAP_DIR)
-    df = pd.DataFrame({
-        "ddx1": ["A021"],
-        "onset1": ["2"],
-        "ddx2": ["Z999"],
-        "onset2": ["1"],
-    })
+    df = pd.DataFrame(
+        {
+            "ddx1": ["A021"],
+            "onset1": ["2"],
+            "ddx2": ["Z999"],
+            "onset2": ["1"],
+        }
+    )
     flagged = flag_diagnoses(df, maps, "08")
     assert "AHR030c01p01" in flagged.columns
     assert flagged.loc[0, "AHR030c01p01"] in {0, 1}

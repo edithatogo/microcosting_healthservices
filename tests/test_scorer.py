@@ -16,16 +16,18 @@ _risk_factors = pd.read_csv(CALC_DIR / "models" / "risk_factors.csv", index_col=
 features = set()
 for i in range(1, 13):
     features.update(_risk_factors[str(i)].dropna().tolist())
-features.update([
-    "an110mdc_ra",
-    "agegroup_rm",
-    "flag_emergency",
-    "pat_remoteness",
-    "indstat_flag",
-    "count_proc",
-    "adm_past_year",
-    "drg11_type",
-])
+features.update(
+    [
+        "an110mdc_ra",
+        "agegroup_rm",
+        "flag_emergency",
+        "pat_remoteness",
+        "indstat_flag",
+        "count_proc",
+        "adm_past_year",
+        "drg11_type",
+    ]
+)
 
 example = {col: [0] for col in features}
 example["drg11_type"] = ["M"]

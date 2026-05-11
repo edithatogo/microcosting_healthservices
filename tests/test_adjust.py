@@ -9,15 +9,17 @@ from nwau_py.calculators.adjust import calculate_adjusted_nwau
 
 
 def test_adjustment_basic_drop():
-    df = pd.DataFrame({
-        "nwau25": [10.0],
-        "_w01": [10.0],
-        "w01_ahr": [10.0],
-        "hac_adj01": [0.1],
-        "hac_flag01": [1],
-        "ahr_adj01": [0.2],
-        "ahr_flag01": [1],
-    })
+    df = pd.DataFrame(
+        {
+            "nwau25": [10.0],
+            "_w01": [10.0],
+            "w01_ahr": [10.0],
+            "hac_adj01": [0.1],
+            "hac_flag01": [1],
+            "ahr_adj01": [0.2],
+            "ahr_flag01": [1],
+        }
+    )
 
     result = calculate_adjusted_nwau(
         df,
@@ -36,12 +38,14 @@ def test_adjustment_basic_drop():
 
 
 def test_adjustment_no_drop():
-    df = pd.DataFrame({
-        "nwau25": [5.0],
-        "_w01": [2.0],
-        "hac_adj01": [0.1],
-        "hac_flag01": [1],
-    })
+    df = pd.DataFrame(
+        {
+            "nwau25": [5.0],
+            "_w01": [2.0],
+            "hac_adj01": [0.1],
+            "hac_flag01": [1],
+        }
+    )
 
     result = calculate_adjusted_nwau(
         df,
@@ -55,13 +59,15 @@ def test_adjustment_no_drop():
 
 
 def test_covid_zeroes_adjustments():
-    df = pd.DataFrame({
-        "nwau25": [10.0],
-        "_w01": [5.0],
-        "hac_adj01": [0.2],
-        "hac_flag01": [1],
-        "PAT_COVID_FLAG": [1],
-    })
+    df = pd.DataFrame(
+        {
+            "nwau25": [10.0],
+            "_w01": [5.0],
+            "hac_adj01": [0.2],
+            "hac_flag01": [1],
+            "PAT_COVID_FLAG": [1],
+        }
+    )
     result = calculate_adjusted_nwau(
         df,
         hac_flag_cols=["hac_flag01"],
@@ -73,16 +79,18 @@ def test_covid_zeroes_adjustments():
 
 
 def test_complexity_scoring():
-    df = pd.DataFrame({
-        "nwau25": [10.0],
-        "_w01": [1.0],
-        "hac_adj01": [0.1],
-        "hac_flag01": [1],
-        "hac_points01": [10],
-        "hac_adj02": [0.3],
-        "hac_flag02": [1],
-        "hac_points02": [60],
-    })
+    df = pd.DataFrame(
+        {
+            "nwau25": [10.0],
+            "_w01": [1.0],
+            "hac_adj01": [0.1],
+            "hac_flag01": [1],
+            "hac_points01": [10],
+            "hac_adj02": [0.3],
+            "hac_flag02": [1],
+            "hac_points02": [60],
+        }
+    )
     complexity = pd.read_csv("nwau_py/data/complexitygroups_2025.csv")
     result = calculate_adjusted_nwau(
         df,

@@ -99,16 +99,12 @@ def test_manifest_helpers_record_nested_metadata_and_flatten_csv(tmp_path):
                 label="2025 Acute calculator workbook",
                 source_host=provenance.SourceHost.IHACPA,
                 artifact_url=(
-                    "https://www.ihacpa.gov.au/files/"
-                    "nep25_aa_price_weights.xlsb"
+                    "https://www.ihacpa.gov.au/files/nep25_aa_price_weights.xlsb"
                 ),
                 final_url=(
-                    "https://www.ihacpa.gov.au/files/"
-                    "nep25_aa_price_weights.xlsb"
+                    "https://www.ihacpa.gov.au/files/nep25_aa_price_weights.xlsb"
                 ),
-                content_type=(
-                    "application/vnd.ms-excel.sheet.binary.macroEnabled.12"
-                ),
+                content_type=("application/vnd.ms-excel.sheet.binary.macroEnabled.12"),
                 path="archive/ihacpa/raw/2025/excel/nep25_aa_price_weights.xlsb",
                 local_path="archive/ihacpa/raw/2025/excel/nep25_aa_price_weights.xlsb",
                 bytes_=12345,

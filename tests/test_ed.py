@@ -102,12 +102,14 @@ def test_calculate_ed_udg_mapping_and_errors(monkeypatch, year):
     udg_pw = weights[weights["UDG"] == "UDG01"].iloc[0]["udg_pw"]
 
     def _load_map(ref_dir: Path) -> pd.DataFrame:
-        return pd.DataFrame({
-            "type_of_visit": [1],
-            "triage_category": [1],
-            "episode_end_status": [1],
-            "UDG": ["UDG01"],
-        })
+        return pd.DataFrame(
+            {
+                "type_of_visit": [1],
+                "triage_category": [1],
+                "episode_end_status": [1],
+                "UDG": ["UDG01"],
+            }
+        )
 
     def _load(
         ref_dir: Path, classification_option: int, year: str = "2025"

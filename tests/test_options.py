@@ -41,6 +41,7 @@ def test_clear_data_removes_cache(tmp_path, monkeypatch):
     outpatients._load_weights = _load_csv  # monkeypatch without pytest fixture
     # ensure caching uses CSV to avoid optional parquet dependencies
     orig_loader = outpatients.load_sas_table
+
     def _load_csv_cache(path, **kw):
         return orig_loader(path, cache_format="csv", **kw)
 

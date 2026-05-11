@@ -28,7 +28,9 @@ except ImportError:  # pragma: no cover - fallback for source layout
 
     spec = importlib.util.spec_from_file_location("nwau_py.scoring.scorer", _SCORER)
     if spec is None or spec.loader is None:
-        raise RuntimeError("Unable to load nwau_py.scoring.scorer from repository source")
+        raise RuntimeError(
+            "Unable to load nwau_py.scoring.scorer from repository source"
+        )
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     score_readmission = module.score_readmission

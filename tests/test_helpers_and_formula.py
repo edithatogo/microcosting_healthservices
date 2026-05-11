@@ -39,14 +39,11 @@ def test_path_helpers_and_imputation(tmp_path, monkeypatch):
     assert data_dir("2025") == Path("excel_calculator/data")
     assert weights_csv("2025") == Path("excel_calculator/data/weights.csv")
     assert formula_json("2025") == Path("excel_calculator/data/formula.json")
-    assert (
-        sas_table(
-            "nep{suffix}_table_{ra}_{ra_year}_{year}.sas7bdat",
-            year="2025",
-            base_dir=Path("/base"),
-        )
-        == Path("/base/nep25_table_ra2021_2021_2025.sas7bdat")
-    )
+    assert sas_table(
+        "nep{suffix}_table_{ra}_{ra_year}_{year}.sas7bdat",
+        year="2025",
+        base_dir=Path("/base"),
+    ) == Path("/base/nep25_table_ra2021_2021_2025.sas7bdat")
     assert sas_ref_dir("2025") == Path(
         "archive/sas/NEP25_SAS_NWAU_calculator/calculators"
     )

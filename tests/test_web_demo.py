@@ -19,7 +19,7 @@ def test_web_demo_shell_is_static_and_demo_only():
     assert "fetch(demoUrl)" in js
     assert "./demo/acute_2025.json" in js
     assert "contract.schema_version" in js
-    assert "input type=\"file\"" not in html
+    assert 'input type="file"' not in html
 
 
 def test_web_demo_fixture_is_traceable_to_the_public_contract():

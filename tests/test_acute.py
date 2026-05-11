@@ -213,6 +213,7 @@ def test_calculate_acute_2018_runs(monkeypatch):
     """Ensure the calculator runs for a pre-2021 year."""
     pytest.skip("2018 edition not supported")
 
+
 @pytest.mark.parametrize(
     "year,weights_path",
     [
@@ -224,7 +225,6 @@ def test_calculate_acute_legacy_runs(monkeypatch, year, weights_path):
     """Ensure the calculator runs for selected pre-2021 years."""
     dir_path = sas_ref_dir(year)
     assert Path(dir_path).exists()
-
 
     monkeypatch.setattr(
         acute,

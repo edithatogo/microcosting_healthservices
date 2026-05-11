@@ -21,12 +21,7 @@ def test_starlight_scaffold_files_exist():
         SITE / "src" / "content" / "docs" / "index.mdx",
         SITE / "src" / "content" / "docs" / "versions" / "index.mdx",
         SITE / "src" / "content" / "docs" / "governance" / "index.mdx",
-        SITE
-        / "src"
-        / "content"
-        / "docs"
-        / "governance"
-        / "calculator-coverage.mdx",
+        SITE / "src" / "content" / "docs" / "governance" / "calculator-coverage.mdx",
         SITE
         / "src"
         / "content"
@@ -34,12 +29,7 @@ def test_starlight_scaffold_files_exist():
         / "governance"
         / "public-calculator-contract.mdx",
         SITE / "public" / "contracts" / "public-calculator-contract.v1.schema.json",
-        SITE
-        / "src"
-        / "content"
-        / "docs"
-        / "governance"
-        / "starlight-extensions.mdx",
+        SITE / "src" / "content" / "docs" / "governance" / "starlight-extensions.mdx",
         SITE / "src" / "content" / "docs" / "versions" / "2025.md",
         SITE / "src" / "content" / "docs" / "migration" / "legacy-docs.md",
         WORKFLOW,

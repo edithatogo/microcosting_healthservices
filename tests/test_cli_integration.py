@@ -10,9 +10,7 @@ import pandas as pd
 import pytest
 
 CLI = shutil.which("funding-calculator")
-FIXTURE_DIR = (
-    Path(__file__).resolve().parent / "fixtures" / "golden" / "acute_2025"
-)
+FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures" / "golden" / "acute_2025"
 INPUT_CSV = FIXTURE_DIR / "input.csv"
 REF_DIR = Path("tests/data/2025")
 

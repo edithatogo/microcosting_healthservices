@@ -11,4 +11,3 @@ def test_ra_suffix():
     assert ra_suffix("2024") == "ra2021"
     assert ra_suffix("2023") == "ra2016"
     assert ra_suffix("2019") == "ra2011"
-

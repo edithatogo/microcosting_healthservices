@@ -108,11 +108,5 @@ def test_acute_fixture_pack_regression_parity_uses_manifest_provenance():
     assert pack.manifest.payloads["expected_output"].row_count == len(
         fixtures.read_payload_frame(pack, "expected_output")
     )
-    assert (
-        pack.manifest.precision.tolerance.absolute
-        == pytest.approx(0.0001)
-    )
-    assert (
-        pack.manifest.precision.tolerance.relative
-        == pytest.approx(0.0001)
-    )
+    assert pack.manifest.precision.tolerance.absolute == pytest.approx(0.0001)
+    assert pack.manifest.precision.tolerance.relative == pytest.approx(0.0001)

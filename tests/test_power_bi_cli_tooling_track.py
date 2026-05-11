@@ -84,7 +84,7 @@ def test_power_bi_cli_tooling_bootstrap_contract_exists_and_is_focused():
     assert "MIN_AZURE_CLI_VERSION" in script
     assert "DOTNET_TOOLS_PATH" in script
     assert "If pac remains unavailable after bootstrap" in script
-    assert "check_command_present \"pac\"" in script
+    assert 'check_command_present "pac"' in script
     assert "run_help_smoke_check" in script
 
 

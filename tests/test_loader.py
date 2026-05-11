@@ -16,7 +16,6 @@ BASE_DIR = pathlib.Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / sas_ref_dir("2025")
 
 
-
 def test_load_sas_table_no_cache():
     path = DATA_DIR / "tablec.sas7bdat"
     df = load_sas_table(path, cache=False)
@@ -53,6 +52,7 @@ def test_load_sas_table_parquet_cache_no_pyarrow(tmp_path):
         cache_dir=tmp_path,
     )
     assert df_cached.equals(df)
+
 
 def test_load_sas_table_parquet_cache(tmp_path):
     path = DATA_DIR / "nep25_edaecc_price_weights.sas7bdat"

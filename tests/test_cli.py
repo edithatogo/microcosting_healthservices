@@ -29,6 +29,7 @@ _ACUTE_ERR = None
 
 try:  # cli may fail to import if optional deps are missing
     from nwau_py.cli.main import cli as _cli
+
     _CLI_ERR = None
 except Exception as exc:  # pragma: no cover - environment dependent
     _cli = None
@@ -37,9 +38,7 @@ except Exception as exc:  # pragma: no cover - environment dependent
 
 @pytest.mark.skipif(
     _cli is None or acute is None,
-    reason=(
-        f"CLI import failed: {_CLI_ERR} | acute import failed: {_ACUTE_ERR}"
-    ),
+    reason=(f"CLI import failed: {_CLI_ERR} | acute import failed: {_ACUTE_ERR}"),
 )
 def test_cli_acute_matches_library_output(monkeypatch, tmp_path):
     def _weights(*_args, **_kwargs) -> pd.DataFrame:
