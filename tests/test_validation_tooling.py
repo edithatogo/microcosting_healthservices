@@ -238,3 +238,65 @@ def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
 
     with pytest.raises(TypeError, match="expects row, reference, and adjustments"):
         rust_bridge.calculate_acute_2025_row({"DRG": "801A"}, {"drg": "801A"})
+
+
+def test_rust_bridge_load_rust_extension_uses_sys_modules_fallback(monkeypatch):
+    sentinel = types.SimpleNamespace(kernel_label=lambda: "sentinel")
+    monkeypatch.setitem(sys.modules, "nwau_py._rust", sentinel)
+
+    module = rust_bridge.load_rust_extension()
+
+    assert module is sentinel
+    assert rust_bridge.kernel_label() == "sentinel"
+
+
+def test_calculate_acute_rust_2025_uses_bridge_and_preserves_columns(monkeypatch):
+    frame = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "LOS": [1],
+            "ICU_HOURS": [0],
+            "ICU_OTHER": [0],
+            "PAT_SAMEDAY_FLAG": [0],
+            "PAT_PRIVATE_FLAG": [0],
+            "PAT_COVID_FLAG": [0],
+        }
+    )
+
+    weights = pd.DataFrame(
+        {
+            "DRG": ["801A"],
+            "drg_inlier_lb": [1.0],
+            "drg_inlier_ub": [2.0],
+            "drg_adj_paed": [1.0],
+            "drg_samedaylist_flag": [0],
+            "drg_bundled_icu_flag": [0],
+            "drg_pw_sso_base": [0.0],
+            "drg_pw_sso_perdiem": [0.0],
+            "drg_pw_inlier": [0.0],
+            "drg_pw_lso_perdiem": [0.0],
+            "drg_adj_privpat_serv": [0.0],
+        }
+    )
+
+    calls: list[tuple[dict, dict, dict]] = []
+
+    def fake_row(row, reference, adjustments):
+        calls.append((row, reference, adjustments))
+        return {"NWAU25": 3.5}
+
+    monkeypatch.setattr(acute, "_load_price_weights", lambda ref_dir, year="2025": weights)
+    monkeypatch.setattr(acute, "_rust_calculate_acute_2025_row", fake_row)
+
+    result = acute.calculate_acute_rust_2025(
+        frame,
+        acute.AcuteParams(debug_mode=True),
+        year="2025",
+        ref_dir=BASE / "2025",
+    )
+
+    assert list(result.columns) == list(frame.columns) + ["NWAU25"]
+    assert result["NWAU25"].tolist() == [3.5]
+    assert calls and calls[0][0]["DRG"] == "801A"
+    assert calls[0][1]["drg"] == "801A"
+    assert calls[0][2]["icu_rate"] == 0.0
