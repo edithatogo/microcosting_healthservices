@@ -251,6 +251,15 @@ def test_build_acute_contract_derives_reference_bundle_from_ref_dir():
     assert contract.reference_bundle.ref_dir == Path("tests/data/2025")
 
 
+def test_build_acute_contract_defaults_to_acut_params_and_input_contract():
+    contract = acute.build_acute_contract()
+
+    assert contract.year == "2025"
+    assert isinstance(contract.params, acute.AcuteParams)
+    assert isinstance(contract.input_contract, acute.AcuteInputContract)
+    assert contract.reference_bundle is not None
+
+
 def test_resolve_acute_reference_bundle_prefers_explicit_bundle():
     bundle = acute.AcuteReferenceBundle(
         year="2025",
