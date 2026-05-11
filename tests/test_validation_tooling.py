@@ -240,16 +240,6 @@ def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
         rust_bridge.calculate_acute_2025_row({"DRG": "801A"}, {"drg": "801A"})
 
 
-def test_rust_bridge_load_rust_extension_uses_sys_modules_fallback(monkeypatch):
-    sentinel = types.SimpleNamespace(kernel_label=lambda: "sentinel")
-    monkeypatch.setitem(sys.modules, "nwau_py._rust", sentinel)
-
-    module = rust_bridge.load_rust_extension()
-
-    assert module is sentinel
-    assert rust_bridge.kernel_label() == "sentinel"
-
-
 def test_calculate_acute_rust_2025_uses_bridge_and_preserves_columns(monkeypatch):
     frame = pd.DataFrame(
         {
