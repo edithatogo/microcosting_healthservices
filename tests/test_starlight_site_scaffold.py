@@ -65,7 +65,9 @@ def test_starlight_config_documents_the_static_docs_site_contract():
     assert "@astrojs/starlight" in config
     assert "starlightLinksValidator" in config
     assert "starlightVersions" in config
-    assert "github.io/microcosting_healthservices" in config
+    assert "GITHUB_REPOSITORY" in config
+    assert "SITE_URL" in config
+    assert "SITE_BASE" in config
     assert "editLink" in config
     assert "customCss" in config
     assert "versions" in config
