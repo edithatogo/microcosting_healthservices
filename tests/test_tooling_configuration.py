@@ -198,8 +198,8 @@ def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
 def test_release_drafter_configuration_defines_tagged_release_notes():
     config = _read_text(RELEASE_DRAFTER_FILE)
 
-    assert "name-template: \"nwau_py v$RESOLVED_VERSION\"" in config
-    assert "tag-template: \"v$RESOLVED_VERSION\"" in config
+    assert 'name-template: "nwau_py v$RESOLVED_VERSION"' in config
+    assert 'tag-template: "v$RESOLVED_VERSION"' in config
     assert "release" in config
     assert "Validation expectations" in config
     assert "skip-changelog" in config
