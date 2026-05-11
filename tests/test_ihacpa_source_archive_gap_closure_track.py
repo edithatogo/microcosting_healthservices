@@ -38,9 +38,10 @@ def test_ihacpa_source_archive_gap_track_records_manifest_state():
     assert len(manifest) == 94
     assert sum(1 for item in manifest if item["status"] == "downloaded") == 92
     assert sum(1 for item in manifest if item["status"] == "box-html-only") == 2
-    assert all(item["status"] in {"downloaded", "box-html-only"} for item in manifest), (
-        "Unexpected archive status value found"
+    status_ok = all(
+        item["status"] in {"downloaded", "box-html-only"} for item in manifest
     )
+    assert status_ok, "Unexpected archive status value found"
 
     spec_lower = spec.lower()
 
