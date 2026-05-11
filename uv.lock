@@ -671,6 +671,7 @@ test = [
     { name = "pytest" },
 ]
 typing = [
+    { name = "pytest" },
     { name = "ty" },
 ]
 
@@ -695,7 +696,10 @@ mutation = [{ name = "mutmut" }]
 profiling = [{ name = "scalene" }]
 property = [{ name = "hypothesis" }]
 test = [{ name = "pytest" }]
-typing = [{ name = "ty" }]
+typing = [
+    { name = "pytest" },
+    { name = "ty" },
+]
 
 [[package]]
 name = "packaging"
