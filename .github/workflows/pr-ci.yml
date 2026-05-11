@@ -200,17 +200,12 @@ jobs:
         run: uv run pytest --cov=nwau_py --cov-report=term-missing --cov-report=xml --cov-fail-under=80
 
       - name: Upload coverage to Codecov
-        if: ${{ secrets.CODECOV_TOKEN != '' }}
         uses: codecov/codecov-action@v5
         with:
           files: ./coverage.xml
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Skip Codecov upload on unconfigured token
-        if: ${{ secrets.CODECOV_TOKEN == '' }}
-        run: |
-          echo "Codecov token is not configured; skipping coverage upload."
+        continue-on-error: true
 
   slow_validation:
     name: "Slow validation (PR label: run-slow-validation-required)"
