@@ -16,7 +16,7 @@ import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Protocol
@@ -99,7 +99,7 @@ class RedirectTrackingHandler(HTTPRedirectHandler):
 
 
 def now_iso() -> str:
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def repo_root() -> Path:
@@ -108,7 +108,7 @@ def repo_root() -> Path:
 
 def git_commit(root: Path) -> str:
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # nosec: B404,B603,B607 - intentional git metadata read
             ["git", "-C", str(root), "rev-parse", "HEAD"],
             check=True,
             capture_output=True,

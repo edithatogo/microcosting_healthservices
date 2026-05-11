@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import tomllib
+try:
+    import tomllib  # type: ignore[import-not-found]
+except ModuleNotFoundError:  # pragma: no cover - Python < 3.11
+    import tomli as tomllib  # type: ignore
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT_FILE = ROOT / "pyproject.toml"
