@@ -188,9 +188,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   slow_validation:
-    name: "Optional slow validation (PR label: run-slow-validation / run-slow-validation-required)"
-    if: ${{ github.event_name == 'pull_request' && (contains(github.event.pull_request.labels.*.name, 'run-slow-validation') || contains(github.event.pull_request.labels.*.name, 'run-slow-validation-required')) }}
+    name: "Slow validation (PR label: run-slow-validation-required)"
+    if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-slow-validation-required') }}
     needs:
       - coverage
     uses: ./.github/workflows/slow-validation.yml
-    continue-on-error: ${{ github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'run-slow-validation-required') }}
