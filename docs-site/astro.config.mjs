@@ -3,9 +3,15 @@ import starlight from '@astrojs/starlight';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightVersions from 'starlight-versions';
 
+const repository = process.env.GITHUB_REPOSITORY ?? 'edithatogo/microcosting_healthservices';
+const [owner, repo] = repository.split('/');
+const siteUrl =
+  process.env.SITE_URL ?? `https://${owner}.github.io/${repo}/`;
+const siteBase = process.env.SITE_BASE ?? `/${repo}/`;
+
 export default defineConfig({
-  site: 'https://edithatogo.github.io/microcosting_healthservices/',
-  base: '/microcosting_healthservices/',
+  site: siteUrl,
+  base: siteBase,
   integrations: [
     starlightLinksValidator(),
     starlight({

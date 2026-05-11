@@ -1,5 +1,7 @@
 # NWAU Calculator
 
+[![Docs Site](https://github.com/edithatogo/microcosting_healthservices/actions/workflows/docs-site.yml/badge.svg?branch=master)](https://github.com/edithatogo/microcosting_healthservices/actions/workflows/docs-site.yml)
+
 This project provides Python translations of the IHACPA SAS funding
 calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment
@@ -13,6 +15,8 @@ allows it. A lightweight command line interface is available via the
 
 The public documentation site is published from the Starlight scaffold in
 `docs-site/` and serves as the canonical docs front door.
+The GitHub Pages deployment path is wired through
+[`.github/workflows/docs-site.yml`](.github/workflows/docs-site.yml).
 
 The repository also contains a Rust workspace scaffold for calculator-core
 migration. Python remains the current validated runtime path until Rust parity
