@@ -108,7 +108,7 @@ def repo_root() -> Path:
 
 def git_commit(root: Path) -> str:
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603
             ["git", "-C", str(root), "rev-parse", "HEAD"],
             check=True,
             capture_output=True,

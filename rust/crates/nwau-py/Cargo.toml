@@ -11,10 +11,11 @@ path = "src/lib.rs"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["abi3-py311"]
+default = ["abi3-py310"]
 extension-module = ["pyo3/extension-module"]
+abi3-py310 = ["pyo3/abi3-py310"]
 abi3-py311 = ["pyo3/abi3-py311"]
 
 [dependencies]
-pyo3 = { version = "0.22" }
+pyo3 = { version = "0.24.1" }
 nwau-core = { path = "../nwau-core" }

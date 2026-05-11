@@ -115,6 +115,14 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
 
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Rust acute binding extension
+        run: |
+          cd rust/crates/nwau-py
+          uv run --with maturin maturin develop --release
+
       - name: Sync environment
         run: uv sync --locked --group test
 

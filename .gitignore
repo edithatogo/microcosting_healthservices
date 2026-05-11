@@ -23,4 +23,4 @@ build/
 # Raw external source archives are large provenance artifacts.
 # Store them via Git LFS, release assets, or external object storage once policy is finalized.
 archive/ihacpa/raw/
-
+!archive/ihacpa/raw/manifest.json
