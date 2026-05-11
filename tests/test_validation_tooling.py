@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import validation_tooling as validation
+from nwau_py import rust_bridge
 
 PYREADSTAT = types.ModuleType("pyreadstat")
 PYREADSTAT.ReadstatError = Exception
@@ -189,7 +190,7 @@ def test_acute_input_validation_reports_missing_required_columns():
 
 def test_rust_bridge_row_loader_rejects_kwargs_and_wrong_arity():
     with pytest.raises(TypeError, match="accepts positional arguments only"):
-        acute.calculate_acute_2025_row(row={}, reference={}, adjustments={})
+        rust_bridge.calculate_acute_2025_row(row={}, reference={}, adjustments={})
 
     with pytest.raises(TypeError, match="expects row, reference, and adjustments"):
-        acute.calculate_acute_2025_row({"DRG": "801A"}, {"drg": "801A"})
+        rust_bridge.calculate_acute_2025_row({"DRG": "801A"}, {"drg": "801A"})
