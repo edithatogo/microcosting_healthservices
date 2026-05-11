@@ -1,9 +1,7 @@
 name: Slow Validation
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * 0"
+  workflow_call:
 
 concurrency:
   group: slow-validation-${{ github.ref }}

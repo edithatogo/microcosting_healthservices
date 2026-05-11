@@ -192,4 +192,4 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-slow-validation-required') }}
     needs:
       - coverage
-    uses: ./.github/workflows/slow-validation.yml
+    uses: ./.github/workflows/slow-validation-reusable.yml
