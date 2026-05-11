@@ -133,7 +133,6 @@ class LifecycleAxes:
 
     def to_dict(self) -> dict[str, str]:
         """Return a JSON-friendly representation of the lifecycle axes."""
-
         return {
             "acquisition": self.acquisition_status.value,
             "extraction": self.extraction_status.value,
@@ -175,7 +174,6 @@ class RunContext:
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly representation of the run context."""
-
         return {
             "script_name": self.script_name,
             "script_version": self.script_version,
@@ -223,7 +221,6 @@ class SourceArtifact:
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly representation of the artifact."""
-
         return {
             "artifact_id": self.artifact_id,
             "year_label": self.year_label,
@@ -257,7 +254,6 @@ class SourceArtifact:
         manifest: SourceArchiveManifest,
     ) -> dict[str, Any]:
         """Return a flattened row for CSV serialization."""
-
         return {
             "schema_version": manifest.schema_version,
             "generated_at": manifest.generated_at,
@@ -342,7 +338,6 @@ class SourceArchiveManifest:
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly representation of the full manifest."""
-
         return {
             "schema_version": self.schema_version,
             "generated_at": self.generated_at,
@@ -353,7 +348,6 @@ class SourceArchiveManifest:
 
 def tracked_manifest_paths(base_dir: Path | str | None = None) -> ManifestPaths:
     """Return the tracked manifest locations used outside raw storage."""
-
     manifest_dir = (
         Path(base_dir) if base_dir is not None else DEFAULT_TRACKED_MANIFEST_DIR
     )
@@ -367,13 +361,11 @@ def tracked_manifest_paths(base_dir: Path | str | None = None) -> ManifestPaths:
 
 def raw_archive_dir(base_dir: Path | str | None = None) -> Path:
     """Return the raw archive storage directory."""
-
     return Path(base_dir) if base_dir is not None else DEFAULT_RAW_ARCHIVE_DIR
 
 
 def sha256_file(path: Path) -> str:
     """Return the SHA-256 checksum for ``path``."""
-
     digest = hashlib.sha256()
     with path.open("rb") as file:
         for chunk in iter(lambda: file.read(1024 * 1024), b""):
@@ -383,7 +375,6 @@ def sha256_file(path: Path) -> str:
 
 def write_source_page_snapshot(html: str, path: Path) -> SourcePageSnapshot:
     """Persist the source page HTML and return its metadata."""
-
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(html, encoding="utf-8")
     return SourcePageSnapshot(
@@ -396,7 +387,6 @@ def write_source_page_snapshot(html: str, path: Path) -> SourcePageSnapshot:
 
 def git_commit() -> str:
     """Return the current Git commit hash if available."""
-
     try:
         import shutil
 
@@ -416,7 +406,6 @@ def git_commit() -> str:
 
 def source_host_from_url(url: str) -> SourceHost:
     """Infer the source host from a URL."""
-
     lowered = url.lower()
     netloc = urlparse(url).netloc.lower()
     if "box.com" in lowered or "box.com" in netloc:
@@ -428,7 +417,6 @@ def source_host_from_url(url: str) -> SourceHost:
 
 def normalize_artifact_kind(label: str, url: str) -> ArtifactKind:
     """Infer the artifact kind from the label and URL."""
-
     lowered_label = label.lower()
     lowered_url = url.lower()
     if lowered_url.endswith((".xls", ".xlsx", ".xlsm", ".xlsb")):
@@ -446,7 +434,6 @@ def normalize_artifact_kind(label: str, url: str) -> ArtifactKind:
 
 def normalize_service_stream(artifact_kind: ArtifactKind, label: str) -> str:
     """Return a stable service-stream label for the artifact."""
-
     if artifact_kind is ArtifactKind.SAS:
         return "SAS-based calculators"
     if label.strip():
@@ -463,7 +450,6 @@ def normalize_acquisition_status(
     failed: bool = False,
 ) -> AcquisitionStatus:
     """Normalize acquisition status across IHACPA-hosted and Box-hosted assets."""
-
     if failed:
         return AcquisitionStatus.FAILED
 
@@ -483,7 +469,6 @@ def stable_artifact_id(
     artifact_kind: ArtifactKind | None = None,
 ) -> str:
     """Return a stable identifier derived from the artifact metadata."""
-
     prefix = f"{year_label}-{(artifact_kind or ArtifactKind.UNKNOWN).value}-{label}"
     slug = [char.lower() if char.isalnum() else "-" for char in prefix]
     compact = "".join(slug)
@@ -496,20 +481,17 @@ def stable_artifact_id(
 
 def manifest_rows(manifest: SourceArchiveManifest) -> list[dict[str, Any]]:
     """Return flattened rows suitable for CSV output."""
-
     return [artifact.to_csv_row(manifest=manifest) for artifact in manifest.artifacts]
 
 
 def write_manifest_json(manifest: SourceArchiveManifest, path: Path) -> None:
     """Write the manifest JSON payload to ``path``."""
-
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(manifest.to_dict(), indent=2) + "\n", encoding="utf-8")
 
 
 def write_manifest_csv(manifest: SourceArchiveManifest, path: Path) -> None:
     """Write the manifest CSV payload to ``path``."""
-
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(file, fieldnames=MANIFEST_CSV_FIELDNAMES)

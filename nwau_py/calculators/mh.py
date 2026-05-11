@@ -68,7 +68,6 @@ def calculate_mh(
     the patient-level variables referenced below (e.g. ``AMHCC``, ``LOS``,
     ``PAT_PRIVATE_FLAG`` etc.).
     """
-
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]

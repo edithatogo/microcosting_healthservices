@@ -83,7 +83,6 @@ def validate_required_input_columns(
     required_columns: Iterable[str],
 ) -> None:
     """Raise when required input columns are missing."""
-
     missing = _missing_required_columns(
         actual_columns,
         required_columns,
@@ -100,7 +99,6 @@ def validate_required_output_columns(
     required_columns: Iterable[str],
 ) -> None:
     """Raise when required output columns are missing."""
-
     missing = _missing_required_columns(
         actual_columns,
         required_columns,
@@ -132,13 +130,11 @@ class PricingYear(BaseModel):
     @property
     def as_int(self) -> int:
         """Return the pricing year as an integer."""
-
         return int(self.year)
 
     @property
     def suffix(self) -> str:
         """Return the two-digit edition suffix used by archive paths."""
-
         return self.year[-2:]
 
 
@@ -191,17 +187,14 @@ class CalculatorContract(BaseModel):
 
     def validate_input_columns(self, actual_columns: Iterable[str]) -> None:
         """Validate adapter input columns against the contract."""
-
         validate_required_input_columns(actual_columns, self.required_input_columns)
 
     def validate_output_columns(self, actual_columns: Iterable[str]) -> None:
         """Validate adapter output columns against the contract."""
-
         validate_required_output_columns(actual_columns, self.required_output_columns)
 
     def missing_input_columns(self, actual_columns: Iterable[str]) -> tuple[str, ...]:
         """Return the required input columns that are missing."""
-
         return _missing_required_columns(
             actual_columns,
             self.required_input_columns,
@@ -210,7 +203,6 @@ class CalculatorContract(BaseModel):
 
     def missing_output_columns(self, actual_columns: Iterable[str]) -> tuple[str, ...]:
         """Return the required output columns that are missing."""
-
         return _missing_required_columns(
             actual_columns,
             self.required_output_columns,

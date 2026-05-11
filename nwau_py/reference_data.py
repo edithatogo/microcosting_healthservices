@@ -91,7 +91,6 @@ def reference_bundle_root(
     calculator: str,
 ) -> Path:
     """Return the canonical root directory for a calculator/year bundle set."""
-
     year = _validate_year(year)
     calculator = _validate_identifier(calculator, field_name="calculator")
     return Path(base_dir) / year / calculator
@@ -129,7 +128,6 @@ def resolve_reference_bundle(
     bundle_id: str | None = None,
 ) -> ReferenceBundle:
     """Resolve a single validated reference bundle manifest from disk."""
-
     root = reference_bundle_root(base_dir, year=year, calculator=calculator)
     if not root.is_dir():
         raise FileNotFoundError(

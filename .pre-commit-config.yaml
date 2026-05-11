@@ -8,7 +8,7 @@ repos:
         pass_filenames: false
       - id: ruff-docstrings
         name: ruff docstring checks
-        entry: uv run ruff check --select D --extend-exclude tests --extend-exclude helpers nwau_py excel_calculator/src
+        entry: uv run ruff check --select D2 --extend-exclude tests --extend-exclude helpers nwau_py excel_calculator/src
         language: system
         pass_filenames: false
       - id: ruff-check

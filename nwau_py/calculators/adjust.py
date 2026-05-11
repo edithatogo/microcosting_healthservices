@@ -60,7 +60,6 @@ def calculate_adjusted_nwau(
         ``complexity_df`` is supplied ``complexity`` and ``complexityGroup`` are
         also included.
     """
-
     result = df.copy()
     covid_flag = (
         result[covid_flag_col].fillna(0)

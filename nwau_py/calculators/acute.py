@@ -107,7 +107,6 @@ def build_acute_contract(
     input_contract: AcuteInputContract | None = None,
 ) -> AcuteCalculationContract:
     """Build a contract object for acute input validation and reference lookup."""
-
     bundle = reference_bundle
     if bundle is None:
         bundle = AcuteReferenceBundle(
@@ -126,7 +125,6 @@ def validate_acute_input_frame(
     df: pd.DataFrame, contract: AcuteCalculationContract | None = None
 ) -> None:
     """Validate the acute input frame against the declared contract."""
-
     contract = contract or build_acute_contract()
     contract.input_contract.validate(df)
 
@@ -159,7 +157,6 @@ def _resolve_acute_reference_bundle(
 
 def _acute_reference_row_from_weights(row: pd.Series) -> dict[str, object]:
     """Build the Rust kernel reference-row contract from a resolved weight row."""
-
     return {
         "drg": str(row["DRG"]),
         "inlier_lower_bound": float(row.get("drg_inlier_lb", 0.0) or 0.0),
@@ -179,7 +176,6 @@ def _acute_reference_row_from_weights(row: pd.Series) -> dict[str, object]:
 
 def _acute_rust_adjustments(params: AcuteParams) -> dict[str, object]:
     """Build the adjustment contract for the Rust acute kernel."""
-
     return {
         "icu_rate": 0.0,
         "covid_adjustment": 0.0,
@@ -208,7 +204,6 @@ def calculate_acute_rust_2025(
     acute 2025 pilot pack and returns the original columns plus an ``NWAU25``
     column computed by the Rust kernel.
     """
-
     contract = contract or build_acute_contract(
         params=params,
         year=year,

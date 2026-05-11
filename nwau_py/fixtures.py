@@ -161,13 +161,11 @@ class FixtureRunner:
 
     def run_case(self, case: FixtureCase) -> FixtureRunResult:
         """Execute a single fixture case and wrap the result."""
-
         executor = self.execute_case or run_fixture_case
         return FixtureRunResult(case=case, result=executor(case))
 
     def run_cases(self, cases: Iterable[FixtureCase]) -> list[FixtureRunResult]:
         """Execute a batch of fixture cases in order."""
-
         return [self.run_case(case) for case in cases]
 
 
@@ -242,7 +240,6 @@ def _parse_payload(role: str, payload: dict[str, Any]) -> FixturePayload:
 
 def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
     """Load and validate a golden-fixture manifest."""
-
     path = Path(manifest_path)
     payload = json.loads(path.read_text(encoding="utf-8"))
     manifest = _require_mapping(payload, field="manifest")
@@ -372,7 +369,6 @@ def load_fixture_manifest(manifest_path: str | Path) -> FixtureManifest:
 
 def load_fixture_pack(manifest_path: str | Path) -> FixturePack:
     """Load a fixture pack and resolve its payload paths."""
-
     manifest_path = Path(manifest_path)
     manifest = load_fixture_manifest(manifest_path)
     return FixturePack(
@@ -391,7 +387,6 @@ def _safe_load_fixture_pack(manifest_path: str | Path) -> FixturePack | None:
 
 def discover_fixture_packs(root: str | Path) -> list[FixturePack]:
     """Return every validated fixture pack below ``root``."""
-
     root_path = Path(root)
     packs: list[FixturePack] = []
     if not root_path.exists():
@@ -409,7 +404,6 @@ def iter_fixture_cases(
     calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
 ) -> list[FixtureCase]:
     """Return runnable fixture cases for the requested packs."""
-
     cases: list[FixtureCase] = []
     for pack in packs:
         manifest = pack.manifest
@@ -429,7 +423,6 @@ def iter_fixture_cases(
 
 def fixture_case_param_id(case: FixtureCase) -> str:
     """Return a stable pytest id for a fixture case."""
-
     return (
         f"{case.pack.manifest.fixture_id}"
         f"[{case.pack.manifest.calculator}]"
@@ -444,7 +437,6 @@ def fixture_case_params(cases: Iterable[FixtureCase]) -> list[Any]:
     The pytest import is intentionally local so the helper remains usable in
     non-pytest runners.
     """
-
     import pytest
 
     return [pytest.param(case, id=fixture_case_param_id(case)) for case in cases]
@@ -454,7 +446,6 @@ def iter_fixture_pytest_params(
     cases: Iterable[FixtureCase],
 ) -> list[Any]:
     """Return pytest parameters for a fixture-case iterable."""
-
     import pytest
 
     return [pytest.param(case, id=case.fixture_id) for case in cases]
@@ -466,7 +457,6 @@ def iter_fixture_pytest_params_from_root(
     calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
 ) -> list[Any]:
     """Return pytest parameters for every valid fixture pack under ``root``."""
-
     packs = discover_fixture_packs(root)
     cases = iter_fixture_cases(packs, calculator_map=calculator_map)
     return iter_fixture_pytest_params(cases)
@@ -474,7 +464,6 @@ def iter_fixture_pytest_params_from_root(
 
 def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
     """Execute a fixture case and return the calculator output frame."""
-
     input_df = read_payload_frame(case.pack, "input")
     return case.calculator(
         input_df,
@@ -485,7 +474,6 @@ def run_fixture_case(case: FixtureCase) -> pd.DataFrame:
 
 def run_fixture_suite(cases: Iterable[FixtureCase]) -> list[FixtureRunResult]:
     """Execute and validate a collection of fixture cases."""
-
     results: list[FixtureRunResult] = []
     for case in cases:
         result = run_fixture_case(case)
@@ -507,7 +495,6 @@ def run_fixture_suite_from_root(
     calculator_map: dict[str, tuple[Callable[..., pd.DataFrame], Any, str]],
 ) -> list[FixtureRunResult]:
     """Discover, materialize, and execute fixture cases from a fixture root."""
-
     packs = discover_fixture_packs(root)
     cases = iter_fixture_cases(packs, calculator_map=calculator_map)
     return run_fixture_suite(cases)
@@ -519,7 +506,6 @@ def assert_fixture_case_output(
     expected: pd.DataFrame,
 ) -> None:
     """Assert parity for a fixture case with manifest-backed provenance."""
-
     tolerance = case.tolerance
     if case.result_column not in result.columns:
         raise FixtureManifestError(
@@ -557,7 +543,6 @@ def assert_fixture_case_output(
 
 def read_payload_frame(pack: FixturePack, role: str) -> pd.DataFrame:
     """Read a payload frame from a validated fixture pack."""
-
     payload = pack.manifest.payloads[role]
     path = pack.payload_path(role)
     if not path.exists():

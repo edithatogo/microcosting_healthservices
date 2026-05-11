@@ -135,7 +135,6 @@ def _parse_payload(role: str, payload: dict[str, Any]) -> BundlePayload:
 
 def load_bundle_manifest(manifest_path: str | Path) -> DataBundleManifest:
     """Load and validate a bundle manifest."""
-
     path = Path(manifest_path)
     payload = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
@@ -196,7 +195,6 @@ def load_bundle_manifest(manifest_path: str | Path) -> DataBundleManifest:
 
 def load_bundle(manifest_path: str | Path) -> DataBundle:
     """Load a validated bundle manifest from disk."""
-
     path = Path(manifest_path)
     manifest = load_bundle_manifest(path)
     return DataBundle(
@@ -222,14 +220,12 @@ def _ensure_payload_path(bundle: DataBundle, role: str) -> Path:
 
 def read_bundle_frame(bundle: DataBundle, role: str) -> pd.DataFrame:
     """Read a bundle payload as a pandas dataframe."""
-
     path = _ensure_payload_path(bundle, role)
     return pd.read_parquet(path)
 
 
 def read_bundle_frame_polars(bundle: DataBundle, role: str):
     """Read a bundle payload as a Polars dataframe."""
-
     if pl is None:  # pragma: no cover - optional dependency guard
         raise ImportError("polars is not installed")
     path = _ensure_payload_path(bundle, role)

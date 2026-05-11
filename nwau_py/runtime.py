@@ -37,7 +37,6 @@ class CalculatorCallable(Protocol[InputTableT, ParamsT, OutputTableT]):
 
 def open_output_stream(output: str | Path) -> TextIO:
     """Open the target output stream for CSV writing."""
-
     if str(output) == "-":
         return sys.stdout
     return open(Path(output), "w", newline="", encoding="utf-8")
@@ -60,7 +59,6 @@ def run_csv_calculation(
     ``read_csv`` and ``write_csv`` are supplied by the caller so this helper can
     stay free of any one tabular library dependency.
     """
-
     input_table = read_csv(input_csv)
     result = calculator(
         input_table,

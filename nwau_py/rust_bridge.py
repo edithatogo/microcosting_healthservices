@@ -47,7 +47,6 @@ def _load_module_if_available(path: Path) -> ModuleType | None:
 
 def load_rust_extension() -> ModuleType:
     """Load the optional Rust extension, preferring an installed build."""
-
     try:
         from . import _rust as module  # type: ignore[attr-defined]
 

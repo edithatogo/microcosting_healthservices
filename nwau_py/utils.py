@@ -71,7 +71,6 @@ def ra_suffix(year: str = "2025") -> str:
     through 2023.  Editions from 2014 through 2019 use ``ra2011`` while older
     calculators rely on ``ra2006``.
     """
-
     year_int = int(year)
     if year_int >= 2024:
         return "ra2021"
@@ -107,7 +106,6 @@ def impute_adjustment(
         Weighted average of ``value_col`` using ``distribution`` as weights.
         Returns ``0.0`` when no keys overlap.
     """
-
     if table is None or table.empty:
         return 0.0
     weights = pd.Series(distribution)
