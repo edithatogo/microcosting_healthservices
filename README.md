@@ -18,6 +18,14 @@ The public documentation site is published from the Starlight scaffold in
 The GitHub Pages deployment path is wired through
 [`.github/workflows/docs-site.yml`](.github/workflows/docs-site.yml).
 
+## Releases
+
+Releases are tag-driven and start from `v0.2.0`-style tags.
+The repo uses release drafts for notes and a release workflow to build
+distributions and publish GitHub Releases from tagged commits.
+All release claims still depend on the CI and validation gates passing for the
+tagged source.
+
 The repository also contains a Rust workspace scaffold for calculator-core
 migration. Python remains the current validated runtime path until Rust parity
 is proven calculator by calculator.

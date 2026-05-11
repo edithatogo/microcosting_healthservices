@@ -14,6 +14,9 @@ CODECOV_FILE = ROOT / ".github" / "codecov.yml"
 PR_CI_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "pr-ci.yml"
 PRE_COMMIT_FILE = ROOT / ".pre-commit-config.yaml"
 SLOW_VALIDATION_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "slow-validation.yml"
+RELEASE_DRAFTER_FILE = ROOT / ".github" / "release-drafter.yml"
+RELEASE_DRAFTER_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "release-drafter.yml"
+RELEASE_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "release.yml"
 TY_FILE = ROOT / "ty.toml"
 MYPY_FILE = ROOT / "mypy.ini"
 ROOT_README_FILE = ROOT / "README.md"
@@ -190,6 +193,38 @@ def test_slow_validation_workflow_uses_the_expected_uv_group_commands():
     )
     assert workflow.index("Mutation checks") < workflow.index("Run mutmut")
     assert workflow.index("Profiling checks") < workflow.index("Run Scalene profiling")
+
+
+def test_release_drafter_configuration_defines_tagged_release_notes():
+    config = _read_text(RELEASE_DRAFTER_FILE)
+
+    assert "name-template: \"nwau_py v$RESOLVED_VERSION\"" in config
+    assert "tag-template: \"v$RESOLVED_VERSION\"" in config
+    assert "release" in config
+    assert "Validation expectations" in config
+    assert "skip-changelog" in config
+
+
+def test_release_drafter_workflow_updates_drafts_on_master_pushes():
+    workflow = _read_text(RELEASE_DRAFTER_WORKFLOW_FILE)
+
+    assert "Release Drafter" in workflow
+    assert "branches:" in workflow
+    assert "      - master" in workflow
+    assert "release-drafter/release-drafter@v6" in workflow
+    assert ".github/release-drafter.yml" in workflow
+
+
+def test_release_workflow_builds_and_publishes_tagged_releases():
+    workflow = _read_text(RELEASE_WORKFLOW_FILE)
+
+    assert "Release" in workflow
+    assert '      - "v*"' in workflow
+    assert "contents: write" in workflow
+    assert "uv build" in workflow
+    assert "actions/upload-artifact@v4" in workflow
+    assert "softprops/action-gh-release@v2" in workflow
+    assert "generate_release_notes: true" in workflow
 
 
 def test_conductor_workflow_documents_the_target_uv_command_sequence():
