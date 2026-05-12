@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+type: software
+title: "NWAU Calculator: Python Tools for Australian Health-Service Microcosting"
+version: 0.2.1
+date-released: 2026-05-12
+authors:
+  - family-names: Mordaunt
+    given-names: Dylan A
+repository-code: "https://github.com/edithatogo/mchs"
+url: "https://edithatogo.github.io/mchs/"
+abstract: >
+  Python tools for calculating IHACPA National Weighted Activity Units and
+  supporting Australian public hospital microcosting, pricing, validation,
+  and costing-study workflows.
+keywords:
+  - activity-based funding
+  - health economics
+  - health services
+  - hospital costing
+  - IHACPA
+  - microcosting
+  - NWAU
+license: MIT
+preferred-citation:
+  type: software
+  title: "NWAU Calculator: Python Tools for Australian Health-Service Microcosting"
+  authors:
+    - family-names: Mordaunt
+      given-names: Dylan A
+  version: 0.2.1
+  date-released: 2026-05-12
+  repository-code: "https://github.com/edithatogo/mchs"
+  url: "https://edithatogo.github.io/mchs/"

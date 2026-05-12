@@ -1,0 +1,21 @@
+{
+  "title": "NWAU Calculator: Python Tools for Australian Health-Service Microcosting",
+  "creators": [
+    {
+      "name": "Mordaunt, Dylan A"
+    }
+  ],
+  "description": "Python tools for calculating IHACPA National Weighted Activity Units and supporting Australian public hospital microcosting, pricing, validation, and costing-study workflows.",
+  "license": "MIT",
+  "keywords": [
+    "activity-based funding",
+    "health economics",
+    "health services",
+    "hospital costing",
+    "IHACPA",
+    "microcosting",
+    "NWAU"
+  ],
+  "upload_type": "software",
+  "access_right": "open"
+}
