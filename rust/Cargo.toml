@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "crates/nwau-core",
+    "crates/nwau-c-abi",
     "crates/nwau-py",
 ]
 resolver = "2"

@@ -45,6 +45,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "nwau-c-abi"
+version = "0.1.0"
+
+[[package]]
 name = "nwau-core"
 version = "0.1.0"
 

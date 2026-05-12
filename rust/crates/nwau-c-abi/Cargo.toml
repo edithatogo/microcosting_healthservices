@@ -1,0 +1,15 @@
+[package]
+name = "nwau-c-abi"
+version = "0.1.0"
+edition = "2021"
+description = "Minimal C ABI scaffold for the NWAU proof of concept"
+license = "Apache-2.0"
+publish = false
+
+[lib]
+name = "nwau_c_abi"
+path = "src/lib.rs"
+crate-type = ["cdylib", "staticlib", "rlib"]
+
+[dependencies]
+

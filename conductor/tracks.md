@@ -172,7 +172,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: C ABI Binding**
+- [x] **Track: C ABI Binding**
 *Link: [./tracks/c_abi_binding_20260512/](./tracks/c_abi_binding_20260512/)*
 *Gate: define a stable institutional embedding ABI only after core schemas and calculator parity are stable.*
 

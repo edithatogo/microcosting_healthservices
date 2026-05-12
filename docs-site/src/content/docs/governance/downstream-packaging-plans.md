@@ -20,6 +20,10 @@ Rules:
   prototype and `DataFrames.jl` plus `Arrow.jl` around the target interchange
   workflow once the shared Arrow contract exists. Treat C ABI, `ccall`, and
   `jlrs` as later options only if native embedding becomes necessary.
+- C ABI consumers should use a stable C boundary or a secured service
+  boundary. Any native integration must document ownership, allocator
+  responsibilities, and error translation before it is embedded in an
+  institution's runtime.
 - C# should prefer a stable ABI or secured service boundary.
 - Go should prefer a C ABI wrapper or secured service boundary.
 - Power Platform should use a custom connector or service boundary only.
@@ -31,8 +35,14 @@ Rules:
   store, do not cache patient-level data, and keep any telemetry synthetic only.
 - Keep all formula and validation logic in the shared engine; do not duplicate
   calculator rules in TypeScript just to make the browser demo easier.
-- Release readiness depends on shared fixture parity and stable contract
-  versioning.
+- Release readiness depends on shared fixture parity, stable contract
+  versioning, and Arrow-boundary consistency across all downstream surfaces.
+- For C ABI consumers, keep fixture parity with the shared engine, preserve
+  Arrow as the boundary for tabular exchange where possible, and avoid formula
+  duplication in the native wrapper.
+
+See also the C ABI consumer guide in
+[tutorials/c-abi-consumers](../tutorials/c-abi-consumers.mdx).
 
 See the canonical source in
 [Conductor downstream-packaging-plans.md](../../../../conductor/downstream-packaging-plans.md).
