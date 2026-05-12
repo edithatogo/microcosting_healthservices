@@ -49,6 +49,25 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Verify artifact attestations
+        if: github.event_name == 'release'
+        run: |
+          set -euo pipefail
+          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
+          if [ ${#artifacts[@]} -eq 0 ]; then
+            echo "No release artifacts available for attestation verification."
+            exit 1
+          fi
+          for artifact in "${artifacts[@]}"; do
+            gh attestation verify "$artifact" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --signer-workflow "${GITHUB_REPOSITORY}/.github/workflows/release.yml" \
+              --source-ref "${{ github.event.release.tag_name }}" \
+              --source-digest "${{ github.sha }}"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build distribution artifacts
         if: github.event_name != 'release'
         run: uv build
