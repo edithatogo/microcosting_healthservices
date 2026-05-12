@@ -1,0 +1,6 @@
+export(nwau_calculate)
+export(nwau_acute)
+export(nwau_ed)
+export(nwau_non_admitted)
+export(nwau_diagnose)
+

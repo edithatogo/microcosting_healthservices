@@ -1,0 +1,94 @@
+---
+title: R Markdown and Quarto costing-study workflow
+description: Use synthetic fixtures from R Markdown or Quarto with a thin R wrapper over the shared CLI and file interchange.
+sidebar:
+  label: R costing-study workflow
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page documents the initial R binding posture for costing-study reports.
+The recommended path is a thin R wrapper over the shared CLI plus file
+interchange. The executable prototype uses CSV because the current CLI supports
+CSV today. Arrow/Parquet remains the target for larger cross-language batches
+once the shared file contract is implemented.
+
+<Aside type="caution" title="Synthetic fixtures only">
+  The examples on this page use synthetic fixture data. Do not use them for
+  policy decisions, submissions, or patient-level workflows.
+</Aside>
+
+## Installation posture
+
+The initial R path is an internal-use integration, not a CRAN-ready package
+claim.
+
+- Install and keep the calculator core in the shared CLI toolchain.
+- Use R packages for data shaping, report rendering, and file exchange.
+- Treat any R package as a thin wrapper only.
+- Revisit `extendr` or `reticulate` later only if the wrapper-only path is too
+  limiting.
+
+## Recommended report flow
+
+1. Load synthetic costing-study fixtures in R.
+2. Validate the required columns in the report script.
+3. Write a batch input file. Use CSV for the current prototype; use Parquet
+   after the shared file contract is implemented.
+4. Call the shared CLI from the R Markdown or Quarto document.
+5. Read the output file and render summary tables or charts.
+
+```r
+library(arrow)
+library(dplyr)
+
+inputs <- read_parquet("fixtures/synthetic_costing_inputs.parquet")
+
+required_cols <- c("calculator", "pricing_year", "DRG", "LOS", "ICU_HOURS")
+missing_cols <- setdiff(required_cols, names(inputs))
+if (length(missing_cols) > 0) {
+  stop("Missing required columns: ", paste(missing_cols, collapse = ", "))
+}
+
+batch_input <- inputs |>
+  mutate(
+    calculator = "acute",
+    pricing_year = 2025L
+  )
+
+write.csv(batch_input, "work/batch_input.csv", row.names = FALSE)
+
+system2(
+  command = Sys.getenv("MCHS_CLI", "path/to/shared-cli"),
+  args = c(
+    "acute",
+    "work/batch_input.csv",
+    "--year", "2025",
+    "--output", "work/batch_output.csv"
+  )
+)
+
+results <- read.csv("work/batch_output.csv", check.names = FALSE)
+results |>
+  select(DRG, pricing_year, NWAU25, validation_status) |>
+  head()
+```
+
+The same pattern works inside an `.Rmd` or `.qmd` document because the report
+simply calls the shared engine and then formats the returned outputs.
+
+## Limitations
+
+- The R layer must not reimplement formulas, adjustment logic, or validation
+  rules.
+- The CLI dependency means portability depends on a local runtime install.
+- This path is batch-oriented, not a substitute for a native interactive
+  calculator API.
+- Output parity should be checked against shared fixtures before any result is
+  presented as authoritative.
+- CRAN readiness is not claimed here.
+
+## What to try next
+
+- Use the shared synthetic fixture pack to build a reusable report template.
+- Add automated checks once the package skeleton and stable fixture set exist.

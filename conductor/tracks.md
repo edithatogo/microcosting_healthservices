@@ -154,7 +154,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: R Binding**
+- [x] **Track: R Binding**
 *Link: [./tracks/r_binding_20260512/](./tracks/r_binding_20260512/)*
 *Gate: support health-economics and costing-study R users without duplicating calculator formula logic.*
 
