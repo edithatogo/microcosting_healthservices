@@ -40,6 +40,11 @@ tagged source.
 The repository also contains a Rust workspace scaffold for calculator-core
 migration. Python remains the current validated runtime path until Rust parity
 is proven calculator by calculator.
+The intended architecture is a polyglot library: a shared Rust calculator core
+with thin bindings or adapters for Python, R, Julia, TypeScript/WASM, C ABI,
+CLI/file workflows, web demos, and Power Platform orchestration. Those surfaces
+must consume shared contracts and validation fixtures rather than duplicating
+formula logic.
 
 ## Calculator modules
 

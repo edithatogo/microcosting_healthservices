@@ -28,6 +28,13 @@ Current repository evidence shows:
 
 The project should standardize on Python 3.10 through Python 3.14.
 
+The intended end state is a proper polyglot library with a shared Rust core and
+thin language adapters. Python remains the reference user-facing package during
+the transition, but the long-term architecture should expose the same validated
+calculator contracts through Python, R, Julia, TypeScript/WASM, C ABI, CLI/file
+interop, and institutional integration surfaces without duplicating formula
+logic.
+
 Supported Python versions should be covered in CI and Codecov reporting. Compatibility should be tested across the full declared support range before releases or major calculator validation claims.
 
 ## Package and Environment Management
@@ -100,7 +107,7 @@ Future calculator support should follow a ports-and-adapters model:
   with each pricing year and stream.
 - Mapping and grouping adapters derive classifications only through declared
   table, command, service, or local licensed-tool interfaces.
-- Language bindings call the shared core or CLI/file contract and must not
+- Language bindings call the shared Rust core or CLI/file contract and must not
   duplicate formula logic.
 - Apps and notebooks orchestrate data preparation, validation, and result
   presentation only.
@@ -109,6 +116,18 @@ Abstraction boundaries are part of the validation surface. A new stream,
 pricing year, classifier, language binding, or app surface is not complete until
 tests demonstrate that the correct contract is used and incompatible versions
 or duplicated formula paths are rejected.
+
+Rust-core promotion should be staged:
+
+- Keep Python implementations as the validated baseline until a Rust stream
+  matches the same official fixtures.
+- Promote one calculator stream at a time from Python parity baseline to Rust
+  canary, Rust opt-in, then Rust default only after evidence is recorded.
+- Keep Arrow-compatible batch schemas as the cross-language boundary.
+- Keep all language bindings thin and generated or contract-tested wherever
+  practical.
+- Treat C ABI, WASM, R, Julia, and Power Platform surfaces as consumers of the
+  shared contract, not as peer formula implementations.
 
 ## Testing and Quality
 

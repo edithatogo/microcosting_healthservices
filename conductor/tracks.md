@@ -267,3 +267,9 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Abstraction Doctrine Enforcement**
 *Link: [./tracks/abstraction_doctrine_enforcement_20260512/](./tracks/abstraction_doctrine_enforcement_20260512/)*
 *Gate: make formula, parameter, registry, classifier, binding, app, and documentation boundaries explicit and enforceable before implementing more surfaces.*
+
+---
+
+- [ ] **Track: Polyglot Rust Core Roadmap**
+*Link: [./tracks/polyglot_rust_core_roadmap_20260512/](./tracks/polyglot_rust_core_roadmap_20260512/)*
+*Gate: coordinate the transition from Python-first package to shared Rust calculator core with thin Python, R, Julia, TypeScript/WASM, C ABI, CLI/file, web, and Power Platform consumers.*
