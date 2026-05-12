@@ -53,5 +53,15 @@ jobs:
         if: github.event_name != 'release'
         run: uv build
 
+      - name: Generate artifact checksums for manual publish path
+        if: github.event_name != 'release'
+        run: |
+          sha256sum dist/* > dist/checksums.txt
+
+      - name: Verify release artifact checksums
+        run: |
+          sha256sum --check dist/checksums.txt
+          echo "Artifact checksums verified."
+
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

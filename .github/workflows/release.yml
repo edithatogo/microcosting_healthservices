@@ -35,6 +35,11 @@ jobs:
         run: |
           uv build
 
+      - name: Generate artifact checksums
+        run: |
+          sha256sum dist/* > dist/checksums.txt
+          ls -l dist/
+
       - name: Upload source distribution
         uses: actions/upload-artifact@v6
         with:
