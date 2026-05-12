@@ -5,6 +5,11 @@ import numpy as np
 import pandas as pd
 import pyreadstat
 
+from nwau_py.classification_validation import (
+    ClassificationValidationError,
+    get_classification_version,
+    validate_ar_drg_input,
+)
 from nwau_py.data.loader import load_sas_table
 from nwau_py.data.paths import sas_table
 from nwau_py.rust_bridge import (
@@ -127,6 +132,14 @@ def validate_acute_input_frame(
     """Validate the acute input frame against the declared contract."""
     contract = contract or build_acute_contract()
     contract.input_contract.validate(df)
+    try:
+        validate_ar_drg_input(
+            tuple(df.columns),
+            year=contract.year,
+            version=get_classification_version("ar_drg", contract.year),
+        )
+    except ClassificationValidationError as exc:
+        raise AcuteContractError(str(exc)) from exc
 
 
 def _load_price_weights(ref_dir: Path, year: str = _DEFAULT_YEAR) -> pd.DataFrame:

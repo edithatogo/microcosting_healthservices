@@ -4,6 +4,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.classification_validation import (
+    get_classification_version,
+    validate_amhcc_input,
+)
 from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, sas_ref_dir
 
@@ -68,6 +72,11 @@ def calculate_mh(
     the patient-level variables referenced below (e.g. ``AMHCC``, ``LOS``,
     ``PAT_PRIVATE_FLAG`` etc.).
     """
+    validate_amhcc_input(
+        tuple(df.columns),
+        year=year,
+        version=get_classification_version("amhcc", year),
+    )
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]

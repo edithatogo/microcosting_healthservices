@@ -4,6 +4,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.classification_validation import (
+    get_classification_version,
+    validate_aecc_input,
+    validate_udg_input,
+)
 from nwau_py.data.paths import sas_table
 from nwau_py.utils import sas_ref_dir
 
@@ -61,6 +66,18 @@ def calculate_ed(
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
     """Implement ``NWAU25_CALCULATOR_ED.sas`` against loaded reference tables."""
+    if params.classification_option < 3:
+        validate_udg_input(
+            tuple(df.columns),
+            year=year,
+            version=get_classification_version("udg", year),
+        )
+    else:
+        validate_aecc_input(
+            tuple(df.columns),
+            year=year,
+            version=get_classification_version("aecc", year),
+        )
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]

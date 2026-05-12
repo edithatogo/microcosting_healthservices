@@ -4,6 +4,9 @@ This page outlines the Python implementations of the IHACPA NWAU calculators. Ea
 The repository documents the 2026-27 NEP26 calculator set as available and
 listed, but this page does not claim parity validation against extracted IHACPA
 outputs.
+The shared classification preflight validator is available in
+`nwau_py.classification_validation`, but this page does not claim it is wired
+into every calculator or CLI entry point yet.
 
 | Module | SAS source | Notes |
 |-------|-----------|-------|

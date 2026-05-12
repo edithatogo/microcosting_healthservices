@@ -3,7 +3,7 @@
   "type": "feature",
   "status": "in_progress",
   "track_class": "validator",
-  "current_state": "matrix-and-preflight-validator-in-progress",
+  "current_state": "matrix-and-preflight-validator-present-but-not-wired-end-to-end",
   "primary_contract": "classification_matrix.md plus nwau_py.classification_validation",
   "dependencies": [
     "coding_set_version_registry_20260512",

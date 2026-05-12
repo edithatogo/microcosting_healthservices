@@ -5,6 +5,10 @@ import numpy as np
 import pandas as pd
 import pyreadstat
 
+from nwau_py.classification_validation import (
+    get_classification_version,
+    validate_tier_2_input,
+)
 from nwau_py.data.loader import load_sas_table
 from nwau_py.data.paths import sas_table
 from nwau_py.utils import impute_adjustment, ra_suffix, sas_ref_dir
@@ -202,6 +206,11 @@ def calculate_outpatients(
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
     """Calculate NWAU25 for outpatient activity using resolved reference data."""
+    validate_tier_2_input(
+        tuple(df.columns),
+        year=year,
+        version=get_classification_version("tier_2", year),
+    )
     if ref_dir is None:
         ref_dir = sas_ref_dir(year)
     suffix = str(year)[-2:]

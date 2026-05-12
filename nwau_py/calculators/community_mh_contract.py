@@ -15,6 +15,11 @@ from typing import Final
 
 import pandas as pd
 
+from nwau_py.classification_validation import (
+    ClassificationValidationError,
+    get_classification_version,
+    validate_amhcc_input,
+)
 from nwau_py.contracts import (
     CalculatorContract,
     ContractValidationError,
@@ -130,6 +135,13 @@ def validate_community_mh_input(df: pd.DataFrame, *, year: str | None = None) ->
             _dataframe_columns(df),
             contract.required_input_columns,
         )
+        validate_amhcc_input(
+            tuple(df.columns),
+            year=contract.pricing_year.year,
+            version=get_classification_version("amhcc", contract.pricing_year.year),
+        )
+    except ClassificationValidationError as exc:
+        raise CommunityMHContractError(str(exc)) from exc
     except ValueError as exc:
         raise CommunityMHContractError(str(exc)) from exc
 

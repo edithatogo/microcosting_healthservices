@@ -84,3 +84,55 @@ def test_cli_acute_matches_library_output(monkeypatch, tmp_path):
         rtol=1e-6,
         atol=1e-6,
     )
+
+
+@pytest.mark.parametrize(
+    ("command", "missing_column"),
+    [
+        ("acute", "DRG"),
+        ("ed", "AECC"),
+        ("non-admitted", "TIER2_CLINIC"),
+    ],
+)
+def test_cli_reports_classification_preflight_errors(command, missing_column, tmp_path):
+    input_csv = tmp_path / f"{command}.csv"
+    pd.DataFrame({"LOS": [1]}).to_csv(input_csv, index=False)
+
+    output_csv = tmp_path / "out.csv"
+
+    runner = CliRunner()
+    result = runner.invoke(
+        _cli,
+        [
+            command,
+            str(input_csv),
+            "--output",
+            str(output_csv),
+            "--year",
+            "2025",
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert f"missing required fields: {missing_column}" in result.output
+
+
+def test_cli_rejects_unavailable_classification_year(tmp_path):
+    input_csv = tmp_path / "outpatients.csv"
+    pd.DataFrame({"TIER2_CLINIC": ["10.10"]}).to_csv(input_csv, index=False)
+
+    runner = CliRunner()
+    result = runner.invoke(
+        _cli,
+        [
+            "non-admitted",
+            str(input_csv),
+            "--output",
+            str(tmp_path / "out.csv"),
+            "--year",
+            "2021",
+        ],
+    )
+
+    assert result.exit_code != 0
+    assert "not available for pricing year 2021" in result.output

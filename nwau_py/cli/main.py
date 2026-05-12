@@ -16,7 +16,15 @@ from nwau_py.calculators import (
     calculate_ed,
     calculate_outpatients,
 )
+from nwau_py.classification_validation import get_classification_requirement
+from nwau_py.classification_validators import validate_classification_input
 from nwau_py.runtime import run_csv_calculation
+
+_CLASSIFICATION_SYSTEMS = {
+    "acute": "ar_drg",
+    "ed": "aecc",
+    "outpatients": "tier_2",
+}
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
@@ -24,6 +32,7 @@ def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
 
 
 def _run(
+    stream: str,
     calculator,
     params,
     input_csv: str,
@@ -31,6 +40,37 @@ def _run(
     year: str | None,
     ref_dir: str | None,
 ) -> None:
+    validation_year = year or "2025"
+    try:
+        input_df = pd.read_csv(input_csv)
+        requirement = get_classification_requirement(
+            _CLASSIFICATION_SYSTEMS[stream],
+            validation_year,
+        )
+        if requirement.expected_version is None:
+            raise click.ClickException(
+                f"{requirement.display_name} is not available for pricing year "
+                f"{validation_year}"
+            )
+        missing_fields = requirement.missing_fields(input_df.columns)
+        if missing_fields:
+            raise click.ClickException(
+                f"{requirement.display_name} {validation_year} is missing required "
+                f"fields: {', '.join(missing_fields)}"
+            )
+        classification_result = validate_classification_input(
+            input_df,
+            stream,
+            validation_year,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+
+    if not classification_result.is_valid:
+        raise click.ClickException(
+            "Classification preflight failed:\n" + "\n".join(classification_result.errors)
+        )
+
     run_csv_calculation(
         input_csv=input_csv,
         output=output,
@@ -108,14 +148,14 @@ def cli() -> None:
 @_common_options
 def acute(input_csv: str, params: str | None, output: str, year: str | None) -> None:
     """Calculate NWAU for acute care."""
-    _run(calculate_acute, AcuteParams(), input_csv, output, year, params)
+    _run("acute", calculate_acute, AcuteParams(), input_csv, output, year, params)
 
 
 @cli.command()
 @_common_options
 def ed(input_csv: str, params: str | None, output: str, year: str | None) -> None:
     """Calculate NWAU for emergency department care."""
-    _run(calculate_ed, EDParams(), input_csv, output, year, params)
+    _run("ed", calculate_ed, EDParams(), input_csv, output, year, params)
 
 
 @cli.command(name="non-admitted")
@@ -124,7 +164,15 @@ def non_admitted(
     input_csv: str, params: str | None, output: str, year: str | None
 ) -> None:
     """Calculate NWAU for non-admitted care."""
-    _run(calculate_outpatients, OutpatientParams(), input_csv, output, year, params)
+    _run(
+        "outpatients",
+        calculate_outpatients,
+        OutpatientParams(),
+        input_csv,
+        output,
+        year,
+        params,
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover

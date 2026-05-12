@@ -161,7 +161,7 @@ def test_validate_output_missing():
 def test_fixture_gap_record_exists():
     """The fixture-gap record must explain why no golden fixtures exist."""
     gap_path = Path(
-        "conductor/tracks/community_mental_health_calculator_20260512/fixture_gaps.md"
+        "conductor/archive/community_mental_health_calculator_20260512/fixture_gaps.md"
     )
     assert gap_path.exists(), (
         "Fixture gap record not found. "

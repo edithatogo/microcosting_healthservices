@@ -14,6 +14,7 @@ __all__ = [
     "ClassificationValidationResult",
     "build_classification_requirement",
     "classification_validation",
+    "classification_validators",
     "get_classification_name",
     "get_classification_requirement",
     "get_classification_version",
@@ -24,13 +25,18 @@ __all__ = [
     "is_classification_licensed",
     "normalize_classification_system",
     "score_readmission",
+    "validate_aecc",
     "validate_aecc_input",
+    "validate_amhcc",
     "validate_amhcc_input",
+    "validate_ar_drg",
     "validate_ar_drg_input",
     "validate_classification_input",
     "validate_classification_version",
     "validate_required_classification_fields",
+    "validate_tier_2",
     "validate_tier_2_input",
+    "validate_udg",
     "validate_udg_input",
 ]
 
@@ -38,8 +44,7 @@ _LAZY_ATTRS = {
     "score_readmission": (".scoring", "score_readmission"),
     "classification_validation": (".classification_validation", None),
     "ClassificationRequirement": (
-        ".classification_validation",
-        "ClassificationRequirement",
+        ".classification_validation", "ClassificationRequirement",
     ),
     "ClassificationValidationError": (
         ".classification_validation",
@@ -54,8 +59,7 @@ _LAZY_ATTRS = {
         "build_classification_requirement",
     ),
     "get_classification_name": (
-        ".classification_validation",
-        "get_classification_name",
+        ".classification_validation", "get_classification_name",
     ),
     "get_classification_version": (
         ".classification_validation",
@@ -103,6 +107,12 @@ _LAZY_ATTRS = {
     ),
     "validate_tier_2_input": (".classification_validation", "validate_tier_2_input"),
     "validate_udg_input": (".classification_validation", "validate_udg_input"),
+    "classification_validators": (".classification_validators", None),
+    "validate_aecc": (".classification_validators", "validate_aecc"),
+    "validate_amhcc": (".classification_validators", "validate_amhcc"),
+    "validate_ar_drg": (".classification_validators", "validate_ar_drg"),
+    "validate_tier_2": (".classification_validators", "validate_tier_2"),
+    "validate_udg": (".classification_validators", "validate_udg"),
 }
 
 
