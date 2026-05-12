@@ -65,7 +65,7 @@ jobs:
         run: uv run ruff check --select D2 --extend-exclude tests --extend-exclude helpers nwau_py excel_calculator/src
 
       - name: Run type check
-        run: uv run ty check
+        run: uv run ty check --strict
 
   security:
     name: Security checks (bandit + dependency audit + secret-prone patterns)

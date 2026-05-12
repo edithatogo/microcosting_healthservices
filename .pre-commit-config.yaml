@@ -21,6 +21,11 @@ repos:
         entry: uv run ty check
         language: system
         pass_filenames: false
+      - id: ty-check-strict
+        name: ty check (strict)
+        entry: uv run ty check --strict
+        language: system
+        pass_filenames: false
       - id: pytest
         name: pytest
         entry: uv run pytest
