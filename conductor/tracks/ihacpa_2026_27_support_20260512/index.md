@@ -6,6 +6,7 @@
 
 ## Current State
 
-- Phase 1 source inventory is in progress because the spec already contains source URLs for the 2026-27 NEP, technical specifications, and calculator entry points.
-- The inventory is not complete yet: publication dates, checksums, licensing notes, and explicit gap handling still need to be filled in.
-- Phase 2 and Phase 3 remain open.
+- The 2026-27 source inventory records official NEP, NEC, technical specification, price-weight, SAS archive, and Excel calculator source surfaces with checksums for the core downloadable artifacts.
+- The pricing constants API exposes NEP26 and the NEC26 fixed-plus-variable headline record with source metadata.
+- Documentation records AR-DRG v12.0 and Tier 2 v10.0 impacts while explicitly avoiding calculator parity claims until SAS or Excel output parity tests prove them.
+- Remaining gaps are explicit: HAC/AHR companion technical-spec hashes are deferred, the SAS `.7Z` archive is not fully extracted here, and NEP26 calculator parity is not claimed.

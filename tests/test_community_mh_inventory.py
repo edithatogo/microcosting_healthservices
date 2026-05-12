@@ -63,19 +63,13 @@ def test_nep25_active_and_nep26_shadow_pricing():
 def test_nep26_archived_paths_match_naming():
     """NEP26 path strings must match the archived naming convention exactly."""
     nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
-    assert nep26.sas_templates == [
-        "archive/sas/NEP26_SAS_NWAU_calculator/NWAU26_TEMPLATE_MH.sas"
-    ]
-    assert nep26.sas_calculators == [
-        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/NWAU26_CALCULATOR_MH.sas"
-    ]
-    assert nep26.adm_price_weights == [
-        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/"
-        "nep26_mh_adm_price_weights.sas7bdat"
-    ]
-    assert nep26.cmty_price_weights == [
-        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/"
-        "nep26_mh_cmty_price_weights.sas7bdat"
+    assert nep26.sas_templates == []
+    assert nep26.sas_calculators == []
+    assert nep26.adm_price_weights == []
+    assert nep26.cmty_price_weights == []
+    assert nep26.excel_workbooks == [
+        "archive/ihacpa/raw/2026/excel/"
+        "nwau26_calculator_for_mental_health_activity_community.xlsb"
     ]
 
 
@@ -121,11 +115,14 @@ def test_no_mh_calculator_before_nep21():
 
 def test_get_inventory_by_year_found():
     """get_inventory_by_year returns the correct artifact for a known year."""
-    for year in ("2025", "2026"):
+    for year in ("2025",):
         art = get_inventory_by_year(year)
         assert art is not None
         assert art.year == year
         assert art.pricing_status == "active"
+    nep26 = get_inventory_by_year("2026")
+    assert nep26 is not None
+    assert nep26.pricing_status == "shadow"
 
 
 def test_get_inventory_by_year_not_found():
@@ -138,7 +135,7 @@ def test_get_active_years():
     """get_active_years returns only years with active pricing status."""
     active = get_active_years()
     assert "2025" in active
-    assert "2026" in active
+    assert "2026" not in active
     assert all(y not in active for y in get_shadow_years())
 
 
@@ -149,4 +146,5 @@ def test_get_shadow_years():
     assert "2022" in shadow
     assert "2023" in shadow
     assert "2024" in shadow
+    assert "2026" in shadow
     assert all(y not in shadow for y in get_active_years())

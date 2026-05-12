@@ -31,6 +31,7 @@ See the canonical source in [Conductor source-archive.md](../../../../conductor/
 | 2023-24 | Shadow-pricing inventory | Community MH SAS artifacts are inventoried; no official golden fixture is checked in. |
 | 2024-25 | Shadow-pricing inventory | Community MH SAS artifacts are inventoried; no official golden fixture is checked in. |
 | 2025-26 | Active-pricing inventory | Community MH is separated from admitted MH in the contract surface; official-source fixture extraction remains a recorded gap. |
+| 2026-27 | Shadow-pricing inventory | NEP26 community MH workbook and raw SAS archive are recorded as source artifacts; parity validation is not claimed. |
 
 ## Policy
 
