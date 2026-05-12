@@ -18,7 +18,10 @@ REF_TYPE_OVERRIDE: Final[str] = "RELEASE_REF_TYPE"
 
 def parse_pyproject_version(pyproject_path: Path = Path("pyproject.toml")) -> str:
     pyproject = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
-    return pyproject["project"]["version"]
+    version = pyproject["project"]["version"]
+    if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", version):
+        raise RuntimeError(f"Pyproject version '{version}' must be SemVer-compatible")
+    return version
 
 
 def parse_conda_version(recipe_path: Path = Path("conda/recipe/meta.yaml")) -> str:
@@ -27,7 +30,10 @@ def parse_conda_version(recipe_path: Path = Path("conda/recipe/meta.yaml")) -> s
     )
     if not match:
         raise RuntimeError("Could not parse conda version from conda/recipe/meta.yaml")
-    return match.group(1)
+    version = match.group(1)
+    if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", version):
+        raise RuntimeError(f"Conda recipe version '{version}' must be SemVer-compatible")
+    return version
 
 
 def parse_tag_version() -> str:
@@ -37,9 +43,12 @@ def parse_tag_version() -> str:
         raise RuntimeError("Could not resolve release ref name from workflow environment")
     if ref_type != "tag":
         raise RuntimeError("Version validation only applies to tag-based release events")
-    if not ref_name.startswith("v"):
-        raise RuntimeError(f"Invalid release ref '{ref_name}' (expected vMAJOR.MINOR.PATCH)")
-    return ref_name.removeprefix("v")
+    match = re.fullmatch(r"v(?P<version>\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?)", ref_name)
+    if not match:
+        raise RuntimeError(
+            f"Invalid release ref '{ref_name}' (expected SemVer-compatible tag vMAJOR.MINOR.PATCH)"
+        )
+    return match.group("version")
 
 
 def main() -> int:
