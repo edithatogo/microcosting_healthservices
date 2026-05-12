@@ -1,0 +1,113 @@
+---
+title: Stream-Level Cost Benchmarking
+description: Disaggregate cost and price comparisons by mental health care stream and benchmark against NHCDC reference costs using AHPCS methodology.
+sidebar:
+  label: Stream Cost Benchmarking
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This tutorial builds on the cost-vs-price analysis by breaking results down by **care stream** (acute admitted, community residential, ambulatory, etc.) and comparing each stream against **NHCDC national reference costs**. This is the methodology used in the Australian Hospital Patient Costing System (AHPCS) standards.
+
+## Multi-stream analysis workflow
+
+```python
+import pandas as pd
+from nwau_py.costing import CostingEngine
+from nwau_py.loaders import load_sample_activity, load_sample_costs
+
+engine = CostingEngine(pricing_year=2025)
+activity = load_sample_activity(source="synthetic_2025")
+costs = load_sample_costs(source="synthetic_2025")
+
+# price all streams
+priced = engine.price_activity(activity, price_type="nep", include_price=True)
+
+# merge with costs on (jurisdiction, stream, drg)
+merged = pd.merge(priced, costs, on=["jurisdiction", "stream", "drg"], how="inner")
+```
+
+## 2. Aggregate by stream
+
+```python
+stream_summary = (
+    merged.groupby("stream")
+    .agg(
+        episodes=("episode_id", "count"),
+        total_cost=("observed_cost", "sum"),
+        total_nep=("nep_price", "sum"),
+        total_weight=("weight", "sum"),
+    )
+    .assign(
+        cost_per_episode=lambda x: (x.total_cost / x.episodes).round(2),
+        nep_per_episode=lambda x: (x.total_nep / x.episodes).round(2),
+        cost_price_ratio=lambda x: (x.total_cost / x.total_nep).round(3),
+    )
+    .sort_values("total_cost", ascending=False)
+)
+
+stream_summary
+```
+
+## 3. Generate a comparison table
+
+```python
+stream_summary.style.format({
+    "total_cost": "${:,.0f}",
+    "total_nep": "${:,.0f}",
+    "cost_per_episode": "${:,.0f}",
+    "nep_per_episode": "${:,.0f}",
+    "cost_price_ratio": "{:.2f}",
+})
+```
+
+The formatted table can be exported directly:
+
+```python
+stream_summary.to_csv("stream_benchmarking_summary.csv")
+```
+
+## 4. NHCDC benchmark comparison
+
+The National Hospital Cost Data Collection (NHCDC) publishes annual reference cost tables. You can overlay those publicly available averages onto your stream results:
+
+```python
+nhcdc_ref = pd.read_csv("nhcdc_2025_reference_costs.csv")
+
+comparison = pd.merge(
+    stream_summary.reset_index(),
+    nhcdc_ref[["stream", "national_avg_cost_per_episode"]],
+    on="stream",
+    how="left",
+)
+
+comparison["variance_vs_nhcdc"] = (
+    comparison["cost_per_episode"] / comparison["national_avg_cost_per_episode"]
+).round(3)
+
+comparison
+```
+
+<Aside>
+  NHCDC reference cost tables are published by IHACPA and available from
+  https://ihacpa.gov.au. The AHPCS methodology requires that costed
+  episodes follow the same scope, exclusions, and ABF grouper definitions
+  used in the NHCDC submission cycle.
+</Aside>
+
+## AHPCS methodology notes
+
+- **Scope alignment**: Only include episodes that fall within the NHCDC scope. Exclude non-admitted ED, S100 pharmaceuticals, and other out-of-scope activity.
+- **Cost allocation**: Use the AHPCS standard cost buckets (direct, indirect, on-costs) and apply the same overhead allocation ratios used in the NHCDC.
+- **Grouper version**: Ensure the DRG grouper version used for pricing matches the version used by NHCDC for the same reference year.
+- **Outlier policy**: Apply the NHCDC trim-point / outlier policy before computing per-episode averages. Unadjusted means are not comparable.
+
+<Aside type="caution">
+  AHPCS methodology evolves each pricing year. Always consult the latest
+  IHACPA AHPCS framework documents before submitting or publishing
+  benchmarking outputs.
+</Aside>
+
+## What to try next
+
+Return to [Calculating Notional Funding from Activity Data](/tutorials/costing-study-nwau-nep/) to review the pricing step, or [Comparing Observed Costs to Efficient Prices](/tutorials/costing-study-cost-vs-price/) for the baseline cost-vs-price analysis.

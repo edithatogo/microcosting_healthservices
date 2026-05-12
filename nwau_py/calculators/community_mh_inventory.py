@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Final
 
 
 @dataclass(frozen=True)
@@ -19,7 +20,7 @@ class CommunityMHArtifact:
     user_guide_available: bool = False
 
 
-_ARCHIVE = "archive/sas"
+_ARCHIVE: Final[str] = "archive/sas"
 
 
 def _y(
@@ -30,15 +31,31 @@ def _y(
     suf: str | None = None,
     excel: str = "",
 ) -> CommunityMHArtifact:
-    """Build a single year's artifact entry."""
-    suf = suf or year[-2:]
+    """Build a single year's artifact entry.
+
+    Args:
+        year: Four-digit pricing year label.
+        status: Pricing status for the year.
+        template_dir: Archived directory containing the SAS template.
+        calc_dir: Archived directory containing the SAS calculator and tables.
+        suf: Optional two-digit suffix used in artifact filenames.
+        excel: Optional workbook path for supporting Excel artifacts.
+
+    Returns:
+        A fully-populated community mental health artifact record.
+    """
+    suffix = suf or year[-2:]
     return CommunityMHArtifact(
         year=year,
         pricing_status=status,
-        sas_templates=[f"{_ARCHIVE}/{template_dir}/NWAU{suf}_TEMPLATE_MH.sas"],
-        sas_calculators=[f"{_ARCHIVE}/{calc_dir}/NWAU{suf}_CALCULATOR_MH.sas"],
-        adm_price_weights=[f"{_ARCHIVE}/{calc_dir}/nep{suf}_mh_adm_price_weights.sas7bdat"],
-        cmty_price_weights=[f"{_ARCHIVE}/{calc_dir}/nep{suf}_mh_cmty_price_weights.sas7bdat"],
+        sas_templates=[f"{_ARCHIVE}/{template_dir}/NWAU{suffix}_TEMPLATE_MH.sas"],
+        sas_calculators=[f"{_ARCHIVE}/{calc_dir}/NWAU{suffix}_CALCULATOR_MH.sas"],
+        adm_price_weights=[
+            f"{_ARCHIVE}/{calc_dir}/nep{suffix}_mh_adm_price_weights.sas7bdat"
+        ],
+        cmty_price_weights=[
+            f"{_ARCHIVE}/{calc_dir}/nep{suffix}_mh_cmty_price_weights.sas7bdat"
+        ],
         excel_workbooks=[excel] if excel else [],
     )
 
@@ -78,8 +95,13 @@ CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
         "NEP25_SAS_NWAU_calculator",
         "NEP25_SAS_NWAU_calculator/calculators",
     ),
-    _y("2026", "active", "NEP26_SAS_NWAU_calculator",
-       "NEP26_SAS_NWAU_calculator/calculators", suf="26"),
+    _y(
+        "2026",
+        "shadow",
+        "NEP26_SAS_NWAU_calculator",
+        "NEP26_SAS_NWAU_calculator/calculators",
+        suf="26",
+    ),
 ]
 
 

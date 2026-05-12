@@ -1,0 +1,82 @@
+---
+title: Comparing Observed Costs to Efficient Prices
+description: Bring together observed cost data and national efficient prices to analyse cost recovery and price signals across mental health service streams.
+sidebar:
+  label: Cost vs. Price Analysis
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Once notional funding has been estimated from activity data, the next analytical step is to compare those price signals against **observed costs** — typically sourced from general ledger, costing system extracts, or NHCDC submissions. This comparison reveals which service streams are over- or under-funded relative to the efficient price.
+
+## Cost vs. price: the concepts
+
+| Term | Definition |
+|------|------------|
+| **Observed cost** | The actual expenditure incurred to deliver a service stream (e.g. admitted acute mental health). |
+| **Efficient price (NEP)** | The national price that would be paid for that activity under ABF, representing an efficient level of reimbursement. |
+| **Cost / price ratio** | Observed cost divided by notional NEP. A ratio > 1.0 suggests cost exceeds reimbursement; < 1.0 suggests reimbursement exceeds cost. |
+
+## 1. Prepare the cost data
+
+```python
+import pandas as pd
+
+costs = pd.DataFrame({
+    "jurisdiction": ["NSW", "VIC", "QLD"],
+    "stream": ["acute", "acute", "acute"],
+    "observed_cost": [142_000_000, 118_000_000, 97_000_000],
+})
+
+# load the NEP estimates from the previous tutorial
+nep = pd.read_csv("notional_funding_by_stream.csv")
+```
+
+## 2. Merge and compute ratios
+
+```python
+merged = pd.merge(costs, nep, on=["jurisdiction", "stream"], how="inner")
+merged["cost_price_ratio"] = (merged["observed_cost"] / merged["total_nep"]).round(3)
+
+merged[["jurisdiction", "observed_cost", "total_nep", "cost_price_ratio"]]
+```
+
+## 3. Interpret the results
+
+```python
+for _, row in merged.iterrows():
+    ratio = row["cost_price_ratio"]
+    signal = (
+        "cost exceeds NEP"
+        if ratio > 1.05
+        else "NEP exceeds cost" if ratio < 0.95
+        else "near parity"
+    )
+    print(f"{row['jurisdiction']} {row['stream']}: ratio={ratio} ({signal})")
+```
+
+### Ratio bands (suggested thresholds)
+
+| Ratio | Interpretation |
+|-------|---------------|
+| < 0.90 | Likely over-funded — reimbursement well above observed cost. |
+| 0.90 – 1.10 | Near parity — observed cost and efficient price are broadly aligned. |
+| 1.10 – 1.30 | Moderate gap — cost exceeds reimbursement; may warrant efficiency review. |
+| > 1.30 | Large gap — significant cost pressure; structural or data-quality issues likely. |
+
+<Aside type="caution">
+  These threshold bands are illustrative. Jurisdictions with different
+  cost structures (rural vs metropolitan, public vs private mix) may need
+  adjusted bands.
+</Aside>
+
+## Caveats
+
+- **Jurisdiction variation**: Costing maturity, data quality, and scope definitions differ across states and territories. Cross-jurisdictional comparisons should be interpreted with care.
+- **Stream aggregation**: Broad streams (e.g. "acute admitted") can mask within-stream variation across DRGs or patient cohorts.
+- **Year alignment**: Ensure the cost data and NEP pricing year are aligned — mismatched financial years will produce misleading ratios.
+- **Non-ABF activity**: Some activity may be funded outside the ABF framework (block grants, S100, etc.) and will not appear in NEP estimates.
+
+## What to try next
+
+- [Stream-Level Cost Benchmarking](/tutorials/costing-study-stream-benchmarking/) – disaggregate by care stream and benchmark against NHCDC reference costs.

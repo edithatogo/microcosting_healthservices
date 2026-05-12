@@ -3,7 +3,7 @@
 This page outlines the Python implementations of the IHACPA NWAU calculators. Each module loosely mirrors a SAS program from the official calculator package.
 The repository documents the 2026-27 NEP26 calculator set as available and
 listed, but this page does not claim parity validation against extracted IHACPA
-outputs.
+outputs unless tests explicitly establish it.
 The shared classification preflight validator is available in
 `nwau_py.classification_validation`, but this page does not claim it is wired
 into every calculator or CLI entry point yet.
@@ -12,11 +12,11 @@ into every calculator or CLI entry point yet.
 
 | Year | NWAU price | Acute classification | Non-admitted classification | Notes |
 | --- | ---: | --- | --- | --- |
-| NEP26 (2026-27) | $7,418/NWAU(26) | AR-DRG v12.0 | Tier 2 v10.0 | Transition from AR-DRG v11.0 (acute) and Tier 2 v7 (non-admitted). AECC v1.1, AMHCC v1, AN-SNAP v5, UDG v1.3 unchanged. Not yet validated. |
+| NEP26 (2026-27) | $7,418/NWAU(26) | AR-DRG v12.0 | Tier 2 v10.0 | Transition from AR-DRG v11.0 (acute) and Tier 2 v7 (non-admitted). AECC v1.1, AMHCC v1, AN-SNAP v5, UDG v1.3 unchanged. Not yet validated; parity is only claimed when tests prove it. |
 
 | Module | SAS source | Notes |
 |-------|-----------|-------|
-|`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using pandas operations. 2026-27 documentation coverage notes classification impacts for AR-DRG v12.0 and Tier 2 v10.0. An opt-in Rust-backed acute 2025 adapter is also available via `calculate_acute_rust_2025()`.|
+|`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using pandas operations. 2026-27 documentation coverage notes AR-DRG v12.0 for admitted acute and Tier 2 v10.0 for non-admitted. An opt-in Rust-backed acute 2025 adapter is also available via `calculate_acute_rust_2025()`.|
 |`ed`|`NWAU25_CALCULATOR_ED.sas`|Handles Emergency Department/Service activity. Supports UDG and AECC classifications with remoteness and indigenous adjustments.|
 |`mh`|`NWAU25_CALCULATOR_MH.sas`|Implements the mental health consumer model. Applies private patient services and accommodation adjustments.|
 |`subacute`|`NWAU25_CALCULATOR_SUBACUTE.sas`|Calculates NWAU25 for subacute admitted activity based on SNAP.|
@@ -32,7 +32,7 @@ record and pricing-year caveats are documented in
 
 For the 2026-27 NEP26 release, the calculators are listed as available
 documentation references, but validation parity is intentionally not claimed in
-this page.
+this page unless tests establish it.
 
 For the current feature-to-tool incorporation summary, see the
 IHACPA Tool Coverage Matrix at

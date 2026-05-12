@@ -1,4 +1,11 @@
+from datetime import date
+
 from nwau_py.pricing_constants import (
+    NEC26,
+    NEC26_SOURCE,
+    NEC_BY_YEAR,
+    NEP26,
+    NEP26_SOURCE,
     NEP_BY_YEAR,
     get_nec,
     get_nep,
@@ -7,8 +14,13 @@ from nwau_py.pricing_constants import (
 
 
 def test_nep26_value():
+    assert NEP26 == 7418
     assert NEP_BY_YEAR["2026"] == 7418
     assert get_nep("2026") == 7418
+    assert NEP26_SOURCE.resource_url.endswith(
+        "/resources/national-efficient-price-determination-2026-27"
+    )
+    assert NEP26_SOURCE.published_on == date(2026, 3, 11)
 
 
 def test_nep25_value():
@@ -22,9 +34,20 @@ def test_get_nep_unknown_year():
 
 
 def test_get_nec_defaults():
-    """NEC defaults should be 0 until IHACPA determines values."""
-    assert get_nec("2025") == 0
-    assert get_nec("2026") == 0
+    """NEC is only published as headline components for 2026-27."""
+    assert NEC_BY_YEAR["2025"] is None
+    assert get_nec("2025") is None
+
+
+def test_nec26_components():
+    assert NEC26.fixed_cost_dollars == 3_127_000
+    assert NEC26.variable_cost_per_nwau == 8_003
+    assert NEC26.in_scope_hospitals == 364
+    assert get_nec("2026") == NEC26
+    assert NEC26_SOURCE.resource_url.endswith(
+        "/resources/national-efficient-cost-determination-2026-27"
+    )
+    assert NEC26_SOURCE.published_on == date(2026, 3, 11)
 
 
 def test_get_supported_years():

@@ -22,6 +22,9 @@ into the tool surface today.
 - Explicit gaps still not incorporated: 2 archive entries
 - Partial implementation: 1 Rust-backed acute canary
 
-The tool surface is family-complete for the major calculator modules, but the
-archive still carries two explicit Box-hosted SAS gaps and the Rust path remains
-opt-in.
+The tool surface is family-complete for the major calculator modules, but
+NEP26 support is documentation-visible rather than parity-validated unless
+tests prove it. Acute coverage should be read with the classification split in
+mind: admitted acute uses AR-DRG v12.0 and non-admitted uses Tier 2 v10.0.
+The archive still carries two explicit Box-hosted SAS gaps and the Rust path
+remains opt-in.

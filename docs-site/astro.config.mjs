@@ -39,6 +39,19 @@ export default defineConfig({
           items: ['index', 'versions', 'versions/2025', 'migration/legacy-docs'],
         },
         {
+          label: 'Tutorials',
+          items: [
+            {
+              label: 'Costing Studies',
+              items: [
+                'tutorials/costing-study-nwau-nep',
+                'tutorials/costing-study-cost-vs-price',
+                'tutorials/costing-study-stream-benchmarking',
+              ],
+            },
+          ],
+        },
+        {
           label: 'Coverage',
           items: [
             'governance/calculator-coverage',

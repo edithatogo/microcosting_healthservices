@@ -11,8 +11,7 @@ from nwau_py.calculators.community_mh_inventory import (
 
 
 def test_inventory_has_all_expected_years():
-    """The inventory must cover NEP21 through NEP25 (the years with MH SAS
-    calculators and community price-weight tables)."""
+    """The inventory must cover NEP21 through NEP26."""
     years = sorted(a.year for a in CMTY_MH_ARTIFACTS)
     assert years == ["2021", "2022", "2023", "2024", "2025", "2026"]
 
@@ -53,13 +52,31 @@ def test_inventory_adm_price_weights_refer_to_existing_files():
             )
 
 
-def test_nep25_nep26_are_active_pricing():
-    """NEP25 (2025-26) and NEP26 (2026-27) are the first years where
-    community mental health is priced for activity-based funding."""
+def test_nep25_active_and_nep26_shadow_pricing():
+    """NEP25 is active; NEP26 remains conservatively shadow-priced."""
     nep25 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2025")
     assert nep25.pricing_status == "active"
     nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
-    assert nep26.pricing_status == "active"
+    assert nep26.pricing_status == "shadow"
+
+
+def test_nep26_archived_paths_match_naming():
+    """NEP26 path strings must match the archived naming convention exactly."""
+    nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
+    assert nep26.sas_templates == [
+        "archive/sas/NEP26_SAS_NWAU_calculator/NWAU26_TEMPLATE_MH.sas"
+    ]
+    assert nep26.sas_calculators == [
+        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/NWAU26_CALCULATOR_MH.sas"
+    ]
+    assert nep26.adm_price_weights == [
+        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/"
+        "nep26_mh_adm_price_weights.sas7bdat"
+    ]
+    assert nep26.cmty_price_weights == [
+        "archive/sas/NEP26_SAS_NWAU_calculator/calculators/"
+        "nep26_mh_cmty_price_weights.sas7bdat"
+    ]
 
 
 def test_nep21_nep24_are_shadow_pricing():
@@ -92,7 +109,7 @@ def test_all_artifacts_have_user_guide_field():
     """Every inventory entry must record user-guide availability (even if
     marked as unavailable)."""
     for artifact in CMTY_MH_ARTIFACTS:
-        assert artifact.user_guide_available is not None
+        assert isinstance(artifact.user_guide_available, bool)
 
 
 def test_no_mh_calculator_before_nep21():

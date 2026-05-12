@@ -9,6 +9,12 @@ from __future__ import annotations
 from importlib import import_module
 
 __all__ = [
+    "NEC26",
+    "NEC26_SOURCE",
+    "NEC_BY_YEAR",
+    "NEP26",
+    "NEP26_SOURCE",
+    "NEP_BY_YEAR",
     "ClassificationRequirement",
     "ClassificationValidationError",
     "ClassificationValidationResult",
@@ -18,8 +24,11 @@ __all__ = [
     "get_classification_requirement",
     "get_classification_version",
     "get_expected_classification_version",
+    "get_nec",
+    "get_nep",
     "get_required_classification_fields",
     "get_supported_classification_years",
+    "get_supported_pricing_years",
     "get_transition_years",
     "is_classification_licensed",
     "normalize_classification_system",
@@ -36,6 +45,18 @@ __all__ = [
 
 _LAZY_ATTRS = {
     "score_readmission": (".scoring", "score_readmission"),
+    "get_nec": (".pricing_constants", "get_nec"),
+    "get_nep": (".pricing_constants", "get_nep"),
+    "get_supported_pricing_years": (
+        ".pricing_constants",
+        "get_supported_pricing_years",
+    ),
+    "NEC26": (".pricing_constants", "NEC26"),
+    "NEC26_SOURCE": (".pricing_constants", "NEC26_SOURCE"),
+    "NEC_BY_YEAR": (".pricing_constants", "NEC_BY_YEAR"),
+    "NEP26": (".pricing_constants", "NEP26"),
+    "NEP26_SOURCE": (".pricing_constants", "NEP26_SOURCE"),
+    "NEP_BY_YEAR": (".pricing_constants", "NEP_BY_YEAR"),
     "classification_validation": (".classification_validation", None),
     "ClassificationRequirement": (
         ".classification_validation", "ClassificationRequirement",

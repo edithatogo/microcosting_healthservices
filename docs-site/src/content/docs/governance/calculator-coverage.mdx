@@ -16,16 +16,18 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
 
 <CardGrid>
   <Card title="2026-27 scope">
-    NEP26 exists and the 2026-27 calculator set is listed in the repository
-    documentation, but this page does not claim parity validation against
-    extracted IHACPA outputs. Classification version impacts: AR-DRG v12.0
-    for admitted acute (transition from v11.0), Tier 2 v10.0 for non-admitted
-    (transition from v7). AECC v1.1, AMHCC v1, AN-SNAP v5, and UDG v1.3 are
-    unchanged from the previous year.
+    NEP26 support exists and the 2026-27 calculator set is listed in the
+    repository documentation, but this page does not claim parity validation
+    against extracted IHACPA outputs unless tests explicitly establish it.
+    Classification version impacts are clear: admitted acute moves to
+    AR-DRG v12.0 from v11.0, and non-admitted moves to Tier 2 v10.0 from v7.
+    AECC v1.1, AMHCC v1, AN-SNAP v5, and UDG v1.3 are unchanged from the
+    previous year.
   </Card>
   <Card title="Implemented calculator families">
-    Acute, ED, admitted MH, community MH, subacute, outpatients, and adjustment
-    logic are the active executable surfaces in the repository today.
+    Acute, ED, MH, subacute, outpatients, and adjustment logic are the active
+    executable surfaces in the repository today. Admitted and community mental
+    health remain separate validation surfaces underneath that family label.
   </Card>
   <Card title="Adjustment helpers">
     HAC, AHR, and complexity are currently modeled inside the adjustment
@@ -41,10 +43,10 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
 
 | Family or helper | Status | Notes |
 | --- | --- | --- |
-| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts include AR-DRG v12.0 and Tier 2 v10.0. |
+| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts are AR-DRG v12.0 for admitted acute and Tier 2 v10.0 for non-admitted. |
 | Emergency department | Implemented | Current Python surface. |
 | Mental health | Implemented | Current Python surface. |
-| Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. NEP26 exists for 2026-27 documentation coverage, but parity validation is not claimed. Official golden fixtures are gap-recorded. |
+| Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. NEP26 exists for 2026-27 documentation coverage, but parity validation is not claimed unless tests prove it. Official golden fixtures are gap-recorded. |
 | Subacute | Implemented | Current Python surface. |
 | Outpatients | Implemented | Current Python surface. |
 | Adjustment | Implemented | Includes HAC, AHR, and complexity outputs. |

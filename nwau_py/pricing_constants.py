@@ -1,52 +1,101 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+from datetime import date
+from typing import Final
+
 __all__ = [
+    "NEC26",
+    "NEC26_SOURCE",
     "NEC_BY_YEAR",
+    "NEP26",
+    "NEP26_SOURCE",
     "NEP_BY_YEAR",
     "PRICING_CONSTANTS_SCHEMA_VERSION",
+    "NecPricing",
+    "PricingConstantSource",
     "get_nec",
     "get_nep",
     "get_supported_pricing_years",
 ]
 
-PRICING_CONSTANTS_SCHEMA_VERSION = "1.0"
+PRICING_CONSTANTS_SCHEMA_VERSION: Final[str] = "1.0"
 
-# NEP (National Efficient Price) per NWAU by pricing year
-# Sources: IHACPA National Efficient Price Determinations
-NEP_BY_YEAR: dict[str, int] = {
-    "2025": 7434,
-    "2026": 7418,
+
+@dataclass(frozen=True, slots=True)
+class PricingConstantSource:
+    """Conservative source metadata for a published IHACPA pricing constant."""
+
+    resource_url: str
+    artifact_url: str
+    published_on: date
+    last_updated_on: date | None = None
+    notes: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class NecPricing:
+    """Fixed-plus-variable NEC headline values for a pricing year."""
+
+    fixed_cost_dollars: int
+    variable_cost_per_nwau: int
+    in_scope_hospitals: int
+    source: PricingConstantSource
+
+
+NEP26: Final[int] = 7418
+NEP26_SOURCE: Final[PricingConstantSource] = PricingConstantSource(
+    resource_url="https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27",
+    artifact_url="https://www.ihacpa.gov.au/sites/default/files/2026-03/national_efficient_price_determination_2026-27_2.pdf",
+    published_on=date(2026, 3, 11),
+    last_updated_on=date(2026, 3, 16),
+    notes=(
+        "NEP26 is set at $7,418 per NWAU(26).",
+        "The resource page also links the official PDF and price-weight tables.",
+    ),
+)
+
+NEC26_SOURCE: Final[PricingConstantSource] = PricingConstantSource(
+    resource_url="https://www.ihacpa.gov.au/resources/national-efficient-cost-determination-2026-27",
+    artifact_url="https://www.ihacpa.gov.au/sites/default/files/2026-03/national_efficient_cost_determination_2026-27.pdf",
+    published_on=date(2026, 3, 11),
+    last_updated_on=date(2026, 3, 13),
+    notes=(
+        "Headline NEC26 values are published as a fixed-plus-variable model.",
+        "Fixed cost: $3.127m. Variable cost: $8,003.",
+    ),
+)
+
+NEC26: Final[NecPricing] = NecPricing(
+    fixed_cost_dollars=3_127_000,
+    variable_cost_per_nwau=8_003,
+    in_scope_hospitals=364,
+    source=NEC26_SOURCE,
+)
+
+# NEP (National Efficient Price) per NWAU by pricing year.
+NEP_BY_YEAR: Final[dict[str, int]] = {
+    "2025": 7_434,
+    "2026": NEP26,
 }
 
-# NEC (National Efficient Cost) by pricing year
-# Sources: IHACPA National Efficient Cost Determinations
-NEC_BY_YEAR: dict[str, int] = {
-    "2025": 0,  # NEC not yet determined for 2025
-    "2026": 0,  # NEC not yet determined for 2026
+# NEC (National Efficient Cost) by pricing year.
+NEC_BY_YEAR: Final[dict[str, NecPricing | None]] = {
+    "2025": None,
+    "2026": NEC26,
 }
 
 
 def get_nep(year: str) -> int | None:
-    """Return the NEP (National Efficient Price) for a given pricing year.
-
-    Parameters
-    ----------
-    year:
-        Four-digit pricing year (e.g. ``"2026"``).
-
-    Returns
-    -------
-    int | None
-        The NEP value, or ``None`` if not available.
-    """
+    """Return the NEP price per NWAU for a pricing year, if available."""
     return NEP_BY_YEAR.get(year)
 
 
-def get_nec(year: str) -> int | None:
-    """Return the NEC (National Efficient Cost) for a given pricing year."""
+def get_nec(year: str) -> NecPricing | None:
+    """Return the NEC headline components for a pricing year, if available."""
     return NEC_BY_YEAR.get(year)
 
 
 def get_supported_pricing_years() -> list[str]:
-    """Return sorted list of pricing years with NEP constants."""
+    """Return supported pricing years in ascending order."""
     return sorted(NEP_BY_YEAR)

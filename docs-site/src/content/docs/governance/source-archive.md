@@ -13,7 +13,7 @@ See the canonical source in [Conductor source-archive.md](../../../../conductor/
 - Downloaded entries: 92
 - Explicit gaps: 2 `box-html-only` pages
 - Year span: 2013-14 through 2026-27
-- 2026-27 NEP26 is present in the documentation set and the listed calculators are treated as available references, not as parity-validated outputs.
+- 2026-27 NEP26 is present in the documentation set and the listed calculators are treated as available references only; parity validation is not claimed here unless test evidence is added.
 
 ## Explicit gaps
 
@@ -38,5 +38,6 @@ See the canonical source in [Conductor source-archive.md](../../../../conductor/
 - Record missing source material as an explicit gap rather than implying it is
   available.
 - Distinguish documentation coverage from validation parity.
+- State classification-version impacts explicitly when source records change.
 - Use the archive matrices and coverage pages to explain the gap between source
   completeness and executable coverage.
