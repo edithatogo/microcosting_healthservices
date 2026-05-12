@@ -13,7 +13,7 @@
 - [x] Task: Conductor - Automated Review and Checkpoint 'Phase 2: Validator Tests' (Protocol in workflow.md)
 
 ## Phase 3: Validator Implementation and Docs
-- [x] Task: Implement strict classification-aware validation and documentation.
+- [x] Task: Implement strict classification-aware validation and documentation. [f2193a3]
     - [x] Add Pydantic or equivalent schema models at module boundaries.
     - [x] Update docs with preparation guidance for activity datasets.
 - [x] Task: Conductor - Automated Review and Checkpoint 'Phase 3: Validator Implementation and Docs' (Protocol in workflow.md)
