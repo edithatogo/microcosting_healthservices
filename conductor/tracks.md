@@ -177,3 +177,39 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: CLI and File Interoperability Binding**
 *Link: [./tracks/cli_file_interop_binding_20260512/](./tracks/cli_file_interop_binding_20260512/)*
 *Gate: provide a language-neutral Arrow/Parquet/CSV and CLI contract for ecosystems where native bindings are premature.*
+
+---
+
+- [ ] **Track: Reference Data Manifest Schema**
+*Link: [./tracks/reference_data_manifest_schema_20260512/](./tracks/reference_data_manifest_schema_20260512/)*
+*Gate: define machine-readable pricing-year manifests for source artifacts, constants, coding sets, and validation status before automating future-year support.*
+
+---
+
+- [ ] **Track: IHACPA Source Scanner**
+*Link: [./tracks/ihacpa_source_scanner_20260512/](./tracks/ihacpa_source_scanner_20260512/)*
+*Gate: discover and draft future IHACPA source manifests without overclaiming validation or redistributing restricted material.*
+
+---
+
+- [ ] **Track: Pricing-Year Validation Gates**
+*Link: [./tracks/pricing_year_validation_gates_20260512/](./tracks/pricing_year_validation_gates_20260512/)*
+*Gate: prevent pricing years from being marked supported or validated without required source, extraction, and fixture evidence.*
+
+---
+
+- [ ] **Track: Pricing-Year Diff Tooling**
+*Link: [./tracks/pricing_year_diff_tooling_20260512/](./tracks/pricing_year_diff_tooling_20260512/)*
+*Gate: compare pricing years and summarize formula, parameter, classification, source, and validation deltas for review and releases.*
+
+---
+
+- [ ] **Track: Coding-Set Version Registry**
+*Link: [./tracks/coding_set_version_registry_20260512/](./tracks/coding_set_version_registry_20260512/)*
+*Gate: record AR-DRG, AECC, UDG, Tier 2, AMHCC, ICD-10-AM, ACHI, and ACS version compatibility and licensing boundaries.*
+
+---
+
+- [ ] **Track: Formula and Parameter Bundle Pipeline**
+*Link: [./tracks/formula_parameter_bundle_pipeline_20260512/](./tracks/formula_parameter_bundle_pipeline_20260512/)*
+*Gate: extract, normalize, version, diff, and validate future IHACPA formula and parameter bundles before production calculator claims.*

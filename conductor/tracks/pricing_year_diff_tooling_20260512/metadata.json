@@ -1,0 +1,8 @@
+{
+  "track_id": "pricing_year_diff_tooling_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add tooling to compare pricing years and highlight formula, parameter, classification, and validation deltas."
+}

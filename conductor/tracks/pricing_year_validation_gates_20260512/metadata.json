@@ -1,0 +1,8 @@
+{
+  "track_id": "pricing_year_validation_gates_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add strict validation gates so pricing years cannot be marked supported or validated without required source and fixture evidence."
+}
