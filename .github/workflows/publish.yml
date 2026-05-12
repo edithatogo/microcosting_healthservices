@@ -56,7 +56,14 @@ jobs:
       - name: Generate artifact checksums for manual publish path
         if: github.event_name != 'release'
         run: |
-          sha256sum dist/* > dist/checksums.txt
+          set -euo pipefail
+          shopt -s nullglob
+          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
+          if [ ${#artifacts[@]} -eq 0 ]; then
+            echo "No distributable artifacts found in dist/ for manual publish."
+            exit 1
+          fi
+          sha256sum "${artifacts[@]}" > dist/checksums.txt
 
       - name: Verify release artifact checksums
         run: |
