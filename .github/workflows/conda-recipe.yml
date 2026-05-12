@@ -1,0 +1,53 @@
+name: Conda recipe
+
+on:
+  pull_request:
+    paths:
+      - conda/recipe/**
+      - .github/workflows/conda-recipe.yml
+  push:
+    branches:
+      - master
+    paths:
+      - conda/recipe/**
+      - .github/workflows/conda-recipe.yml
+  workflow_dispatch:
+
+concurrency:
+  group: conda-recipe-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  validate:
+    name: Validate conda recipe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Micromamba
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: conda-recipe
+          create-args: >-
+            python=3.11
+            conda-build
+            conda-verify
+          condarc: |
+            channels:
+              - conda-forge
+            channel_priority: strict
+
+      - name: Render recipe
+        shell: bash -el {0}
+        run: conda render conda/recipe --channel conda-forge --override-channels
+
+      - name: Build recipe
+        shell: bash -el {0}
+        run: conda build conda/recipe --channel conda-forge --override-channels --no-anaconda-upload

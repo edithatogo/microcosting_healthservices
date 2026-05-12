@@ -25,6 +25,10 @@ The repo uses release drafts for notes and a release workflow to build
 distributions and publish GitHub Releases from tagged commits.
 Tagged releases also trigger Python package publishing to PyPI through
 trusted publishing.
+The conda-forge recipe draft is maintained under `conda/recipe/`; new conda
+packages still need to enter conda-forge through a pull request to
+`conda-forge/staged-recipes` before users can install from the public
+`conda-forge` channel.
 All release claims still depend on the CI and validation gates passing for the
 tagged source.
 
@@ -76,6 +80,19 @@ The preferred development workflow uses `uv`:
 
 ```bash
 uv sync --locked --group dev --group test --group coverage --group typing --group property --group mutation --group profiling --group docs
+```
+
+Published releases are available from PyPI:
+
+```bash
+python -m pip install nwau-py
+```
+
+After the conda-forge staged-recipes submission is accepted, conda users can
+install with:
+
+```bash
+conda install -c conda-forge nwau-py
 ```
 
 Extract the official SAS calculators under `archive/sas/<YEAR>/` so the

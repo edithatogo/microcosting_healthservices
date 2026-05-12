@@ -1,0 +1,58 @@
+{% set name = "nwau-py" %}
+{% set version = "0.2.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/n/nwau-py/nwau_py-{{ version }}.tar.gz
+  sha256: c4257dea4626c611231503e3f8ea058e578ab6a0581af567ffb14d9f9193ad7e
+
+build:
+  noarch: python
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  entry_points:
+    - funding-calculator = nwau_py.cli.main:cli
+
+requirements:
+  host:
+    - python >=3.10,<3.15
+    - pip
+    - setuptools >=61
+  run:
+    - python >=3.10,<3.15
+    - click
+    - lightgbm
+    - numpy
+    - pandas
+    - pyarrow
+    - pydantic
+    - polars
+    - pyreadstat
+    - pyxlsb
+
+test:
+  imports:
+    - nwau_py
+  commands:
+    - funding-calculator --help
+  requires:
+    - pip
+
+about:
+  home: https://github.com/edithatogo/mchs
+  summary: Utilities for calculating IHACPA National Weighted Activity Units
+  license: MIT
+  license_file: LICENSE
+  description: |
+    nwau-py provides Python utilities for calculating IHACPA National Weighted
+    Activity Units across acute, emergency department, mental health,
+    subacute, outpatient, HAC, and AHR adjustment paths.
+  doc_url: https://edithatogo.github.io/mchs/
+  dev_url: https://github.com/edithatogo/mchs
+
+extra:
+  recipe-maintainers:
+    - edithatogo
