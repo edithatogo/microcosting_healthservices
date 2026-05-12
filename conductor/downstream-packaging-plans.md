@@ -51,6 +51,19 @@ non-Python surfaces that sit on top of the Rust core.
 - Release expectations: defer until the lower-risk adapter path is proven and
   the Rust core contract is stable.
 
+## TypeScript and WASM
+
+- Recommended evaluation path: browser docs demo first, with a hand-maintained
+  TypeScript facade over generated low-level WASM glue.
+- Package shape: wrapper-only adapter shell for the shared Rust/WASM artifact;
+  TypeScript must not implement formulas or duplicate validation rules.
+- Privacy expectations: committed examples and browser demos must use
+  synthetic data only, with no telemetry, upload, PHI, secrets, or patient-level
+  persistence.
+- Release expectations: keep npm publication and browser calculator readiness
+  deferred until the exposed calculators match shared golden fixtures through
+  the WASM artifact and bundle-size checks are stable.
+
 ## Power Platform
 
 - Recommended evaluation path: custom connector or service boundary.

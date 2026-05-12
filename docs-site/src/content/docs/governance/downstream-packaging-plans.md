@@ -2,8 +2,9 @@
 title: Downstream packaging plans
 ---
 
-Packaging for R, Julia, C#, Go, and Power Platform stays thin and contract
-driven. None of these surfaces should duplicate calculator formulas.
+Packaging for R, Julia, C#, Go, Power Platform, and the TypeScript/WASM
+browser demo stays thin and contract driven. None of these surfaces should
+duplicate calculator formulas.
 
 Rules:
 
@@ -22,6 +23,14 @@ Rules:
 - C# should prefer a stable ABI or secured service boundary.
 - Go should prefer a C ABI wrapper or secured service boundary.
 - Power Platform should use a custom connector or service boundary only.
+- The TypeScript/WASM browser demo should stay synthetic, browser-only, and
+  wrapper-only. Use WASM as the runtime target, keep Node limited to build and
+  developer tooling, and keep browser bundle size under a practical demo
+  budget.
+- Browser privacy limits apply: do not treat the client as a trusted data
+  store, do not cache patient-level data, and keep any telemetry synthetic only.
+- Keep all formula and validation logic in the shared engine; do not duplicate
+  calculator rules in TypeScript just to make the browser demo easier.
 - Release readiness depends on shared fixture parity and stable contract
   versioning.
 

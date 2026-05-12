@@ -166,7 +166,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: TypeScript and WebAssembly Binding**
+- [x] **Track: TypeScript and WebAssembly Binding**
 *Link: [./tracks/typescript_wasm_binding_20260512/](./tracks/typescript_wasm_binding_20260512/)*
 *Gate: enable browser docs demos and Node workflows from the shared Rust core with synthetic-data-only privacy boundaries.*
 

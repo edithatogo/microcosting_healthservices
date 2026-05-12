@@ -1,0 +1,100 @@
+---
+title: TypeScript and WASM browser demo
+description: Use synthetic fixtures in a browser-only TypeScript demo backed by a WASM target, with no formula duplication.
+sidebar:
+  label: TS/WASM browser demo
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page documents the browser demo posture for the TypeScript/WASM surface.
+It is a demo and packaging reference, not a calculator engine.
+
+<Aside type="caution" title="Synthetic fixtures only">
+  All examples on this page use synthetic fixture data. Do not use them for
+  policy decisions, submissions, or patient-level workflows.
+</Aside>
+
+## Demo posture
+
+- The browser-hosted TypeScript UI is the primary user surface.
+- WASM is the target runtime for the shared calculation core.
+- TypeScript should orchestrate inputs, rendering, and I/O only.
+- Node is allowed for build tooling, local fixture generation, and developer
+  scripts; it is not the production runtime for the demo.
+- Calculator formulas stay in the shared engine; TypeScript must not duplicate
+  them.
+
+## Browser privacy limits
+
+- Treat the browser as an untrusted client.
+- Do not load or cache patient-level data in the demo.
+- Keep telemetry off by default; if logging exists, it must cover synthetic
+  demo events only.
+- Avoid cross-origin calls that would expose sensitive data.
+- Any real-data flow belongs behind a secured service boundary, not in the
+  browser demo.
+
+## Bundle-size limits
+
+- Keep the initial bundle small enough for fast demo loads on ordinary
+  browsers.
+- Prefer code splitting for charts, editors, and optional helpers.
+- Reuse the shared WASM module instead of shipping duplicate calculation code.
+- Use synthetic fixture packs that are small enough to keep the demo
+  responsive.
+
+## WASM target
+
+- The demo should target a browser-compatible WASM build.
+- The WASM module owns the calculation behavior.
+- TypeScript should call exported functions, transform the results, and render
+  output.
+- If a native browser feature is required, wrap it in TypeScript rather than
+  moving formula logic out of WASM.
+
+## No formula duplication
+
+- Do not port formulas to TypeScript for convenience.
+- Do not mirror validation rules in browser code.
+- Use shared fixtures to verify the browser result matches the canonical
+  engine.
+- If the demo needs a fallback, fail closed and show an unsupported-state
+  message rather than inventing a second calculation path.
+
+## Example flow
+
+The demo can load synthetic fixture data, call into WASM, and render the
+results without becoming a second calculation implementation.
+
+```ts
+import init, { calculateCase } from './pkg/mchs_wasm';
+
+await init();
+
+const input = {
+  calculator: 'acute',
+  pricingYear: 2025,
+  drg: 'B62',
+  los: 4,
+  icuHours: 0,
+  syntheticCase: true,
+};
+
+const result = calculateCase(input);
+renderResult(result);
+```
+
+## What this demo is not
+
+- It is not a patient-facing app.
+- It is not a Node service.
+- It is not an alternate formula source.
+- It is not a place to duplicate validation logic.
+- It is not a replacement for the shared engine or the secured service
+  boundary used for real-data workflows.
+
+## What to try next
+
+- Build a small synthetic fixture pack for browser smoke tests.
+- Keep the WASM interface stable before adding richer UI controls.
