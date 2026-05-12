@@ -141,3 +141,39 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Historical IHACPA Coverage Audit**
 *Link: [./tracks/historical_ihacpa_coverage_20260512/](./tracks/historical_ihacpa_coverage_20260512/)*
 *Gate: verify how far official NEP, technical specification, calculator, and NHCDC materials go back before extending historical support claims.*
+
+---
+
+- [ ] **Track: Python Rust Binding Stabilization**
+*Link: [./tracks/python_rust_binding_stabilization_20260512/](./tracks/python_rust_binding_stabilization_20260512/)*
+*Gate: stabilize pyo3/maturin bindings while keeping Python as the validated public API and Rust-backed paths opt-in until parity is proven.*
+
+---
+
+- [ ] **Track: R Binding**
+*Link: [./tracks/r_binding_20260512/](./tracks/r_binding_20260512/)*
+*Gate: support health-economics and costing-study R users without duplicating calculator formula logic.*
+
+---
+
+- [ ] **Track: Julia Binding**
+*Link: [./tracks/julia_binding_20260512/](./tracks/julia_binding_20260512/)*
+*Gate: support Julia analytics through C ABI or Arrow/CLI interop while preserving single-sourced calculator logic.*
+
+---
+
+- [ ] **Track: TypeScript and WebAssembly Binding**
+*Link: [./tracks/typescript_wasm_binding_20260512/](./tracks/typescript_wasm_binding_20260512/)*
+*Gate: enable browser docs demos and Node workflows from the shared Rust core with synthetic-data-only privacy boundaries.*
+
+---
+
+- [ ] **Track: C ABI Binding**
+*Link: [./tracks/c_abi_binding_20260512/](./tracks/c_abi_binding_20260512/)*
+*Gate: define a stable institutional embedding ABI only after core schemas and calculator parity are stable.*
+
+---
+
+- [ ] **Track: CLI and File Interoperability Binding**
+*Link: [./tracks/cli_file_interop_binding_20260512/](./tracks/cli_file_interop_binding_20260512/)*
+*Gate: provide a language-neutral Arrow/Parquet/CSV and CLI contract for ecosystems where native bindings are premature.*

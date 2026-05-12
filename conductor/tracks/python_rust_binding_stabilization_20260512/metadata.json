@@ -1,0 +1,8 @@
+{
+  "track_id": "python_rust_binding_stabilization_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Stabilize the Python binding over the Rust calculator core using pyo3/maturin while preserving Python as the validated public API."
+}

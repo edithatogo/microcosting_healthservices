@@ -1,0 +1,8 @@
+{
+  "track_id": "typescript_wasm_binding_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add a TypeScript and WebAssembly binding roadmap for browser demos, docs, and Node workflows."
+}
