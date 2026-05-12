@@ -20,6 +20,10 @@ coverage. The phase 1 matrix work is documenting AR-DRG, AECC, UDG, Tier 2,
 and AMHCC family transitions and licensed-input constraints. An initial shared
 preflight validator exists in `nwau_py.classification_validation`, but this page
 does not claim it is wired into calculator or CLI entry points end-to-end yet.
+For admitted acute, AR-DRG outcomes are versioned outputs of ICD-10-AM, ACHI,
+and ACS-coded episodes processed through licensed grouping tables or software;
+the registry docs track compatibility and provenance, not a proprietary
+grouper reimplementation.
 
 <CardGrid>
   <Card title="Historical pricing specs">
@@ -32,7 +36,8 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
     repository documentation, but this page does not claim parity validation
     against extracted IHACPA outputs unless tests explicitly establish it.
     Classification version impacts are clear: admitted acute moves to
-    AR-DRG v12.0 from v11.0, and non-admitted moves to Tier 2 v10.0 from v7.
+    AR-DRG v12.0 from v11.0 through the licensed grouping workflow, and
+    non-admitted moves to Tier 2 v10.0 from v7.
     AECC v1.1, AMHCC v1, AN-SNAP v5, and UDG v1.3 are unchanged from the
     previous year.
   </Card>
@@ -59,13 +64,14 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
 | Calculator artifacts | Implemented or gap-recorded | Public calculator downloads and executable surfaces are tracked separately from pricing specs. |
 | Price weights | Documented or fixture-backed | Recorded as part of the year-specific pricing record, not as calculator support by themselves. |
 | NHCDC / costing evidence | Documented | Useful for costing-study interpretation and provenance, but not calculator parity evidence. |
+| AR-DRG grouping metadata | Documented | Versioned inputs and licensed grouping assets are tracked as provenance, not as a proprietary grouper implementation. |
 | Validation status | Explicit | Use discovered, archived, extracted, implemented, fixture-tested, validated, and deprecated as the support gate. |
 
 ## Executable calculator matrix
 
 | Family or helper | Status | Notes |
 | --- | --- | --- |
-| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts are AR-DRG v12.0 for admitted acute and Tier 2 v10.0 for non-admitted. |
+| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts are AR-DRG v12.0 for admitted acute through licensed versioned grouping tables or software, and Tier 2 v10.0 for non-admitted. |
 | Emergency department | Implemented | Current Python surface. |
 | Mental health | Implemented | Current Python surface. |
 | Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. NEP26 exists for 2026-27 documentation coverage, but parity validation is not claimed unless tests prove it. Official golden fixtures are gap-recorded. |

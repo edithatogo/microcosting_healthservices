@@ -1,0 +1,107 @@
+---
+title: AR-DRG ICD/ACHI/ACS mapping registry
+---
+
+import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+AR-DRGs are derived from admitted-acute episode data, not stored as a raw input
+column. The classification depends on ICD-10-AM diagnosis codes, ACHI
+intervention codes, ACS coding standards, and versioned licensed grouping
+tables or software that turn coded episodes into AR-DRG outputs.
+
+This page describes the registry and provenance layer around that process. It
+tracks which versioned inputs and grouping assets are expected for a pricing
+year, but it does not reimplement the proprietary grouper.
+
+## What the registry records
+
+The registry is the public metadata surface for version compatibility and
+provenance.
+
+| Registry field | Purpose |
+| --- | --- |
+| Coding-set family | Identifies the ICD-10-AM, ACHI, ACS, and AR-DRG families in scope |
+| Version | Pins the exact released version used for the pricing year |
+| Effective pricing year | Shows when the version applies in a costing study or release |
+| Input dependency | Records which coded inputs must be present before grouping |
+| Grouping asset reference | Notes the licensed grouping tables or software release used locally |
+| Source reference | Points to the authoritative publication, catalog entry, or release note |
+| License note | Captures redistribution and usage limits |
+| Provenance note | Explains how the version was chosen and validated |
+
+The registry should make it easy to answer three questions:
+
+1. Which ICD-10-AM, ACHI, and ACS versions feed a given AR-DRG version?
+2. Which pricing year or transition boundary expects that combination?
+3. Which local licensed asset was used to produce the grouping output?
+
+## What the registry is not
+
+The registry is not a substitute for licensed AR-DRG grouping software or
+official grouping tables.
+
+- It may describe the inputs, version boundaries, and provenance of a grouping
+  workflow.
+- It may record that a local user supplied a licensed grouper or table set.
+- It must not publish restricted grouping tables, redistribution-limited
+  packages, or a proprietary grouper reimplementation.
+- It must not imply that the repository can generate authoritative AR-DRG
+  outputs without the licensed version-specific grouping asset.
+
+<Aside type="caution">
+  If a workflow needs AR-DRG outputs, it should be described as a versioned
+  grouping process with a licensed local asset, not as an open reimplementation
+  of the proprietary grouper.
+</Aside>
+
+## Costing-study implications
+
+For costing studies, this registry is useful because AR-DRG comparisons are only
+meaningful when the coded inputs and grouping version match the study year.
+
+- Report the ICD-10-AM, ACHI, and ACS versions alongside the AR-DRG version.
+- Record the licensed grouper or table release used to classify episodes.
+- Treat version changes as methodological changes, not just documentation
+  details.
+- Avoid comparing episode-level costs across studies that used different
+  grouping versions unless the study explicitly reconciles that difference.
+- Use the registry as provenance for the study method, not as evidence that two
+  independent implementations produce identical grouping results.
+
+This matters for benchmark studies, AHPCS-style reporting, and any analysis
+that compares observed costs to AR-DRG-based pricing. A mismatch in coded-input
+versions or grouping version can change the DRG assignment and therefore the
+costing result.
+
+## Appropriate-use caveats
+
+- Do not claim parity with the official grouper unless that parity has been
+  separately validated.
+- Do not infer that a public metadata registry can replace a licensed grouping
+  product.
+- Do not redistribute restricted input tables or software through this docs
+  site.
+- Do not mix public provenance records with claims about executable support.
+
+<Aside>
+  Public docs can explain how to track AR-DRG provenance, versioning, and
+  local asset requirements. They should not present those records as a
+  reimplementation of the licensed classification system.
+</Aside>
+
+## Related pages
+
+<CardGrid>
+  <LinkCard title="Coding-set version registry" href="/governance/coding-set-version-registry/">
+    The shared registry surface for pricing-year version metadata and local licensed inputs.
+  </LinkCard>
+  <LinkCard title="Reference data manifests" href="/governance/reference-data-manifests/">
+    How year-scoped manifests carry provenance, gaps, and validation status.
+  </LinkCard>
+  <LinkCard title="Calculator coverage" href="/governance/calculator-coverage/">
+    Which calculator families are implemented and what support claims mean.
+  </LinkCard>
+  <LinkCard title="Stream-level cost benchmarking" href="/tutorials/costing-study-stream-benchmarking/">
+    How DRG-version alignment affects costing-study comparisons.
+  </LinkCard>
+</CardGrid>

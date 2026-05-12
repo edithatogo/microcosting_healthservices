@@ -9,6 +9,11 @@ families used by pricing-year manifests and validation rules. It keeps the
 version story explicit for AR-DRG, AECC, UDG, Tier 2, AMHCC, ICD-10-AM, ACHI,
 and ACS without treating licensed products as public package content.
 
+For AR-DRG specifically, the registry tracks the versioned relationship
+between ICD-10-AM, ACHI, ACS, and the licensed grouping tables or software
+used to derive the DRG output. The registry records provenance and
+compatibility, not a proprietary grouper reimplementation.
+
 Use the registry to answer four questions:
 
 1. Which coding-set family is in scope for a pricing year?
@@ -52,6 +57,9 @@ Keep these boundaries clear:
 - Public docs must not copy restricted code tables or attached product files.
 - A restricted product should remain outside the public docs tree unless the
   license permits redistribution.
+- Public docs may record the versioned ICD-10-AM/ACHI/ACS inputs and the
+  presence of licensed AR-DRG grouping tables or software.
+- Public docs must not claim to reproduce the proprietary AR-DRG grouper.
 
 ## Local user-supplied groupers and code lists
 
@@ -91,6 +99,9 @@ local licensed inputs.
 ## Related governance pages
 
 <CardGrid>
+  <LinkCard title="AR-DRG ICD/ACHI/ACS mapping registry" href="/governance/ar-drg-icd-achi-acs-mapping-registry/">
+    Versioned AR-DRG provenance, licensed grouping assets, and costing-study caveats.
+  </LinkCard>
   <LinkCard title="Reference data manifests" href="/governance/reference-data-manifests/">
     Year-scoped provenance records that link pricing years to source artifacts.
   </LinkCard>

@@ -1,0 +1,36 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "entry_id": "license-boundary-metadata-only",
+  "entry_type": "license_boundary_record",
+  "boundary": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "contains_restricted_tables": false,
+    "redistribution_policy": "metadata-only",
+    "storage_policy": "local-only",
+    "allowed_content": [
+      "version labels",
+      "provenance fields",
+      "source URLs",
+      "checksums",
+      "local placeholders"
+    ],
+    "disallowed_content": [
+      "licensed ICD-10-AM table rows",
+      "licensed ACHI table rows",
+      "licensed ACS content",
+      "AR-DRG grouper internals",
+      "patient-level extracts"
+    ],
+    "notes": "This example records the contract boundary for committed fixtures. It does not contain restricted classification products."
+  },
+  "provenance": {
+    "command": "mapping-registry resolve-reference",
+    "source_manifest_path": "manifests/license-boundary.json",
+    "source_url": "https://www.ihacpa.gov.au/health-care/classification/admitted-acute-care",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-license-boundary-metadata-only",
+    "bytes": 1536,
+    "checksum_algorithm": "sha256"
+  }
+}

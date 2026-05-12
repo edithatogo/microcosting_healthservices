@@ -99,13 +99,20 @@ comparison
 
 - **Scope alignment**: Only include episodes that fall within the NHCDC scope. Exclude non-admitted ED, S100 pharmaceuticals, and other out-of-scope activity.
 - **Cost allocation**: Use the AHPCS standard cost buckets (direct, indirect, on-costs) and apply the same overhead allocation ratios used in the NHCDC.
-- **Grouper version**: Ensure the DRG grouper version used for pricing matches the version used by NHCDC for the same reference year.
+- **Grouper version**: Ensure the DRG grouper version used for pricing matches the version used by NHCDC for the same reference year. For AR-DRG, that means the same ICD-10-AM, ACHI, and ACS versions plus the same licensed grouping tables or software release.
 - **Outlier policy**: Apply the NHCDC trim-point / outlier policy before computing per-episode averages. Unadjusted means are not comparable.
 
 <Aside type="caution">
   AHPCS methodology evolves each pricing year. Always consult the latest
   IHACPA AHPCS framework documents before submitting or publishing
   benchmarking outputs.
+</Aside>
+
+<Aside type="caution">
+  If your study uses AR-DRG, document the grouping version and licensed asset
+  provenance explicitly. A custom mapping workflow or a public metadata
+  registry is not a substitute for the official licensed grouper, and mixed
+  versions can change the DRG assignment enough to invalidate a comparison.
 </Aside>
 
 ## What to try next

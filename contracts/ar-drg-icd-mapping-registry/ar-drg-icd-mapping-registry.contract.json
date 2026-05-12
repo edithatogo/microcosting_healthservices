@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "tool": {
+    "name": "nwau_py.ar_drg_mapping_registry",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.ar_drg_mapping_registry"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic metadata fixtures only. Licensed mapping tables and grouper content are intentionally excluded."
+  },
+  "commands": [
+    {
+      "name": "list_ar_drg_mapping_records",
+      "mode": "registry-entries",
+      "status": "preview",
+      "inputs": [
+        "registry_scope",
+        "pricing_year",
+        "metadata_only"
+      ],
+      "outputs": [
+        "registry_entries",
+        "registry_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic registry entries for versioned AR-DRG, ICD-10-AM, ACHI, and ACS relationships without embedding licensed table content."
+    },
+    {
+      "name": "validate_ar_drg_mapping_compatibility",
+      "mode": "compatibility-validation",
+      "status": "preview",
+      "inputs": [
+        "registry_entry_id",
+        "pricing_year",
+        "compatibility_profile",
+        "external_reference_mode"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Check whether a synthetic registry entry matches the declared pricing-year and version window."
+    },
+    {
+      "name": "external_reference_placeholder",
+      "mode": "reference-resolution",
+      "status": "preview",
+      "inputs": [
+        "external_reference_uri",
+        "reference_type",
+        "access_mode"
+      ],
+      "outputs": [
+        "reference_manifest",
+        "license_boundary",
+        "diagnostics"
+      ],
+      "notes": "Describe a local-only placeholder for user-supplied licensed grouper or mapping assets."
+    }
+  ],
+  "registry_entry_types": [
+    {
+      "id": "versioned_mapping_record",
+      "label": "Versioned mapping record",
+      "purpose": "Metadata-only relationship between a pricing year and an AR-DRG / ICD-10-AM / ACHI / ACS version set."
+    },
+    {
+      "id": "provenance_bundle",
+      "label": "Provenance bundle",
+      "purpose": "Source-manifest and checksum metadata for a committed synthetic fixture."
+    },
+    {
+      "id": "license_boundary_record",
+      "label": "License boundary record",
+      "purpose": "Declares what the committed fixtures may and may not include."
+    },
+    {
+      "id": "external_grouper_reference",
+      "label": "External grouper reference",
+      "purpose": "Local placeholder for a user-supplied licensed grouper, file exchange, or service reference."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only registry",
+      "severity": "error",
+      "description": "Reject registry entries that embed licensed table rows, grouper logic, or other restricted content."
+    },
+    {
+      "id": "version_alignment",
+      "label": "Version alignment",
+      "severity": "error",
+      "description": "Require the declared ICD-10-AM, ACHI, ACS, and AR-DRG versions to align with the selected pricing year."
+    },
+    {
+      "id": "license_boundary_declared",
+      "label": "Declared license boundary",
+      "severity": "error",
+      "description": "Require each fixture bundle to declare whether it is metadata only and whether restricted assets are excluded."
+    },
+    {
+      "id": "external_reference_present",
+      "label": "External reference present",
+      "severity": "warning",
+      "description": "Record a local placeholder for any user-supplied grouper or mapping asset instead of implying a bundled implementation."
+    }
+  ],
+  "outputs": {
+    "registry_format": "json",
+    "validation_report_format": "json",
+    "reference_manifest_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "registry_id",
+      "registry_entry_id",
+      "pricing_year",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "license_boundary",
+      "external_reference_uri"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "versioned-mapping-registry",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/versioned-mapping-registry.json",
+      "description": "Synthetic version-specific registry records with provenance and local reference placeholders."
+    },
+    {
+      "name": "license-boundary",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/license-boundary.json",
+      "description": "Synthetic declaration of the metadata-only license boundary."
+    },
+    {
+      "name": "external-grouper-reference",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/external-grouper-reference.json",
+      "description": "Synthetic local placeholder for a user-supplied licensed grouper or mapping reference."
+    }
+  ]
+}

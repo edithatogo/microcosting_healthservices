@@ -1,0 +1,32 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "entry_id": "external-grouper-command-placeholder",
+  "entry_type": "external_grouper_reference",
+  "reference": {
+    "reference_type": "local_command",
+    "access_mode": "user_supplied",
+    "status": "unresolved",
+    "command": "ar-drg-grouper --input <coded-episode-json> --output <grouped-episode-json>",
+    "local_placeholder_path": "./licensed/ar-drg-grouper/README.local.md",
+    "license_boundary": "local-only",
+    "supported_versions": [
+      {
+        "pricing_year": "2026-27",
+        "ar_drg_version": "12.0",
+        "icd10am_version": "12th edition",
+        "achi_version": "12th edition",
+        "acs_version": "12th edition"
+      }
+    ],
+    "notes": "Synthetic local-only placeholder for a user-supplied licensed grouper or mapping service."
+  },
+  "provenance": {
+    "command": "mapping-registry resolve-reference",
+    "source_manifest_path": "manifests/external-grouper-reference.json",
+    "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-external-grouper-reference",
+    "bytes": 1792,
+    "checksum_algorithm": "sha256"
+  }
+}

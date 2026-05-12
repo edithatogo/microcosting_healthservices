@@ -13,6 +13,11 @@ except Exception:  # pragma: no cover - tests and lightweight installs
         _readstat_parser=SimpleNamespace(PyreadstatError=Exception),
     )
 
+from nwau_py.ar_drg_mapping_registry import (
+    ARDRGMappingRecord,
+    get_ar_drg_mapping_record,
+    validate_ar_drg_version_binding,
+)
 from nwau_py.classification_validation import (
     ClassificationValidationError,
     get_classification_version,
@@ -120,6 +125,7 @@ class AcuteCalculationContract:
     params: AcuteParams = field(default_factory=AcuteParams)
     input_contract: AcuteInputContract = field(default_factory=AcuteInputContract)
     reference_bundle: AcuteReferenceBundle | None = None
+    mapping_record: ARDRGMappingRecord | None = None
 
 
 def build_acute_contract(
@@ -137,11 +143,13 @@ def build_acute_contract(
             year=str(year),
             ref_dir=Path(ref_dir) if ref_dir is not None else sas_ref_dir(year),
         )
+    mapping_record = get_ar_drg_mapping_record(str(bundle.year))
     return AcuteCalculationContract(
         year=str(bundle.year),
         params=params or AcuteParams(),
         input_contract=input_contract or AcuteInputContract(),
         reference_bundle=bundle,
+        mapping_record=mapping_record,
     )
 
 
@@ -157,6 +165,22 @@ def validate_acute_input_frame(
             year=contract.year,
             version=get_classification_version("ar_drg", contract.year),
         )
+        mapping_result = validate_ar_drg_version_binding(
+            contract.year,
+            get_classification_version("ar_drg", contract.year),
+        )
+        if not mapping_result.compatible:
+            raise ClassificationValidationError(
+                mapping_result.reason or "AR-DRG mapping is incompatible"
+            )
+        if contract.mapping_record is not None:
+            record_result = contract.mapping_record.validate_ar_drg_version(
+                get_classification_version("ar_drg", contract.year)
+            )
+            if not record_result.compatible:
+                raise ClassificationValidationError(
+                    record_result.reason or "AR-DRG mapping provenance is incompatible"
+                )
     except ClassificationValidationError as exc:
         raise AcuteContractError(str(exc)) from exc
 

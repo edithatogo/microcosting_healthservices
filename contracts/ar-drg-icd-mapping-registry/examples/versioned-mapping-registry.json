@@ -1,0 +1,85 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "pricing_year": "2026-27",
+  "records": [
+    {
+      "entry_id": "ar-drg-12-versioned-record",
+      "entry_type": "versioned_mapping_record",
+      "ar_drg_version": "12.0",
+      "icd10am_version": "12th edition",
+      "achi_version": "12th edition",
+      "acs_version": "12th edition",
+      "effective_years": [
+        "2026-27"
+      ],
+      "status": "metadata_only",
+      "public_metadata": {
+        "description": "Synthetic version-specific AR-DRG mapping registry record.",
+        "scope": "Version labels and relationships only"
+      },
+      "provenance": {
+        "source_manifest_path": "manifests/ar-drg-version-12.0.json",
+        "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+        "retrieved_on": "2026-05-12",
+        "sha256": "synthetic-sha256-ar-drg-12-metadata-only",
+        "bytes": 2048,
+        "checksum_algorithm": "sha256"
+      },
+      "license_boundary_ref": "license-boundary-metadata-only",
+      "external_reference_ref": "external-grouper-command-placeholder"
+    },
+    {
+      "entry_id": "ar-drg-12-provenance-bundle",
+      "entry_type": "provenance_bundle",
+      "bundle_kind": "fixture_provenance",
+      "provenance": {
+        "command": "mapping-registry list",
+        "registry_id": "ar_drg_icd_mapping_registry_20260512",
+        "registry_entry_id": "ar-drg-12-versioned-record",
+        "pricing_year": "2026-27",
+        "source_manifest_path": "manifests/ar-drg-version-12.0.json",
+        "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+        "retrieved_on": "2026-05-12",
+        "sha256": "synthetic-sha256-ar-drg-12-metadata-only",
+        "bytes": 2048,
+        "license_boundary": "metadata-only",
+        "external_reference_uri": "local://external-grouper-command-placeholder"
+      }
+    },
+    {
+      "entry_id": "license-boundary-metadata-only",
+      "entry_type": "license_boundary_record",
+      "boundary": {
+        "classification": "synthetic",
+        "contains_phi": false,
+        "contains_restricted_tables": false,
+        "allowed_content": [
+          "version labels",
+          "source URLs",
+          "retrieval dates",
+          "checksums",
+          "local placeholders"
+        ],
+        "disallowed_content": [
+          "licensed table rows",
+          "grouper logic",
+          "patient data",
+          "operational extracts"
+        ]
+      }
+    },
+    {
+      "entry_id": "external-grouper-command-placeholder",
+      "entry_type": "external_grouper_reference",
+      "reference": {
+        "reference_type": "local_command",
+        "access_mode": "user_supplied",
+        "status": "unresolved",
+        "command": "ar-drg-grouper --input <coded-episode-json> --output <grouped-episode-json>",
+        "local_placeholder_path": "./licensed/ar-drg-grouper/README.local.md",
+        "license_boundary": "local-only",
+        "notes": "Synthetic placeholder for a user-supplied licensed grouper or mapping service."
+      }
+    }
+  ]
+}

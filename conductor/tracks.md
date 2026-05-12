@@ -224,7 +224,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: AR-DRG ICD/ACHI/ACS Mapping Registry**
+- [x] **Track: AR-DRG ICD/ACHI/ACS Mapping Registry**
 *Link: [./tracks/ar_drg_icd_mapping_registry_20260512/](./tracks/ar_drg_icd_mapping_registry_20260512/)*
 *Gate: model version-specific relationships between ICD-10-AM, ACHI, ACS, AR-DRG versions, and mapping-table provenance before deriving or validating DRGs.*
 
