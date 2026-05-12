@@ -19,10 +19,15 @@ from nwau_py.calculators import (
     calculate_outpatients,
 )
 from nwau_py.classification_validation import get_classification_requirement
+from nwau_py.pricing_year_diff import (
+    compare_pricing_year_manifests,
+    format_pricing_year_diff_report,
+)
 from nwau_py.pricing_year_validation import (
     format_pricing_year_validation_report,
     validate_pricing_year,
 )
+from nwau_py.reference_manifest import ReferenceManifestError
 from nwau_py.runtime import run_csv_calculation
 from nwau_py.source_scanner import manifest_to_json, scan_sources_dry_run
 
@@ -286,6 +291,29 @@ def validate_year(year: str, emit_json: bool) -> None:
         click.echo(format_pricing_year_validation_report(report))
     if not report.passed:
         raise SystemExit(1)
+
+
+@cli.command(name="diff-year")
+@click.argument("from_year")
+@click.argument("to_year")
+@click.option(
+    "--json",
+    "emit_json",
+    is_flag=True,
+    default=False,
+    help="emit JSON instead of the human-readable markdown diff",
+)
+def diff_year(from_year: str, to_year: str, emit_json: bool) -> None:
+    """Compare repository-local reference-data manifests for two pricing years."""
+    try:
+        report = compare_pricing_year_manifests(from_year, to_year)
+    except (FileNotFoundError, ReferenceManifestError, ValueError) as exc:
+        raise click.ClickException(str(exc)) from exc
+
+    if emit_json:
+        click.echo(json.dumps(report.to_dict(), indent=2, sort_keys=True))
+    else:
+        click.echo(format_pricing_year_diff_report(report))
 
 
 @cli.command()

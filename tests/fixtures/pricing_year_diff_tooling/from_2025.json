@@ -1,0 +1,17 @@
+{
+  "pricing_year": "2025",
+  "constants": {
+    "nep": 7434,
+    "nec_fixed": 3000000,
+    "shared_flag": "stable"
+  },
+  "classification_versions": {
+    "ar_drg": "11.0",
+    "tier_2": "9.1"
+  },
+  "source_artifacts": {
+    "calculator_archive": "NEP25_SAS_NWAU_Calculator.7Z",
+    "price_weights": "NEP25_Price_Weights.xlsx"
+  },
+  "validation_status": "validated"
+}

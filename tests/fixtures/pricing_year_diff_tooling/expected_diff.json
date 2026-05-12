@@ -1,0 +1,62 @@
+{
+  "from_year": "2025",
+  "to_year": "2026",
+  "summary": {
+    "changed": 5,
+    "unchanged": 2,
+    "missing": 1,
+    "new": 1
+  },
+  "changes": [
+    {
+      "kind": "changed",
+      "path": "constants.nep",
+      "from": 7434,
+      "to": 7418
+    },
+    {
+      "kind": "changed",
+      "path": "constants.nec_fixed",
+      "from": 3000000,
+      "to": 3127000
+    },
+    {
+      "kind": "unchanged",
+      "path": "constants.shared_flag",
+      "value": "stable"
+    },
+    {
+      "kind": "changed",
+      "path": "classification_versions.ar_drg",
+      "from": "11.0",
+      "to": "12.0"
+    },
+    {
+      "kind": "changed",
+      "path": "classification_versions.tier_2",
+      "from": "9.1",
+      "to": "10.0"
+    },
+    {
+      "kind": "changed",
+      "path": "source_artifacts.calculator_archive",
+      "from": "NEP25_SAS_NWAU_Calculator.7Z",
+      "to": "NEP26_SAS_NWAU_Calculator.7Z"
+    },
+    {
+      "kind": "missing",
+      "path": "source_artifacts.price_weights",
+      "from": "NEP25_Price_Weights.xlsx"
+    },
+    {
+      "kind": "unchanged",
+      "path": "validation_status",
+      "value": "validated"
+    },
+    {
+      "kind": "new",
+      "path": "constants.new_parameter",
+      "to": "introduced"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "diff_id": "pricing_year_diff_tooling_20260512",
+  "tool": {
+    "name": "funding-calculator",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.cli.main:cli"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic fixtures only."
+  },
+  "commands": [
+    {
+      "name": "diff-year",
+      "syntax": "funding-calculator diff-year <from-year> <to-year>",
+      "status": "preview",
+      "inputs": [
+        "from_pricing_year",
+        "to_pricing_year",
+        "reference_data_manifest",
+        "fixture_bundle"
+      ],
+      "outputs": [
+        "diff_report",
+        "exit_code",
+        "diagnostics"
+      ],
+      "notes": "Compare two pricing years and report changes in formulae, parameters, coding-set versions, source artifacts, and validation status."
+    }
+  ],
+  "comparison_dimensions": [
+    {
+      "id": "formulae",
+      "label": "Formulae",
+      "description": "Detect changes in pricing formulas, constants, and derived coefficients."
+    },
+    {
+      "id": "parameters",
+      "label": "Parameters",
+      "description": "Compare adjustment parameters and other configured inputs that affect results."
+    },
+    {
+      "id": "coding_sets",
+      "label": "Coding sets",
+      "description": "Surface version changes in classification or coding-set references."
+    },
+    {
+      "id": "source_artifacts",
+      "label": "Source artifacts",
+      "description": "Summarize added, removed, or revised source files and supporting manifests."
+    },
+    {
+      "id": "validation_status",
+      "label": "Validation status",
+      "description": "Report whether the compared years remain validated, newly validated, or no longer validated."
+    }
+  ],
+  "outputs": {
+    "report_formats": [
+      "json",
+      "markdown"
+    ],
+    "summary_state": "changed",
+    "diagnostic_format": "json"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "from_pricing_year",
+      "to_pricing_year",
+      "manifest_path",
+      "fixture_bundle_path",
+      "comparison_dimensions",
+      "diff_summary",
+      "checksum_algorithm"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "diff-year-markdown",
+      "path": "contracts/pricing-year-diff/examples/diff-year.markdown.md",
+      "description": "Synthetic markdown diff report showing a concise year-to-year change summary.",
+      "format": "markdown"
+    },
+    {
+      "name": "diff-year-json",
+      "path": "contracts/pricing-year-diff/examples/diff-year.json",
+      "description": "Synthetic JSON diff report showing the same comparison in machine-readable form.",
+      "format": "json"
+    }
+  ]
+}

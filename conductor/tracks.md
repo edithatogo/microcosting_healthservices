@@ -203,9 +203,10 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Pricing-Year Diff Tooling**
+- [x] **Track: Pricing-Year Diff Tooling**
 *Link: [./tracks/pricing_year_diff_tooling_20260512/](./tracks/pricing_year_diff_tooling_20260512/)*
 *Gate: compare pricing years and summarize formula, parameter, classification, source, and validation deltas for review and releases.*
+*Evidence surfaces: the installed `funding-calculator diff-year <from-year> <to-year>` command, `conductor/tracks/pricing_year_diff_tooling_20260512/strategy.md`, and `conductor/tracks/pricing_year_diff_tooling_20260512/ci_notes.md`.*
 
 ---
 

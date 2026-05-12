@@ -1,0 +1,17 @@
+{
+  "pricing_year": "2026",
+  "constants": {
+    "nep": 7418,
+    "nec_fixed": 3127000,
+    "shared_flag": "stable",
+    "new_parameter": "introduced"
+  },
+  "classification_versions": {
+    "ar_drg": "12.0",
+    "tier_2": "10.0"
+  },
+  "source_artifacts": {
+    "calculator_archive": "NEP26_SAS_NWAU_Calculator.7Z"
+  },
+  "validation_status": "validated"
+}

@@ -1,0 +1,41 @@
+{
+  "command": "funding-calculator diff-year 2025 2026 --json",
+  "from_year": "2025",
+  "to_year": "2026",
+  "summary": {
+    "state": "changed",
+    "changed_sections": 5,
+    "unchanged_sections": 0,
+    "breaking_changes": 0
+  },
+  "sections": [
+    {
+      "id": "formulae",
+      "status": "changed",
+      "changes": [
+        {
+          "path": "constants.nep.value",
+          "change_type": "updated",
+          "severity": "info",
+          "summary": "Synthetic example mirroring the manifest-backed NEP value change."
+        }
+      ]
+    },
+    {
+      "id": "coding_sets",
+      "status": "changed",
+      "changes": [
+        {
+          "path": "AR-DRG.version",
+          "change_type": "updated",
+          "severity": "info",
+          "summary": "Synthetic example mirroring AR-DRG movement from v11.0 to v12.0."
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Synthetic example only.",
+    "No live pricing data is included."
+  ]
+}
