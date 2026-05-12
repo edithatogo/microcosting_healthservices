@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "coding_set_registry_20260512",
+  "tool": {
+    "name": "funding-calculator",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.cli.main:cli"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic metadata fixtures only. Licensed code tables are intentionally excluded."
+  },
+  "commands": [
+    {
+      "name": "coding-set registry list",
+      "mode": "registry-entries",
+      "status": "stable",
+      "inputs": [
+        "registry_scope",
+        "release_filters",
+        "metadata_only"
+      ],
+      "outputs": [
+        "registry_entries",
+        "registry_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic coding-set registry entries without embedding licensed code tables."
+    },
+    {
+      "name": "coding-set registry validate-compatibility",
+      "mode": "compatibility-validation",
+      "status": "preview",
+      "inputs": [
+        "registry_entry_id",
+        "target_year",
+        "compatibility_profile",
+        "validation_basis"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Check whether a synthetic registry entry is compatible with a target pricing year or release window."
+    }
+  ],
+  "registry_entry_types": [
+    {
+      "id": "coding_set_family",
+      "label": "Coding-set family",
+      "purpose": "Logical coding-set group represented by metadata only."
+    },
+    {
+      "id": "release_snapshot",
+      "label": "Release snapshot",
+      "purpose": "Versioned registry snapshot for a specific pricing year."
+    },
+    {
+      "id": "compatibility_profile",
+      "label": "Compatibility profile",
+      "purpose": "Declared support window and compatibility policy."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only registry",
+      "severity": "error",
+      "description": "Reject registry entries that embed licensed code tables or code rows."
+    },
+    {
+      "id": "version_window",
+      "label": "Supported release window",
+      "severity": "error",
+      "description": "Require the requested target year to fall within the declared compatibility window."
+    },
+    {
+      "id": "explicit_basis",
+      "label": "Explicit compatibility basis",
+      "severity": "warning",
+      "description": "Record the metadata basis used to declare compatibility instead of implying a silent match."
+    },
+    {
+      "id": "referential_consistency",
+      "label": "Referential consistency",
+      "severity": "error",
+      "description": "Require validation records to reference registry entries that are present in the committed fixture set."
+    }
+  ],
+  "outputs": {
+    "registry_format": "json",
+    "validation_report_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "registry_id",
+      "registry_entry_id",
+      "target_year",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "compatibility_basis"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "registry-entries",
+      "path": "contracts/coding-set-registry/examples/registry-entries.json",
+      "description": "Synthetic registry entry listing with metadata-only records."
+    },
+    {
+      "name": "compatibility-validation-pass",
+      "path": "contracts/coding-set-registry/examples/compatibility-validation.pass.json",
+      "description": "Synthetic compatibility validation output showing a supported target year."
+    },
+    {
+      "name": "compatibility-validation-fail",
+      "path": "contracts/coding-set-registry/examples/compatibility-validation.fail.json",
+      "description": "Synthetic compatibility validation output showing an unsupported target year."
+    }
+  ]
+}

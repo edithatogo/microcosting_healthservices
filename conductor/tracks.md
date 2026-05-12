@@ -210,9 +210,10 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Coding-Set Version Registry**
+- [x] **Track: Coding-Set Version Registry**
 *Link: [./tracks/coding_set_version_registry_20260512/](./tracks/coding_set_version_registry_20260512/)*
 *Gate: record AR-DRG, AECC, UDG, Tier 2, AMHCC, ICD-10-AM, ACHI, and ACS version compatibility and licensing boundaries.*
+*Evidence surfaces: `conductor/roadmap-governance.md`, `conductor/validation-vocabulary.md`, `conductor/tracks/classification_input_validation_20260512/classification_matrix.md`, `docs/reviews/20260512-expert-panel/deliberation-and-prioritisation.md`, `conductor/tracks/coding_set_version_registry_20260512/strategy.md`, and `conductor/tracks/coding_set_version_registry_20260512/ci_notes.md`.*
 
 ---
 

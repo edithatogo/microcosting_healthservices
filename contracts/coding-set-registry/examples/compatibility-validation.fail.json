@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "coding_set_registry_20260512",
+  "command": "funding-calculator coding-set registry validate-compatibility --entry acute_episodes_registry_2026 --year 2028",
+  "pricing_year": "2028",
+  "registry_entry_id": "acute_episodes_registry_2026",
+  "compatibility_profile_id": "acute_episodes_window_2026_2027",
+  "status": "fail",
+  "exit_code": 1,
+  "checks": [
+    {
+      "id": "registry_entry_present",
+      "status": "pass",
+      "message": "Registry entry acute_episodes_registry_2026 exists in the synthetic registry fixture."
+    },
+    {
+      "id": "supported_release_window",
+      "status": "fail",
+      "message": "Target year 2028 falls outside the declared support window."
+    },
+    {
+      "id": "licensed_table_absent",
+      "status": "pass",
+      "message": "No licensed code table payload is embedded in the registry fixture."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1
+  },
+  "diagnostics": [
+    {
+      "code": "unsupported_target_year",
+      "severity": "error",
+      "message": "No compatibility profile supports pricing year 2028."
+    }
+  ],
+  "compatibility_basis": {
+    "supported_years": [
+      "2026",
+      "2027"
+    ],
+    "mode": "metadata_only",
+    "notes": "Synthetic failure example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic failure example only."
+  }
+}

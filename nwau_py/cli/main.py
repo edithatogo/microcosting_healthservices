@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from collections.abc import Callable
 from pathlib import Path
-from typing import IO, Any
+from typing import IO, Any, cast
 
 import click
 import pandas as pd
@@ -19,6 +19,11 @@ from nwau_py.calculators import (
     calculate_outpatients,
 )
 from nwau_py.classification_validation import get_classification_requirement
+from nwau_py.coding_set_registry import (
+    CodingSetRegistryError,
+    list_coding_set_families,
+    validate_coding_set_compatibility,
+)
 from nwau_py.pricing_year_diff import (
     compare_pricing_year_manifests,
     format_pricing_year_diff_report,
@@ -169,6 +174,66 @@ def interop_contract() -> None:
 @cli.group()
 def sources() -> None:
     """Discover source pages and build draft manifests."""
+
+
+@cli.group(name="coding-set")
+def coding_set() -> None:
+    """Inspect coding-set registry metadata."""
+
+
+@coding_set.group(name="registry")
+def coding_set_registry() -> None:
+    """Inspect metadata-only coding-set registry entries."""
+
+
+@coding_set_registry.command(name="list")
+@click.option("--year", default=None, help="filter registry versions by pricing year")
+@click.option(
+    "--metadata-only/--include-restricted",
+    default=True,
+    show_default=True,
+    help="emit public metadata only; restricted payloads are never included",
+)
+def coding_set_registry_list(year: str | None, metadata_only: bool) -> None:
+    """List metadata-only coding-set registry entries."""
+    families = []
+    for family in list_coding_set_families():
+        payload = family.to_dict()
+        if year is not None:
+            versions = payload["versions"]
+            if not isinstance(versions, list):
+                raise click.ClickException("registry versions must be a list")
+            filtered_versions = []
+            for version in versions:
+                if not isinstance(version, dict):
+                    continue
+                version_record = cast(dict[str, Any], version)
+                version_year = version_record.get("year", "")
+                if str(version_year) == year:
+                    filtered_versions.append(version_record)
+            payload["versions"] = filtered_versions
+        payload["metadata_only"] = metadata_only
+        families.append(payload)
+    click.echo(json.dumps({"families": families}, indent=2, sort_keys=True))
+
+
+@coding_set_registry.command(name="validate-compatibility")
+@click.option("--entry", "system", required=True, help="coding-set family or alias")
+@click.option("--year", required=True, help="pricing year")
+@click.option("--version", default=None, help="declared version")
+def coding_set_registry_validate_compatibility(
+    system: str,
+    year: str,
+    version: str | None,
+) -> None:
+    """Validate a coding-set family/version against the registry."""
+    try:
+        result = validate_coding_set_compatibility(system, year, version)
+    except CodingSetRegistryError as exc:
+        raise click.ClickException(str(exc)) from exc
+    click.echo(json.dumps(result.to_dict(), indent=2, sort_keys=True))
+    if not result.compatible:
+        raise SystemExit(1)
 
 
 def _source_scan_input_options(func):

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "coding_set_registry_20260512",
+  "command": "funding-calculator coding-set registry validate-compatibility --entry acute_episodes_registry_2026 --year 2026",
+  "pricing_year": "2026",
+  "registry_entry_id": "acute_episodes_registry_2026",
+  "compatibility_profile_id": "acute_episodes_window_2026_2027",
+  "status": "pass",
+  "exit_code": 0,
+  "checks": [
+    {
+      "id": "registry_entry_present",
+      "status": "pass",
+      "message": "Registry entry acute_episodes_registry_2026 exists in the synthetic registry fixture."
+    },
+    {
+      "id": "supported_release_window",
+      "status": "pass",
+      "message": "Target year 2026 falls within the declared support window."
+    },
+    {
+      "id": "licensed_table_absent",
+      "status": "pass",
+      "message": "No licensed code table payload is embedded in the registry fixture."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0
+  },
+  "compatibility_basis": {
+    "supported_years": [
+      "2026",
+      "2027"
+    ],
+    "mode": "metadata_only",
+    "notes": "Synthetic pass example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic success example only."
+  }
+}

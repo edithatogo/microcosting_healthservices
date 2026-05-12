@@ -1,0 +1,103 @@
+---
+title: Coding-set version registry
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+The coding-set version registry is the governance surface for classification
+families used by pricing-year manifests and validation rules. It keeps the
+version story explicit for AR-DRG, AECC, UDG, Tier 2, AMHCC, ICD-10-AM, ACHI,
+and ACS without treating licensed products as public package content.
+
+Use the registry to answer four questions:
+
+1. Which coding-set family is in scope for a pricing year?
+2. Which version, release date, and implementation date apply?
+3. Is the artifact public metadata, or is it a restricted licensed product?
+4. Which stream-specific validator should reject an incompatible version?
+
+## What belongs in the registry
+
+Registry entries should record the minimum metadata needed to make version
+compatibility testable and reviewable.
+
+| Registry field | Purpose | Public? |
+| --- | --- | --- |
+| Family name | Identifies the coding-set family in a pricing-year manifest | Yes |
+| Version | Pins the exact released version used by the year | Yes |
+| Release date | Shows when the version became available | Yes |
+| Implementation date | Shows when the version becomes effective in a pricing year | Yes |
+| Pricing-year scope | Lists the years or transitions that depend on the version | Yes |
+| License or redistribution note | Explains whether the version can be redistributed | Yes |
+| Source reference | Points to the authoritative publication or catalog entry | Yes |
+| Local asset reference | Names the checked-in or user-supplied artifact path | No, if it exposes restricted content |
+
+The registry should stay machine-readable so pricing-year manifests and
+validators can resolve expected versions without guessing.
+
+## Public metadata vs restricted licensed products
+
+Public metadata can describe a coding set without redistributing the code list
+or grouper itself. Examples include family names, version numbers, effective
+dates, applicability notes, and license caveats.
+
+Restricted licensed products include the actual code lists, grouper binaries,
+mapping tables, or product packages that cannot be redistributed unless the
+license explicitly permits it.
+
+Keep these boundaries clear:
+
+- Public docs may describe that a licensed product exists and how it is used.
+- Public docs may name the version and the pricing-year impact.
+- Public docs must not copy restricted code tables or attached product files.
+- A restricted product should remain outside the public docs tree unless the
+  license permits redistribution.
+
+## Local user-supplied groupers and code lists
+
+Some workflows require users to supply their own licensed groupers or code
+lists locally.
+
+That workflow should be described as a user-managed boundary, not as a public
+download:
+
+- The repository can validate that a supplied file matches the expected family
+  and version.
+- The repository should not bundle the licensed asset if redistribution is not
+  allowed.
+- A local path or environment setting can point to the user-owned artifact.
+- Compatibility checks should fail closed when the expected local asset is
+  missing or the version does not match the selected pricing year.
+
+This lets the docs explain how the software behaves without implying that the
+licensed asset is shipped in the repository.
+
+## Relationship to stream input validation
+
+The coding-set registry is the canonical version source. Stream-specific input
+validation is the consumer that rejects incompatible versions or missing local
+assets before a calculation runs.
+
+The current validation work is tracked in the stream input validation docs:
+
+- [Classification input validation track](../../../../conductor/tracks/classification_input_validation_20260512/index.md)
+- [Classification input validation spec](../../../../conductor/tracks/classification_input_validation_20260512/spec.md)
+- [Classification input validation plan](../../../../conductor/tracks/classification_input_validation_20260512/plan.md)
+
+Those docs describe the preflight rules for stream-specific required fields,
+pricing-year compatibility, and the boundary between shared validation and
+local licensed inputs.
+
+## Related governance pages
+
+<CardGrid>
+  <LinkCard title="Reference data manifests" href="/governance/reference-data-manifests/">
+    Year-scoped provenance records that link pricing years to source artifacts.
+  </LinkCard>
+  <LinkCard title="Pricing-year validation gates" href="/governance/pricing-year-validation-gates/">
+    The status taxonomy and evidence rules for support claims.
+  </LinkCard>
+  <LinkCard title="Validation vocabulary" href="/governance/validation-vocabulary/">
+    The terms used for parity, source, and validation claims.
+  </LinkCard>
+</CardGrid>

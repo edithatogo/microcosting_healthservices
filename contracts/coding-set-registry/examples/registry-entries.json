@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "coding_set_registry_20260512",
+  "command": "funding-calculator coding-set registry list --year 2026 --metadata-only",
+  "mode": "registry-entries",
+  "status": "success",
+  "discovered_at": "2026-05-12T00:00:00Z",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic registry listing for contract testing."
+  },
+  "summary": {
+    "registry_entries": 2,
+    "compatibility_profiles": 2,
+    "licensed_table_payloads": 0
+  },
+  "registry_entries": [
+    {
+      "entry_id": "acute_episodes_registry_2026",
+      "entry_type": "coding_set_family",
+      "label": "Synthetic acute episodes coding-set registry entry",
+      "pricing_year": "2026",
+      "release_status": "current",
+      "effective_from": "2026-07-01",
+      "effective_to": null,
+      "compatibility_profile_id": "acute_episodes_window_2026_2027",
+      "table_payload_kind": "metadata_only",
+      "source_ref": {
+        "source_manifest_path": "reference-data/2026/registry-manifest.json",
+        "source_url": "https://example.invalid/reference-data/2026/registry-manifest.json"
+      },
+      "notes": "Metadata-only record. Licensed code tables are not committed in this fixture."
+    },
+    {
+      "entry_id": "same_day_case_mix_registry_2026",
+      "entry_type": "release_snapshot",
+      "label": "Synthetic same-day case-mix registry snapshot",
+      "pricing_year": "2026",
+      "release_status": "current",
+      "effective_from": "2026-07-01",
+      "effective_to": null,
+      "compatibility_profile_id": "same_day_case_mix_window_2026_2027",
+      "table_payload_kind": "metadata_only",
+      "source_ref": {
+        "source_manifest_path": "reference-data/2026/registry-manifest.json",
+        "source_url": "https://example.invalid/reference-data/2026/registry-manifest.json"
+      },
+      "notes": "Synthetic entry used to exercise registry listing and compatibility lookup logic."
+    }
+  ],
+  "compatibility_profiles": [
+    {
+      "profile_id": "acute_episodes_window_2026_2027",
+      "supported_years": [
+        "2026",
+        "2027"
+      ],
+      "basis": "synthetic_example",
+      "state_when_supported": "pass"
+    },
+    {
+      "profile_id": "same_day_case_mix_window_2026_2027",
+      "supported_years": [
+        "2026",
+        "2027"
+      ],
+      "basis": "synthetic_example",
+      "state_when_supported": "pass"
+    }
+  ],
+  "outputs": {
+    "registry_catalog_path": "contracts/coding-set-registry/examples/registry-entries.json",
+    "review_required": true,
+    "write_mode": "deferred"
+  }
+}
