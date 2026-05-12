@@ -1,0 +1,121 @@
+schema_version: "1.0"
+bundle_id: "nwau-2026-example"
+pricing_year: "2026"
+financial_year: "2026-27"
+calculator: "nwau"
+current_pricing_year: true
+validation_status: "source-only"
+
+source_register:
+  resource_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+  resource_page_published_on: "2026-03-11"
+  resource_page_last_updated_on: "2026-03-13"
+  technical_spec_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2026-27"
+  technical_spec_published_on: "2026-03-13"
+  price_weights_reference:
+    source_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "The IHACPA page lists the 2026-27 price-weight tables as a linked document."
+  adjustments_reference:
+    source_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    technical_spec_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2026-27"
+    note: "Adjustments are referenced from the official NEP and technical-specification pages; no standalone extracted adjustment table is included in this example."
+
+source_artifacts:
+  - artifact_id: "nwau26-sas-package"
+    kind: "calculator-package"
+    service_stream: "SAS-based calculators"
+    title: "SAS-based calculators for 2026-27"
+    url: "https://www.ihacpa.gov.au/sites/default/files/2026-03/NEP26_SAS_NWAU_Calculator.7Z"
+    local_path: "archive/ihacpa/raw/2026/sas/NEP26_SAS_NWAU_Calculator.7Z"
+    published_on: "2026-03-11"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "parent_resource_page"
+    sha256: "28b10b972992e6b655f402367d781de73ebc469fad34709fae112629173eb7da"
+    bytes: 45095577
+    license: "IHACPA public web content; license not separately stated"
+    provenance: "Downloaded from the IHACPA NWAU calculators archive and retained as raw source evidence."
+  - artifact_id: "nwau26-acute-workbook"
+    kind: "calculator-workbook"
+    service_stream: "Admitted acute"
+    title: "Admitted acute"
+    url: "https://www.ihacpa.gov.au/sites/default/files/2026-03/nwau26_calculator_for_acute_activity.xlsb"
+    local_path: "archive/ihacpa/raw/2026/excel/nwau26_calculator_for_acute_activity.xlsb"
+    published_on: "2026-03-11"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "parent_resource_page"
+    sha256: "7a2b95ce139ad49b0f8b57f4d2438c887e8358ab7553298ec731fcca0ca59ad6"
+    bytes: 1436300
+    license: "IHACPA public web content; license not separately stated"
+    provenance: "Downloaded from the IHACPA NWAU calculators archive and retained as raw source evidence."
+
+constants:
+  nep:
+    value: 7418
+    unit: "AUD per NWAU"
+    source: "nwau_py.pricing_constants.NEP26"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+  nec:
+    value:
+      fixed_cost_dollars: 3127000
+      variable_cost_per_nwau: 8003
+      in_scope_hospitals: 364
+    source: "nwau_py.pricing_constants.NEC26"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-cost-determination-2026-27"
+
+coding_sets:
+  - name: "AR-DRG"
+    version: "v12.0"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "Admitted acute care is priced using AR-DRG Version 12.0."
+  - name: "Tier 2"
+    version: "v10.0"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "Non-admitted services use Tier 2 Non-Admitted Services Classification Version 10.0."
+  - name: "AECC"
+    version: "v1.1"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "Emergency department classification version for 2026-27."
+  - name: "UDG"
+    version: "UDG_v1.3"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "Emergency service classification version for 2026-27."
+  - name: "AMHCC"
+    version: "v1"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2026-27"
+    note: "Mental health classification version for 2026-27."
+
+validation:
+  status: "source-only"
+  parity_claim: false
+  source_only: true
+  notes:
+    - "This is an example manifest assembled from official source pages and archived raw files."
+    - "No parity validation against calculator outputs is claimed here."
+
+gaps:
+  - gap_id: "2026-price-weights-not-extracted"
+    kind: "validation_blocked"
+    scope: "parameters.weights"
+    reason: "Standalone price-weight tables are referenced by the official page but are not separately extracted into this example."
+    expected_resolution: "Extract the linked price-weight workbook into a typed parameter bundle and attach fixture parity evidence."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2026-adjustments-not-materialized"
+    kind: "validation_blocked"
+    scope: "parameters.adjustments"
+    reason: "Adjustment tables are not individually materialized in this example."
+    expected_resolution: "Extract adjustment parameters from the NEP determination or technical specification into versioned records."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2026-publication-date-basis-parent-page"
+    kind: "scope_unknown"
+    scope: "source_artifacts.published_on"
+    reason: "Publication dates for the raw archive files are tied conservatively to the parent IHACPA release pages."
+    expected_resolution: "Record artifact-specific publication dates if IHACPA publishes them separately."
+    introduced_at: "2026-05-12"
+    status: "tracked"

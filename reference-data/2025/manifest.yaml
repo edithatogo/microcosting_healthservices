@@ -1,0 +1,127 @@
+schema_version: "1.0"
+bundle_id: "nwau-2025-example"
+pricing_year: "2025"
+financial_year: "2025-26"
+calculator: "nwau"
+current_pricing_year: false
+validation_status: "source-only"
+
+source_register:
+  resource_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+  resource_page_published_on: "2025-03-19"
+  resource_page_last_updated_on: "2026-03-13"
+  technical_spec_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2025-26"
+  technical_spec_published_on: "2025-03-19"
+  price_weights_reference:
+    source_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "The IHACPA page lists the 2025-26 price-weight tables as a linked document."
+  adjustments_reference:
+    source_page_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    technical_spec_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2025-26"
+    note: "Adjustments are referenced from the official NEP and technical-specification pages; no standalone extracted adjustment table is included in this example."
+
+source_artifacts:
+  - artifact_id: "nwau25-sas-package"
+    kind: "calculator-package"
+    service_stream: "SAS-based calculators"
+    title: "SAS-based calculators for 2025-26"
+    url: "https://www.ihacpa.gov.au/sites/default/files/2025-07/NEP25_SAS_NWAU_calculator.7Z"
+    local_path: "archive/ihacpa/raw/2025/sas/NEP25_SAS_NWAU_calculator.7Z"
+    published_on: "2025-03-19"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "parent_resource_page"
+    sha256: "9726383f5b563dbac8759fdf0224a971e70b16393c3e4a8d2d943918198d793d"
+    bytes: 43765484
+    license: "IHACPA public web content; license not separately stated"
+    provenance: "Downloaded from the IHACPA NWAU calculators archive and retained as raw source evidence."
+  - artifact_id: "nwau25-acute-workbook"
+    kind: "calculator-workbook"
+    service_stream: "Admitted acute"
+    title: "Admitted acute"
+    url: "https://www.ihacpa.gov.au/sites/default/files/2025-03/nwau25_calculator_for_acute_activity.xlsb"
+    local_path: "archive/ihacpa/raw/2025/excel/nwau25_calculator_for_acute_activity.xlsb"
+    published_on: "2025-03-19"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "parent_resource_page"
+    sha256: "c6db97729966e21bd28d413ca834be2a2944a0c5dd57fb04fb92be733b691dfa"
+    bytes: 913476
+    license: "IHACPA public web content; license not separately stated"
+    provenance: "Downloaded from the IHACPA NWAU calculators archive and retained as raw source evidence."
+
+constants:
+  nep:
+    value: 7434
+    unit: "AUD per NWAU"
+    source: "nwau_py.pricing_constants.NEP_BY_YEAR['2025']"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+  nec:
+    value: null
+    source: "nwau_py.pricing_constants.NEC_BY_YEAR['2025']"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-cost-determination-2025-26"
+    note: "The repository does not model a 2025 NEC constant bundle; do not infer one here."
+
+coding_sets:
+  - name: "AR-DRG"
+    version: "v11.0"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "Admitted acute care is priced using AR-DRG Version 11.0."
+  - name: "Tier 2"
+    version: "v7"
+    official_page_version: "v9.1"
+    status: "needs-reconciliation"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "The repo helper currently expects v7, while the 2025-26 official NEP page shows Tier 2 Version 9.1; keep this as an explicit gap until reconciled."
+  - name: "AECC"
+    version: "v1.1"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "Emergency department classification version for 2025-26."
+  - name: "UDG"
+    version: "UDG_v1.3"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "Emergency service classification version for 2025-26."
+  - name: "AMHCC"
+    version: "v1"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26"
+    note: "Mental health classification version for 2025-26."
+
+validation:
+  status: "source-only"
+  parity_claim: false
+  source_only: true
+  notes:
+    - "This is a conservative example manifest, not a validated parity record."
+    - "The Tier 2 version is recorded as an explicit reconciliation gap."
+
+gaps:
+  - gap_id: "2025-nec-constant-not-modeled"
+    kind: "value_unpublished"
+    scope: "constants.nec"
+    reason: "The repository does not model a 2025 NEC constant bundle, so NEC is intentionally left null."
+    expected_resolution: "Add a source-backed NEC25 constant bundle or keep this gap open."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2025-price-weights-not-extracted"
+    kind: "validation_blocked"
+    scope: "parameters.weights"
+    reason: "Standalone price-weight tables are referenced by the official page but are not separately extracted into this example."
+    expected_resolution: "Extract the linked price-weight workbook into a typed parameter bundle and attach fixture parity evidence."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2025-adjustments-not-materialized"
+    kind: "validation_blocked"
+    scope: "parameters.adjustments"
+    reason: "Adjustment tables are not individually materialized in this example."
+    expected_resolution: "Extract adjustment parameters from the NEP determination or technical specification into versioned records."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2025-tier-2-version-reconciliation"
+    kind: "validation_blocked"
+    scope: "coding_sets.Tier 2"
+    reason: "Tier 2 versioning is inconsistent between the repo helper and the official 2025-26 NEP page and must be reconciled before validation."
+    expected_resolution: "Resolve the authoritative Tier 2 version for 2025-26 and update classification validation fixtures."
+    introduced_at: "2026-05-12"
+    status: "open"

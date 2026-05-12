@@ -1,0 +1,131 @@
+---
+title: Reference data manifests
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Reference data manifests are the year-scoped source record for pricing inputs.
+They keep the artifact trail explicit: what was discovered, what was extracted,
+what was validated, and what remains a documented gap.
+
+See the current implementation track in
+[Conductor spec](../../../../conductor/tracks/reference_data_manifest_schema_20260512/spec.md)
+and [CI notes](../../../../conductor/tracks/reference_data_manifest_schema_20260512/ci_notes.md).
+
+## Authoring lifecycle
+
+Manifests should move through a small, visible lifecycle instead of being
+treated as a passive data dump.
+
+| Status | Meaning |
+| --- | --- |
+| `source-discovered` | The upstream artifact is known and identified, but the manifest has not been normalized yet. |
+| `drafted` | A manifest stub exists with the year, schema version, and first-pass source inventory. |
+| `schema-checked` | Required fields, types, and cross-references have been validated. |
+| `gap-recorded` | The year depends on a missing upstream artifact, and the absence is encoded explicitly. |
+| `fixture-tested` | The manifest loads against checked examples and the validator behavior is stable. |
+| `validated` | The manifest is the accepted record for that pricing year. |
+| `deprecated` | The manifest has been superseded by a later year or schema revision. |
+
+Do not skip straight from discovery to validated. If a year is incomplete,
+record the gap and leave the manifest in an earlier status until the missing
+material is explained or replaced.
+
+## Required fields
+
+Every manifest should carry enough information to reconstruct both the source
+trail and the calculator support claim for that year.
+
+| Field group | Required content | Notes |
+| --- | --- | --- |
+| Identity | Pricing year, manifest path, and schema version | The schema version must be pinned in the file so evolution is explicit. |
+| Status | Validation status and status date or note | Use the lifecycle terms above, not informal labels. |
+| Source artifacts | URL, local path, publication date, retrieval date, checksum, and provenance note | Each downloaded or extracted artifact needs a durable provenance trail. |
+| Constants | NEP/NEC constants and other year-specific pricing constants | Treat constants as source-backed inputs, not free-form commentary. |
+| Weights | Stream price weights and other pricing weights | Weight records should stay attached to the year that produced them. |
+| Adjustments | Adjustment parameters and any year-specific overrides | Keep the parameter names stable where possible. |
+| Coding sets | Coding-set versions and any transition notes | Record the exact versions that shaped the record. |
+| Support link | Reference to the calculator support matrix | The manifest should be easy to line up with the public coverage story. |
+| Gaps | Explicit gap records for anything missing upstream | Missing material must be encoded, never silently omitted. |
+
+## Source provenance
+
+Provenance is the difference between a useful manifest and a guess.
+
+Keep these rules in mind:
+
+| Provenance rule | Expectation |
+| --- | --- |
+| Traceability | Every source entry should point back to a public artifact, archive record, or reproducible extraction step. |
+| Hashes | Downloaded files should carry a checksum so future runs can detect drift. |
+| Retrieval dates | Record when the source was fetched, not just when it was published. |
+| License or usage notes | Preserve any provenance or license caveat that affects redistribution or downstream use. |
+| Transform notes | If an extraction, OCR, or normalization step happened, record it explicitly. |
+
+Source provenance should let a reviewer answer three questions quickly:
+
+1. Where did this value come from?
+2. What did we do to it before storing it?
+3. How would we prove it still matches the source today?
+
+## Gap records
+
+Gap records are first-class manifest content. They explain why a year is not
+fully populated without pretending the missing artifact exists.
+
+Use a gap record when:
+
+- an expected source file was never published
+- a recorded URL now resolves to a 404 or equivalent dead end
+- OCR or extraction failed and the result would be misleading
+- a year intentionally omits a source family that appears in adjacent years
+
+Each gap record should include:
+
+| Field | Purpose |
+| --- | --- |
+| Gap key | A stable identifier for the missing item |
+| Expected artifact | What should have been present |
+| Reason | Why the artifact is missing or unusable |
+| Impact | What part of the manifest or calculator support story is affected |
+| Replacement | Whether another source, fixture, or note stands in for it |
+
+Gaps should remain visible in the manifest and in the source archive. They are
+part of the historical record, not an implementation failure to be hidden.
+
+## Schema evolution
+
+Schema evolution should be versioned and boring.
+
+- Add optional fields before making them required.
+- Bump the schema version when required fields, validation semantics, or
+  provenance shape changes.
+- Keep older manifests readable during a transition window when possible.
+- Update the docs and CI notes in the same change when the schema contract
+  changes.
+
+The manifest schema should never drift silently across years. If a year needs a
+different shape, make that shape visible in the versioned schema field.
+
+## Calculator support matrices
+
+Manifest completeness is not the same thing as calculator support.
+
+Use the public [calculator coverage matrix](/governance/calculator-coverage/)
+to state which families are actually implemented, which are gap-recorded, and
+which have validation caveats. The manifest should point back to that matrix so
+readers can move between source provenance and executable coverage without
+guessing.
+
+<CardGrid>
+  <LinkCard title="Calculator coverage" href="/governance/calculator-coverage/">
+    The public source-to-code support matrix.
+  </LinkCard>
+  <LinkCard title="Source archive" href="/governance/source-archive/">
+    Durable provenance and explicit gap records for raw source material.
+  </LinkCard>
+  <LinkCard title="Validation vocabulary" href="/governance/validation-vocabulary/">
+    The terms used for manifest parity and support claims.
+  </LinkCard>
+</CardGrid>
+

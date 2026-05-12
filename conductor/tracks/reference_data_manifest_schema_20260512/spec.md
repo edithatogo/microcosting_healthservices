@@ -16,6 +16,7 @@ Define a machine-readable manifest schema for each IHACPA pricing year so formul
 - Schema evolution must be versioned.
 
 ## Acceptance Criteria
-- Example manifests exist for at least one current and one historical year.
+- Example manifests exist for pinned years `2026` and `2025`; do not rely on
+  time-relative "current year" wording in tests or docs.
 - Invalid manifests fail with actionable diagnostics.
 - Docs explain required fields and validation statuses.

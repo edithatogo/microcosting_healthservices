@@ -184,7 +184,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Reference Data Manifest Schema**
+- [x] **Track: Reference Data Manifest Schema**
 *Link: [./tracks/reference_data_manifest_schema_20260512/](./tracks/reference_data_manifest_schema_20260512/)*
 *Gate: define machine-readable pricing-year manifests for source artifacts, constants, coding sets, and validation status before automating future-year support.*
 
