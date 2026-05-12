@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "scanner_id": "ihacpa_source_scanner_20260512",
+  "command": "funding-calculator sources scan --year 2027 --dry-run",
+  "mode": "dry-run",
+  "pricing_year": "2027",
+  "financial_year": "2027-28",
+  "discovered_at": "2026-05-12T00:00:00Z",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic discovery report for contract testing."
+  },
+  "summary": {
+    "source_pages": 2,
+    "downloadable_artifacts": 4,
+    "gap_records": 1
+  },
+  "findings": [
+    {
+      "kind": "source_page",
+      "category": "nep_determination",
+      "title": "National Efficient Price Determination 2027-28",
+      "url": "https://example.invalid/ihacpa/resources/national-efficient-price-determination-2027-28",
+      "status": "expected"
+    },
+    {
+      "kind": "artifact",
+      "category": "calculator_package",
+      "title": "NWAU calculator package",
+      "url": "https://example.invalid/ihacpa/sites/default/files/2027-03/nwau27_calculator_package.7z",
+      "status": "missing",
+      "retrieval_state": "not_attempted",
+      "gap_id": "2027-nwau-calculator-package-missing"
+    },
+    {
+      "kind": "artifact",
+      "category": "technical_specification",
+      "title": "National pricing model technical specifications 2027-28",
+      "url": "https://example.invalid/ihacpa/resources/national-pricing-model-technical-specifications-2027-28",
+      "status": "expected",
+      "retrieval_state": "not_attempted"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "2027-nwau-calculator-package-missing",
+      "kind": "missing_artifact",
+      "scope": "source_artifacts.calculator_package",
+      "reason": "Synthetic dry-run fixture showing a discoverable but unavailable archive artifact.",
+      "expected_resolution": "Download and checksum the workbook package after release, then attach the file to the draft manifest.",
+      "introduced_at": "2026-05-12",
+      "status": "open"
+    }
+  ],
+  "outputs": {
+    "draft_manifest_path": "reference-data/2027/manifest.yaml",
+    "review_required": true,
+    "write_mode": "deferred"
+  }
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "gap": {
+      "gap_id": "2021-22-sas-box-html-share",
+      "kind": "validation_blocked",
+      "scope": "source_artifacts.sas",
+      "reason": "The Box URL resolves to an HTML share page, not a verifiable raw SAS binary.",
+      "expected_resolution": "Recover a direct-download binary or an approved manual retrieval copy before claiming acquisition.",
+      "introduced_at": "2026-05-12",
+      "status": "open"
+    },
+    "artifact_url": "https://www.box.com/s/box-share-2021",
+    "final_url": "https://www.box.com/s/box-share-2021",
+    "content_type": "text/html; charset=utf-8",
+    "downloaded": false,
+    "failed": false,
+    "expected_acquisition_status": "external-html-only"
+  },
+  {
+    "gap": {
+      "gap_id": "2022-23-sas-inaccessible",
+      "kind": "source_missing",
+      "scope": "source_artifacts.sas",
+      "reason": "The recorded artifact URL returns HTTP 404 and no alternate approved copy is available in this fixture.",
+      "expected_resolution": "Locate an alternate official archive or keep the artifact as a documented missing-source gap.",
+      "introduced_at": "2026-05-12",
+      "status": "tracked"
+    },
+    "artifact_url": "https://www.ihacpa.gov.au/files/missing-2022-sas.zip",
+    "final_url": "https://www.ihacpa.gov.au/files/missing-2022-sas.zip",
+    "content_type": "",
+    "downloaded": false,
+    "failed": true,
+    "expected_acquisition_status": "failed"
+  }
+]

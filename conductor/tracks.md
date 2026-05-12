@@ -190,7 +190,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: IHACPA Source Scanner**
+- [x] **Track: IHACPA Source Scanner**
 *Link: [./tracks/ihacpa_source_scanner_20260512/](./tracks/ihacpa_source_scanner_20260512/)*
 *Gate: discover and draft future IHACPA source manifests without overclaiming validation or redistributing restricted material.*
 

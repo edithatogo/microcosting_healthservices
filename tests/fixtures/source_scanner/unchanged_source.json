@@ -1,0 +1,23 @@
+{
+  "previous": {
+    "artifact_id": "2026-27-excel-nwau26-calculator-for-acute-activity-acde1234",
+    "artifact_url": "https://www.ihacpa.gov.au/files/nwau26_calculator_for_acute_activity.xlsb",
+    "final_url": "https://www.ihacpa.gov.au/files/nwau26_calculator_for_acute_activity.xlsb",
+    "content_type": "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+    "checksum": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "bytes": 1436300,
+    "status": "downloaded",
+    "retrieved_at": "2026-05-11T00:00:00+00:00"
+  },
+  "current": {
+    "artifact_id": "2026-27-excel-nwau26-calculator-for-acute-activity-acde1234",
+    "artifact_url": "https://www.ihacpa.gov.au/files/nwau26_calculator_for_acute_activity.xlsb",
+    "final_url": "https://www.ihacpa.gov.au/files/nwau26_calculator_for_acute_activity.xlsb",
+    "content_type": "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
+    "checksum": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "bytes": 1436300,
+    "status": "downloaded",
+    "retrieved_at": "2026-05-12T00:00:00+00:00"
+  },
+  "changed": false
+}

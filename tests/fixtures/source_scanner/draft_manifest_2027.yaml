@@ -1,0 +1,73 @@
+schema_version: "1.0"
+bundle_id: "nwau-2027-draft"
+pricing_year: "2027"
+financial_year: "2027-28"
+calculator: "nwau"
+current_pricing_year: false
+validation_status: "source-only"
+
+source_register:
+  resource_page_url: "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators"
+  resource_page_published_on: "2026-05-12"
+  resource_page_last_updated_on: "2026-05-12"
+  technical_spec_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2027-28"
+  technical_spec_published_on: "2026-05-12"
+  price_weights_reference:
+    source_page_url: "https://www.ihacpa.gov.au/health-care/pricing/nwau-calculators"
+    note: "Draft year created from discovery only."
+  adjustments_reference:
+    source_page_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2027-28"
+    note: "Adjustments are recorded conservatively until a published 2027-28 specification is available."
+
+source_artifacts:
+  - artifact_id: "nwau27-acute-workbook"
+    kind: "calculator-workbook"
+    service_stream: "2027 Acute calculator workbook"
+    title: "2027 Acute calculator workbook"
+    url: "https://www.ihacpa.gov.au/files/nwau27_calculator_for_acute_activity.xlsb"
+    local_path: "archive/ihacpa/raw/2027/excel/nwau27_calculator_for_acute_activity.xlsb"
+    published_on: "2026-05-12"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "parent_resource_page"
+    sha256: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    bytes: 1436300
+    license: "IHACPA public web content; license not separately stated"
+    provenance: "Discovered from the IHACPA calculators page and staged as draft provenance only."
+
+constants:
+  nep:
+    value: null
+    unit: "AUD per NWAU"
+    source: "nwau_py.pricing_constants.NEP27"
+    source_url: "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2027-28"
+
+coding_sets:
+  - name: "AR-DRG"
+    version: "v12.0"
+    status: "published"
+    source_url: "https://www.ihacpa.gov.au/resources/national-pricing-model-technical-specifications-2027-28"
+    note: "Carry-forward placeholder until the published 2027-28 release is available."
+
+validation:
+  status: "source-only"
+  parity_claim: false
+  source_only: true
+  notes:
+    - "Draft manifest created from discovery only."
+    - "No parity validation against calculator outputs is claimed here."
+
+gaps:
+  - gap_id: "2027-sas-box-share"
+    kind: "validation_blocked"
+    scope: "source_artifacts.sas"
+    reason: "The Box share page does not expose a verifiable raw binary in this draft."
+    expected_resolution: "Recover a direct-download binary or approved manual retrieval copy."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2027-price-weights-not-extracted"
+    kind: "scope_unknown"
+    scope: "constants.price_weights"
+    reason: "Price-weight tables have not yet been materialized into the draft manifest."
+    expected_resolution: "Extract and pin the year-specific weight tables once published."
+    introduced_at: "2026-05-12"
+    status: "tracked"

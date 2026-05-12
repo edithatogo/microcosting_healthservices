@@ -20,6 +20,7 @@ from nwau_py.calculators import (
 )
 from nwau_py.classification_validation import get_classification_requirement
 from nwau_py.runtime import run_csv_calculation
+from nwau_py.source_scanner import manifest_to_json, scan_sources_dry_run
 
 _CLASSIFICATION_SYSTEMS = {
     "acute": "ar_drg",
@@ -154,6 +155,113 @@ def interop() -> None:
 def interop_contract() -> None:
     """Print the machine-readable CLI/file interop contract."""
     click.echo(json.dumps(_load_interop_contract(), indent=2, sort_keys=True))
+
+
+@cli.group()
+def sources() -> None:
+    """Discover source pages and build draft manifests."""
+
+
+def _source_scan_input_options(func):
+    func = click.option(
+        "--html-file",
+        "html_files",
+        multiple=True,
+        type=click.Path(exists=True, dir_okay=False, path_type=Path),
+        help="HTML fixture file to scan",
+    )(func)
+    func = click.option(
+        "--text-file",
+        "text_files",
+        multiple=True,
+        type=click.Path(exists=True, dir_okay=False, path_type=Path),
+        help="text fixture file to scan",
+    )(func)
+    func = click.option(
+        "--url",
+        "urls",
+        multiple=True,
+        help="explicit URL to include in the draft manifest",
+    )(func)
+    func = click.option(
+        "--source-page-url",
+        default=None,
+        help="base URL used to resolve relative links",
+    )(func)
+    return func
+
+
+def _scan_output_options(func=None, *, include_year: bool = True):
+    def decorate(inner):
+        if include_year:
+            inner = click.option(
+                "--year",
+                default=None,
+                help="pricing year to stamp into the draft manifest",
+            )(inner)
+        inner = click.option(
+            "--json/--dry-run",
+            "emit_json",
+            default=False,
+            show_default=True,
+            help="emit JSON instead of the human-readable dry-run summary",
+        )(inner)
+        return inner
+
+    if func is None:
+        return decorate
+    return decorate(func)
+
+
+@sources.command(name="scan")
+@_source_scan_input_options
+@_scan_output_options
+def sources_scan(
+    html_files: tuple[Path, ...],
+    text_files: tuple[Path, ...],
+    urls: tuple[str, ...],
+    source_page_url: str | None,
+    year: str | None,
+    emit_json: bool,
+) -> None:
+    """Scan offline fixtures or URL lists and print a draft manifest."""
+    result = scan_sources_dry_run(
+        html_documents=html_files,
+        text_documents=text_files,
+        urls=urls,
+        source_page_url=source_page_url,
+        pricing_year=year,
+    )
+    if emit_json:
+        click.echo(manifest_to_json(result.manifest))
+    else:
+        click.echo(result.dry_run_output)
+
+
+@sources.command(name="add-year")
+@click.argument("year")
+@_source_scan_input_options
+@_scan_output_options(include_year=False)
+def sources_add_year(
+    year: str,
+    html_files: tuple[Path, ...],
+    text_files: tuple[Path, ...],
+    urls: tuple[str, ...],
+    source_page_url: str | None,
+    emit_json: bool,
+) -> None:
+    """Create or update a pricing-year draft manifest from discoveries."""
+    result = scan_sources_dry_run(
+        html_documents=html_files,
+        text_documents=text_files,
+        urls=urls,
+        source_page_url=source_page_url,
+        pricing_year=year,
+    )
+    if emit_json:
+        click.echo(manifest_to_json(result.manifest))
+    else:
+        click.echo(result.dry_run_output)
 
 
 @cli.command()

@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "scanner_id": "ihacpa_source_scanner_20260512",
+  "tool": {
+    "name": "funding-calculator",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.cli.main:cli"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic fixtures only."
+  },
+  "commands": [
+    {
+      "name": "sources scan",
+      "mode": "scan",
+      "status": "preview",
+      "inputs": [
+        "pricing_year",
+        "source_categories",
+        "review_mode"
+      ],
+      "outputs": [
+        "dry_run_report",
+        "gap_records"
+      ],
+      "notes": "Discover IHACPA source pages and record missing or inaccessible artifacts without writing a manifest."
+    },
+    {
+      "name": "sources add-year",
+      "mode": "add-year",
+      "status": "preview",
+      "inputs": [
+        "pricing_year",
+        "dry_run_report",
+        "review_status"
+      ],
+      "outputs": [
+        "draft_manifest",
+        "gap_records"
+      ],
+      "notes": "Create or update a year manifest after review, using the scanner output as the source of truth."
+    }
+  ],
+  "source_categories": [
+    {
+      "id": "nep_determination",
+      "label": "NEP determination",
+      "purpose": "Primary release pages and determination documents."
+    },
+    {
+      "id": "nec_determination",
+      "label": "NEC determination",
+      "purpose": "Efficient cost release pages and related materials."
+    },
+    {
+      "id": "technical_specification",
+      "label": "Technical specification",
+      "purpose": "Pricing-model specifications and supporting notes."
+    },
+    {
+      "id": "price_weight_table",
+      "label": "Price-weight table",
+      "purpose": "Published tables used to build pricing-year parameters."
+    },
+    {
+      "id": "calculator_package",
+      "label": "Calculator package",
+      "purpose": "Archived NWAU calculators and workbook bundles."
+    },
+    {
+      "id": "costing_report",
+      "label": "Costing report",
+      "purpose": "Reports that provide cost or pricing context."
+    },
+    {
+      "id": "classification_resource",
+      "label": "Classification resource",
+      "purpose": "Released classification tables and supporting resources."
+    }
+  ],
+  "outputs": {
+    "dry_run_format": "json",
+    "draft_manifest_format": "yaml",
+    "gap_record_format": "json"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "pricing_year",
+      "source_url",
+      "retrieved_on",
+      "local_path",
+      "sha256",
+      "bytes"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "dry-run-scan",
+      "path": "contracts/source-scanner/examples/dry-run.scan.json",
+      "description": "Synthetic dry-run discovery output for a future pricing year."
+    },
+    {
+      "name": "add-year-draft-manifest",
+      "path": "contracts/source-scanner/examples/add-year.draft-manifest.json",
+      "description": "Synthetic draft manifest produced after reviewing the dry-run scan."
+    }
+  ]
+}

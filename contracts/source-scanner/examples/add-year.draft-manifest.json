@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "scanner_id": "ihacpa_source_scanner_20260512",
+  "command": "funding-calculator sources add-year 2027",
+  "mode": "add-year",
+  "pricing_year": "2027",
+  "financial_year": "2027-28",
+  "manifest_path": "reference-data/2027/manifest.yaml",
+  "validation_status": "source-discovered",
+  "current_pricing_year": false,
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic draft manifest for contract testing."
+  },
+  "source_register": {
+    "resource_page_url": "https://example.invalid/ihacpa/resources/national-efficient-price-determination-2027-28",
+    "resource_page_last_updated_on": "2026-05-12",
+    "technical_spec_url": "https://example.invalid/ihacpa/resources/national-pricing-model-technical-specifications-2027-28",
+    "technical_spec_published_on": "2026-05-12"
+  },
+  "source_artifacts": [
+    {
+      "artifact_id": "nwau27-technical-spec",
+      "kind": "technical-specification",
+      "title": "National pricing model technical specifications 2027-28",
+      "url": "https://example.invalid/ihacpa/resources/national-pricing-model-technical-specifications-2027-28",
+      "retrieved_on": "2026-05-12",
+      "publication_date_basis": "synthetic_example",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 0,
+      "provenance": "Synthetic fixture only."
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "2027-price-weights-not-extracted",
+      "kind": "validation_blocked",
+      "scope": "parameters.weights",
+      "reason": "Synthetic add-year fixture showing a year that still needs the linked price-weight tables extracted.",
+      "expected_resolution": "Extract the price-weight workbook into a typed parameter bundle and attach parity evidence.",
+      "introduced_at": "2026-05-12",
+      "status": "open"
+    }
+  ],
+  "review": {
+    "required": true,
+    "status": "draft",
+    "notes": [
+      "Synthetic fixture only.",
+      "Review source URLs, checksums, and gap records before publishing."
+    ]
+  }
+}
