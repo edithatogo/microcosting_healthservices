@@ -1,9 +1,10 @@
 # Plan: IHACPA 2026-27 Support
 
 ## Phase 1: Source Inventory
-- [ ] Task: Record 2026-27 NEP, NEC, technical specifications, calculator, and price-weight source entries.
-    - [ ] Capture URLs, publication dates, checksums, and licensing/provenance notes.
+- [/] Task: Record 2026-27 NEP, NEC, technical specifications, calculator, and price-weight source entries.
+    - [/] Capture URLs, publication dates, checksums, and licensing/provenance notes.
     - [ ] Mark unavailable calculator artifacts as explicit gaps rather than inferred support.
+    - Source evidence currently exists in `spec.md` and `metadata.json`, but publication dates, checksums, and provenance notes still need to be completed.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1: Source Inventory' (Protocol in workflow.md)
 
 ## Phase 2: Data and API Support

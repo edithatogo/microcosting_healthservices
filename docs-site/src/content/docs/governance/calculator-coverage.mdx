@@ -9,6 +9,11 @@ docs view of the current implementation state, not a promise that every source
 artifact has been translated into executable code.
 
 <CardGrid>
+  <Card title="2026-27 scope">
+    NEP26 exists and the 2026-27 calculator set is listed in the repository
+    documentation, but this page does not claim parity validation against
+    extracted IHACPA outputs.
+  </Card>
   <Card title="Implemented calculator families">
     Acute, ED, admitted MH, community MH, subacute, outpatients, and adjustment
     logic are the active executable surfaces in the repository today.
@@ -27,10 +32,10 @@ artifact has been translated into executable code.
 
 | Family or helper | Status | Notes |
 | --- | --- | --- |
-| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. |
+| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts include AR-DRG v12.0 and Tier 2 v10.0. |
 | Emergency department | Implemented | Current Python surface. |
 | Mental health | Implemented | Current Python surface. |
-| Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. Official golden fixtures are gap-recorded. |
+| Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. NEP26 exists for 2026-27 documentation coverage, but parity validation is not claimed. Official golden fixtures are gap-recorded. |
 | Subacute | Implemented | Current Python surface. |
 | Outpatients | Implemented | Current Python surface. |
 | Adjustment | Implemented | Includes HAC, AHR, and complexity outputs. |
