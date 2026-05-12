@@ -26,6 +26,7 @@ SUPPORTED_SERVICE_STREAMS = {
     "emergency department",
     "non-admitted",
     "mental health",
+    "community mental health",
     "readmission",
 }
 SUPPORTED_SOURCE_BASIS_KINDS = {

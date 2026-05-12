@@ -8,6 +8,9 @@ The models in this module stay deliberately narrow:
   or any calculator implementation backend.
 - They expose small helpers that adapter layers can use before handing data to
   a specific runtime, storage format, or table engine.
+
+The shared identifier set covers acute, admitted mental health, community
+mental health, and other supported calculator streams.
 """
 
 from __future__ import annotations

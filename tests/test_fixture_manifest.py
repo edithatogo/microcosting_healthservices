@@ -54,6 +54,25 @@ def test_fixture_manifest_loads_the_acute_pack():
     assert manifest.payloads["expected_output"].columns == ("NWAU25",)
 
 
+def test_fixture_manifest_accepts_community_mental_health_stream(tmp_path):
+    payload = _manifest_payload()
+    payload["calculator"] = "community_mh"
+    payload["fixture_id"] = "community_mh_2025_gap_canary"
+    payload["service_stream"] = "community mental health"
+    payload["payloads"]["input"]["columns"] = [
+        "AMHCC",
+        "SC_PAT_PUB",
+        "SC_NOPAT_PUB",
+        "STATE",
+    ]
+    payload["payloads"]["expected_output"]["columns"] = ["NWAU25"]
+
+    manifest = fixtures.load_fixture_manifest(_write_manifest(tmp_path, payload))
+
+    assert manifest.calculator == "community_mh"
+    assert manifest.service_stream == "community mental health"
+
+
 @pytest.mark.parametrize(
     "field",
     [

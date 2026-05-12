@@ -2,8 +2,8 @@
 
 ## Phase 1: Source and Scope Mapping [checkpoint: a2855e5]
 - [x] Task: Inventory community mental health calculator artifacts by year. [408334b]
-    - [ ] Identify shadow versus active pricing status.
-    - [ ] Record calculator, workbook, SAS, and user-guide availability.
+    - [x] Identify shadow versus active pricing status.
+    - [x] Record calculator, workbook, SAS, and user-guide availability.
 - [x] Task: Conductor - Automated Review and Checkpoint 'Phase 1: Source and Scope Mapping' (Protocol in workflow.md)
 
 ## Phase 2: Contract and Validation Design [checkpoint: c0d897f]

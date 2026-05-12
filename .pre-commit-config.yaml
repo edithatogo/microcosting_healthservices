@@ -22,8 +22,8 @@ repos:
         language: system
         pass_filenames: false
       - id: ty-check-strict
-        name: ty check (strict)
-        entry: uv run ty check --strict
+        name: ty check (all diagnostics as errors)
+        entry: uv run ty check --error all
         language: system
         pass_filenames: false
       - id: pytest

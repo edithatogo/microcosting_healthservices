@@ -15,6 +15,11 @@ identical for the final acute, subacute, outpatient and readmission logic.
 
 The SAS programs are stored under `archive/sas/NEP25_SAS_NWAU_calculator/calculators`. The Python functions focus on the core weighting formulae and use pandas for data manipulation. See the source code of each module for details of the translation.
 
+Community mental health still needs an official-source fixture pack before the
+`mh` surface can be validated against extracted IHACPA outputs. The current gap
+record and pricing-year caveats are documented in
+[`conductor/tracks/community_mental_health_calculator_20260512/fixture_gaps.md`](../../conductor/tracks/community_mental_health_calculator_20260512/fixture_gaps.md).
+
 For the current feature-to-tool incorporation summary, see the
 IHACPA Tool Coverage Matrix at
 [`conductor/ihacpa-tool-coverage-matrix.md`](../../conductor/ihacpa-tool-coverage-matrix.md).

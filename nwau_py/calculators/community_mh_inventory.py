@@ -22,7 +22,14 @@ class CommunityMHArtifact:
 _ARCHIVE = "archive/sas"
 
 
-def _y(year, status, template_dir, calc_dir, suf=None, excel=""):
+def _y(
+    year: str,
+    status: str,
+    template_dir: str,
+    calc_dir: str,
+    suf: str | None = None,
+    excel: str = "",
+) -> CommunityMHArtifact:
     """Build a single year's artifact entry."""
     suf = suf or year[-2:]
     return CommunityMHArtifact(
@@ -37,32 +44,40 @@ def _y(year, status, template_dir, calc_dir, suf=None, excel=""):
 
 
 CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
-    _y("2021", "shadow", "NEP21 SAS NWAU Calculator",
-       "NEP21 SAS NWAU Calculator/Calculators", suf="21"),
-    _y("2022", "shadow", "NEP22 SAS NWAU Calculator",
-       "NEP22 SAS NWAU Calculator/calculators", suf="22",
-       excel="archive/ihacpa/raw/2022/excel/nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb"),
-    _y("2023", "shadow", "NEP23_SAS_NWAU_calculator",
-       "NEP23_SAS_NWAU_calculator/calculators", suf="23"),
-    _y("2024", "shadow", "NWAU24_SAS_Calculator",
-       "NWAU24_SAS_Calculator/calculators", suf="24"),
-    _y("2025", "active", "NEP25_SAS_NWAU_calculator",
-       "NEP25_SAS_NWAU_calculator/calculators", suf="25"),
-]
-
-
-CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
-    _y("2021", "shadow", "NEP21 SAS NWAU Calculator",
-       "NEP21 SAS NWAU Calculator/Calculators"),
-    _y("2022", "shadow", "NEP22 SAS NWAU Calculator",
-       "NEP22 SAS NWAU Calculator/calculators",
-       excel="archive/ihacpa/raw/2022/excel/nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb"),
-    _y("2023", "shadow", "NEP23_SAS_NWAU_calculator",
-       "NEP23_SAS_NWAU_calculator/calculators"),
-    _y("2024", "shadow", "NWAU24_SAS_Calculator",
-       "NWAU24_SAS_Calculator/calculators"),
-    _y("2025", "active", "NEP25_SAS_NWAU_calculator",
-       "NEP25_SAS_NWAU_calculator/calculators"),
+    _y(
+        "2021",
+        "shadow",
+        "NEP21 SAS NWAU Calculator",
+        "NEP21 SAS NWAU Calculator/Calculators",
+    ),
+    _y(
+        "2022",
+        "shadow",
+        "NEP22 SAS NWAU Calculator",
+        "NEP22 SAS NWAU Calculator/calculators",
+        excel=(
+            "archive/ihacpa/raw/2022/excel/"
+            "nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb"
+        ),
+    ),
+    _y(
+        "2023",
+        "shadow",
+        "NEP23_SAS_NWAU_calculator",
+        "NEP23_SAS_NWAU_calculator/calculators",
+    ),
+    _y(
+        "2024",
+        "shadow",
+        "NWAU24_SAS_Calculator",
+        "NWAU24_SAS_Calculator/calculators",
+    ),
+    _y(
+        "2025",
+        "active",
+        "NEP25_SAS_NWAU_calculator",
+        "NEP25_SAS_NWAU_calculator/calculators",
+    ),
 ]
 
 

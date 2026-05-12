@@ -12,6 +12,7 @@ from nwau_py.calculators.community_mh_contract import (
     COMMUNITY_MH_CONTRACT,
     CommunityMHContractError,
     build_community_mh_contract,
+    community_mh_supported_year_contracts,
     validate_community_mh_input,
     validate_community_mh_output,
 )
@@ -83,6 +84,22 @@ def test_supported_years_match_inventory_validation_status():
         assert artifact.pricing_status == expected_status
 
 
+def test_supported_year_contract_map_matches_inventory():
+    """The contract map should expose each inventory-backed community MH year."""
+    contracts = community_mh_supported_year_contracts()
+
+    assert tuple(contracts) == SUPPORTED_COMMUNITY_MH_YEARS
+    for year, contract in contracts.items():
+        assert contract.pricing_year.year == year
+        assert contract.required_output_columns == (f"NWAU{year[-2:]}",)
+
+
+def test_contract_rejects_unsupported_year():
+    """Unsupported years must fail before being treated as validated."""
+    with pytest.raises(ValueError):
+        build_community_mh_contract("2027")
+
+
 def test_default_contract_targets_the_active_pricing_year():
     """The module-level default contract should point at the active year."""
     artifact = get_inventory_by_year(COMMUNITY_MH_CONTRACT.pricing_year.year)
@@ -118,6 +135,22 @@ def test_validate_output_valid():
     validate_community_mh_output(df)  # should not raise
 
 
+@pytest.mark.parametrize("year", SUPPORTED_COMMUNITY_MH_YEARS)
+def test_validate_output_is_year_aware(year):
+    """Output validation must select the NWAU suffix for the requested year."""
+    df = pd.DataFrame({f"NWAU{year[-2:]}": [1.5], "AMHCC": ["2001"]})
+
+    validate_community_mh_output(df, year=year)
+
+
+def test_validate_output_rejects_wrong_year_suffix():
+    """A 2024 output column must not satisfy the 2025 active-year contract."""
+    df = pd.DataFrame({"NWAU24": [1.5], "AMHCC": ["2001"]})
+
+    with pytest.raises(CommunityMHContractError):
+        validate_community_mh_output(df, year="2025")
+
+
 def test_validate_output_missing():
     """validate_community_mh_output raises when NWAU column is missing."""
     df = pd.DataFrame({"AMHCC": ["2001"]})
@@ -139,7 +172,10 @@ def test_fixture_gap_record_exists():
     assert "golden validation fixtures" in lower
     for year in ("nep21", "nep22", "nep23", "nep24", "nep25"):
         assert year in lower
-    assert "synthetic mock data" in lower or "official ihacpa calculator output" in lower
+    assert (
+        "synthetic mock data" in lower
+        or "official ihacpa calculator output" in lower
+    )
 
 
 def test_contract_rejects_mh_calculator_id():

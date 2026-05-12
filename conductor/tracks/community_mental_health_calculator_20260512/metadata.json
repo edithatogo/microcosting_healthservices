@@ -1,18 +1,19 @@
 {
   "track_id": "community_mental_health_calculator_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "in_progress",
   "track_class": "calculator",
-  "current_state": "roadmap-only",
+  "current_state": "complete-with-gaps",
   "primary_contract": "Track community_mental_health_calculator_20260512 contract",
   "dependencies": [],
   "completion_evidence": [
     "docs",
     "workflows",
-    "tests"
+    "tests",
+    "fixture gap record"
   ],
   "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
-  "updated_at": "2026-05-12T00:00:00Z",
-  "description": "Add first-class community mental health calculator support and AMHCC documentation."
+  "updated_at": "2026-05-12T11:20:53Z",
+  "description": "Add first-class community mental health calculator support and AMHCC documentation with documented fixture gaps."
 }
