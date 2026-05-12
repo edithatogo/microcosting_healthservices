@@ -126,9 +126,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [x] **Track: Community Mental Health Calculator Support**
-*Link: [./tracks/community_mental_health_calculator_20260512/](./tracks/community_mental_health_calculator_20260512/)*
-*Gate: separate community mental health and AMHCC shadow/current behavior from admitted mental health before claiming stream coverage.*
+---
 
 ---
 
