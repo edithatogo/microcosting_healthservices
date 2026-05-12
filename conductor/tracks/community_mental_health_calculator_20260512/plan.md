@@ -12,8 +12,8 @@
     - [x] Add fixture-gap records where official examples are unavailable.
 - [x] Task: Conductor - Automated Review and Checkpoint 'Phase 2: Contract and Validation Design' (Protocol in workflow.md)
 
-## Phase 3: Implementation and Documentation
+## Phase 3: Implementation and Documentation [checkpoint: 131531d]
 - [x] Task: Implement the initial community mental health calculator surface behind validation status gates. [9e4e40c]
     - [x] Add tests before implementation.
     - [x] Document supported years and caveats.
-- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 3: Implementation and Documentation' (Protocol in workflow.md)
+- [x] Task: Conductor - Automated Review and Checkpoint 'Phase 3: Implementation and Documentation' (Protocol in workflow.md)
