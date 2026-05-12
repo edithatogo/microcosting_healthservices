@@ -120,7 +120,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [~] **Track: IHACPA 2026-27 Support**
+- [x] **Track: IHACPA 2026-27 Support**
 *Link: [./tracks/ihacpa_2026_27_support_20260512/](./tracks/ihacpa_2026_27_support_20260512/)*
 *Gate: add current 2026-27 NEP, technical specification, price-weight, calculator, and classification-version support with explicit validation status.*
 
