@@ -213,3 +213,27 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Formula and Parameter Bundle Pipeline**
 *Link: [./tracks/formula_parameter_bundle_pipeline_20260512/](./tracks/formula_parameter_bundle_pipeline_20260512/)*
 *Gate: extract, normalize, version, diff, and validate future IHACPA formula and parameter bundles before production calculator claims.*
+
+---
+
+- [ ] **Track: AR-DRG ICD/ACHI/ACS Mapping Registry**
+*Link: [./tracks/ar_drg_icd_mapping_registry_20260512/](./tracks/ar_drg_icd_mapping_registry_20260512/)*
+*Gate: model version-specific relationships between ICD-10-AM, ACHI, ACS, AR-DRG versions, and mapping-table provenance before deriving or validating DRGs.*
+
+---
+
+- [ ] **Track: AR-DRG Grouper Integration**
+*Link: [./tracks/ar_drg_grouper_integration_20260512/](./tracks/ar_drg_grouper_integration_20260512/)*
+*Gate: support precomputed AR-DRGs and licensed external grouper integration without reimplementing proprietary grouping logic.*
+
+---
+
+- [ ] **Track: ICD-10-AM/ACHI/ACS Licensed Product Workflow**
+*Link: [./tracks/icd_achi_acs_license_workflow_20260512/](./tracks/icd_achi_acs_license_workflow_20260512/)*
+*Gate: define local-only handling, manifest references, commit guards, and setup docs for licensed classification tables and groupers.*
+
+---
+
+- [ ] **Track: AR-DRG Version Parity Fixtures**
+*Link: [./tracks/ar_drg_version_parity_fixtures_20260512/](./tracks/ar_drg_version_parity_fixtures_20260512/)*
+*Gate: validate version-specific AR-DRG grouping and admitted acute NWAU behavior with safe synthetic and local licensed fixtures.*

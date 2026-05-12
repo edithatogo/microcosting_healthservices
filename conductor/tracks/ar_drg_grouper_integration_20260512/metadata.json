@@ -1,0 +1,8 @@
+{
+  "track_id": "ar_drg_grouper_integration_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add an AR-DRG grouper integration roadmap so admitted acute workflows can derive DRGs from coded episode data when a licensed grouper is available."
+}

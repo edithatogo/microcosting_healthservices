@@ -1,0 +1,8 @@
+{
+  "track_id": "ar_drg_icd_mapping_registry_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add versioned AR-DRG mapping registry capability for ICD-10-AM, ACHI, ACS, and AR-DRG table relationships."
+}
