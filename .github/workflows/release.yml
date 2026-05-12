@@ -46,6 +46,11 @@ jobs:
           fi
           sha256sum "${artifacts[@]}" > dist/checksums.txt
 
+      - name: Generate SLSA build attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/*
+
       - name: Upload source distribution
         uses: actions/upload-artifact@v6
         with:
