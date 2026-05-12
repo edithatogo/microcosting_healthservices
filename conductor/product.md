@@ -52,7 +52,7 @@ and validation status.
 
 ## Scope
 
-The product includes Python implementations of IHACPA calculator modules for admitted acute, emergency department, mental health, subacute, outpatient, adjustment, HAC, and AHR-related logic where supported by available source material.
+The product includes Python implementations of IHACPA calculator modules for admitted acute, emergency department, admitted mental health, community mental health, subacute, outpatient, adjustment, HAC, and AHR-related logic where supported by relevant source material.
 
 The project also includes tooling and conventions for extracting, archiving, comparing, and validating reference data from SAS releases, Excel calculator workbooks, and other supporting files.
 
