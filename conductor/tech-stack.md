@@ -31,9 +31,10 @@ The project should standardize on Python 3.10 through Python 3.14.
 The intended end state is a proper polyglot library with a shared Rust core and
 thin language adapters. Python remains the reference user-facing package during
 the transition, but the long-term architecture should expose the same validated
-calculator contracts through Python, R, Julia, TypeScript/WASM, C ABI, CLI/file
-interop, and institutional integration surfaces without duplicating formula
-logic.
+calculator contracts through Python, Rust, R, Julia, C#/.NET, Go,
+TypeScript/WASM, Java/JVM, C ABI, SQL/DuckDB, SAS interoperability, CLI/file
+interop, web, Power Platform, and institutional integration surfaces without
+duplicating formula logic.
 
 Supported Python versions should be covered in CI and Codecov reporting. Compatibility should be tested across the full declared support range before releases or major calculator validation claims.
 
@@ -126,8 +127,9 @@ Rust-core promotion should be staged:
 - Keep Arrow-compatible batch schemas as the cross-language boundary.
 - Keep all language bindings thin and generated or contract-tested wherever
   practical.
-- Treat C ABI, WASM, R, Julia, and Power Platform surfaces as consumers of the
-  shared contract, not as peer formula implementations.
+- Treat C ABI, WASM, R, Julia, C#/.NET, Go, Java/JVM, SQL/DuckDB, SAS interop,
+  CLI/file, web, and Power Platform surfaces as consumers of the shared
+  contract, not as peer formula implementations.
 
 ## Testing and Quality
 

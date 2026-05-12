@@ -14,7 +14,7 @@
 
 ## Phase 3: Packaging and Release Plan
 - [ ] Task: Define packaging and release expectations for each surface.
-    - [ ] Cover Python wheels, Rust crates, WASM/npm, C ABI artifacts, R, Julia, CLI/file interop, and docs demos.
+    - [ ] Cover Python wheels, Rust crates, R packages, Julia packages, NuGet packages, Go modules, WASM/npm, JVM packages, C ABI artifacts, SQL/DuckDB integration, SAS interop, CLI/file interop, web demos, and Power Platform managed solutions.
     - [ ] Define which artifacts are published now, experimental, or future-only.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 3: Packaging and Release Plan' (Protocol in workflow.md)
 
