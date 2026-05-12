@@ -408,17 +408,22 @@ class ClassificationRequirement(BaseModel):
                 + ", ".join(missing)
             )
 
-    def validate_version(self, version: str) -> str:
+    def validate_version(self, version: str | None) -> str:
         """Raise when a declared classification version is incompatible."""
-        declared_version = _normalize_non_blank(version, field="classification_version")
-        if not _CLASSIFICATION_VERSION_RE.fullmatch(declared_version):
-            raise ClassificationValidationError(
-                "classification_version must be a deterministic version label"
-            )
         if self.expected_version is None:
             raise ClassificationValidationError(
                 f"{self.display_name} is not available for pricing year "
                 f"{self.pricing_year}"
+            )
+        if version is None:
+            raise ClassificationValidationError(
+                f"{self.display_name} {self.pricing_year} requires an explicit "
+                f"classification_version of {self.expected_version}"
+            )
+        declared_version = _normalize_non_blank(version, field="classification_version")
+        if not _CLASSIFICATION_VERSION_RE.fullmatch(declared_version):
+            raise ClassificationValidationError(
+                "classification_version must be a deterministic version label"
             )
         if declared_version != self.expected_version:
             raise ClassificationValidationError(
@@ -431,7 +436,7 @@ class ClassificationRequirement(BaseModel):
         self,
         observed_fields: Iterable[str],
         *,
-        version: str,
+        version: str | None,
     ) -> ClassificationValidationResult:
         """Validate the contract and return a frozen result model."""
         observed = _normalize_fields(observed_fields, field="observed_fields")
@@ -536,7 +541,7 @@ def validate_required_classification_fields(
 def validate_classification_version(
     system: str,
     year: str,
-    version: str,
+    version: str | None,
 ) -> str:
     """Raise when a declared classification version is incompatible."""
     requirement = get_classification_requirement(system, year)
@@ -548,7 +553,7 @@ def validate_classification_input(
     year: str,
     observed_fields: Iterable[str],
     *,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate required fields and version compatibility for a classification."""
     requirement = get_classification_requirement(system, year)
@@ -559,7 +564,7 @@ def validate_ar_drg_input(
     observed_fields: Iterable[str],
     *,
     year: str,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate an AR-DRG classification input surface."""
     return validate_classification_input(
@@ -571,7 +576,7 @@ def validate_aecc_input(
     observed_fields: Iterable[str],
     *,
     year: str,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate an AECC classification input surface."""
     return validate_classification_input("aecc", year, observed_fields, version=version)
@@ -581,7 +586,7 @@ def validate_udg_input(
     observed_fields: Iterable[str],
     *,
     year: str,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate a UDG classification input surface."""
     return validate_classification_input("udg", year, observed_fields, version=version)
@@ -591,7 +596,7 @@ def validate_tier_2_input(
     observed_fields: Iterable[str],
     *,
     year: str,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate a Tier 2 classification input surface."""
     return validate_classification_input(
@@ -603,7 +608,7 @@ def validate_amhcc_input(
     observed_fields: Iterable[str],
     *,
     year: str,
-    version: str,
+    version: str | None,
 ) -> ClassificationValidationResult:
     """Validate an AMHCC classification input surface."""
     return validate_classification_input(

@@ -15,6 +15,8 @@ spec = importlib.util.spec_from_file_location(
     "ed",
     Path(__file__).resolve().parents[1] / "nwau_py" / "calculators" / "ed.py",
 )
+if spec is None or spec.loader is None:
+    raise RuntimeError("failed to load ED calculator module")
 ed = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ed)
 

@@ -400,6 +400,8 @@ def calculate_outpatients(
     except Exception:
         if "adj_indigenous" not in merged.columns:
             merged["adj_indigenous"] = 0
+    pat_rem_df = pd.DataFrame()
+    treat_rem_df = pd.DataFrame()
     try:
         pat_rem_df = _load_pat_rem_adj(ref_dir, year)
         if not pat_rem_df.empty:

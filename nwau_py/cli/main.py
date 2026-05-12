@@ -17,7 +17,6 @@ from nwau_py.calculators import (
     calculate_outpatients,
 )
 from nwau_py.classification_validation import get_classification_requirement
-from nwau_py.classification_validators import validate_classification_input
 from nwau_py.runtime import run_csv_calculation
 
 _CLASSIFICATION_SYSTEMS = {
@@ -58,18 +57,8 @@ def _run(
                 f"{requirement.display_name} {validation_year} is missing required "
                 f"fields: {', '.join(missing_fields)}"
             )
-        classification_result = validate_classification_input(
-            input_df,
-            stream,
-            validation_year,
-        )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
-
-    if not classification_result.is_valid:
-        raise click.ClickException(
-            "Classification preflight failed:\n" + "\n".join(classification_result.errors)
-        )
 
     run_csv_calculation(
         input_csv=input_csv,

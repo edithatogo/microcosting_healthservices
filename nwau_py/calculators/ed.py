@@ -5,8 +5,10 @@ import numpy as np
 import pandas as pd
 
 from nwau_py.classification_validation import (
+    ClassificationValidationError,
     get_classification_version,
     validate_aecc_input,
+    validate_classification_version,
     validate_udg_input,
 )
 from nwau_py.data.paths import sas_table
@@ -66,7 +68,26 @@ def calculate_ed(
     ref_dir: Path | None = None,
 ) -> pd.DataFrame:
     """Implement ``NWAU25_CALCULATOR_ED.sas`` against loaded reference tables."""
-    if params.classification_option < 3:
+    if params.classification_option == 1:
+        required_mapping_fields = (
+            "type_of_visit",
+            "triage_category",
+            "episode_end_status",
+        )
+        missing_mapping_fields = tuple(
+            field for field in required_mapping_fields if field not in df.columns
+        )
+        if missing_mapping_fields:
+            raise ClassificationValidationError(
+                f"UDG {year} is missing required mapping fields: "
+                + ", ".join(missing_mapping_fields)
+            )
+        validate_classification_version(
+            "udg",
+            year,
+            get_classification_version("udg", year),
+        )
+    elif params.classification_option < 3:
         validate_udg_input(
             tuple(df.columns),
             year=year,

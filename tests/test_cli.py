@@ -2,6 +2,7 @@ import importlib
 import sys
 import types
 from pathlib import Path
+from typing import Any, cast
 
 import pandas as pd
 from click.testing import CliRunner
@@ -10,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pytest
 
-PYREADSTAT = types.ModuleType("pyreadstat")
+PYREADSTAT: Any = types.ModuleType("pyreadstat")
 PYREADSTAT.ReadstatError = Exception
 PYREADSTAT._readstat_parser = types.SimpleNamespace(
     PyreadstatError=Exception,
@@ -27,9 +28,11 @@ sys.modules.setdefault("pyreadstat", PYREADSTAT)
 acute = importlib.import_module("nwau_py.calculators.acute")
 _ACUTE_ERR = None
 
+_cli: Any | None
 try:  # cli may fail to import if optional deps are missing
-    from nwau_py.cli.main import cli as _cli
+    from nwau_py.cli.main import cli as imported_cli
 
+    _cli = imported_cli
     _CLI_ERR = None
 except Exception as exc:  # pragma: no cover - environment dependent
     _cli = None
@@ -53,7 +56,7 @@ def test_cli_acute_matches_library_output(monkeypatch, tmp_path):
 
     runner = CliRunner()
     result = runner.invoke(
-        _cli,
+        cast(Any, _cli),
         [
             "acute",
             str(input_csv),
@@ -102,7 +105,7 @@ def test_cli_reports_classification_preflight_errors(command, missing_column, tm
 
     runner = CliRunner()
     result = runner.invoke(
-        _cli,
+        cast(Any, _cli),
         [
             command,
             str(input_csv),
@@ -123,7 +126,7 @@ def test_cli_rejects_unavailable_classification_year(tmp_path):
 
     runner = CliRunner()
     result = runner.invoke(
-        _cli,
+        cast(Any, _cli),
         [
             "non-admitted",
             str(input_csv),

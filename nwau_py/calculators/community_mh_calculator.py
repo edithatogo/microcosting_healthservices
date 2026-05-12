@@ -6,6 +6,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from nwau_py.classification_validation import (
+    get_classification_version,
+    validate_amhcc_input,
+)
 from nwau_py.data.paths import sas_table
 from nwau_py.utils import sas_ref_dir
 
@@ -50,6 +54,12 @@ def calculate_community_mh(
     calculator. NWAU is computed from service-contact counts multiplied by
     AMHCC-specific community price weights.
     """
+    validate_amhcc_input(
+        df.columns,
+        year=year,
+        version=get_classification_version("amhcc", year),
+    )
+
     suffix = year[-2:]
     nwau_col = f"NWAU{suffix}"
 
