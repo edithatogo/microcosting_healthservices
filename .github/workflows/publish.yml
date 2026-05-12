@@ -1,13 +1,18 @@
 name: Publish Python package
 
 on:
-  push:
-    tags:
-      - "v*"
+  release:
+    types:
+      - published
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Optional tag to validate and publish
+        required: false
 
 permissions:
   contents: read
+  actions: read
   id-token: write
 
 env:
@@ -16,6 +21,9 @@ env:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_REF_NAME: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.tag }}
+      RELEASE_REF_TYPE: tag
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -29,9 +37,20 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Validate release tag and package version metadata
+        env:
+          RELEASE_REF_NAME: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.tag }}
+          RELEASE_REF_TYPE: tag
         run: uv run python .github/scripts/validate_release_metadata.py
 
+      - name: Download release artifacts
+        if: github.event_name == 'release'
+        run: |
+          gh release download "${{ github.event.release.tag_name }}" --repo "${{ github.repository }}" --dir dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build distribution artifacts
+        if: github.event_name != 'release'
         run: uv build
 
       - name: Publish to PyPI

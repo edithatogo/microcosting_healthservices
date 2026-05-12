@@ -11,7 +11,9 @@ import tomllib
 
 
 REF_NAME_ENV: Final[str] = "GITHUB_REF_NAME"
+REF_NAME_OVERRIDE: Final[str] = "RELEASE_REF_NAME"
 REF_TYPE_ENV: Final[str] = "GITHUB_REF_TYPE"
+REF_TYPE_OVERRIDE: Final[str] = "RELEASE_REF_TYPE"
 
 
 def parse_pyproject_version(pyproject_path: Path = Path("pyproject.toml")) -> str:
@@ -29,8 +31,10 @@ def parse_conda_version(recipe_path: Path = Path("conda/recipe/meta.yaml")) -> s
 
 
 def parse_tag_version() -> str:
-    ref_name = os.environ[REF_NAME_ENV]
-    ref_type = os.environ.get(REF_TYPE_ENV, "")
+    ref_name = os.environ.get(REF_NAME_OVERRIDE) or os.environ.get(REF_NAME_ENV, "")
+    ref_type = os.environ.get(REF_TYPE_OVERRIDE) or os.environ.get(REF_TYPE_ENV, "")
+    if not ref_name:
+        raise RuntimeError("Could not resolve release ref name from workflow environment")
     if ref_type != "tag":
         raise RuntimeError("Version validation only applies to tag-based release events")
     if not ref_name.startswith("v"):
