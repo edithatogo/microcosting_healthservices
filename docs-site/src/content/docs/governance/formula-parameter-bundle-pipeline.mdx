@@ -1,0 +1,157 @@
+---
+title: Formula and parameter bundle pipeline
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This page defines the review-first pipeline for future IHACPA formulae and
+parameters. It connects source discovery, manifesting, extraction, bundling,
+validation, diffing, and release wording into one conservative workflow.
+The committed acute 2025 canary bundle is source-only: it proves the strict
+bundle contract and loader path, but it does not claim official parity.
+
+The pipeline is about traceable inputs, not hidden globals. Formulae, weights,
+thresholds, adjustments, and stream-specific parameters should be represented
+in a versioned bundle that can be reviewed, diffed, and tied back to the source
+trail.
+
+## End-to-end workflow
+
+| Stage | Purpose | Output | Governance rule |
+| --- | --- | --- | --- |
+| Source scanner | Discover public IHACPA pages, workbooks, PDFs, and downloadable artifacts. | Reviewable discovery output with gaps. | Discovery is not validation and must not claim support on its own. |
+| Reference data manifest | Normalize the discovery set into a year-scoped manifest. | Strict source record with provenance and explicit gaps. | The manifest must describe what was found, what was missing, and what needs review. |
+| Extraction | Pull formula lines, workbook cells, tables, and parameter records from official artifacts. | Structured extracted values with source references. | Preserve traceability to source lines, sheets, tables, or similar anchors where practical. |
+| Bundle | Version the extracted formula and parameter set for execution. | Reviewable bundle artifact with provenance and validation references. | Bundles should be stable, explicit, and loader-friendly rather than implicit globals. |
+| Validation gate | Compare bundle-loaded behavior to golden fixtures and scoped evidence. | Validation status and maintainer-ready evidence record. | New bundles stay unvalidated until the fixture and review gates pass. |
+| Diff | Compare bundle and manifest changes across years or releases. | Human-readable and automation-friendly change summary. | Diffs should isolate formula and parameter changes from unrelated implementation churn. |
+| Release workflow | Publish the reviewed record and release notes. | Release claim with evidence citations. | Release wording must stay within the supported validation status. |
+
+## Stage details
+
+### 1. Source scanner
+
+The source scanner is the entry point for future-year discovery. It should:
+
+- identify official calculators, technical specifications, workbooks, CSV/XLSX
+  tables, and other public artifacts
+- emit a draft record before anything is normalized into a manifest
+- preserve missing or inaccessible items as explicit gaps
+- avoid implying that discovery means parity, support, or validation
+
+Use the scanner output as review material. Do not skip the manual check of the
+candidate sources and gap records.
+
+### 2. Reference data manifest
+
+The manifest is the authoritative year-scoped record for what the scanner found
+and what still needs work. It should:
+
+- capture the public source trail and retrieval metadata
+- record extraction status and unresolved gaps
+- stay strict enough that unsupported claims fail closed
+- remain readable alongside the public calculator coverage story
+
+The manifest is where the review trail becomes durable. If a source is missing,
+inaccessible, licensed, or otherwise unusable, that absence should be encoded
+instead of hidden.
+
+### 3. Extraction
+
+Extraction turns the source record into structured values that downstream code
+can consume. For this pipeline, extraction should:
+
+- support official SAS, Excel, CSV/XLSX, and manifest-linked artifacts
+- preserve source anchors where practical, such as line numbers, workbook
+  sheets, table names, or named ranges
+- keep transformation notes alongside the extracted values
+- treat extraction failures as governance-relevant evidence, not as silent
+  cleanup
+
+Extraction output must remain explainable. If the source shape forces a lossy
+transform, record that explicitly.
+
+### 4. Bundle
+
+The bundle is the versioned execution surface for formulas and parameters. It
+should:
+
+- include formula definitions, weights, thresholds, adjustments, and other
+  stream-specific parameters
+- carry provenance and validation evidence references
+- stay stable enough for reviewable diffs
+- load through explicit bundle readers instead of hidden global state
+
+The bundle should be the thing that calculator modules consume. That keeps the
+runtime path visible and makes year-specific updates easier to audit.
+
+### 5. Validation gate
+
+Validation is a separate gate from extraction and bundling. A bundle may be
+well-formed and still unvalidated.
+
+The gate should require:
+
+- fixture evidence for the stated scope
+- a narrow validation status that matches the evidence
+- explicit handling of gaps, missing sources, or partial coverage
+- a maintainer review before stronger claims are made
+
+Use the pricing-year validation vocabulary when describing status. Do not
+replace it with local synonyms.
+
+### 6. Diff
+
+Diffing is the review surface for what changed between years or releases. It
+should show:
+
+- formula changes
+- parameter changes
+- source artifact changes
+- provenance updates
+- validation status changes
+
+Diff output is a review aid, not a release claim. If a source changed but the
+effect on execution is unclear, treat that as a validation follow-up rather than
+an automatic support upgrade.
+
+### 7. Release workflow
+
+Releases should be assembled from the evidence bundle, not from optimistic
+wording. The release workflow should:
+
+- cite the manifest, bundle, fixture results, and validation record
+- keep source changes separate from implementation changes
+- use conservative wording until the stated scope is validated
+- fail closed if the evidence trail is incomplete
+
+## Maintainer checklist for a future release
+
+1. Run the source scanner and review the discovery output.
+2. Update or create the reference data manifest and explicit gap records.
+3. Extract the official formula and parameter records into a versioned bundle.
+4. Load the bundle through the calculator path and compare behavior to golden
+   fixtures.
+5. Review the bundle and manifest diff for the target year.
+6. Apply the narrowest validation status that the evidence supports.
+7. Draft release notes only after the record is stable and reviewable.
+
+## Related governance pages
+
+<CardGrid>
+  <LinkCard title="IHACPA source scanner" href="/governance/ihacpa-source-scanner/">
+    Source discovery, gap records, and review-first manifests.
+  </LinkCard>
+  <LinkCard title="Reference data manifests" href="/governance/reference-data-manifests/">
+    Year-scoped provenance, extraction status, and explicit gaps.
+  </LinkCard>
+  <LinkCard title="Pricing-year validation gates" href="/governance/pricing-year-validation-gates/">
+    Canonical status language and maintainer review thresholds.
+  </LinkCard>
+  <LinkCard title="Pricing-year diff tooling" href="/governance/pricing-year-diff-tooling/">
+    Manifest-backed comparisons for release notes and review.
+  </LinkCard>
+  <LinkCard title="Release policy" href="/governance/release-policy/">
+    Evidence-backed release wording and publication rules.
+  </LinkCard>
+</CardGrid>

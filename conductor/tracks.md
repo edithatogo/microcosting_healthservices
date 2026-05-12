@@ -217,9 +217,10 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Formula and Parameter Bundle Pipeline**
+- [x] **Track: Formula and Parameter Bundle Pipeline**
 *Link: [./tracks/formula_parameter_bundle_pipeline_20260512/](./tracks/formula_parameter_bundle_pipeline_20260512/)*
 *Gate: extract, normalize, version, diff, and validate future IHACPA formula and parameter bundles before production calculator claims.*
+*Evidence surfaces: `reference-data/2026/manifest.yaml`, `contracts/source-scanner/examples/add-year.draft-manifest.json`, and `conductor/tracks/end_to_end_validated_canary_20260512`.*
 
 ---
 

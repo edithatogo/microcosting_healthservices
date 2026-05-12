@@ -1,9 +1,17 @@
 from dataclasses import dataclass, field
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
-import pyreadstat
+
+try:  # pragma: no cover - optional dependency
+    import pyreadstat
+except Exception:  # pragma: no cover - tests and lightweight installs
+    pyreadstat = SimpleNamespace(
+        ReadstatError=Exception,
+        _readstat_parser=SimpleNamespace(PyreadstatError=Exception),
+    )
 
 from nwau_py.classification_validation import (
     ClassificationValidationError,
@@ -12,6 +20,7 @@ from nwau_py.classification_validation import (
 )
 from nwau_py.data.loader import load_sas_table
 from nwau_py.data.paths import sas_table
+from nwau_py.formula_parameter_bundle import load_acute_2025_canary_bundle
 from nwau_py.rust_bridge import (
     calculate_acute_2025_row as _rust_calculate_acute_2025_row,
 )
@@ -91,6 +100,16 @@ class AcuteReferenceBundle:
     year: str
     ref_dir: Path
     weights: pd.DataFrame | None = None
+
+
+def load_acute_2025_canary_reference_bundle() -> AcuteReferenceBundle:
+    """Load the committed acute 2025 canary bundle into the existing contract."""
+    bundle = load_acute_2025_canary_bundle()
+    return AcuteReferenceBundle(
+        year=str(bundle.bundle.pricing_year),
+        ref_dir=bundle.bundle_dir,
+        weights=bundle.weights_frame(),
+    )
 
 
 @dataclass(frozen=True, slots=True)

@@ -27,6 +27,7 @@ __all__ = [
     "classification_validation",
     "coding_set_registry",
     "ensure_coding_set_compatibility",
+    "formula_parameter_bundle",
     "get_classification_name",
     "get_classification_requirement",
     "get_classification_version",
@@ -62,6 +63,7 @@ __all__ = [
 
 _LAZY_ATTRS = {
     "score_readmission": (".scoring", "score_readmission"),
+    "formula_parameter_bundle": (".formula_parameter_bundle", None),
     "get_nec": (".pricing_constants", "get_nec"),
     "get_nep": (".pricing_constants", "get_nep"),
     "get_supported_pricing_years": (

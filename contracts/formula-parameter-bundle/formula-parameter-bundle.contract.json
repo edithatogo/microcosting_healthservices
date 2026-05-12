@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "formula_parameter_bundle_tooling_20260513",
+  "tool": {
+    "name": "nwau_py.formula_parameter_bundle",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.formula_parameter_bundle"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic fixtures only."
+  },
+  "commands": [
+    {
+      "name": "load_formula_parameter_bundle",
+      "syntax": "load_formula_parameter_bundle(path)",
+      "status": "preview",
+      "inputs": [
+        "bundle_id",
+        "source_manifest",
+        "parameter_catalog"
+      ],
+      "outputs": [
+        "bundle_document",
+        "validation_evidence",
+        "exit_code"
+      ],
+      "notes": "Load and validate a strict bundle of formulas, weights, thresholds, adjustments, and validation evidence."
+    },
+    {
+      "name": "bundle-diff",
+      "syntax": "bundle_diff(from_bundle, to_bundle)",
+      "status": "preview",
+      "inputs": [
+        "from_bundle",
+        "to_bundle",
+        "bundle_documents"
+      ],
+      "outputs": [
+        "diff_report",
+        "exit_code",
+        "diagnostics"
+      ],
+      "notes": "Compare two bundle versions and summarize changes in formulas, weights, thresholds, adjustments, validation evidence, and status."
+    }
+  ],
+  "bundle": {
+    "status": "source-only",
+    "formulas": [
+      {
+        "id": "base_case_cost",
+        "label": "Base case cost",
+        "expression": "resource_units * unit_cost + fixed_overhead",
+        "status": "active",
+        "notes": "Primary cost formula used for standard cases."
+      },
+      {
+        "id": "complexity_uplift",
+        "label": "Complexity uplift",
+        "expression": "base_case_cost * complexity_weight",
+        "status": "active",
+        "notes": "Applies after the base case cost is calculated."
+      }
+    ],
+    "weights": [
+      {
+        "id": "complexity_weight",
+        "metric": "case_mix_complexity",
+        "value": 1.18,
+        "status": "active",
+        "notes": "Synthetic uplift used for high-complexity records."
+      },
+      {
+        "id": "site_weight",
+        "metric": "site_index",
+        "value": 0.94,
+        "status": "active",
+        "notes": "Synthetic site-level dampening factor."
+      }
+    ],
+    "thresholds": [
+      {
+        "id": "low_volume_threshold",
+        "metric": "monthly_volume",
+        "operator": "<",
+        "value": 250,
+        "status": "active",
+        "notes": "Triggers monitoring for low-volume pathways."
+      },
+      {
+        "id": "cost_ceiling_threshold",
+        "metric": "bundle_cost",
+        "operator": ">=",
+        "value": 5000,
+        "status": "active",
+        "notes": "Synthetic ceiling for exception review."
+      }
+    ],
+    "adjustments": [
+      {
+        "id": "regional_loading",
+        "applies_to": "base_case_cost",
+        "kind": "multiplier",
+        "value": 1.05,
+        "status": "active",
+        "notes": "Applies a synthetic regional loading."
+      },
+      {
+        "id": "short_stay_offset",
+        "applies_to": "base_case_cost",
+        "kind": "offset",
+        "value": -12.5,
+        "status": "active",
+        "notes": "Synthetic offset for short-stay cases."
+      }
+    ],
+    "validation_evidence": [
+      {
+        "id": "unit_test_pack",
+        "method": "unit-test",
+        "result": "Bundle assertions passed for the synthetic fixture set.",
+        "status": "passed",
+        "notes": "Confirms bundle can be parsed and rendered as expected."
+      },
+      {
+        "id": "schema_check_pack",
+        "method": "schema-validation",
+        "result": "Document conforms to the published bundle schema; parity is not claimed.",
+        "status": "passed",
+        "notes": "No unsupported fields or missing required sections."
+      }
+    ]
+  },
+  "diff": {
+    "status": "changed",
+    "from_bundle": "formula_parameter_bundle_tooling_20260512",
+    "to_bundle": "formula_parameter_bundle_tooling_20260513",
+    "changes": [
+      {
+        "id": "formula_complexity_uplift",
+        "kind": "formula",
+        "field": "expression",
+        "before": "base_case_cost * legacy_complexity_weight",
+        "after": "base_case_cost * complexity_weight",
+        "notes": "Renamed the driving weight to match the current bundle."
+      },
+      {
+        "id": "weight_complexity_weight",
+        "kind": "weight",
+        "field": "value",
+        "before": 1.11,
+        "after": 1.18,
+        "notes": "Synthetic uplift increased to reflect the revised calibration."
+      },
+      {
+        "id": "threshold_low_volume_threshold",
+        "kind": "threshold",
+        "field": "value",
+        "before": 200,
+        "after": 250,
+        "notes": "Low-volume threshold widened to reduce false positives."
+      },
+      {
+        "id": "adjustment_regional_loading",
+        "kind": "adjustment",
+        "field": "value",
+        "before": 1.03,
+        "after": 1.05,
+        "notes": "Regional loading aligned to the current synthetic scenario."
+      },
+      {
+        "id": "validation_schema_check_pack",
+        "kind": "validation_evidence",
+        "field": "status",
+        "before": "passed",
+        "after": "passed",
+        "notes": "Validation remained green across both bundle versions."
+      },
+      {
+        "id": "bundle_status",
+        "kind": "status",
+        "field": "bundle.status",
+        "before": "source-only",
+        "after": "schema-complete",
+        "notes": "Bundle moved from source-only capture to schema-complete review status without claiming parity validation."
+      }
+    ]
+  },
+  "provenance": {
+    "fields": [
+      "bundle_id",
+      "tool",
+      "commands",
+      "bundle.status",
+      "bundle.formulas",
+      "bundle.weights",
+      "bundle.thresholds",
+      "bundle.adjustments",
+      "bundle.validation_evidence",
+      "diff.status",
+      "diff.changes",
+      "checksum_algorithm"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "bundle-json",
+      "path": "contracts/formula-parameter-bundle/examples/bundle.json",
+      "description": "Synthetic bundle document containing formulas, weights, thresholds, adjustments, provenance, validation evidence, and status.",
+      "format": "json"
+    },
+    {
+      "name": "bundle-diff-json",
+      "path": "contracts/formula-parameter-bundle/examples/bundle-diff.json",
+      "description": "Synthetic diff document showing how one bundle version changes into another.",
+      "format": "json"
+    }
+  ]
+}

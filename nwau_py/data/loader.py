@@ -5,7 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
-import pyreadstat
+
+try:  # pragma: no cover - optional dependency
+    import pyreadstat
+except Exception:  # pragma: no cover - pyreadstat is optional in some environments
+    pyreadstat = None
 
 try:
     import pyarrow  # noqa: F401
@@ -55,6 +59,9 @@ def load_sas_table(
             return pd.read_parquet(cache_path)
         else:
             return pd.read_csv(cache_path)
+
+    if pyreadstat is None:  # pragma: no cover - dependency guard
+        raise ImportError("pyreadstat is not installed")
 
     df, _ = pyreadstat.read_sas7bdat(str(path))
 

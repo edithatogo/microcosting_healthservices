@@ -1,0 +1,466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/formula-parameter-bundle/formula-parameter-bundle.schema.json",
+  "title": "Formula and parameter bundle contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "tool",
+    "privacy",
+    "commands",
+    "bundle",
+    "diff",
+    "provenance",
+    "examples"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "bundle_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "package",
+        "entry_point"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "formula-parameter-bundle"
+        },
+        "package": {
+          "type": "string"
+        },
+        "entry_point": {
+          "type": "string"
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "contains_phi",
+        "notes"
+      ],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": [
+            "synthetic"
+          ]
+        },
+        "contains_phi": {
+          "type": "boolean",
+          "const": false
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "syntax",
+          "status",
+          "inputs",
+          "outputs"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "syntax": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "preview",
+              "stable"
+            ]
+          },
+          "inputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "formulas",
+        "weights",
+        "thresholds",
+        "adjustments",
+        "validation_evidence"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "source-only",
+            "schema-complete",
+            "validated",
+            "deprecated"
+          ]
+        },
+        "formulas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "expression",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "label": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "retired"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "weights": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "metric",
+              "value",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "metric": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "retired"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "thresholds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "metric",
+              "operator",
+              "value",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "metric": {
+                "type": "string"
+              },
+              "operator": {
+                "type": "string",
+                "enum": [
+                  "<",
+                  "<=",
+                  "==",
+                  ">=",
+                  ">"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "retired"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "adjustments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "applies_to",
+              "kind",
+              "value",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "applies_to": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "multiplier",
+                  "offset",
+                  "cap",
+                  "floor"
+                ]
+              },
+              "value": {
+                "type": "number"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "retired"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "validation_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "method",
+              "result",
+              "status"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "method": {
+                "type": "string"
+              },
+              "result": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "passed",
+                  "failed",
+                  "pending"
+                ]
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "diff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "from_bundle",
+        "to_bundle",
+        "changes"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "unchanged",
+            "changed",
+            "partial"
+          ]
+        },
+        "from_bundle": {
+          "type": "string"
+        },
+        "to_bundle": {
+          "type": "string"
+        },
+        "changes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "field",
+              "before",
+              "after"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_\\-]+$"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "formula",
+                  "weight",
+                  "threshold",
+                  "adjustment",
+                  "validation_evidence",
+                  "status"
+                ]
+              },
+              "field": {
+                "type": "string"
+              },
+              "before": {},
+              "after": {},
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "checksum_algorithm"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "checksum_algorithm": {
+          "type": "string",
+          "enum": [
+            "sha256"
+          ]
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "path",
+          "description",
+          "format"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "json",
+              "markdown"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

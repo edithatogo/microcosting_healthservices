@@ -1,0 +1,95 @@
+{
+  "bundle_id": "formula_parameter_bundle_tooling_20260513",
+  "status": "source-only",
+  "formulas": [
+    {
+      "id": "base_case_cost",
+      "label": "Base case cost",
+      "expression": "resource_units * unit_cost + fixed_overhead",
+      "status": "active",
+      "notes": "Primary cost formula used for standard cases."
+    },
+    {
+      "id": "complexity_uplift",
+      "label": "Complexity uplift",
+      "expression": "base_case_cost * complexity_weight",
+      "status": "active",
+      "notes": "Applies after the base case cost is calculated."
+    }
+  ],
+  "weights": [
+    {
+      "id": "complexity_weight",
+      "metric": "case_mix_complexity",
+      "value": 1.18,
+      "status": "active",
+      "notes": "Synthetic uplift used for high-complexity records."
+    },
+    {
+      "id": "site_weight",
+      "metric": "site_index",
+      "value": 0.94,
+      "status": "active",
+      "notes": "Synthetic site-level dampening factor."
+    }
+  ],
+  "thresholds": [
+    {
+      "id": "low_volume_threshold",
+      "metric": "monthly_volume",
+      "operator": "<",
+      "value": 250,
+      "status": "active",
+      "notes": "Triggers monitoring for low-volume pathways."
+    },
+    {
+      "id": "cost_ceiling_threshold",
+      "metric": "bundle_cost",
+      "operator": ">=",
+      "value": 5000,
+      "status": "active",
+      "notes": "Synthetic ceiling for exception review."
+    }
+  ],
+  "adjustments": [
+    {
+      "id": "regional_loading",
+      "applies_to": "base_case_cost",
+      "kind": "multiplier",
+      "value": 1.05,
+      "status": "active",
+      "notes": "Applies a synthetic regional loading."
+    },
+    {
+      "id": "short_stay_offset",
+      "applies_to": "base_case_cost",
+      "kind": "offset",
+      "value": -12.5,
+      "status": "active",
+      "notes": "Synthetic offset for short-stay cases."
+    }
+  ],
+  "provenance": {
+    "source": "synthetic-fixture",
+    "generated_at": "2026-05-13T00:00:00Z",
+    "bundle_version": "2026.05",
+    "checksum": "sha256:7b4f9b66d23bd7c2a84f8b1c0f8b7ac0ec5a6a5cf4a44e7f3b5f56fbbf4d6d9b",
+    "checksum_algorithm": "sha256"
+  },
+  "validation_evidence": [
+    {
+      "id": "unit_test_pack",
+      "method": "unit-test",
+      "result": "Bundle assertions passed for the synthetic fixture set.",
+      "status": "passed",
+      "notes": "Confirms bundle can be parsed and rendered as expected."
+    },
+    {
+      "id": "schema_check_pack",
+      "method": "schema-validation",
+      "result": "Document conforms to the published bundle schema; parity is not claimed.",
+      "status": "passed",
+      "notes": "No unsupported fields or missing required sections."
+    }
+  ]
+}

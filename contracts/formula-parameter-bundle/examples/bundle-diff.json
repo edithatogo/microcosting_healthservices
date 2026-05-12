@@ -1,0 +1,69 @@
+{
+  "from_bundle": "formula_parameter_bundle_tooling_20260512",
+  "to_bundle": "formula_parameter_bundle_tooling_20260513",
+  "status": "changed",
+  "changes": [
+    {
+      "id": "formula_complexity_uplift",
+      "kind": "formula",
+      "field": "expression",
+      "before": "base_case_cost * legacy_complexity_weight",
+      "after": "base_case_cost * complexity_weight",
+      "notes": "Renamed the driving weight to match the current bundle."
+    },
+    {
+      "id": "weight_complexity_weight",
+      "kind": "weight",
+      "field": "value",
+      "before": 1.11,
+      "after": 1.18,
+      "notes": "Synthetic uplift increased to reflect the revised calibration."
+    },
+    {
+      "id": "threshold_low_volume_threshold",
+      "kind": "threshold",
+      "field": "value",
+      "before": 200,
+      "after": 250,
+      "notes": "Low-volume threshold widened to reduce false positives."
+    },
+    {
+      "id": "adjustment_regional_loading",
+      "kind": "adjustment",
+      "field": "value",
+      "before": 1.03,
+      "after": 1.05,
+      "notes": "Regional loading aligned to the current synthetic scenario."
+    },
+    {
+      "id": "validation_schema_check_pack",
+      "kind": "validation_evidence",
+      "field": "status",
+      "before": "passed",
+      "after": "passed",
+      "notes": "Validation remained green across both bundle versions."
+    },
+    {
+      "id": "bundle_status",
+      "kind": "status",
+      "field": "bundle.status",
+      "before": "source-only",
+      "after": "schema-complete",
+      "notes": "Bundle moved from source-only capture to schema-complete review status without claiming parity validation."
+    }
+  ],
+  "summary": {
+    "formula_changes": 1,
+    "weight_changes": 1,
+    "threshold_changes": 1,
+    "adjustment_changes": 1,
+    "validation_changes": 1,
+    "status_changes": 1
+  },
+  "provenance": {
+    "source": "synthetic-fixture",
+    "generated_at": "2026-05-13T00:00:00Z",
+    "checksum_algorithm": "sha256",
+    "checksum": "sha256:9a4419b5f7c9ff88c1f7edc3c1c1e39d4e4d9f1fd11222c5d0f8ce0f7fd5f210"
+  }
+}

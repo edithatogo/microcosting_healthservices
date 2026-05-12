@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "acute-2025-canary",
+  "bundle_version": "v1",
+  "calculator": "acute",
+  "pricing_year": "2025",
+  "stream": "acute",
+  "status": "source-only",
+  "source_evidence": [
+    {
+      "evidence_id": "ihacpa-nep25-acute-page",
+      "source_type": "official-page",
+      "source_ref": "https://www.ihacpa.gov.au/resources/national-efficient-price-determination-2025-26",
+      "locator": "NWAU 2025-26 resource page",
+      "status": "linked",
+      "note": "Official NEP 2025-26 landing page used as the source anchor for the canary bundle."
+    },
+    {
+      "evidence_id": "nep25-acute-weight-fixture",
+      "source_type": "fixture",
+      "source_ref": "tests/data/nep25_aa_price_weights.csv",
+      "locator": "rows 1-3",
+      "status": "captured",
+      "note": "Trimmed acute price-weight fixture used to keep the canary bundle small and reviewable."
+    },
+    {
+      "evidence_id": "excel-2025-formula-fixture",
+      "source_type": "fixture",
+      "source_ref": "excel_calculator/data/2025/formula.json",
+      "locator": "steps",
+      "status": "captured",
+      "note": "Existing Excel extraction fixture used to anchor the formula shape."
+    }
+  ],
+  "provenance": {
+    "created_at": "2026-05-13T00:00:00Z",
+    "created_by": "codex",
+    "source_artifact_id": "nwau25-acute-canary",
+    "source_evidence_ids": [
+      "ihacpa-nep25-acute-page",
+      "nep25-acute-weight-fixture",
+      "excel-2025-formula-fixture"
+    ],
+    "notes": [
+      "Synthetic canary bundle for the acute 2025 parameter pipeline.",
+      "No parity claim is made; this bundle is source-only until evidence is attached."
+    ]
+  },
+  "weights": [
+    {
+      "record_id": "801A",
+      "label": "GIs Unrelated to Principal Diagnosis, Major Complexity",
+      "status": "synthetic",
+      "source_evidence_ids": [
+        "nep25-acute-weight-fixture"
+      ],
+      "parameters": {
+        "DRG": "801A",
+        "description": "GIs Unrelated to Principal Diagnosis, Major Complexity",
+        "drg_inlier_lb": 7.0,
+        "drg_inlier_ub": 72.0,
+        "drg_adj_paed": 1.35,
+        "drg_samedaylist_flag": 0,
+        "drg_bundled_icu_flag": 0,
+        "drg_pw_inlier": 9.2472,
+        "drg_pw_lso_perdiem": 0.26
+      }
+    },
+    {
+      "record_id": "801B",
+      "label": "GIs Unrelated to Principal Diagnosis, Intermediate Complexity",
+      "status": "synthetic",
+      "source_evidence_ids": [
+        "nep25-acute-weight-fixture"
+      ],
+      "parameters": {
+        "DRG": "801B",
+        "description": "GIs Unrelated to Principal Diagnosis, Intermediate Complexity",
+        "drg_inlier_lb": 3.0,
+        "drg_inlier_ub": 27.0,
+        "drg_adj_paed": 1.05,
+        "drg_samedaylist_flag": 0,
+        "drg_bundled_icu_flag": 0,
+        "drg_pw_inlier": 3.9367,
+        "drg_pw_lso_perdiem": 0.2548
+      }
+    },
+    {
+      "record_id": "801C",
+      "label": "GIs Unrelated to Principal Diagnosis, Minor Complexity",
+      "status": "synthetic",
+      "source_evidence_ids": [
+        "nep25-acute-weight-fixture"
+      ],
+      "parameters": {
+        "DRG": "801C",
+        "description": "GIs Unrelated to Principal Diagnosis, Minor Complexity",
+        "drg_inlier_lb": 1.0,
+        "drg_inlier_ub": 8.0,
+        "drg_adj_paed": 1.07,
+        "drg_samedaylist_flag": 0,
+        "drg_bundled_icu_flag": 0,
+        "drg_pw_inlier": 1.281,
+        "drg_pw_lso_perdiem": 0.2895
+      }
+    }
+  ],
+  "formulas": [
+    {
+      "formula_id": "acute-2025-nwau25-core",
+      "label": "Acute 2025 base formula",
+      "target": "NWAU25",
+      "status": "synthetic",
+      "source_evidence_ids": [
+        "excel-2025-formula-fixture"
+      ],
+      "variables": {
+        "PW": "drg_pw_inlier",
+        "APaed": "drg_adj_paed",
+        "NEP": "nep"
+      },
+      "steps": [
+        "T1 = PW * APaed",
+        "NWAU25 = T1 * NEP"
+      ],
+      "expression": "NWAU25 = drg_pw_inlier * drg_adj_paed * nep"
+    }
+  ],
+  "adjustments": [
+    {
+      "adjustment_id": "acute-2025-rust-adjustments",
+      "label": "Rust canary adjustments",
+      "kind": "scalar-map",
+      "status": "synthetic",
+      "source_evidence_ids": [
+        "ihacpa-nep25-acute-page"
+      ],
+      "parameters": {
+        "icu_rate": 0.0,
+        "covid_adjustment": 0.0,
+        "indigenous_adjustment": 0.0,
+        "remoteness_adjustment": 0.0,
+        "treatment_remoteness_adjustment": 0.0,
+        "radiotherapy_adjustment": 0.0,
+        "dialysis_adjustment": 0.0,
+        "private_accommodation_same_day": 0.0,
+        "private_accommodation_overnight": 0.0
+      }
+    }
+  ],
+  "validation": {
+    "status": "source-only",
+    "parity_claim": false,
+    "source_only": true,
+    "notes": [
+      "Synthetic canary bundle derived from repository fixtures.",
+      "Do not treat this bundle as parity-validated."
+    ]
+  }
+}
