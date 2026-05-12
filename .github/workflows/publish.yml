@@ -60,6 +60,13 @@ jobs:
 
       - name: Verify release artifact checksums
         run: |
+          find dist -maxdepth 1 -type f -printf '%f\n' > dist/files.txt
+          awk '/^(checksums\.txt|.*\.whl|.*\.tar\.gz|.*\.zip)$/ {next} {print}' dist/files.txt | tee dist/unexpected-files.txt
+          test ! -s dist/unexpected-files.txt || {
+            echo "Unexpected files in dist/ for publish:"
+            cat dist/unexpected-files.txt
+            exit 1
+          }
           test -f dist/checksums.txt || {
             echo "Missing dist/checksums.txt; cannot verify released artifacts."
             exit 1
