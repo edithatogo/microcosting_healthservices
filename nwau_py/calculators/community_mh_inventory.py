@@ -78,6 +78,8 @@ CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
         "NEP25_SAS_NWAU_calculator",
         "NEP25_SAS_NWAU_calculator/calculators",
     ),
+    _y("2026", "active", "NEP26_SAS_NWAU_calculator",
+       "NEP26_SAS_NWAU_calculator/calculators", suf="26"),
 ]
 
 

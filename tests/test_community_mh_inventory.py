@@ -14,7 +14,7 @@ def test_inventory_has_all_expected_years():
     """The inventory must cover NEP21 through NEP25 (the years with MH SAS
     calculators and community price-weight tables)."""
     years = sorted(a.year for a in CMTY_MH_ARTIFACTS)
-    assert years == ["2021", "2022", "2023", "2024", "2025"]
+    assert years == ["2021", "2022", "2023", "2024", "2025", "2026"]
 
 
 def test_inventory_sas_templates_refer_to_existing_files():
@@ -53,11 +53,13 @@ def test_inventory_adm_price_weights_refer_to_existing_files():
             )
 
 
-def test_nep25_is_active_pricing():
-    """NEP25 (2025-26) is the first year where community mental health is
-    priced for activity-based funding."""
+def test_nep25_nep26_are_active_pricing():
+    """NEP25 (2025-26) and NEP26 (2026-27) are the first years where
+    community mental health is priced for activity-based funding."""
     nep25 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2025")
     assert nep25.pricing_status == "active"
+    nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
+    assert nep26.pricing_status == "active"
 
 
 def test_nep21_nep24_are_shadow_pricing():
@@ -102,10 +104,11 @@ def test_no_mh_calculator_before_nep21():
 
 def test_get_inventory_by_year_found():
     """get_inventory_by_year returns the correct artifact for a known year."""
-    art = get_inventory_by_year("2025")
-    assert art is not None
-    assert art.year == "2025"
-    assert art.pricing_status == "active"
+    for year in ("2025", "2026"):
+        art = get_inventory_by_year(year)
+        assert art is not None
+        assert art.year == year
+        assert art.pricing_status == "active"
 
 
 def test_get_inventory_by_year_not_found():
@@ -118,6 +121,7 @@ def test_get_active_years():
     """get_active_years returns only years with active pricing status."""
     active = get_active_years()
     assert "2025" in active
+    assert "2026" in active
     assert all(y not in active for y in get_shadow_years())
 
 

@@ -8,6 +8,12 @@ The shared classification preflight validator is available in
 `nwau_py.classification_validation`, but this page does not claim it is wired
 into every calculator or CLI entry point yet.
 
+## Supported pricing years
+
+| Year | NWAU price | Acute classification | Non-admitted classification | Notes |
+| --- | ---: | --- | --- | --- |
+| NEP26 (2026-27) | $7,418/NWAU(26) | AR-DRG v12.0 | Tier 2 v10.0 | Transition from AR-DRG v11.0 (acute) and Tier 2 v7 (non-admitted). AECC v1.1, AMHCC v1, AN-SNAP v5, UDG v1.3 unchanged. Not yet validated. |
+
 | Module | SAS source | Notes |
 |-------|-----------|-------|
 |`acute`|`NWAU25_CALCULATOR_ACUTE.sas`|Calculates NWAU25 for acute admitted episodes. Implements ICU hour logic, length of stay categories and private patient adjustments using pandas operations. 2026-27 documentation coverage notes classification impacts for AR-DRG v12.0 and Tier 2 v10.0. An opt-in Rust-backed acute 2025 adapter is also available via `calculate_acute_rust_2025()`.|

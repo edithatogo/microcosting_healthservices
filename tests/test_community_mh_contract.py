@@ -75,7 +75,7 @@ def test_build_contract_for_supported_years(year):
 
 def test_supported_years_match_inventory_validation_status():
     """Community MH validation status is shadow until the 2025 active year."""
-    assert get_active_years() == ["2025"]
+    assert get_active_years() == ["2025", "2026"]
     assert get_shadow_years() == ["2021", "2022", "2023", "2024"]
 
     for year, expected_status in EXPECTED_STATUS_BY_YEAR.items():
