@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "validation_id": "pricing_year_validation_pass_2025",
+  "command": "funding-calculator validate-year 2025",
+  "pricing_year": "2025",
+  "status": "pass",
+  "exit_code": 0,
+  "checks": [
+    {
+      "id": "pricing_year_recognised",
+      "status": "pass",
+      "message": "Pricing year 2025 is a well-formed year label."
+    },
+    {
+      "id": "manifest_complete",
+      "status": "pass",
+      "message": "Reference data manifest includes the required fields."
+    },
+    {
+      "id": "fixture_evidence_present",
+      "status": "pass",
+      "message": "Local validation fixture evidence is present for this pricing year."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic success example only."
+  }
+}

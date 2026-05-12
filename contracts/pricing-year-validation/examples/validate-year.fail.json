@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "validation_id": "pricing_year_validation_fail_2027",
+  "command": "funding-calculator validate-year 2027",
+  "pricing_year": "2027",
+  "status": "fail",
+  "exit_code": 1,
+  "checks": [
+    {
+      "id": "pricing_year_recognised",
+      "status": "pass",
+      "message": "Pricing year 2027 is a well-formed year label."
+    },
+    {
+      "id": "manifest_complete",
+      "status": "pass",
+      "message": "Reference data manifest includes the required fields."
+    },
+    {
+      "id": "fixture_evidence_present",
+      "status": "fail",
+      "message": "Validation fixture evidence is missing for this pricing year."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 1
+  },
+  "diagnostics": [
+    {
+      "code": "missing_fixture_bundle",
+      "severity": "error",
+      "message": "No committed fixture bundle was found for pricing year 2027."
+    }
+  ],
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic failure example only."
+  }
+}

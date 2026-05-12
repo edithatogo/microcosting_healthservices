@@ -196,9 +196,10 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Pricing-Year Validation Gates**
+- [x] **Track: Pricing-Year Validation Gates**
 *Link: [./tracks/pricing_year_validation_gates_20260512/](./tracks/pricing_year_validation_gates_20260512/)*
 *Gate: prevent pricing years from being marked supported or validated without required source, extraction, and fixture evidence.*
+*Evidence surfaces: `funding-calculator validate-year <year>`, the validation ladder in `conductor/roadmap-governance.md`, the status vocabulary in `conductor/validation-vocabulary.md`, and the manifest schema contract in `conductor/tracks/reference_data_manifest_schema_20260512`.*
 
 ---
 

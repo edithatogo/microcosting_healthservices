@@ -1,0 +1,67 @@
+schema_version: "1.0"
+bundle_id: "pricing-year-validation-gates-2027"
+pricing_year: "2027"
+financial_year: "2027-28"
+calculator: "acute"
+current_pricing_year: false
+validation_status: "source-only"
+source_register:
+  resource_page_url: "https://example.invalid/ihacpa/resources/national-efficient-price-determination-2027-28"
+  resource_page_published_on: "2026-05-12"
+  resource_page_last_updated_on: "2026-05-12"
+  technical_spec_url: "https://example.invalid/ihacpa/resources/national-pricing-model-technical-specifications-2027-28"
+  technical_spec_published_on: "2026-05-12"
+  price_weights_reference: {}
+  adjustments_reference: {}
+source_artifacts:
+  - artifact_id: "nwau27-technical-spec"
+    kind: "technical-specification"
+    service_stream: "admitted acute"
+    title: "National pricing model technical specifications 2027-28"
+    url: "https://example.invalid/ihacpa/resources/national-pricing-model-technical-specifications-2027-28"
+    local_path: "reference-data/2027/source/nwau27-technical-spec.pdf"
+    published_on: "2026-05-12"
+    retrieved_on: "2026-05-12"
+    publication_date_basis: "synthetic_example"
+    sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+    bytes: 128
+    license: "synthetic"
+    provenance: "Synthetic source fixture for pricing-year validation-gate tests."
+constants:
+  nep: 0
+coding_sets:
+  - name: "AR-DRG"
+    version: "v12.0"
+    status: "expected"
+    source_url: "https://example.invalid/ihacpa/resources/ar-drg-v12"
+    note: "Synthetic coding-set placeholder for validation-gate tests."
+    official_page_version: "2027"
+validation:
+  status: "source-only"
+  parity_claim: false
+  source_only: true
+  notes:
+    - "Source page has been discovered but not archived."
+    - "Extraction and fixture evidence are still missing."
+gaps:
+  - gap_id: "2027-source-page-not-archived"
+    kind: "source_missing"
+    scope: "source_register.resource_page_url"
+    reason: "The pricing-year source page has not been archived into the reference-data manifest."
+    expected_resolution: "Archive the official source page and attach the page snapshot provenance."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2027-extraction-not-complete"
+    kind: "validation_blocked"
+    scope: "source_artifacts[0].extraction"
+    reason: "The technical specification has not been extracted into typed parameter tables."
+    expected_resolution: "Extract the published tables into a structured parameter bundle and record extraction evidence."
+    introduced_at: "2026-05-12"
+    status: "open"
+  - gap_id: "2027-fixture-evidence-missing"
+    kind: "validation_blocked"
+    scope: "fixtures.acute_2027"
+    reason: "No golden fixture pack exists for the pricing-year output yet."
+    expected_resolution: "Add a fixture manifest and expected output pack that exercise the pricing-year validation gates."
+    introduced_at: "2026-05-12"
+    status: "tracked"

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "validation_id": "pricing_year_validation_gates_20260512",
+  "tool": {
+    "name": "funding-calculator",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.cli.main:cli"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This contract bundle contains synthetic fixtures only."
+  },
+  "commands": [
+    {
+      "name": "validate-year",
+      "syntax": "funding-calculator validate-year <year>",
+      "status": "stable",
+      "inputs": [
+        "pricing_year",
+        "reference_data_manifest",
+        "validation_fixture_bundle"
+      ],
+      "outputs": [
+        "validation_report",
+        "exit_code",
+        "diagnostics"
+      ],
+      "notes": "Validate whether a pricing year is complete, internally consistent, and backed by fixture evidence."
+    }
+  ],
+  "validation_rules": [
+    {
+      "id": "pricing_year_recognised",
+      "label": "Pricing year well formed",
+      "severity": "error",
+      "description": "Reject malformed pricing-year labels before checking repository-local evidence."
+    },
+    {
+      "id": "manifest_complete",
+      "label": "Manifest completeness",
+      "severity": "error",
+      "description": "Require the pricing-year manifest to declare the expected inputs, outputs, and provenance fields."
+    },
+    {
+      "id": "fixture_evidence_present",
+      "label": "Fixture evidence present",
+      "severity": "error",
+      "description": "Require synthetic validation fixtures for the year before marking the year as validated."
+    }
+  ],
+  "outputs": {
+    "report_format": "json",
+    "pass_state": "pass",
+    "fail_state": "fail",
+    "diagnostic_format": "json"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "pricing_year",
+      "manifest_path",
+      "fixture_bundle_path",
+      "validation_result",
+      "checksum_algorithm"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "validate-year-pass",
+      "path": "contracts/pricing-year-validation/examples/validate-year.pass.json",
+      "description": "Synthetic validate-year output showing a pass state for a year with local evidence."
+    },
+    {
+      "name": "validate-year-fail",
+      "path": "contracts/pricing-year-validation/examples/validate-year.fail.json",
+      "description": "Synthetic validate-year output showing a fail state when fixture evidence is missing."
+    }
+  ]
+}
