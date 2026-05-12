@@ -32,6 +32,10 @@ test = [
 coverage = [
     "pytest-cov",
 ]
+security = [
+    "bandit",
+    "pip-audit",
+]
 typing = [
     "ty",
     "pytest",
