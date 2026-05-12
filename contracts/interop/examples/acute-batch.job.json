@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "interop_id": "acute-batch-job-2025",
+  "command": "acute",
+  "pricing_year": "2025",
+  "params_dir": "tests/data/2025",
+  "input": {
+    "path": "tests/data/acute_input.csv",
+    "format": "csv",
+    "role": "input"
+  },
+  "output": {
+    "path": "artifacts/acute_output.parquet",
+    "format": "parquet",
+    "role": "output"
+  },
+  "provenance": {
+    "source": "cli",
+    "notes": "Synthetic example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  }
+}

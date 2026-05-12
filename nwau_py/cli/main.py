@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Callable
+from pathlib import Path
 from typing import IO, Any
 
 import click
@@ -24,10 +26,20 @@ _CLASSIFICATION_SYSTEMS = {
     "ed": "aecc",
     "outpatients": "tier_2",
 }
+_INTEROP_CONTRACT_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "contracts"
+    / "interop"
+    / "cli-file-interop.contract.json"
+)
 
 
 def _write_output(df: pd.DataFrame, outfh: IO[str]) -> None:
     df.to_csv(outfh, index=False)
+
+
+def _load_interop_contract() -> dict[str, Any]:
+    return json.loads(_INTEROP_CONTRACT_PATH.read_text(encoding="utf-8"))
 
 
 def _run(
@@ -131,6 +143,17 @@ def common_options(func: Callable[..., Any]) -> Callable[..., Any]:
 @click.group()
 def cli() -> None:
     """NWAU calculation commands."""
+
+
+@cli.group()
+def interop() -> None:
+    """Inspect the file interop contract bundle."""
+
+
+@interop.command(name="contract")
+def interop_contract() -> None:
+    """Print the machine-readable CLI/file interop contract."""
+    click.echo(json.dumps(_load_interop_contract(), indent=2, sort_keys=True))
 
 
 @cli.command()

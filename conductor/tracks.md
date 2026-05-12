@@ -178,7 +178,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: CLI and File Interoperability Binding**
+- [x] **Track: CLI and File Interoperability Binding**
 *Link: [./tracks/cli_file_interop_binding_20260512/](./tracks/cli_file_interop_binding_20260512/)*
 *Gate: provide a language-neutral Arrow/Parquet/CSV and CLI contract for ecosystems where native bindings are premature.*
 

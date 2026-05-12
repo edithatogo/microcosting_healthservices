@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "interop_id": "cli_file_interop_binding_20260512",
+  "tool": {
+    "name": "funding-calculator",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.cli.main:cli"
+  },
+  "schema": {
+    "path": "contracts/interop/cli-file-interop.schema.json"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Committed examples are synthetic scaffolds only and safe to publish."
+  },
+  "commands": [
+    {
+      "name": "acute",
+      "input_formats": [
+        "csv",
+        "parquet"
+      ],
+      "output_formats": [
+        "csv",
+        "parquet"
+      ],
+      "status": "stable",
+      "notes": "Batch calculate acute care NWAU."
+    },
+    {
+      "name": "ed",
+      "input_formats": [
+        "csv",
+        "parquet"
+      ],
+      "output_formats": [
+        "csv",
+        "parquet"
+      ],
+      "status": "stable",
+      "notes": "Batch calculate emergency department NWAU."
+    },
+    {
+      "name": "non-admitted",
+      "input_formats": [
+        "csv",
+        "parquet"
+      ],
+      "output_formats": [
+        "csv",
+        "parquet"
+      ],
+      "status": "stable",
+      "notes": "Batch calculate non-admitted NWAU."
+    },
+    {
+      "name": "interop contract",
+      "input_formats": [],
+      "output_formats": [
+        "json"
+      ],
+      "status": "preview",
+      "notes": "Print the machine-readable interop contract bundle."
+    }
+  ],
+  "file_formats": [
+    "csv",
+    "parquet",
+    "arrow"
+  ],
+  "diagnostics": {
+    "format": "json",
+    "location": "stderr",
+    "fields": [
+      "severity",
+      "code",
+      "message",
+      "path"
+    ]
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "pricing_year",
+      "params_dir",
+      "input_path",
+      "output_path"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "acute-batch-job",
+      "path": "contracts/interop/examples/acute-batch.job.json",
+      "description": "Batch job manifest for an acute calculation."
+    },
+    {
+      "name": "acute-batch-result",
+      "path": "contracts/interop/examples/acute-batch.result.json",
+      "description": "Matching result manifest for the same job."
+    }
+  ]
+}

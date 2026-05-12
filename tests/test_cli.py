@@ -1,4 +1,5 @@
 import importlib
+import json
 import sys
 import types
 from pathlib import Path
@@ -139,3 +140,26 @@ def test_cli_rejects_unavailable_classification_year(tmp_path):
 
     assert result.exit_code != 0
     assert "not available for pricing year 2021" in result.output
+
+
+@pytest.mark.skipif(
+    _cli is None,
+    reason=f"CLI import failed: {_CLI_ERR}",
+)
+def test_cli_interop_contract_is_machine_readable():
+    runner = CliRunner()
+    result = runner.invoke(cast(Any, _cli), ["interop", "contract"])
+
+    assert result.exit_code == 0
+
+    contract = json.loads(result.output)
+    assert contract["schema_version"] == "1.0"
+    assert contract["tool"]["name"] == "funding-calculator"
+    assert (
+        contract["schema"]["path"] == "contracts/interop/cli-file-interop.schema.json"
+    )
+    assert {command["name"] for command in contract["commands"]} >= {
+        "acute",
+        "ed",
+        "non-admitted",
+    }

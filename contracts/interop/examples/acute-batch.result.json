@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "interop_id": "acute-batch-result-2025",
+  "command": "acute",
+  "pricing_year": "2025",
+  "status": "success",
+  "output": {
+    "path": "artifacts/acute_output.parquet",
+    "format": "parquet",
+    "role": "output"
+  },
+  "diagnostics": {
+    "format": "json",
+    "location": "stderr",
+    "count": 0
+  },
+  "provenance": {
+    "source": "cli",
+    "notes": "Synthetic example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  }
+}
