@@ -31,6 +31,7 @@ CALCULATOR_IDENTIFIERS: frozenset[str] = frozenset(
     {
         "acute",
         "adjust",
+        "community_mh",
         "ed",
         "mh",
         "outpatients",
