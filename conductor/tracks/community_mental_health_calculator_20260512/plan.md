@@ -1,7 +1,7 @@
 # Plan: Community Mental Health Calculator Support
 
 ## Phase 1: Source and Scope Mapping
-- [ ] Task: Inventory community mental health calculator artifacts by year.
+- [x] Task: Inventory community mental health calculator artifacts by year. [408334b]
     - [ ] Identify shadow versus active pricing status.
     - [ ] Record calculator, workbook, SAS, and user-guide availability.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1: Source and Scope Mapping' (Protocol in workflow.md)
