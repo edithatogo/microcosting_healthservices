@@ -1,9 +1,9 @@
 # Plan: Classification Input Validation
 
 ## Phase 1: Matrix and Schema Design
-- [ ] Task: Create a year-by-year classification compatibility matrix.
-    - [ ] Include AR-DRG, AECC, UDG, Tier 2, AMHCC, and known transition years.
-    - [ ] Identify licensed/non-redistributable inputs.
+- [x] Task: Create a year-by-year classification compatibility matrix.
+    - [x] Include AR-DRG, AECC, UDG, Tier 2, AMHCC, and known transition years.
+    - [x] Identify licensed/non-redistributable inputs.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1: Matrix and Schema Design' (Protocol in workflow.md)
 
 ## Phase 2: Validator Tests
