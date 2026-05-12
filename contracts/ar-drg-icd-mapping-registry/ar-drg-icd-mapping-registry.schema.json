@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/contracts/ar-drg-icd-mapping-registry/ar-drg-icd-mapping-registry.schema.json",
   "title": "AR-DRG ICD/ACHI/ACS mapping registry contract",
+  "description": "Schema for synthetic metadata-only AR-DRG registry fixtures, including precomputed input, local reference, diagnostics, and license-boundary examples.",
   "type": "object",
   "additionalProperties": false,
   "required": [

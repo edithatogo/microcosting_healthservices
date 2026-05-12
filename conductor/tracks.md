@@ -230,7 +230,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: AR-DRG Grouper Integration**
+- [x] **Track: AR-DRG Grouper Integration**
 *Link: [./tracks/ar_drg_grouper_integration_20260512/](./tracks/ar_drg_grouper_integration_20260512/)*
 *Gate: support precomputed AR-DRGs and licensed external grouper integration without reimplementing proprietary grouping logic.*
 

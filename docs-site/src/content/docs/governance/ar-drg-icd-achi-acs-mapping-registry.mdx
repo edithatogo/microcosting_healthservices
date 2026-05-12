@@ -54,6 +54,22 @@ official grouping tables.
   of the proprietary grouper.
 </Aside>
 
+## Supported workflow modes
+
+The public docs support three AR-DRG workflow descriptions:
+
+1. Precomputed AR-DRG input, where the grouped DRG is already supplied and the
+   docs only validate provenance, version alignment, and downstream use.
+2. Local licensed external grouping, where a user supplies their own licensed
+   command, service, or file-exchange process outside the repository.
+3. Metadata-only provenance, where the docs describe the versions, pricing
+   year, and local asset references without claiming bundled grouping logic.
+
+These modes are intentionally narrow. They let the repository explain how a
+study or workflow can use AR-DRG outputs without bundling proprietary grouping
+logic or implying that the public docs can replace the official licensed
+grouper.
+
 ## Costing-study implications
 
 For costing studies, this registry is useful because AR-DRG comparisons are only
@@ -65,6 +81,8 @@ meaningful when the coded inputs and grouping version match the study year.
   details.
 - Avoid comparing episode-level costs across studies that used different
   grouping versions unless the study explicitly reconciles that difference.
+- Treat precomputed AR-DRG inputs as study artifacts, not as proof that a
+  separate implementation matches the official grouper.
 - Use the registry as provenance for the study method, not as evidence that two
   independent implementations produce identical grouping results.
 
@@ -82,6 +100,8 @@ costing result.
 - Do not redistribute restricted input tables or software through this docs
   site.
 - Do not mix public provenance records with claims about executable support.
+- Do not present local command, service, or file-exchange integrations as a
+  bundled implementation of proprietary grouping logic.
 
 <Aside>
   Public docs can explain how to track AR-DRG provenance, versioning, and

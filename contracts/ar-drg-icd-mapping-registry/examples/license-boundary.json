@@ -13,13 +13,16 @@
       "provenance fields",
       "source URLs",
       "checksums",
-      "local placeholders"
+      "local placeholders",
+      "metadata-only precomputed input envelopes",
+      "diagnostic summaries"
     ],
     "disallowed_content": [
       "licensed ICD-10-AM table rows",
       "licensed ACHI table rows",
       "licensed ACS content",
       "AR-DRG grouper internals",
+      "proprietary grouping rules",
       "patient-level extracts"
     ],
     "notes": "This example records the contract boundary for committed fixtures. It does not contain restricted classification products."

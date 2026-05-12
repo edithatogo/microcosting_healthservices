@@ -1,0 +1,40 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "entry_id": "external-local-grouper-references",
+  "entry_type": "external_grouper_reference",
+  "references": [
+    {
+      "reference_id": "local-command-placeholder",
+      "reference_type": "local_command",
+      "access_mode": "user_supplied",
+      "status": "unresolved",
+      "command": "ar-drg-grouper --input <precomputed-ar-drg-input.json> --diagnostics <diagnostics.json>",
+      "local_placeholder_path": "./licensed/ar-drg-grouper/README.local.md",
+      "license_boundary": "local-only",
+      "notes": "Synthetic command placeholder for a locally supplied licensed grouper."
+    },
+    {
+      "reference_id": "local-file-exchange-placeholder",
+      "reference_type": "local_file_exchange",
+      "access_mode": "user_supplied",
+      "status": "unresolved",
+      "local_placeholder_path": "./licensed/ar-drg-grouper/exchange.local.md",
+      "license_boundary": "local-only",
+      "notes": "Synthetic placeholder for a user-managed file exchange or drop location."
+    }
+  ],
+  "provenance": {
+    "command": "mapping-registry resolve-reference",
+    "source_manifest_path": "manifests/external-local-grouper-references.json",
+    "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-external-local-grouper-references",
+    "bytes": 1792,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic local placeholder references only."
+  }
+}

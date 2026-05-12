@@ -1,0 +1,51 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "entry_id": "precomputed-ar-drg-input-manifest",
+  "entry_type": "precomputed_input_record",
+  "input": {
+    "input_type": "precomputed_ar_drg_input",
+    "status": "metadata_only",
+    "source_kind": "synthetic_fixture",
+    "pricing_year": "2026-27",
+    "ar_drg_version": "12.0",
+    "icd10am_version": "12th edition",
+    "achi_version": "12th edition",
+    "acs_version": "12th edition",
+    "declared_payload": [
+      "episode metadata envelope",
+      "precomputed grouping input labels",
+      "local reference tags",
+      "provenance markers"
+    ],
+    "excluded_payload": [
+      "PHI",
+      "patient identifiers",
+      "diagnosis and procedure code rows",
+      "licensed mapping tables",
+      "proprietary grouping rules",
+      "production outputs"
+    ],
+    "field_names": [
+      "record_token",
+      "source_system",
+      "service_date_month",
+      "admission_channel",
+      "separation_mode"
+    ],
+    "notes": "Synthetic metadata-only input envelope used to exercise integration wiring without bundling any restricted grouping content."
+  },
+  "provenance": {
+    "command": "mapping-registry load-precomputed-input",
+    "source_manifest_path": "manifests/precomputed-ar-drg-input.json",
+    "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-precomputed-ar-drg-input",
+    "bytes": 1664,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic metadata-only input example."
+  }
+}

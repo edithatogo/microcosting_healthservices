@@ -73,9 +73,12 @@ download:
   and version.
 - The repository should not bundle the licensed asset if redistribution is not
   allowed.
-- A local path or environment setting can point to the user-owned artifact.
+- A local path, command, service endpoint, or file-exchange location can point
+  to the user-owned artifact.
 - Compatibility checks should fail closed when the expected local asset is
   missing or the version does not match the selected pricing year.
+- Precomputed AR-DRG outputs can also be treated as local inputs when the
+  provenance is clear and the study does not require regrouping.
 
 This lets the docs explain how the software behaves without implying that the
 licensed asset is shipped in the repository.

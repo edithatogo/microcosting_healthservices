@@ -69,9 +69,19 @@
       "purpose": "Metadata-only relationship between a pricing year and an AR-DRG / ICD-10-AM / ACHI / ACS version set."
     },
     {
+      "id": "precomputed_input_record",
+      "label": "Precomputed input record",
+      "purpose": "Metadata-only envelope for precomputed AR-DRG input and staged episode metadata without PHI or proprietary grouping content."
+    },
+    {
       "id": "provenance_bundle",
       "label": "Provenance bundle",
       "purpose": "Source-manifest and checksum metadata for a committed synthetic fixture."
+    },
+    {
+      "id": "diagnostic_record",
+      "label": "Diagnostic record",
+      "purpose": "Synthetic validation, compatibility, or boundary diagnostics for metadata-only fixtures."
     },
     {
       "id": "license_boundary_record",
@@ -89,7 +99,7 @@
       "id": "metadata_only",
       "label": "Metadata-only registry",
       "severity": "error",
-      "description": "Reject registry entries that embed licensed table rows, grouper logic, or other restricted content."
+      "description": "Reject registry entries that embed licensed table rows, proprietary grouping rules, grouper logic, or other restricted content."
     },
     {
       "id": "version_alignment",
@@ -135,6 +145,21 @@
     "checksum_algorithm": "sha256"
   },
   "examples": [
+    {
+      "name": "precomputed-ar-drg-input",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/precomputed-ar-drg-input.json",
+      "description": "Synthetic metadata-only precomputed AR-DRG input envelope."
+    },
+    {
+      "name": "external-local-grouper-references",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/external-local-grouper-references.json",
+      "description": "Synthetic local placeholder references for a user-supplied licensed grouper."
+    },
+    {
+      "name": "diagnostics",
+      "path": "contracts/ar-drg-icd-mapping-registry/examples/diagnostics.json",
+      "description": "Synthetic diagnostics report covering metadata-only, reference, and license-boundary checks."
+    },
     {
       "name": "versioned-mapping-registry",
       "path": "contracts/ar-drg-icd-mapping-registry/examples/versioned-mapping-registry.json",

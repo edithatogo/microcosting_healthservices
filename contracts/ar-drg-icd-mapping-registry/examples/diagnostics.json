@@ -1,0 +1,44 @@
+{
+  "registry_id": "ar_drg_icd_mapping_registry_20260512",
+  "entry_id": "ar-drg-grouper-integration-diagnostics",
+  "entry_type": "diagnostic_record",
+  "diagnostics": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "precomputed_input_metadata_only",
+        "status": "pass",
+        "message": "Precomputed AR-DRG input is metadata only."
+      },
+      {
+        "id": "local_reference_placeholder",
+        "status": "pass",
+        "message": "External grouper references resolve to local placeholders."
+      },
+      {
+        "id": "license_boundary_declared",
+        "status": "pass",
+        "message": "License boundary excludes PHI, proprietary tables, and proprietary grouping rules."
+      }
+    ],
+    "summary": {
+      "passed": 3,
+      "failed": 0
+    },
+    "notes": "Synthetic diagnostics example only."
+  },
+  "provenance": {
+    "command": "mapping-registry validate-ar-drg-integration",
+    "source_manifest_path": "manifests/diagnostics.json",
+    "source_url": "https://www.ihacpa.gov.au/resources/ar-drg-version-120",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-ar-drg-grouper-integration-diagnostics",
+    "bytes": 1280,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic diagnostics example only."
+  }
+}
