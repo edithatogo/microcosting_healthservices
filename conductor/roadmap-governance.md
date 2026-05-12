@@ -39,6 +39,51 @@ Every new track should state:
 - Evidence required before completion.
 - Publication status when the track affects released packages, docs, or apps.
 
+Use this extended `metadata.json` shape for new tracks:
+
+```json
+{
+  "track_id": "<track_id>",
+  "type": "feature|bug|chore",
+  "status": "new|in_progress|completed|cancelled",
+  "track_class": "governance|source-discovery|data-contract|validator|calculator|classifier|costing|binding|publication|audit",
+  "current_state": "roadmap-only|scaffold-only|in-progress|complete-with-gaps|complete",
+  "primary_contract": "<api|schema|source manifest|validation gate|package|docs page|audit report>",
+  "dependencies": [
+    "<track_id or artifact>"
+  ],
+  "completion_evidence": [
+    "<tests|docs|workflow|package registry|release|manifest|audit report>"
+  ],
+  "publication_status": "not-applicable|future-only|unpublished|published|published-with-gaps",
+  "created_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "updated_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "description": "<description>"
+}
+```
+
+Legacy tracks that do not have these fields should be normalized by the
+Roadmap Portfolio Governance Backfill track before broad completion claims are
+made.
+
+## Track Creation Checklist
+
+Before adding a new track:
+
+- Confirm whether an existing track already owns the work.
+- Choose exactly one primary track class.
+- State the current state honestly; roadmap content alone is
+  `roadmap-only`.
+- Identify upstream dependencies and downstream consumers.
+- Define the explicit contract being delivered.
+- Define the evidence needed before the track can be marked complete.
+- Identify whether publication, package release, docs deployment, or registry
+  updates are part of completion.
+- Add SAS parity and Excel formula parity requirements for pricing-year
+  validation tracks where those sources are available.
+- Add abstraction-boundary requirements for binding, app, classifier, and
+  tutorial tracks.
+
 ## Dependency Order
 
 Prefer this order unless a track explicitly documents why it can proceed

@@ -17,6 +17,21 @@ Use this template to create a recurring audit track for local and remote reposit
   "track_id": "TRACK_ID",
   "type": "chore",
   "status": "new",
+  "track_class": "audit",
+  "current_state": "roadmap-only",
+  "primary_contract": "repository publication and SOTA audit report",
+  "dependencies": [
+    "GitHub repository state",
+    "package registry state",
+    "conductor/roadmap-governance.md"
+  ],
+  "completion_evidence": [
+    "branch and PR findings",
+    "CI and publication status table",
+    "dependency/tooling recommendations",
+    "remediation backlog"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "AUDIT_DATET00:00:00Z",
   "updated_at": "AUDIT_DATET00:00:00Z",
   "description": "Audit local and remote repository completeness, publication state, SOTA dependencies, docs, examples, and release/package health for REMOTE."

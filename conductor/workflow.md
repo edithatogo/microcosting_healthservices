@@ -10,6 +10,7 @@
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
 7. **Transitional-State vs Intended-State Tooling:** Clearly distinguish temporary compatibility tooling from intended-state tooling. Do not describe legacy files, compatibility shims, or migration-only tools as authoritative once the replacement track has defined the target state.
 8. **Roadmap Governance:** Large roadmap additions must be classified and sequenced using `roadmap-governance.md`. Do not mark roadmap, scaffold, or publication work complete unless the required contract and evidence exist.
+9. **Subagent Accountability:** When subagents are used, assignments must follow `subagent-orchestration.md`. Delegated work must include implementation, tests or validation evidence, documentation, review, and handoff requirements where applicable.
 
 ## Task Workflow
 
@@ -22,6 +23,10 @@ All tasks follow a strict lifecycle:
    For roadmap-heavy work, first confirm that the track class, dependencies,
    contract, and completion evidence are stated. If they are missing, update the
    track before implementation.
+
+   If using subagents, define their roles, model preference, owned files,
+   out-of-scope areas, acceptance criteria, and handoff requirements before they
+   start.
 
 2. **Mark In Progress:** Before beginning work, edit `plan.md` and change the task from `[ ]` to `[~]`
 
@@ -79,6 +84,16 @@ All tasks follow a strict lifecycle:
 
 **Trigger:** This protocol is executed immediately after a task is completed that also concludes a phase in `plan.md`.
 
+**Mandatory Automation Rule:** Every phase boundary must automatically invoke
+`conductor-review` before checkpointing. The phase is not complete until
+`conductor-review` has inspected the phase against the active `spec.md`,
+`plan.md`, `workflow.md`, changed files, and validation commands; applied every
+high-confidence fix directly; rerun the narrowest validation that proves those
+fixes; and returned control without unresolved blockers. Do not ask for manual
+confirmation between phase completion, review, fix application, validation,
+checkpointing, and progression to the next phase unless the bounded retry budget
+is exhausted or a risky design decision cannot be resolved from local context.
+
 1.  **Announce Protocol Start:** Inform the user that the phase is complete and the verification and checkpointing protocol has begun.
 
 2.  **Ensure Test Coverage for Phase Changes:**
@@ -96,10 +111,13 @@ All tasks follow a strict lifecycle:
     -   If tests fail, you **must** inform the user and begin debugging. You may attempt to propose a fix a **maximum of two times**. If the tests still fail after your second proposed fix, you **must stop**, report the persistent failure, and ask the user for guidance.
 
 4.  **Run `conductor-review` and Auto-Fix:**
-    -   Use the `conductor-review` skill to inspect the current phase or track against the spec, plan, workflow, tests, and changed files.
-    -   Apply every high-confidence fix directly.
-    -   Rerun the narrowest validation that proves the fix.
+    -   Automatically use the `conductor-review` skill to inspect the current phase or track against the spec, plan, workflow, tests, changed files, and applicable validation commands.
+    -   Apply every high-confidence fix directly without asking for permission.
+    -   Rerun the narrowest validation that proves the fix, escalating to broader validation only when the changed surface requires it.
+    -   Re-review the updated diff and validation output after each fix.
     -   Repeat the review-fix-validation loop until the work is stable or the bounded retry budget is exhausted.
+    -   If `conductor-review` reports no unresolved blockers, continue directly to checkpointing.
+    -   If `conductor-review` reports an unresolved blocker after bounded retries, stop, report findings first, and do not checkpoint or advance.
 
 5.  **Create Checkpoint Commit:**
     -   Stage all changes. If no changes occurred in this step, proceed with an empty commit.
@@ -118,7 +136,7 @@ All tasks follow a strict lifecycle:
     - **Action:** Stage the modified `plan.md` file.
     - **Action:** Commit this change with a descriptive message following the format `conductor(plan): Mark phase '<PHASE NAME>' as complete`.
 
-9.  **Auto-Advance:** Once the checkpoint is recorded, automatically continue with the next incomplete task or next track. Do not pause for manual confirmation unless the workflow is blocked by missing context or a failing bounded retry.
+9.  **Auto-Advance:** Once the checkpoint is recorded, automatically continue with the next incomplete task, next phase, or next track. Do not pause for manual confirmation unless the workflow is blocked by missing context, a failing bounded retry, or a risky design decision that cannot be resolved from local context.
 
 10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed automated review report attached as a git note.
 
@@ -138,6 +156,7 @@ Before marking any task complete, verify:
 - [ ] Track class, dependencies, explicit contract, and completion evidence are recorded for roadmap or governance work
 - [ ] Pricing-year validation claims include SAS parity and Excel formula parity where those sources are available, or explicit gap records where they are not
 - [ ] Bindings, apps, and examples consume shared contracts rather than duplicating formula logic
+- [ ] Subagent handoffs include changed files, validations, documentation updates, review findings, and residual risks when subagents were used
 
 ## Development Commands
 

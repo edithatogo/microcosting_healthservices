@@ -1,0 +1,27 @@
+{
+  "track_id": "end_to_end_validated_canary_20260512",
+  "type": "feature",
+  "status": "new",
+  "track_class": "calculator",
+  "current_state": "roadmap-only",
+  "primary_contract": "one stream/year validated lifecycle evidence package",
+  "dependencies": [
+    "reference_data_manifest_schema_20260512",
+    "formula_parameter_bundle_pipeline_20260512",
+    "pricing_year_validation_gates_20260512",
+    "rust_acute_python_poc_20260510"
+  ],
+  "completion_evidence": [
+    "source manifest",
+    "formula bundle",
+    "SAS parity record",
+    "Excel formula parity record",
+    "fixture parity report",
+    "Python/Rust/CLI conformance report",
+    "Starlight documentation page"
+  ],
+  "publication_status": "future-only",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Prove the full SOTA implementation lifecycle for one calculator stream and pricing year before scaling the roadmap."
+}

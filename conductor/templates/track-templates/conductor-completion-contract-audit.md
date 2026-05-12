@@ -17,6 +17,19 @@ Use this template to create a recurring audit track that verifies whether the Co
   "track_id": "TRACK_ID",
   "type": "chore",
   "status": "new",
+  "track_class": "audit",
+  "current_state": "roadmap-only",
+  "primary_contract": "audit report",
+  "dependencies": [
+    "conductor/tracks.md",
+    "conductor/roadmap-governance.md"
+  ],
+  "completion_evidence": [
+    "findings table",
+    "remediation backlog",
+    "fixed stale links or follow-up tracks"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "AUDIT_DATET00:00:00Z",
   "updated_at": "AUDIT_DATET00:00:00Z",
   "description": "Audit Conductor completion claims, explicit contracts, and achieved evidence across AUDIT_SCOPE."

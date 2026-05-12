@@ -17,6 +17,19 @@ Use this template to create a recurring audit track that searches IHACPA's publi
   "track_id": "TRACK_ID",
   "type": "chore",
   "status": "new",
+  "track_class": "source-discovery",
+  "current_state": "roadmap-only",
+  "primary_contract": "source discovery audit report",
+  "dependencies": [
+    "conductor/source-archive.md",
+    "conductor/roadmap-governance.md"
+  ],
+  "completion_evidence": [
+    "source discovery table",
+    "URLs and retrieval metadata",
+    "new or updated roadmap tracks"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "AUDIT_DATET00:00:00Z",
   "updated_at": "AUDIT_DATET00:00:00Z",
   "description": "Search IHACPA for new formulae, systems, mappings, classifications, cost data, and documentation relevant to PRICING_YEARS."

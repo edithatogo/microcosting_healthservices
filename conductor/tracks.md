@@ -2,6 +2,12 @@
 
 This file tracks the delivery order for the project. The focused tracks below are the implementation source of truth. The modernization foundation track is retained only as an umbrella coordination track and must not duplicate work owned by the focused tracks.
 
+New tracks must follow the governance rules in
+[`roadmap-governance.md`](./roadmap-governance.md). In particular, new track
+metadata should include track class, current state, dependencies, primary
+contract, completion evidence, and publication status. Roadmap or scaffold
+content alone is not sufficient evidence for marking a track complete.
+
 ## Delivery Order
 
 1. [x] **Track: Source Archive and Provenance Registry**
@@ -339,3 +345,33 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Roadmap Portfolio Governance Backfill**
 *Link: [./tracks/roadmap_portfolio_governance_backfill_20260512/](./tracks/roadmap_portfolio_governance_backfill_20260512/)*
 *Gate: backfill class, dependency, explicit contract, current-state, and completion-evidence metadata across the expanded Conductor roadmap before further broad implementation claims.*
+
+---
+
+- [ ] **Track: Expert Panel Remediation**
+*Link: [./tracks/expert_panel_remediation_20260512/](./tracks/expert_panel_remediation_20260512/)*
+*Gate: convert simulated expert-panel findings into explicit track dependencies, gate notes, and remediation priorities before implementing lower-priority bindings or publication expansion.*
+
+---
+
+- [ ] **Track: End-to-End Validated Canary**
+*Link: [./tracks/end_to_end_validated_canary_20260512/](./tracks/end_to_end_validated_canary_20260512/)*
+*Gate: prove one stream/year lifecycle from source archive through SAS/Excel parity, formula bundles, Rust canary, Python/CLI conformance, and Starlight documentation before scaling implementation claims.*
+
+---
+
+- [ ] **Track: Public Appropriate-Use Documentation**
+*Link: [./tracks/public_appropriate_use_docs_20260512/](./tracks/public_appropriate_use_docs_20260512/)*
+*Gate: publish conservative docs for validation status, appropriate use, policy caveats, source licensing, and non-endorsement before broad promotion.*
+
+---
+
+- [ ] **Track: Release Evidence Automation**
+*Link: [./tracks/release_evidence_automation_20260512/](./tracks/release_evidence_automation_20260512/)*
+*Gate: make release, package, tag, docs, workflow, and registry publication claims machine-checkable before expanding publication targets.*
+
+---
+
+- [ ] **Track: Contract Schema Export**
+*Link: [./tracks/contract_schema_export_20260512/](./tracks/contract_schema_export_20260512/)*
+*Gate: export versioned schemas for calculator contracts, manifests, evidence, diagnostics, and provenance before implementing broad bindings.*
