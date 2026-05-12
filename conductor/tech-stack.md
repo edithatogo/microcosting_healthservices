@@ -82,12 +82,33 @@ The project should enforce strict abstraction between:
 - Input/output schemas.
 - Reference data loading.
 - Source provenance and validation metadata.
+- Classification and coding-set registries.
+- Mapping-table and formula-bundle extraction.
+- External classifier and grouper integration.
 - CLI and user-facing workflow code.
 - Rust-core kernel logic and language adapters.
 
 Calculator functions should avoid hidden global state. Calculation behavior should be deterministic for a given input dataset, pricing year, parameter model, and reference data bundle.
 
 The architecture should make it possible to compare implementations against SAS, Excel, compiled/Python reference files, and extracted Arrow-backed datasets. Rust is the intended future core implementation, while Python remains the baseline for validation and promotion until parity is recorded.
+
+Future calculator support should follow a ports-and-adapters model:
+
+- Formula kernels consume validated parameter bundles and typed input batches.
+- Reference data bundles describe the pricing-year facts used by the kernels.
+- Coding-set registries describe which classification versions are compatible
+  with each pricing year and stream.
+- Mapping and grouping adapters derive classifications only through declared
+  table, command, service, or local licensed-tool interfaces.
+- Language bindings call the shared core or CLI/file contract and must not
+  duplicate formula logic.
+- Apps and notebooks orchestrate data preparation, validation, and result
+  presentation only.
+
+Abstraction boundaries are part of the validation surface. A new stream,
+pricing year, classifier, language binding, or app surface is not complete until
+tests demonstrate that the correct contract is used and incompatible versions
+or duplicated formula paths are rejected.
 
 ## Testing and Quality
 

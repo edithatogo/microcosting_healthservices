@@ -37,6 +37,19 @@ Validation status must be explicit. Supported pricing years should distinguish b
 
 The Python implementation should remain practical to use. The CLI and package API should make common batch calculation workflows straightforward while preserving the underlying calculator detail needed for auditability.
 
+Abstraction is a product requirement, not an implementation preference. Formula
+logic, reference data bundles, classification registries, mapping tables,
+groupers, validators, adapters, and user interfaces must remain separate
+concerns. Language bindings, web apps, Power Platform apps, and documentation
+demos must consume shared contracts rather than duplicating calculator behavior.
+
+Classification derivation must be explicit. Derived classifications such as
+AR-DRG, UDG, AECC, AMHCC, and future coding-set outputs should be represented
+as versioned, provenance-bearing inputs or as outputs from pluggable
+classifier/grouper interfaces. The project must not silently translate between
+classification systems or versions without a declared source, table, grouper,
+and validation status.
+
 ## Scope
 
 The product includes Python implementations of IHACPA calculator modules for admitted acute, emergency department, mental health, subacute, outpatient, adjustment, HAC, and AHR-related logic where supported by available source material.

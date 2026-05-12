@@ -1,0 +1,8 @@
+{
+  "track_id": "abstraction_doctrine_enforcement_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Make the project's abstraction philosophy explicit, testable, and enforceable across calculators, coding sets, groupers, bindings, docs, and apps."
+}

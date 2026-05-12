@@ -261,3 +261,9 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Emergency Classification Parity Fixtures**
 *Link: [./tracks/emergency_classification_parity_fixtures_20260512/](./tracks/emergency_classification_parity_fixtures_20260512/)*
 *Gate: validate UDG/AECC version-specific mapping and downstream emergency NWAU behavior with safe synthetic and local official fixtures.*
+
+---
+
+- [ ] **Track: Abstraction Doctrine Enforcement**
+*Link: [./tracks/abstraction_doctrine_enforcement_20260512/](./tracks/abstraction_doctrine_enforcement_20260512/)*
+*Gate: make formula, parameter, registry, classifier, binding, app, and documentation boundaries explicit and enforceable before implementing more surfaces.*
