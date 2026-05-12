@@ -17,6 +17,7 @@ SLOW_VALIDATION_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "slow-validatio
 RELEASE_DRAFTER_FILE = ROOT / ".github" / "release-drafter.yml"
 RELEASE_DRAFTER_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "release-drafter.yml"
 RELEASE_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "release.yml"
+PUBLISH_WORKFLOW_FILE = ROOT / ".github" / "workflows" / "publish.yml"
 TY_FILE = ROOT / "ty.toml"
 MYPY_FILE = ROOT / "mypy.ini"
 ROOT_README_FILE = ROOT / "README.md"
@@ -225,6 +226,16 @@ def test_release_workflow_builds_and_publishes_tagged_releases():
     assert "actions/upload-artifact@v6" in workflow
     assert "softprops/action-gh-release@v3" in workflow
     assert "generate_release_notes: true" in workflow
+
+
+def test_publish_workflow_builds_and_pushes_the_python_distribution():
+    workflow = _read_text(PUBLISH_WORKFLOW_FILE)
+
+    assert "Publish Python package" in workflow
+    assert '      - "v*"' in workflow
+    assert "id-token: write" in workflow
+    assert "uv build" in workflow
+    assert "pypa/gh-action-pypi-publish@release/v1" in workflow
 
 
 def test_conductor_workflow_documents_the_target_uv_command_sequence():

@@ -23,6 +23,8 @@ The GitHub Pages deployment path is wired through
 Releases are tag-driven and start from `v0.2.0`-style tags.
 The repo uses release drafts for notes and a release workflow to build
 distributions and publish GitHub Releases from tagged commits.
+Tagged releases also trigger Python package publishing to PyPI through
+trusted publishing.
 All release claims still depend on the CI and validation gates passing for the
 tagged source.
 
