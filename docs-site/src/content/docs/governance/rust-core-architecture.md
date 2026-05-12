@@ -11,6 +11,28 @@ The architecture follows the repo-wide contract boundary:
 - Parameter models, input/output schemas, reference loading, and provenance
   stay separate from presentation layers.
 
+## Binding status
+
+The Rust extension is an optional delivery surface, not the default runtime.
+Python remains the validated public path until a calculator has fixture parity
+and release evidence recorded for the Rust implementation.
+
+| Calculator status | Meaning |
+| --- | --- |
+| Validated | The Python implementation is the published public answer for that calculator. |
+| Experimental | The Rust path exists, but it is opt-in and may fall back to Python if the extension is missing or incomplete. |
+
+At present, acute 2025 is the experimental Rust-backed calculator named in the
+docs. Other calculators remain Python-backed until their parity records are
+complete.
+
+## Packaging posture
+
+The binding ships as an optional Python extension wheel, not as a Rust-first
+distribution. Wheel claims must stay aligned with the supported CPython and OS
+matrix in the release policy, and source fallback must remain available when a
+wheel is not published for a target platform.
+
 ## Generated reference strategy
 
 This generated reference strategy keeps public docs aligned with the actual implemented contract. The intended stack is:

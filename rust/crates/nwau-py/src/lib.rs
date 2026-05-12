@@ -1,15 +1,15 @@
 #![allow(clippy::useless_conversion)]
 
 use pyo3::prelude::*;
-use pyo3::types::PyDict;
+use pyo3::types::{PyDict, PyList};
 
-#[pyfunction]
+#[pyfunction(name = "kernel_label")]
 fn kernel_label() -> &'static str {
     nwau_core::kernel_label()
 }
 
 #[allow(clippy::too_many_arguments)]
-#[pyfunction]
+#[pyfunction(name = "calculate_acute_2025_row")]
 fn calculate_acute_2025_row<'py>(
     py: Python<'py>,
     drg: &'py str,
@@ -95,6 +95,18 @@ fn calculate_acute_2025_row<'py>(
 
 #[pymodule]
 fn _rust(_py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add(
+        "__doc__",
+        "Rust-backed Python bindings for the acute 2025 kernel.",
+    )?;
+    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
+    m.add(
+        "__all__",
+        PyList::new(
+            _py,
+            ["kernel_label", "calculate_acute_2025_row", "__version__"],
+        )?,
+    )?;
     m.add_function(wrap_pyfunction!(kernel_label, m)?)?;
     m.add_function(wrap_pyfunction!(calculate_acute_2025_row, m)?)?;
     Ok(())

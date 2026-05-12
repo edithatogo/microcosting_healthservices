@@ -136,6 +136,73 @@ jobs:
       - name: Run tests
         run: uv run pytest
 
+  wheel_build:
+    name: Cross-platform maturin wheel build + binding smoke test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: quality
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build maturin wheel
+        run: |
+          set -euo pipefail
+          cd rust/crates/nwau-py
+          uv run --with maturin maturin build --release --out ../../../dist
+
+      - name: Install built wheel into an isolated environment
+        run: |
+          set -euo pipefail
+          python -m venv .venv-wheel
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            wheel_python=".venv-wheel/Scripts/python.exe"
+          else
+            wheel_python=".venv-wheel/bin/python"
+          fi
+          wheel_path="$(find dist -maxdepth 1 -name '*.whl' -print -quit)"
+          if [[ -z "$wheel_path" ]]; then
+            echo "No wheel artifact found in dist/."
+            exit 1
+          fi
+          "$wheel_python" -m pip install --upgrade pip
+          "$wheel_python" -m pip install --no-deps "$wheel_path"
+
+      - name: Smoke test Rust binding from the installed wheel
+        run: |
+          set -euo pipefail
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            wheel_python=".venv-wheel/Scripts/python.exe"
+          else
+            wheel_python=".venv-wheel/bin/python"
+          fi
+          "$wheel_python" - <<'PY'
+          from nwau_py import rust_bridge
+
+          module = rust_bridge.load_rust_extension()
+          print(module.kernel_label())
+          PY
+
   rust:
     name: Phase 3 Rust checks
     runs-on: ubuntu-latest

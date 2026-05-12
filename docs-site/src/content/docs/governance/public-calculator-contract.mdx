@@ -21,6 +21,32 @@ formula logic.
   </Card>
 </CardGrid>
 
+## Batch schema
+
+The contract is batch-first. Adapters accept a batch envelope and return a
+batch result envelope. The row payloads stay runtime-neutral so Python, Rust,
+and future bindings can share the same public shape.
+
+### Request envelope
+
+- `calculator`: lower-case calculator identifier such as `acute`.
+- `pricing_year`: four-digit IHACPA year label such as `2025`.
+- `rows`: array of input row objects.
+- `reference`: year-scoped reference values required by the calculator.
+- `adjustments`: batch-scoped adjustment inputs or override factors.
+
+Each row must include the required input columns for the requested calculator.
+Adapters may ignore extra fields only when those fields do not affect contract
+validation.
+
+### Response envelope
+
+- `calculator`
+- `pricing_year`
+- `results`: row-aligned outputs, including any row-level validation errors.
+- `batch_errors`: non-row-scoped errors such as unsupported calculators,
+  missing reference bundles, or contract-level failures.
+
 ## Acute contract
 
 ### Required inputs
@@ -42,6 +68,21 @@ formula logic.
 - Missing or invalid contract values should be rejected during contract
   construction.
 - Missing input or output columns should surface explicit boundary errors.
+
+## Error mapping
+
+Adapters should map contract failures into stable, machine-readable codes and
+preserve the field path or row index whenever they can.
+
+| Contract condition | Suggested code | Notes |
+| --- | --- | --- |
+| Missing required batch field or row column | `missing_required_field` | Include the field path and row index. |
+| Value has the wrong type or format | `invalid_value` | Include the field path and expected shape. |
+| Calculator is not supported | `unsupported_calculator` | Use before any core execution starts. |
+| Pricing year is not supported | `unsupported_pricing_year` | Use when the year is outside the published contract surface. |
+| Required reference data is missing | `missing_reference_bundle` | Use when the adapter cannot resolve the shared reference payload. |
+| Rust path is present but not opted in | `experimental_calculator_disabled` | Keep the Python fallback available. |
+| Core execution raises an unexpected failure | `internal_calculator_error` | Keep stack traces out of user-facing docs. |
 
 ## Adapter mapping
 

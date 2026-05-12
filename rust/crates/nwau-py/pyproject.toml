@@ -2,7 +2,25 @@
 requires = ["maturin>=1.7,<2"]
 build-backend = "maturin"
 
+[project]
+name = "nwau-py"
+version = "0.1.0"
+description = "PyO3/maturin bindings for the NWAU acute 2025 kernel"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
 [tool.maturin]
+bindings = "pyo3"
 module-name = "nwau_py._rust"
 python-source = "../../.."
 features = ["extension-module"]
