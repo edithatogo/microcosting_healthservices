@@ -8,6 +8,13 @@ This page summarizes the current source-to-code coverage story. It is a public
 docs view of the current implementation state, not a promise that every source
 artifact has been translated into executable code.
 
+Historical pricing specifications, price weights, calculator artifacts, and
+NHCDC/costing evidence are tracked separately. The public archive reaches back
+to 2012-13 for pricing specifications, but calculator support is only claimed
+when an explicit calculator artifact and validation status exist. NHCDC or
+other costing materials are useful provenance, but they do not imply calculator
+support.
+
 Classification input coverage is tracked separately from executable calculator
 coverage. The phase 1 matrix work is documenting AR-DRG, AECC, UDG, Tier 2,
 and AMHCC family transitions and licensed-input constraints. An initial shared
@@ -15,6 +22,11 @@ preflight validator exists in `nwau_py.classification_validation`, but this page
 does not claim it is wired into calculator or CLI entry points end-to-end yet.
 
 <CardGrid>
+  <Card title="Historical pricing specs">
+    The source record reaches back to 2012-13 for NEP determinations and
+    national pricing model technical specifications. That year is caveated and
+    is not treated as proof of a public calculator artifact.
+  </Card>
   <Card title="2026-27 scope">
     NEP26 support exists and the 2026-27 calculator set is listed in the
     repository documentation, but this page does not claim parity validation
@@ -39,7 +51,17 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
   </Card>
 </CardGrid>
 
-## Coverage matrix
+## Historical source matrix
+
+| Artifact family | Status | Notes |
+| --- | --- | --- |
+| Pricing specifications | Documented | 2012-13 is the earliest confirmed year. It is a source-record year, not an implied calculator year. |
+| Calculator artifacts | Implemented or gap-recorded | Public calculator downloads and executable surfaces are tracked separately from pricing specs. |
+| Price weights | Documented or fixture-backed | Recorded as part of the year-specific pricing record, not as calculator support by themselves. |
+| NHCDC / costing evidence | Documented | Useful for costing-study interpretation and provenance, but not calculator parity evidence. |
+| Validation status | Explicit | Use discovered, archived, extracted, implemented, fixture-tested, validated, and deprecated as the support gate. |
+
+## Executable calculator matrix
 
 | Family or helper | Status | Notes |
 | --- | --- | --- |
@@ -61,7 +83,8 @@ does not claim it is wired into calculator or CLI entry points end-to-end yet.
 The repository can already explain its current calculator surface clearly:
 
 1. The core executable paths are present and tested.
-2. The helper logic is explicit enough to document and validate.
+2. Historical pricing specs, price weights, and calculator artifacts are kept
+   distinct from NHCDC/costing evidence.
 3. The remaining source gaps are recorded instead of being silently implied as
    missing or complete.
 

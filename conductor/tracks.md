@@ -142,7 +142,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Historical IHACPA Coverage Audit**
+- [x] **Track: Historical IHACPA Coverage Audit**
 *Link: [./tracks/historical_ihacpa_coverage_20260512/](./tracks/historical_ihacpa_coverage_20260512/)*
 *Gate: verify how far official NEP, technical specification, calculator, and NHCDC materials go back before extending historical support claims.*
 
