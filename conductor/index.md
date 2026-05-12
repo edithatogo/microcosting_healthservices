@@ -29,5 +29,6 @@
 ## Management
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
+- [Track Templates](./templates/track-templates/)
 - [Starlight Docs Site Track](./archive/starlight_docs_site_20260506/)
 - [Ecosystem Standards and Language Readiness Track](./tracks/ecosystem_language_readiness_20260507/)
