@@ -205,10 +205,9 @@ jobs:
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
-        continue-on-error: true
         with:
           files: ./coverage.xml
-          fail_ci_if_error: false
+          fail_ci_if_error: true
           use_oidc: true
 
   slow_validation:
