@@ -118,6 +118,32 @@ jobs:
             echo "Invalid checksums manifest entries."
             exit 1
           }
+          shopt -s nullglob
+          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
+          artifact_count=${#artifacts[@]}
+          if [ ${#artifacts[@]} -eq 0 ]; then
+            echo "No distributable artifacts found in dist/ after release download/build."
+            exit 1
+          fi
+          checksum_count="$(awk 'NF == 2 || NF == 3 {
+            file = $(NF)
+            if (file ~ /(\\.whl|\\.tar\\.gz|\\.zip)$/) print file
+          }' dist/checksums.txt | sort -u | wc -l | tr -d ' ')"
+          for artifact in "${artifacts[@]}"; do
+            base="$(basename "${artifact}")"
+            if ! awk -v file="${base}" '{
+              if (NF == 2 || NF == 3) {
+                if ($(NF) == file) found=1
+              }
+            } END { exit !found }' dist/checksums.txt > /dev/null; then
+              echo "Artifact not listed in checksums: ${base}"
+              exit 1
+            fi
+          done
+          if [ "${checksum_count}" -ne "${artifact_count}" ]; then
+            echo "Mismatch between number of checksummed artifacts (${checksum_count}) and dist artifacts (${artifact_count})."
+            exit 1
+          fi
           sha256sum --check dist/checksums.txt
           echo "Artifact checksums verified."
 
