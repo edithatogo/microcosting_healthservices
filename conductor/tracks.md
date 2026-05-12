@@ -237,3 +237,27 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: AR-DRG Version Parity Fixtures**
 *Link: [./tracks/ar_drg_version_parity_fixtures_20260512/](./tracks/ar_drg_version_parity_fixtures_20260512/)*
 *Gate: validate version-specific AR-DRG grouping and admitted acute NWAU behavior with safe synthetic and local licensed fixtures.*
+
+---
+
+- [ ] **Track: Emergency UDG/AECC Transition Registry**
+*Link: [./tracks/emergency_udg_aecc_transition_registry_20260512/](./tracks/emergency_udg_aecc_transition_registry_20260512/)*
+*Gate: model UDG, AECC, transition periods, emergency stream compatibility, and pricing-year applicability before accepting emergency classification inputs as interchangeable.*
+
+---
+
+- [ ] **Track: Emergency Code Mapping Pipeline**
+*Link: [./tracks/emergency_code_mapping_pipeline_20260512/](./tracks/emergency_code_mapping_pipeline_20260512/)*
+*Gate: add versioned, provenance-aware mapping bundles for source emergency fields to UDG or AECC outputs without inventing unsupported crosswalks.*
+
+---
+
+- [ ] **Track: Emergency Grouper Integration**
+*Link: [./tracks/emergency_grouper_integration_20260512/](./tracks/emergency_grouper_integration_20260512/)*
+*Gate: support precomputed and externally derived UDG/AECC outputs through a validated classifier interface and local tool/service integration.*
+
+---
+
+- [ ] **Track: Emergency Classification Parity Fixtures**
+*Link: [./tracks/emergency_classification_parity_fixtures_20260512/](./tracks/emergency_classification_parity_fixtures_20260512/)*
+*Gate: validate UDG/AECC version-specific mapping and downstream emergency NWAU behavior with safe synthetic and local official fixtures.*

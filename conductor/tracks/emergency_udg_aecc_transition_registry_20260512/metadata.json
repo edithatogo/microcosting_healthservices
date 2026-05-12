@@ -1,0 +1,8 @@
+{
+  "track_id": "emergency_udg_aecc_transition_registry_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add an emergency classification transition registry for UDG and AECC versions, pricing-year applicability, and stream compatibility."
+}

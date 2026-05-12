@@ -1,0 +1,8 @@
+{
+  "track_id": "emergency_classification_parity_fixtures_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add emergency classification parity fixtures for UDG/AECC version-specific mapping and downstream NWAU behavior."
+}
