@@ -130,7 +130,7 @@ content alone is not sufficient evidence for marking a track complete.
 *Link: [./archive/community_mental_health_calculator_20260512/](./archive/community_mental_health_calculator_20260512/)*
 *Gate: separate community mental health and AMHCC shadow/current behavior from admitted mental health before claiming stream coverage.*
 
-- [ ] **Track: Classification Input Validation**
+- [~] **Track: Classification Input Validation**
 *Link: [./tracks/classification_input_validation_20260512/](./tracks/classification_input_validation_20260512/)*
 *Gate: add stream-specific classification version matrices and strict input validation before broader calculator expansion.*
 
