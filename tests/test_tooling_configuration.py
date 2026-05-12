@@ -211,7 +211,7 @@ def test_release_drafter_workflow_updates_drafts_on_master_pushes():
     assert "Release Drafter" in workflow
     assert "branches:" in workflow
     assert "      - master" in workflow
-    assert "release-drafter/release-drafter@v6" in workflow
+    assert "release-drafter/release-drafter@v7" in workflow
     assert "config-name: release-drafter.yml" in workflow
 
 
