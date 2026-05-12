@@ -26,11 +26,15 @@ non-Python surfaces that sit on top of the Rust core.
 
 ## Julia
 
-- Recommended evaluation path: `jlrs` or a Julia `ccall` wrapper.
-- Package shape: a thin wrapper over the Rust core with minimal Julia-side
-  logic.
+- Recommended evaluation path: CLI/file wrapper first, with CSV as the
+  executable prototype and Arrow as the target batch interchange format.
+- Deferred evaluation path: C ABI or `ccall` only after the Rust core contract
+  is stable enough to expose versioned symbols.
+- Package shape: a thin wrapper over the shared calculator boundary with
+  minimal Julia-side logic.
 - Release expectations: keep Julia package versioning aligned with the Rust
-  core and shared contract release.
+  core and shared contract release. Do not claim General Registry readiness
+  until fixture-backed parity runs through the package.
 
 ## C#
 

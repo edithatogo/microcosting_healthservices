@@ -160,7 +160,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Julia Binding**
+- [x] **Track: Julia Binding**
 *Link: [./tracks/julia_binding_20260512/](./tracks/julia_binding_20260512/)*
 *Gate: support Julia analytics through C ABI or Arrow/CLI interop while preserving single-sourced calculator logic.*
 
