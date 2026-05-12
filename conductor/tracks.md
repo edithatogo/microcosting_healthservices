@@ -111,3 +111,33 @@ This file tracks the delivery order for the project. The focused tracks below ar
   *Link: [./archive/ihacpa_feature_incorporation_roadmap_20260511/](./archive/ihacpa_feature_incorporation_roadmap_20260511/)*
   *Depends on: source archive inventory and current calculator surfaces.*
   *Gate: map archive families and helpers to executable surfaces, classify complexity/HAC/AHR status, and close any remaining parity gaps with tests and documented follow-on work.*
+
+---
+
+- [ ] **Track: IHACPA 2026-27 Support**
+*Link: [./tracks/ihacpa_2026_27_support_20260512/](./tracks/ihacpa_2026_27_support_20260512/)*
+*Gate: add current 2026-27 NEP, technical specification, price-weight, calculator, and classification-version support with explicit validation status.*
+
+---
+
+- [ ] **Track: Community Mental Health Calculator Support**
+*Link: [./tracks/community_mental_health_calculator_20260512/](./tracks/community_mental_health_calculator_20260512/)*
+*Gate: separate community mental health and AMHCC shadow/current behavior from admitted mental health before claiming stream coverage.*
+
+---
+
+- [ ] **Track: Classification Input Validation**
+*Link: [./tracks/classification_input_validation_20260512/](./tracks/classification_input_validation_20260512/)*
+*Gate: add stream-specific classification version matrices and strict input validation before broader calculator expansion.*
+
+---
+
+- [ ] **Track: Costing-Study Tutorials and Examples**
+*Link: [./tracks/costing_study_tutorials_20260512/](./tracks/costing_study_tutorials_20260512/)*
+*Gate: provide synthetic, reproducible costing-study workflows connecting NWAU, NEP, AHPCS, NHCDC, and benchmarking use cases.*
+
+---
+
+- [ ] **Track: Historical IHACPA Coverage Audit**
+*Link: [./tracks/historical_ihacpa_coverage_20260512/](./tracks/historical_ihacpa_coverage_20260512/)*
+*Gate: verify how far official NEP, technical specification, calculator, and NHCDC materials go back before extending historical support claims.*
