@@ -1,0 +1,13 @@
+* @edithatogo
+
+# Security and release surfaces
+.github/workflows/ @edithatogo
+pyproject.toml @edithatogo
+uv.lock @edithatogo
+release* @edithatogo
+
+# Documentation and governance
+docs-site/ @edithatogo
+conductor/ @edithatogo
+README.md @edithatogo
+CITATION.cff @edithatogo

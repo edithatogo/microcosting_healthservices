@@ -18,9 +18,10 @@ jobs:
 
       - name: Verify track scaffold files
         run: |
-          test -f conductor/tracks/power_platform_alm_app_20260510/spec.md
-          test -f conductor/tracks/power_platform_alm_app_20260510/plan.md
-          test -f conductor/tracks/power_platform_alm_app_20260510/index.md
+          test -f conductor/archive/power_platform_alm_app_20260510/spec.md
+          test -f conductor/archive/power_platform_alm_app_20260510/plan.md
+          test -f conductor/archive/power_platform_alm_app_20260510/index.md
+          test -f conductor/archive/power_platform_alm_app_20260510/metadata.json
           test -f power-platform/solution/README.md
           test -f power-platform/solution/solution-manifest.md
           test -f power-platform/solution/environment-variables.md

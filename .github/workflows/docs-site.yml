@@ -3,6 +3,10 @@ name: Docs Site
 on:
   push:
     branches: [master]
+    tags:
+      - "v*"
+    tags:
+      - "v*"
     paths:
       - "docs-site/**"
       - ".github/workflows/docs-site.yml"
