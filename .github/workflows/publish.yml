@@ -60,6 +60,10 @@ jobs:
 
       - name: Verify release artifact checksums
         run: |
+          test -f dist/checksums.txt || {
+            echo "Missing dist/checksums.txt; cannot verify released artifacts."
+            exit 1
+          }
           sha256sum --check dist/checksums.txt
           echo "Artifact checksums verified."
 
