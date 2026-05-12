@@ -78,6 +78,27 @@ jobs:
             echo "Missing dist/checksums.txt; cannot verify released artifacts."
             exit 1
           }
+          awk '
+            NF == 2 || NF == 3 {
+              file = $(NF)
+              if (file !~ /(\\.whl|\\.tar\\.gz|\\.zip)$/ && file != "checksums.txt") {
+                print "Invalid artifact in checksums manifest: " file
+                bad = 1
+                next
+              }
+              if (file == "checksums.txt") next
+              cmd = "test -f dist/" file
+              if (system(cmd) != 0) {
+                print "Checksummed file missing: " file
+                bad = 1
+              }
+            }
+            END { exit bad }
+          ' dist/checksums.txt
+          test $? -eq 0 || {
+            echo "Invalid checksums manifest entries."
+            exit 1
+          }
           sha256sum --check dist/checksums.txt
           echo "Artifact checksums verified."
 
