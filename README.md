@@ -1,6 +1,10 @@
 # NWAU Calculator
 
-[![Docs Site](https://github.com/edithatogo/microcosting_healthservices/actions/workflows/docs-site.yml/badge.svg?branch=master)](https://github.com/edithatogo/microcosting_healthservices/actions/workflows/docs-site.yml)
+[![PR CI](https://github.com/edithatogo/mchs/actions/workflows/pr-ci.yml/badge.svg?branch=master)](https://github.com/edithatogo/mchs/actions/workflows/pr-ci.yml)
+[![Docs Site](https://github.com/edithatogo/mchs/actions/workflows/docs-site.yml/badge.svg?branch=master)](https://github.com/edithatogo/mchs/actions/workflows/docs-site.yml)
+[![PyPI](https://img.shields.io/pypi/v/nwau-py.svg)](https://pypi.org/project/nwau-py/)
+[![Python](https://img.shields.io/pypi/pyversions/nwau-py.svg)](https://pypi.org/project/nwau-py/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 This project provides Python translations of the IHACPA SAS funding
 calculators. Modules cover acute, emergency department, mental health,
@@ -17,6 +21,7 @@ The public documentation site is published from the Starlight scaffold in
 `docs-site/` and serves as the canonical docs front door.
 The GitHub Pages deployment path is wired through
 [`.github/workflows/docs-site.yml`](.github/workflows/docs-site.yml).
+Open the docs at <https://edithatogo.github.io/mchs/>.
 
 ## Releases
 
