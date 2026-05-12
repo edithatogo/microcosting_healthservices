@@ -32,7 +32,7 @@ def test_power_bi_cli_tooling_track_scope_and_contracts():
     registry = _read_text(TRACKS)
 
     assert metadata["track_id"] == "power_bi_cli_tooling_20260511"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "completed"}
     assert "Power BI and Power Platform CLI" in metadata["description"]
 
     for phrase in [

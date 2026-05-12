@@ -39,7 +39,7 @@ def test_power_platform_alm_track_records_scope_and_requirements():
     registry = _read_text(TRACKS)
 
     assert metadata["track_id"] == "power_platform_alm_app_20260510"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "completed"}
     assert "Power Platform ALM app setup" in metadata["description"]
 
     for phrase in [

@@ -6,6 +6,8 @@
 [![Python](https://img.shields.io/pypi/pyversions/nwau-py.svg)](https://pypi.org/project/nwau-py/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+[Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Code of Conduct](CODE_OF_CONDUCT.md) | [Citation](CITATION.cff)
+
 This project provides Python translations of the IHACPA SAS funding
 calculators. Modules cover acute, emergency department, mental health,
 subacute and outpatient activity along with HAC and AHR adjustment

@@ -2,6 +2,16 @@
   "track_id": "java_jvm_binding_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "binding",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track java_jvm_binding_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Finalize a Java/JVM binding roadmap for enterprise data platforms through service, JNI/JNA, or file interop."

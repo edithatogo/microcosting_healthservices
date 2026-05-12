@@ -2,6 +2,16 @@
   "track_id": "emergency_classification_parity_fixtures_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "validator",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track emergency_classification_parity_fixtures_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Add emergency classification parity fixtures for UDG/AECC version-specific mapping and downstream NWAU behavior."

@@ -2,6 +2,16 @@
   "track_id": "cli_file_interop_binding_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "binding",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track cli_file_interop_binding_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Add a language-neutral CLI and Arrow/Parquet file interoperability roadmap for tools that should avoid native bindings initially."

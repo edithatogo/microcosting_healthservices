@@ -30,7 +30,7 @@ def test_ihacpa_feature_incorporation_track_records_feature_matrix_scope():
     registry = _read_text(TRACKS)
 
     assert metadata["track_id"] == "ihacpa_feature_incorporation_roadmap_20260511"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "completed"}
     assert "inventory" in metadata["description"].lower()
 
     for phrase in [

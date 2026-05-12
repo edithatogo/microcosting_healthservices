@@ -2,6 +2,16 @@
   "track_id": "formula_parameter_bundle_pipeline_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "governance",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track formula_parameter_bundle_pipeline_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Build a versioned formula and parameter bundle pipeline for future IHACPA calculator releases."

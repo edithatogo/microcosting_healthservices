@@ -28,6 +28,42 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@v7
 
+      - name: Validate release tag and package version metadata
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+          import tomllib
+
+          pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+          expected_version = pyproject["project"]["version"]
+
+          ref_name = os.environ["GITHUB_REF_NAME"]
+          ref_type = os.environ.get("GITHUB_REF_TYPE", "")
+          if ref_type == "tag":
+              if not ref_name.startswith("v"):
+                  raise SystemExit("Release ref must start with v, e.g. v0.2.1")
+              tag_version = ref_name.removeprefix("v")
+              if tag_version != expected_version:
+                  raise SystemExit(
+                      f"Tag version {tag_version} does not match pyproject version {expected_version}"
+                  )
+
+          recipe_text = Path("conda/recipe/meta.yaml").read_text(encoding="utf-8")
+          recipe_match = re.search(r'{%\\s*set\\s+version\\s*=\\s*"([^"]+)"\\s*%}', recipe_text)
+          if not recipe_match:
+              raise SystemExit("Could not read conda recipe version from conda/recipe/meta.yaml")
+          recipe_version = recipe_match.group(1)
+          if recipe_version != expected_version:
+              raise SystemExit(
+                  f"Conda recipe version {recipe_version} does not match pyproject version {expected_version}"
+              )
+
+          print(f"Release metadata validated for {expected_version}")
+          PY
+
       - name: Build distribution artifacts
         run: uv build
 

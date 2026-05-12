@@ -2,6 +2,16 @@
   "track_id": "polyglot_rust_core_roadmap_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "binding",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track polyglot_rust_core_roadmap_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Coordinate the transition from Python-first package to a proper polyglot library with a shared Rust calculator core and thin bindings."

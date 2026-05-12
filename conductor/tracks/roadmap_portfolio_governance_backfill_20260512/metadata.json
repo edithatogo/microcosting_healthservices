@@ -2,6 +2,16 @@
   "track_id": "roadmap_portfolio_governance_backfill_20260512",
   "type": "chore",
   "status": "new",
+  "track_class": "binding",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track roadmap_portfolio_governance_backfill_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Backfill roadmap-governance class, dependency, contract, and completion-evidence metadata across expanded Conductor tracks."

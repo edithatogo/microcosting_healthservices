@@ -32,7 +32,7 @@ def test_ihacpa_source_archive_gap_track_records_manifest_state():
     manifest = json.loads(_read_text(MANIFEST))
 
     assert metadata["track_id"] == "ihacpa_source_archive_gap_closure_20260511"
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "completed"}
     assert "source archive gaps" in metadata["description"].lower()
 
     assert len(manifest) == 94

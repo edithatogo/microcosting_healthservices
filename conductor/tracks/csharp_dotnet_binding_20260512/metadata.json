@@ -2,6 +2,16 @@
   "track_id": "csharp_dotnet_binding_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "binding",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track csharp_dotnet_binding_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Finalize the C#/.NET binding roadmap for institutional services and Power Platform-adjacent workloads."

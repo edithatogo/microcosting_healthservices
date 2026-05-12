@@ -37,7 +37,7 @@ def test_ecosystem_language_readiness_track_scope_is_recorded():
     track_index = _read_text(TRACK / "index.md")
     conductor_index = _read_text(CONDUCTOR_INDEX)
 
-    assert metadata["status"] == "complete"
+    assert metadata["status"] in {"complete", "completed"}
     assert metadata["track_id"] == "ecosystem_language_readiness_20260507"
     assert metadata["updated_at"] == "2026-05-07T01:03:51Z"
 

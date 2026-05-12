@@ -2,6 +2,16 @@
   "track_id": "classification_input_validation_20260512",
   "type": "feature",
   "status": "new",
+  "track_class": "validator",
+  "current_state": "roadmap-only",
+  "primary_contract": "Track classification_input_validation_20260512 contract",
+  "dependencies": [],
+  "completion_evidence": [
+    "docs",
+    "workflows",
+    "tests"
+  ],
+  "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-12T00:00:00Z",
   "description": "Add classification-aware input validation and version matrices for AR-DRG, AECC, UDG, Tier 2, and AMHCC."
