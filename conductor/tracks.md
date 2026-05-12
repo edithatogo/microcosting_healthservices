@@ -309,3 +309,27 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Power Platform Binding**
 *Link: [./tracks/power_platform_binding_20260512/](./tracks/power_platform_binding_20260512/)*
 *Gate: publish Power Platform orchestration as a managed solution/custom connector consumer of the shared calculator contract, never as a formula implementation.*
+
+---
+
+- [ ] **Track: Cost Bucket Registry**
+*Link: [./tracks/cost_bucket_registry_20260512/](./tracks/cost_bucket_registry_20260512/)*
+*Gate: represent public IHACPA/NHCDC cost bucket definitions, mappings, caveats, and local overlay references without bundling confidential submissions.*
+
+---
+
+- [ ] **Track: NHCDC Cost Report Ingestion**
+*Link: [./tracks/nhcdc_cost_report_ingestion_20260512/](./tracks/nhcdc_cost_report_ingestion_20260512/)*
+*Gate: ingest public NHCDC cost report appendices and data request specifications with provenance while distinguishing aggregate reports from patient-level costing data.*
+
+---
+
+- [ ] **Track: AHPCS Costing Process Model**
+*Link: [./tracks/ahpcs_costing_process_model_20260512/](./tracks/ahpcs_costing_process_model_20260512/)*
+*Gate: model AHPCS costing-process concepts as validation aids for costing studies without claiming official compliance certification.*
+
+---
+
+- [ ] **Track: Cost Bucket Analytics Tutorials**
+*Link: [./tracks/cost_bucket_analytics_tutorials_20260512/](./tracks/cost_bucket_analytics_tutorials_20260512/)*
+*Gate: publish synthetic and public-safe cost bucket tutorials for benchmarking, cost-versus-NWAU studies, and local mapping overlays.*

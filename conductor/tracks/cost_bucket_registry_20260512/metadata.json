@@ -1,0 +1,8 @@
+{
+  "track_id": "cost_bucket_registry_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add a versioned cost bucket registry for IHACPA/NHCDC cost bucket definitions, mappings, and review findings."
+}

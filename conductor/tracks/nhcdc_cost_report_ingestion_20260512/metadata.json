@@ -1,0 +1,8 @@
+{
+  "track_id": "nhcdc_cost_report_ingestion_20260512",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-12T00:00:00Z",
+  "description": "Add ingestion and provenance support for public NHCDC cost report appendix tables and data request specifications."
+}
