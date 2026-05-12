@@ -46,6 +46,28 @@ jobs:
           fi
           sha256sum "${artifacts[@]}" > dist/checksums.txt
 
+      - name: Validate distributable filenames
+        run: |
+          set -euo pipefail
+          project_version="$(uv run python - <<'PY'
+          import tomllib, pathlib
+          print(tomllib.loads(pathlib.Path('pyproject.toml').read_text(encoding='utf-8'))['project']['version'])
+          PY
+          )"
+          shopt -s nullglob
+          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
+          if [ ${#artifacts[@]} -eq 0 ]; then
+            echo "No release artifacts found in dist/."
+            exit 1
+          fi
+          for artifact in "${artifacts[@]}"; do
+            if [[ "${artifact}" != *"${project_version}"* ]]; then
+              echo "Artifact filename does not include project version ${project_version}: ${artifact}"
+              exit 1
+            fi
+          done
+          echo "All distributable artifacts include project version ${project_version}."
+
       - name: Generate SLSA build attestation
         uses: actions/attest-build-provenance@v2
         with:
