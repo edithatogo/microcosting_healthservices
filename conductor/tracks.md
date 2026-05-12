@@ -273,3 +273,39 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Polyglot Rust Core Roadmap**
 *Link: [./tracks/polyglot_rust_core_roadmap_20260512/](./tracks/polyglot_rust_core_roadmap_20260512/)*
 *Gate: coordinate the transition from Python-first package to shared Rust calculator core with thin Python, R, Julia, TypeScript/WASM, C ABI, CLI/file, web, and Power Platform consumers.*
+
+---
+
+- [ ] **Track: C#/.NET Binding**
+*Link: [./tracks/csharp_dotnet_binding_20260512/](./tracks/csharp_dotnet_binding_20260512/)*
+*Gate: expose institutional .NET integration through C ABI, service, or CLI/file contracts without duplicating formula logic.*
+
+---
+
+- [ ] **Track: Go Binding**
+*Link: [./tracks/go_binding_20260512/](./tracks/go_binding_20260512/)*
+*Gate: support Go services and data pipelines through shared-core or file/service contracts without formula duplication.*
+
+---
+
+- [ ] **Track: Java/JVM Binding**
+*Link: [./tracks/java_jvm_binding_20260512/](./tracks/java_jvm_binding_20260512/)*
+*Gate: support enterprise JVM consumers through service, JNI/JNA, C ABI, or Arrow/Parquet interop with shared fixture validation.*
+
+---
+
+- [ ] **Track: SQL and DuckDB Integration**
+*Link: [./tracks/duckdb_sql_binding_20260512/](./tracks/duckdb_sql_binding_20260512/)*
+*Gate: support analytical SQL workflows through table schemas and shared-core execution without hand-copied SQL formulas.*
+
+---
+
+- [ ] **Track: SAS Interoperability**
+*Link: [./tracks/sas_interop_binding_20260512/](./tracks/sas_interop_binding_20260512/)*
+*Gate: support SAS reference comparison and import/export workflows without creating a separate SAS formula implementation.*
+
+---
+
+- [ ] **Track: Power Platform Binding**
+*Link: [./tracks/power_platform_binding_20260512/](./tracks/power_platform_binding_20260512/)*
+*Gate: publish Power Platform orchestration as a managed solution/custom connector consumer of the shared calculator contract, never as a formula implementation.*
