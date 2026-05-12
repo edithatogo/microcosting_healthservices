@@ -40,6 +40,7 @@ Audit the local and remote repository to determine whether it is complete, curre
 - Are tags, GitHub releases, PyPI, conda-forge, GitHub Packages, npm/WASM, crates.io, NuGet, or other package targets correctly published or clearly marked future-only?
 - Are package versions synchronized across source metadata, tags, releases, docs, and registries?
 - Are dependencies, GitHub Actions, docs tooling, linting/type/security tools, and packaging tools current and SOTA?
+- Are governance documents, validation vocabulary, and recurring audit templates current enough for the size of the roadmap?
 - Are better/new libraries warranted for typing, validation, docs, packaging, scientific Python, Rust, bindings, dataframes, Arrow, security, or CI?
 - Are new examples, tutorials, notebooks, costing-study guides, or API docs warranted?
 

@@ -40,6 +40,7 @@ Audit Conductor's project-management state for AUDIT_SCOPE. The audit must deter
 - Do archive locations, active-track links, and workflow paths agree?
 - Are there stale paths, stale badges, stale repo names, stale workflow references, or broken source-of-truth links?
 - Are future-state statements clearly distinguished from current validated behavior?
+- Does each track have a roadmap-governance class, dependency statement, explicit contract, and completion-evidence requirement?
 
 ## Required Evidence
 - Tracks registry status and links.
@@ -52,6 +53,7 @@ Audit Conductor's project-management state for AUDIT_SCOPE. The audit must deter
 - Every audited track is classified as `complete`, `complete-with-gaps`, `roadmap-only`, `scaffold-only`, `in-progress`, or `stale/inconsistent`.
 - Every completed track has an explicit contract or a documented gap requiring follow-up.
 - Every completed claim has durable evidence or a documented remediation track.
+- Tracks missing class/dependency/contract/evidence metadata are updated or flagged for remediation.
 - Stale links, stale workflow paths, and inaccurate status claims are fixed or converted into follow-up tasks.
 - The audit produces a concise findings table and remediation backlog.
 

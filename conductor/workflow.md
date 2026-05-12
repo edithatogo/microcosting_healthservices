@@ -9,6 +9,7 @@
 5. **User Experience First:** Every decision should prioritize user experience
 6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution.
 7. **Transitional-State vs Intended-State Tooling:** Clearly distinguish temporary compatibility tooling from intended-state tooling. Do not describe legacy files, compatibility shims, or migration-only tools as authoritative once the replacement track has defined the target state.
+8. **Roadmap Governance:** Large roadmap additions must be classified and sequenced using `roadmap-governance.md`. Do not mark roadmap, scaffold, or publication work complete unless the required contract and evidence exist.
 
 ## Task Workflow
 
@@ -17,6 +18,10 @@ All tasks follow a strict lifecycle:
 ### Standard Task Workflow
 
 1. **Select Task:** Choose the next available task from `plan.md` in sequential order
+
+   For roadmap-heavy work, first confirm that the track class, dependencies,
+   contract, and completion evidence are stated. If they are missing, update the
+   track before implementation.
 
 2. **Mark In Progress:** Before beginning work, edit `plan.md` and change the task from `[ ]` to `[~]`
 
@@ -130,6 +135,9 @@ Before marking any task complete, verify:
 - [ ] Works correctly on mobile (if applicable)
 - [ ] Documentation updated if needed
 - [ ] No security vulnerabilities introduced
+- [ ] Track class, dependencies, explicit contract, and completion evidence are recorded for roadmap or governance work
+- [ ] Pricing-year validation claims include SAS parity and Excel formula parity where those sources are available, or explicit gap records where they are not
+- [ ] Bindings, apps, and examples consume shared contracts rather than duplicating formula logic
 
 ## Development Commands
 

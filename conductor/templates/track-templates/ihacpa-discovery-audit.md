@@ -45,12 +45,14 @@ Search IHACPA's public website for new or changed materials relevant to NWAU cal
 - Source URLs, publication dates, retrieval dates, file names, and checksums where downloadable.
 - Classification of each source as new, changed, unchanged, inaccessible, licensed/restricted, or irrelevant.
 - Recommended action for each relevant source: archive, manifest, implement, validate, document, create track, or ignore.
+- SAS and Excel availability for each pricing year, including whether parity can be checked or must be gap-recorded.
 
 ## Acceptance Criteria
 - The audit produces a source discovery table with URLs and recommended actions.
 - New or changed relevant materials produce Conductor tracks or updates to existing roadmap tracks.
 - Restricted/licensed materials are marked without being committed unless redistribution is permitted.
 - The source archive matrix and validation roadmap are updated or follow-up tasks are created.
+- Pricing-year validation recommendations explicitly state whether SAS parity and Excel formula parity are possible.
 
 ## Out of Scope
 - Implementing all newly discovered formulae or systems during the audit.

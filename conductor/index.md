@@ -6,6 +6,7 @@
 - [Tech Stack](./tech-stack.md)
 - [Data Governance](./data-governance.md)
 - [Source Archive Policy](./source-archive.md)
+- [Roadmap Governance](./roadmap-governance.md)
 - [IHACPA Source Archive Matrix](./ihacpa-archive-matrix.md)
 - [IHACPA Tool Coverage Matrix](./ihacpa-tool-coverage-matrix.md)
 - [Arrow and Polars Data Bundle ADR](../docs/adr/0002-arrow-polars-data-bundle.md)

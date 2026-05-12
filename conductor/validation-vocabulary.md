@@ -10,6 +10,21 @@
 
 `Validated` means behavior has been checked against trusted source logic or trusted reference output and the evidence is recorded in a manifest or validation registry.
 
+`Discovered` means official source material has been identified but has not yet
+been archived, extracted, implemented, or validated.
+
+`Source archived with gaps` means available source material is archived and any
+missing, inaccessible, licensed, or restricted artifacts are explicitly recorded
+as gaps.
+
+`Formula bundle` means a versioned structured representation of formulae,
+weights, thresholds, adjustment parameters, and supporting metadata extracted
+from official or trusted sources.
+
+`Coding-set registry` means a versioned record of classification and coding
+systems, their versions, licensing boundaries, effective years, and compatible
+pricing years or service streams.
+
 `Fixture manifest` means a JSON record that declares a fixture pack's calculator, pricing year, service stream, parity type, source basis, tolerance, rounding policy, privacy classification, and payload metadata.
 
 `Fixture pack` means a manifest plus its resolved payload files, treated as the unit of cross-language validation.
@@ -26,9 +41,20 @@
 
 `Output parity` means implementation outputs match trusted reference outputs for defined fixtures.
 
+`SAS parity` means implementation logic or outputs have been compared against
+official SAS calculator logic or outputs for the relevant calculator and
+pricing year.
+
+`Excel formula parity` means implementation logic, extracted formula bundles,
+or outputs have been compared against official Excel workbook formulae, sheets,
+and parameter tables for the relevant calculator and pricing year.
+
 `Regression parity` means existing known-good outputs remain stable across refactors and dependency changes.
 
 `Cross-engine parity` means Python, C#, web, and any generated calculation engines produce equivalent outputs for the same golden fixtures.
+
+`Cross-binding parity` means released or experimental language bindings produce
+equivalent outputs for the same shared fixture packs and comparison rules.
 
 `Fixture parity` means an implementation produces the expected outputs for a validated fixture pack using the declared tolerance and rounding policy.
 
@@ -42,7 +68,12 @@ Any validation claim should be backed by a structured record with at least these
 - Pricing year.
 - Service stream.
 - Claim type, such as source parity, output parity, regression parity, cross-engine parity, fixture parity, or manifest parity.
+- Pricing-year validation ladder status, such as discovered, archived,
+  extracted, source-parity-checked, fixture-parity-checked,
+  cross-engine-checked, or validated.
 - Source basis, including the source artifact IDs and checksums used for the claim.
+- SAS source basis and Excel source basis when available, or explicit gap
+  records when they are unavailable.
 - Fixture pack identifier, fixture manifest identifier, or validation bundle identifier.
 - Cross-language readiness flag when the pack is intended for more than one runner.
 - Tolerance or comparison rule.
@@ -59,3 +90,7 @@ Prefer precise claims such as "2024 acute output-parity validated against fixtur
 Do not use broad year-level support language unless the support type is stated and the evidence record is available.
 
 If SAS, Excel, and another reference source disagree, document the disagreement and identify which source is treated as authoritative for the affected behavior.
+
+Do not mark a pricing year as validated unless SAS parity and Excel formula
+parity have passed where those sources are available, or unless an explicit
+gap/exception record explains why one source cannot be used.

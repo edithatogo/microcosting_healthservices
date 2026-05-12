@@ -333,3 +333,9 @@ This file tracks the delivery order for the project. The focused tracks below ar
 - [ ] **Track: Cost Bucket Analytics Tutorials**
 *Link: [./tracks/cost_bucket_analytics_tutorials_20260512/](./tracks/cost_bucket_analytics_tutorials_20260512/)*
 *Gate: publish synthetic and public-safe cost bucket tutorials for benchmarking, cost-versus-NWAU studies, and local mapping overlays.*
+
+---
+
+- [ ] **Track: Roadmap Portfolio Governance Backfill**
+*Link: [./tracks/roadmap_portfolio_governance_backfill_20260512/](./tracks/roadmap_portfolio_governance_backfill_20260512/)*
+*Gate: backfill class, dependency, explicit contract, current-state, and completion-evidence metadata across the expanded Conductor roadmap before further broad implementation claims.*
