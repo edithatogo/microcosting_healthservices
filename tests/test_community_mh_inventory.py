@@ -2,11 +2,8 @@
 
 from pathlib import Path
 
-import pytest
-
 from nwau_py.calculators.community_mh_inventory import (
     CMTY_MH_ARTIFACTS,
-    CommunityMHArtifact,
     get_active_years,
     get_inventory_by_year,
     get_shadow_years,
@@ -101,37 +98,6 @@ def test_no_mh_calculator_before_nep21():
     assert all(int(a.year) >= 2021 for a in CMTY_MH_ARTIFACTS)
     earliest = min(int(a.year) for a in CMTY_MH_ARTIFACTS)
     assert earliest == 2021, f"Expected earliest year 2021, got {earliest}"
-
-
-def test_get_inventory_by_year_found():
-    """get_inventory_by_year returns the correct artifact for a known year."""
-    art = get_inventory_by_year("2025")
-    assert art is not None
-    assert art.year == "2025"
-    assert art.pricing_status == "active"
-
-
-def test_get_inventory_by_year_not_found():
-    """get_inventory_by_year returns None for an unknown year."""
-    assert get_inventory_by_year("2015") is None
-    assert get_inventory_by_year("2099") is None
-
-
-def test_get_active_years():
-    """get_active_years returns only years with active pricing status."""
-    active = get_active_years()
-    assert "2025" in active
-    assert all(y not in active for y in get_shadow_years())
-
-
-def test_get_shadow_years():
-    """get_shadow_years returns only years with shadow pricing status."""
-    shadow = get_shadow_years()
-    assert "2021" in shadow
-    assert "2022" in shadow
-    assert "2023" in shadow
-    assert "2024" in shadow
-    assert all(y not in shadow for y in get_active_years())
 
 
 def test_get_inventory_by_year_found():

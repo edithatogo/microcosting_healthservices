@@ -21,90 +21,48 @@ class CommunityMHArtifact:
 
 _ARCHIVE = "archive/sas"
 
+
+def _y(year, status, template_dir, calc_dir, suf=None, excel=""):
+    """Build a single year's artifact entry."""
+    suf = suf or year[-2:]
+    return CommunityMHArtifact(
+        year=year,
+        pricing_status=status,
+        sas_templates=[f"{_ARCHIVE}/{template_dir}/NWAU{suf}_TEMPLATE_MH.sas"],
+        sas_calculators=[f"{_ARCHIVE}/{calc_dir}/NWAU{suf}_CALCULATOR_MH.sas"],
+        adm_price_weights=[f"{_ARCHIVE}/{calc_dir}/nep{suf}_mh_adm_price_weights.sas7bdat"],
+        cmty_price_weights=[f"{_ARCHIVE}/{calc_dir}/nep{suf}_mh_cmty_price_weights.sas7bdat"],
+        excel_workbooks=[excel] if excel else [],
+    )
+
+
 CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
-    CommunityMHArtifact(
-        year="2021",
-        pricing_status="shadow",
-        sas_templates=[
-            f"{_ARCHIVE}/NEP21 SAS NWAU Calculator/NWAU21_TEMPLATE_MH.sas",
-        ],
-        sas_calculators=[
-            f"{_ARCHIVE}/NEP21 SAS NWAU Calculator/Calculators/NWAU21_CALCULATOR_MH.sas",
-        ],
-        adm_price_weights=[
-            f"{_ARCHIVE}/NEP21 SAS NWAU Calculator/Calculators/nep21_mh_adm_price_weights.sas7bdat",
-        ],
-        cmty_price_weights=[
-            f"{_ARCHIVE}/NEP21 SAS NWAU Calculator/Calculators/nep21_mh_cmty_price_weights.sas7bdat",
-        ],
-    ),
-    CommunityMHArtifact(
-        year="2022",
-        pricing_status="shadow",
-        sas_templates=[
-            f"{_ARCHIVE}/NEP22 SAS NWAU Calculator/NWAU22_TEMPLATE_MH.sas",
-        ],
-        sas_calculators=[
-            f"{_ARCHIVE}/NEP22 SAS NWAU Calculator/calculators/NWAU22_CALCULATOR_MH.sas",
-        ],
-        adm_price_weights=[
-            f"{_ARCHIVE}/NEP22 SAS NWAU Calculator/calculators/nep22_mh_adm_price_weights.sas7bdat",
-        ],
-        cmty_price_weights=[
-            f"{_ARCHIVE}/NEP22 SAS NWAU Calculator/calculators/nep22_mh_cmty_price_weights.sas7bdat",
-        ],
-        excel_workbooks=[
-            "archive/ihacpa/raw/2022/excel/nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb",
-        ],
-    ),
-    CommunityMHArtifact(
-        year="2023",
-        pricing_status="shadow",
-        sas_templates=[
-            f"{_ARCHIVE}/NEP23_SAS_NWAU_calculator/NWAU23_TEMPLATE_MH.sas",
-        ],
-        sas_calculators=[
-            f"{_ARCHIVE}/NEP23_SAS_NWAU_calculator/calculators/NWAU23_CALCULATOR_MH.sas",
-        ],
-        adm_price_weights=[
-            f"{_ARCHIVE}/NEP23_SAS_NWAU_calculator/calculators/nep23_mh_adm_price_weights.sas7bdat",
-        ],
-        cmty_price_weights=[
-            f"{_ARCHIVE}/NEP23_SAS_NWAU_calculator/calculators/nep23_mh_cmty_price_weights.sas7bdat",
-        ],
-    ),
-    CommunityMHArtifact(
-        year="2024",
-        pricing_status="shadow",
-        sas_templates=[
-            f"{_ARCHIVE}/NWAU24_SAS_Calculator/NWAU24_TEMPLATE_MH.sas",
-        ],
-        sas_calculators=[
-            f"{_ARCHIVE}/NWAU24_SAS_Calculator/calculators/NWAU24_CALCULATOR_MH.sas",
-        ],
-        adm_price_weights=[
-            f"{_ARCHIVE}/NWAU24_SAS_Calculator/calculators/nep24_mh_adm_price_weights.sas7bdat",
-        ],
-        cmty_price_weights=[
-            f"{_ARCHIVE}/NWAU24_SAS_Calculator/calculators/nep24_mh_cmty_price_weights.sas7bdat",
-        ],
-    ),
-    CommunityMHArtifact(
-        year="2025",
-        pricing_status="active",
-        sas_templates=[
-            f"{_ARCHIVE}/NEP25_SAS_NWAU_calculator/NWAU25_TEMPLATE_MH.sas",
-        ],
-        sas_calculators=[
-            f"{_ARCHIVE}/NEP25_SAS_NWAU_calculator/calculators/NWAU25_CALCULATOR_MH.sas",
-        ],
-        adm_price_weights=[
-            f"{_ARCHIVE}/NEP25_SAS_NWAU_calculator/calculators/nep25_mh_adm_price_weights.sas7bdat",
-        ],
-        cmty_price_weights=[
-            f"{_ARCHIVE}/NEP25_SAS_NWAU_calculator/calculators/nep25_mh_cmty_price_weights.sas7bdat",
-        ],
-    ),
+    _y("2021", "shadow", "NEP21 SAS NWAU Calculator",
+       "NEP21 SAS NWAU Calculator/Calculators", suf="21"),
+    _y("2022", "shadow", "NEP22 SAS NWAU Calculator",
+       "NEP22 SAS NWAU Calculator/calculators", suf="22",
+       excel="archive/ihacpa/raw/2022/excel/nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb"),
+    _y("2023", "shadow", "NEP23_SAS_NWAU_calculator",
+       "NEP23_SAS_NWAU_calculator/calculators", suf="23"),
+    _y("2024", "shadow", "NWAU24_SAS_Calculator",
+       "NWAU24_SAS_Calculator/calculators", suf="24"),
+    _y("2025", "active", "NEP25_SAS_NWAU_calculator",
+       "NEP25_SAS_NWAU_calculator/calculators", suf="25"),
+]
+
+
+CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
+    _y("2021", "shadow", "NEP21 SAS NWAU Calculator",
+       "NEP21 SAS NWAU Calculator/Calculators"),
+    _y("2022", "shadow", "NEP22 SAS NWAU Calculator",
+       "NEP22 SAS NWAU Calculator/calculators",
+       excel="archive/ihacpa/raw/2022/excel/nwau22_calculator_-_community_mental_health_care_services_amhcc_shadow.xlsb"),
+    _y("2023", "shadow", "NEP23_SAS_NWAU_calculator",
+       "NEP23_SAS_NWAU_calculator/calculators"),
+    _y("2024", "shadow", "NWAU24_SAS_Calculator",
+       "NWAU24_SAS_Calculator/calculators"),
+    _y("2025", "active", "NEP25_SAS_NWAU_calculator",
+       "NEP25_SAS_NWAU_calculator/calculators"),
 ]
 
 
