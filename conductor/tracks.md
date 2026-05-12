@@ -236,9 +236,9 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: ICD-10-AM/ACHI/ACS Licensed Product Workflow**
+- [x] **Track: ICD-10-AM/ACHI/ACS Licensed Product Workflow**
 *Link: [./tracks/icd_achi_acs_license_workflow_20260512/](./tracks/icd_achi_acs_license_workflow_20260512/)*
-*Gate: define local-only handling, manifest references, commit guards, and setup docs for licensed classification tables and groupers.*
+*Gate: define local-only handling, manifest references, commit guards, setup docs, and appropriate-use caveats for licensed classification tables and groupers.*
 
 ---
 

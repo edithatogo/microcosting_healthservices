@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "icd_achi_acs_license_workflow_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "diagnostics": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "raw_archive_ignored",
+        "status": "pass",
+        "message": "Restricted assets must stay under archive/ihacpa/raw/ or another ignored local-only root."
+      },
+      {
+        "id": "no_restricted_payload",
+        "status": "pass",
+        "message": "No licensed table rows, manuals, or grouper binaries are present in this fixture."
+      }
+    ]
+  }
+}

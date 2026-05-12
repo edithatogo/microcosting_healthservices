@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "icd_achi_acs_license_workflow_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic manifest metadata only."
+  },
+  "pricing_year": "2026",
+  "assets": [
+    {
+      "system": "ICD-10-AM",
+      "expected_version": "12th edition",
+      "local_path_hint": "archive/ihacpa/raw/2026/licensed/icd_10_am/",
+      "env_var": "MCHS_LICENSED_ICD_10_AM_2026",
+      "restricted": true,
+      "payload": "not committed"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "icd_achi_acs_license_workflow_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "boundary": {
+    "storage_policy": "local-only",
+    "allowed_content": [
+      "version labels",
+      "source URLs",
+      "local path hints",
+      "environment variable names",
+      "checksums of synthetic fixtures"
+    ],
+    "disallowed_content": [
+      "licensed code rows",
+      "classification manuals",
+      "mapping tables",
+      "grouper binaries",
+      "patient data"
+    ]
+  }
+}

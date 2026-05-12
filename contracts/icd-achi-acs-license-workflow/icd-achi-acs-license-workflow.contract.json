@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "icd_achi_acs_license_workflow_20260512",
+  "tool": {
+    "name": "nwau_py.licensed_product_workflow",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.licensed_product_workflow"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Metadata-only contract. Licensed classification products stay local and user-supplied."
+  },
+  "surfaces": [
+    "local licensed asset manifest",
+    "environment variable path placeholder",
+    "commit guard diagnostics",
+    "missing asset diagnostic"
+  ],
+  "rules": [
+    "Do not commit licensed code rows, manuals, tables, or grouper binaries.",
+    "Do not expose restricted file contents in diagnostics.",
+    "Only safe metadata, local path hints, and environment variable names may be committed."
+  ],
+  "examples": [
+    "examples/local-licensed-asset-manifest.json",
+    "examples/license-boundary.json",
+    "examples/commit-guard-diagnostics.json",
+    "examples/setup-placeholders.json"
+  ]
+}

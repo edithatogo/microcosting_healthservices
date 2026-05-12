@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "icd_achi_acs_license_workflow_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "environment": [
+    {
+      "name": "MCHS_LICENSED_ROOT",
+      "example_value": "archive/ihacpa/raw/2026/licensed",
+      "purpose": "Local-only root for user-supplied licensed products."
+    },
+    {
+      "name": "MCHS_LICENSED_ICD_10_AM_2026",
+      "example_value": "archive/ihacpa/raw/2026/licensed/icd_10_am",
+      "purpose": "Local-only ICD-10-AM 2026 asset placeholder."
+    }
+  ]
+}
