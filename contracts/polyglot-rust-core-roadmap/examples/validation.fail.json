@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "roadmap_bundle_id": "polyglot_rust_core_roadmap_20260513",
+  "contract_version": {
+    "batch_io": "v1",
+    "diagnostics": "v1",
+    "provenance": "v1",
+    "validation_status": "v1",
+    "binding_conformance": "v1",
+    "abi_boundary": "v1",
+    "fixture_gates": "v1"
+  },
+  "surface": "arrow_batch_output",
+  "state": "fail",
+  "batch_io": {
+    "format": "json",
+    "direction": "output",
+    "schema_ref": "v1",
+    "record_batch": {
+      "column_count": 3,
+      "columns": [
+        {
+          "name": "subject_id",
+          "type": "utf8",
+          "nullable": false
+        },
+        {
+          "name": "encounter_date",
+          "type": "utf8",
+          "nullable": false
+        },
+        {
+          "name": "metric_value",
+          "type": "utf8",
+          "nullable": true
+        }
+      ]
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "PRC-ERR-101",
+      "severity": "error",
+      "summary": "Batch output is not Arrow-compatible because the declared format is json and column typing diverges from the versioned contract.",
+      "target": "arrow_batch_output"
+    },
+    {
+      "code": "PRC-ERR-102",
+      "severity": "error",
+      "summary": "Binding conformance is incomplete because the example omits explicit error translation behavior.",
+      "target": "binding_conformance"
+    },
+    {
+      "code": "PRC-WARN-103",
+      "severity": "warning",
+      "summary": "Fixture gate blocked due to non-synthetic or non-conforming metadata expectations.",
+      "target": "fixture_gates"
+    }
+  ],
+  "provenance": {
+    "bundle_id": "polyglot_rust_core_roadmap_20260513",
+    "contract_surface": "arrow_batch_output",
+    "contract_version": "v1",
+    "source_kind": "synthetic-fixture",
+    "source_ref": "examples/validation.fail.json",
+    "generated_on": "2026-05-13",
+    "checksum_algorithm": "sha256",
+    "checksum_value": "synthetic-sha256-placeholder-fail",
+    "classification": "synthetic",
+    "notes": "Synthetic fail case demonstrating contract breach conditions for roadmap review."
+  },
+  "validation_status": {
+    "state": "fail",
+    "reason": "The example violates the declared Arrow-compatible batch output contract and binding expectations."
+  },
+  "binding_conformance": {
+    "state": "non-conformant",
+    "language_bindings": [
+      {
+        "language": "rust",
+        "type_mapping": "unstable",
+        "error_translation": "implicit"
+      }
+    ]
+  },
+  "abi_boundary": {
+    "state": "incompatible",
+    "boundary_style": "ffi",
+    "notes": "The example intentionally marks the ABI boundary as incompatible to demonstrate a fail state for contract gating."
+  },
+  "fixture_gates": {
+    "state": "block",
+    "allowed": false,
+    "blocked_reasons": [
+      "batch_output_format_mismatch",
+      "binding_conformance_gap",
+      "abi_boundary_mismatch"
+    ],
+    "notes": "This synthetic fixture is blocked to exercise the contract's fail path."
+  }
+}

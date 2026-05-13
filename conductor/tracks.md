@@ -278,7 +278,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Polyglot Rust Core Roadmap**
+- [x] **Track: Polyglot Rust Core Roadmap**
 *Link: [./tracks/polyglot_rust_core_roadmap_20260512/](./tracks/polyglot_rust_core_roadmap_20260512/)*
 *Gate: coordinate the transition from Python-first package to shared Rust calculator core with thin Python, R, Julia, TypeScript/WASM, C ABI, CLI/file, web, and Power Platform consumers.*
 

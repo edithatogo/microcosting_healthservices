@@ -42,3 +42,41 @@ parity, packaging, documentation, and binding contracts are complete.
   TypeScript/WASM, Java/JVM, C ABI, SQL/DuckDB, SAS interop, CLI/file, web, and
   Power Platform validation.
 - Documentation explains current Python-first status and intended polyglot end state without overclaiming.
+
+## Appendix: Architecture-only interpretation
+
+This track is a roadmap and sequencing document, not an implementation claim.
+The architecture workstream it describes is limited to:
+
+- Defining the promotion path from Python baseline to Rust canary, Rust
+  opt-in, and Rust default.
+- Establishing the source dependency chain from IHACPA materials through
+  manifests, bundles, fixtures, and shared contracts.
+- Requiring single-sourced formula logic so bindings remain thin and do not
+  duplicate calculator math.
+- Preserving the current Python-first validation state until each stream earns
+  its own Rust parity evidence.
+
+## Appendix A: Packaging-only release matrix
+
+The packaging and release policy for each surface is tracked in
+[`docs/roadmaps/polyglot-packaging-release-matrix.md`](../../../docs/roadmaps/polyglot-packaging-release-matrix.md).
+That document is the packaging-only authority for:
+
+- Python wheels
+- Rust crates
+- R and Julia packages
+- NuGet / C#
+- Go modules
+- TypeScript / WASM
+- JVM packages
+- C ABI artifacts
+- SQL / DuckDB integration
+- SAS interop assets
+- CLI / file artifacts
+- web demos
+- Power Platform managed solutions
+
+The appendix is intentionally narrow. It records release status and gate
+criteria, but it does not change the calculator scope, the Rust-core promotion
+lifecycle, or the binding hierarchy already defined by the roadmap.

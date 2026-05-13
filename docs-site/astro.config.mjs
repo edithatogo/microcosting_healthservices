@@ -68,6 +68,7 @@ export default defineConfig({
             'governance/validation-vocabulary',
             'governance/data-governance',
             'governance/rust-core-architecture',
+            'governance/polyglot-rust-core-roadmap',
             'governance/reference-generation',
             'governance/public-readiness',
             'governance/streamlit-delivery',

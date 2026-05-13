@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "roadmap_bundle_id": "polyglot_rust_core_roadmap_20260513",
+  "contract_version": {
+    "batch_io": "v1",
+    "diagnostics": "v1",
+    "provenance": "v1",
+    "validation_status": "v1",
+    "binding_conformance": "v1",
+    "abi_boundary": "v1",
+    "fixture_gates": "v1"
+  },
+  "surface": "arrow_batch_input",
+  "state": "pass",
+  "batch_io": {
+    "format": "arrow-ipc",
+    "direction": "input",
+    "schema_ref": "v1",
+    "record_batch": {
+      "column_count": 4,
+      "columns": [
+        {
+          "name": "subject_id",
+          "type": "utf8",
+          "nullable": false
+        },
+        {
+          "name": "encounter_date",
+          "type": "date32",
+          "nullable": false
+        },
+        {
+          "name": "metric_code",
+          "type": "utf8",
+          "nullable": false
+        },
+        {
+          "name": "metric_value",
+          "type": "float64",
+          "nullable": false
+        }
+      ]
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "PRC-OK-001",
+      "severity": "info",
+      "summary": "Batch contract version resolved successfully.",
+      "target": "arrow_batch_input"
+    }
+  ],
+  "provenance": {
+    "bundle_id": "polyglot_rust_core_roadmap_20260513",
+    "contract_surface": "arrow_batch_input",
+    "contract_version": "v1",
+    "source_kind": "synthetic-fixture",
+    "source_ref": "examples/validation.pass.json",
+    "generated_on": "2026-05-13",
+    "checksum_algorithm": "sha256",
+    "checksum_value": "synthetic-sha256-placeholder-pass",
+    "classification": "synthetic",
+    "notes": "Generated for roadmap contract coverage only."
+  },
+  "validation_status": {
+    "state": "pass",
+    "reason": "All declared contract surfaces are satisfied by the synthetic example."
+  },
+  "binding_conformance": {
+    "state": "conformant",
+    "language_bindings": [
+      {
+        "language": "rust",
+        "type_mapping": "stable",
+        "error_translation": "explicit"
+      },
+      {
+        "language": "python",
+        "type_mapping": "stable",
+        "error_translation": "explicit"
+      }
+    ]
+  },
+  "abi_boundary": {
+    "state": "compatible",
+    "boundary_style": "ffi",
+    "notes": "Only the descriptive contract is defined here; no implementation bridge or symbol table is embedded."
+  },
+  "fixture_gates": {
+    "state": "allow",
+    "allowed": true,
+    "blocked_reasons": [],
+    "notes": "Synthetic pass fixture is permitted because it contains no proprietary content and follows the declared versioned contract."
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/polyglot-rust-core-roadmap/polyglot-rust-core-roadmap.schema.json",
+  "title": "Polyglot Rust Core roadmap contract",
+  "description": "Schema for synthetic roadmap fixtures that define versioned contracts for Arrow-compatible batch I/O, diagnostics, provenance, validation status, binding conformance, ABI boundary expectations, and fixture gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "roadmap_bundle_id",
+    "tool",
+    "privacy",
+    "contract_versions",
+    "contract_surfaces",
+    "rules",
+    "outputs",
+    "provenance",
+    "examples"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "roadmap_bundle_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "package",
+        "entry_point"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "package": {
+          "type": "string"
+        },
+        "entry_point": {
+          "type": "string"
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "contains_phi",
+        "notes"
+      ],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": [
+            "synthetic"
+          ]
+        },
+        "contains_phi": {
+          "type": "boolean",
+          "const": false
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "contract_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batch_io",
+        "diagnostics",
+        "provenance",
+        "validation_status",
+        "binding_conformance",
+        "abi_boundary",
+        "fixture_gates"
+      ],
+      "properties": {
+        "batch_io": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "diagnostics": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "provenance": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "validation_status": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "binding_conformance": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "abi_boundary": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        },
+        "fixture_gates": {
+          "type": "string",
+          "pattern": "^v[0-9]+(\\.[0-9]+)?$"
+        }
+      }
+    },
+    "contract_surfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "purpose"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_\\-]+$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "severity",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_\\-]+$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "batch_io_format",
+        "diagnostics_format",
+        "provenance_format",
+        "validation_state_pass",
+        "validation_state_fail",
+        "fixture_gate_states"
+      ],
+      "properties": {
+        "batch_io_format": {
+          "type": "string",
+          "enum": [
+            "json"
+          ]
+        },
+        "diagnostics_format": {
+          "type": "string",
+          "enum": [
+            "json"
+          ]
+        },
+        "provenance_format": {
+          "type": "string",
+          "enum": [
+            "json"
+          ]
+        },
+        "validation_state_pass": {
+          "type": "string",
+          "const": "pass"
+        },
+        "validation_state_fail": {
+          "type": "string",
+          "const": "fail"
+        },
+        "fixture_gate_states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "allow",
+              "block",
+              "warn"
+            ]
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "checksum_algorithm"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "checksum_algorithm": {
+          "type": "string",
+          "enum": [
+            "sha256"
+          ]
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "path",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "roadmap_bundle_id": "polyglot_rust_core_roadmap_20260513",
+  "tool": {
+    "name": "polyglot-rust-core",
+    "package": "synthetic_roadmap_contracts",
+    "entry_point": "synthetic_roadmap_contracts.cli:main"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "This bundle contains roadmap-only synthetic metadata and examples. It intentionally excludes proprietary IHACPA content, licensed data, production payloads, and executable implementation code."
+  },
+  "contract_versions": {
+    "batch_io": "v1",
+    "diagnostics": "v1",
+    "provenance": "v1",
+    "validation_status": "v1",
+    "binding_conformance": "v1",
+    "abi_boundary": "v1",
+    "fixture_gates": "v1"
+  },
+  "contract_surfaces": [
+    {
+      "id": "arrow_batch_input",
+      "label": "Arrow-compatible batch input",
+      "purpose": "Define the versioned envelope for ingesting synthetic record batches without embedding business logic."
+    },
+    {
+      "id": "arrow_batch_output",
+      "label": "Arrow-compatible batch output",
+      "purpose": "Define the versioned envelope for returning synthetic record batches with stable field metadata."
+    },
+    {
+      "id": "diagnostics",
+      "label": "Diagnostics contract",
+      "purpose": "Define machine-readable warning, error, and informational records for contract validation and boundary checks."
+    },
+    {
+      "id": "provenance",
+      "label": "Provenance contract",
+      "purpose": "Define the required metadata that explains source, transform, and checksum lineage for synthetic artifacts."
+    },
+    {
+      "id": "validation_status",
+      "label": "Validation status contract",
+      "purpose": "Define pass, fail, and blocked states for roadmap and fixture verification."
+    },
+    {
+      "id": "binding_conformance",
+      "label": "Binding conformance contract",
+      "purpose": "Define expectations for language bindings that consume or emit the Arrow-compatible contracts."
+    },
+    {
+      "id": "abi_boundary",
+      "label": "ABI boundary contract",
+      "purpose": "Define the descriptive boundary expectations for stable cross-language linking and foreign function interfaces."
+    },
+    {
+      "id": "fixture_gates",
+      "label": "Fixture gate contract",
+      "purpose": "Define which synthetic fixtures are allowed, blocked, or warned at the contract boundary."
+    }
+  ],
+  "rules": [
+    {
+      "id": "explicit_versioning",
+      "label": "Explicit versioning is required",
+      "severity": "error",
+      "description": "Every contract surface must declare a version so downstream consumers can pin compatible behavior."
+    },
+    {
+      "id": "arrow_compatibility",
+      "label": "Arrow-compatible batch envelopes only",
+      "severity": "error",
+      "description": "Batch input and output examples must describe Arrow-compatible schemas and field metadata without relying on proprietary data."
+    },
+    {
+      "id": "diagnostics_machine_readable",
+      "label": "Diagnostics remain machine-readable",
+      "severity": "error",
+      "description": "Diagnostics must expose codes, severities, summaries, and target surfaces in JSON form."
+    },
+    {
+      "id": "provenance_required",
+      "label": "Provenance is mandatory",
+      "severity": "error",
+      "description": "Synthetic artifacts must include provenance fields that identify source, transform, checksum, and version lineage."
+    },
+    {
+      "id": "validation_status_semantics",
+      "label": "Validation status is explicit",
+      "severity": "error",
+      "description": "Validation results must be reported as pass, fail, or blocked, with reasons stated in diagnostics."
+    },
+    {
+      "id": "binding_conformance_contract",
+      "label": "Bindings must conform to declared expectations",
+      "severity": "warning",
+      "description": "Bindings should document type mapping, ownership, and error translation so callers do not infer hidden conversions."
+    },
+    {
+      "id": "abi_boundary_descriptive_only",
+      "label": "ABI expectations are descriptive only",
+      "severity": "warning",
+      "description": "The contract may describe ABI compatibility expectations but must not embed implementation details or executable bridge code."
+    },
+    {
+      "id": "fixture_gate_synthetic_only",
+      "label": "Fixture gates are synthetic only",
+      "severity": "error",
+      "description": "Fixture gates must allow or block synthetic roadmap examples only and must not carry proprietary payloads."
+    }
+  ],
+  "outputs": {
+    "batch_io_format": "json",
+    "diagnostics_format": "json",
+    "provenance_format": "json",
+    "validation_state_pass": "pass",
+    "validation_state_fail": "fail",
+    "fixture_gate_states": [
+      "allow",
+      "block",
+      "warn"
+    ]
+  },
+  "provenance": {
+    "fields": [
+      "bundle_id",
+      "contract_surface",
+      "contract_version",
+      "source_kind",
+      "source_ref",
+      "generated_on",
+      "checksum_algorithm",
+      "checksum_value",
+      "classification",
+      "notes"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "validation-pass",
+      "path": "contracts/polyglot-rust-core-roadmap/examples/validation.pass.json",
+      "description": "Synthetic pass example showing Arrow-compatible batch I/O, clean diagnostics, complete provenance, and allowed fixture gates."
+    },
+    {
+      "name": "validation-fail",
+      "path": "contracts/polyglot-rust-core-roadmap/examples/validation.fail.json",
+      "description": "Synthetic fail example showing a contract breach in batch metadata, diagnostics, binding conformance, ABI expectation, and fixture gating."
+    }
+  ]
+}
