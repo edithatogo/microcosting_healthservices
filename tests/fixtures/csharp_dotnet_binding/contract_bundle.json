@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "binding_id": "csharp_dotnet_binding_20260512",
+  "surface": "csharp-dotnet",
+  "initial_strategy": "service boundary",
+  "fallback_strategy": "cli-arrow-file interop",
+  "formula_logic_location": "rust core",
+  "nuget_status": "future-only",
+  "diagnostics": {
+    "format": "json",
+    "includes": [
+      "contract_id",
+      "pricing_year",
+      "fixture_id",
+      "validation_status"
+    ]
+  },
+  "provenance": {
+    "checksum_algorithm": "sha256",
+    "preserve_fields": [
+      "source_basis",
+      "fixture_id",
+      "notes"
+    ]
+  },
+  "package": {
+    "nuget": {
+      "status": "future-only",
+      "release_gate": "contract and parity stable"
+    }
+  }
+}

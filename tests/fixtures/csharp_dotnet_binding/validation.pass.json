@@ -1,0 +1,23 @@
+{
+  "result": "pass",
+  "strategy": "service boundary",
+  "fallback": "cli-arrow-file interop",
+  "formula_logic_location": "rust core",
+  "diagnostics": {
+    "format": "json",
+    "location": "stderr"
+  },
+  "provenance": {
+    "checksum_algorithm": "sha256",
+    "source_basis": "shared golden fixture pack",
+    "preserve_fields": [
+      "source_basis",
+      "fixture_id",
+      "notes"
+    ],
+    "notes": [
+      "synthetic data only",
+      "provenance preserved"
+    ]
+  }
+}

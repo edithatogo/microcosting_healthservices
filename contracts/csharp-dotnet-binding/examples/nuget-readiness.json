@@ -1,0 +1,13 @@
+{
+  "status": "preview",
+  "package_id": "Mchs.Calculator.Binding",
+  "target_frameworks": [
+    "net8.0",
+    "net9.0"
+  ],
+  "blockers": [
+    "Packaging manifest is synthetic only.",
+    "Managed implementation assembly is not part of this contract bundle."
+  ],
+  "notes": "This status allows the binding contract to track release packaging without implying that implementation binaries are ready."
+}

@@ -284,7 +284,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: C#/.NET Binding**
+- [x] **Track: C#/.NET Binding**
 *Link: [./tracks/csharp_dotnet_binding_20260512/](./tracks/csharp_dotnet_binding_20260512/)*
 *Gate: expose institutional .NET integration through C ABI, service, or CLI/file contracts without duplicating formula logic.*
 

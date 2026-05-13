@@ -1,0 +1,4 @@
+{
+  "result": "fail",
+  "reason": "Formula logic or NuGet readiness overclaim detected"
+}

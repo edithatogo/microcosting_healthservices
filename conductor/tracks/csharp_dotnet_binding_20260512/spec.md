@@ -13,3 +13,14 @@ Provide a C#/.NET integration path for institutional services, health-service ap
 - C# roadmap identifies the chosen initial integration strategy and fallback.
 - C# examples validate against shared fixtures.
 - No formula logic is implemented in C#.
+
+## Strategy note
+
+- Initial strategy: service boundary.
+- Fallback: CLI / Arrow-file interop for batch, offline, or inspectable handoff
+  scenarios.
+- C ABI / PInvoke remains a later option for latency-sensitive or embedded
+  .NET hosts once the ABI and packaging rules are stable.
+- Power Platform-adjacent solutions must stay thin and route work through the
+  shared contract rather than duplicating formula logic in flows, expressions,
+  or app code.

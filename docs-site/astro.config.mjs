@@ -73,6 +73,7 @@ export default defineConfig({
             'governance/public-readiness',
             'governance/streamlit-delivery',
             'governance/downstream-packaging-plans',
+            'governance/csharp-dotnet-binding',
             'governance/web-and-power-platform-delivery',
             'governance/release-policy',
             'governance/supply-chain-controls',

@@ -1,0 +1,48 @@
+{
+  "format": "json",
+  "category": "binding-diagnostics",
+  "items": [
+    {
+      "code": "BND-001",
+      "severity": "error",
+      "category": "contract-alignment",
+      "message": "Typed request or response model is not aligned to the public calculator contract.",
+      "fallback_mode": "managed"
+    },
+    {
+      "code": "BND-002",
+      "severity": "warning",
+      "category": "transport",
+      "message": "Managed binding is unavailable; using CLI fallback instead.",
+      "fallback_mode": "cli"
+    },
+    {
+      "code": "BND-003",
+      "severity": "warning",
+      "category": "transport",
+      "message": "Arrow-file fallback is being used for batch interchange.",
+      "fallback_mode": "arrow-file"
+    },
+    {
+      "code": "BND-004",
+      "severity": "error",
+      "category": "provenance",
+      "message": "Provenance chain is incomplete or checksum data is missing.",
+      "fallback_mode": "managed"
+    },
+    {
+      "code": "BND-005",
+      "severity": "error",
+      "category": "fixture",
+      "message": "Synthetic fixture gate failed.",
+      "fallback_mode": "managed"
+    },
+    {
+      "code": "BND-006",
+      "severity": "warning",
+      "category": "packaging",
+      "message": "NuGet package readiness is not ready for release yet.",
+      "fallback_mode": "managed"
+    }
+  ]
+}

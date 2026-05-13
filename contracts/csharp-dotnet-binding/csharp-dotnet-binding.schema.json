@@ -1,0 +1,512 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/csharp-dotnet-binding/csharp-dotnet-binding.schema.json",
+  "title": "C#/.NET binding contract",
+  "description": "Schema for a synthetic, versioned C#/.NET binding contract that exposes typed request/response models aligned to the public calculator contract with CLI and Arrow-file fallbacks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "contract_version",
+    "bundle_type",
+    "binding",
+    "public_calculator_contract",
+    "invocation_modes",
+    "diagnostics",
+    "provenance",
+    "errors",
+    "fixture_gates",
+    "nuget_readiness",
+    "examples"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "contract_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.]+)?$"
+    },
+    "bundle_type": {
+      "type": "string",
+      "enum": [
+        "synthetic"
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "language",
+        "runtime",
+        "package_id",
+        "assembly_name",
+        "request_models",
+        "response_models"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "const": "C#"
+        },
+        "runtime": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "package_id": {
+          "type": "string"
+        },
+        "assembly_name": {
+          "type": "string"
+        },
+        "request_models": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "purpose",
+              "fields"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "type",
+                    "required"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "notes": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "response_models": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "purpose",
+              "fields"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "name",
+                    "type",
+                    "required"
+                  ],
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "notes": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "public_calculator_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "alignment_mode",
+        "source",
+        "notes"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[A-Za-z0-9.]+)?$"
+        },
+        "alignment_mode": {
+          "type": "string",
+          "enum": [
+            "shape-aligned",
+            "response-compatible",
+            "transport-compatible"
+          ]
+        },
+        "source": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "invocation_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "transport",
+          "status",
+          "inputs",
+          "outputs"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "transport": {
+            "type": "string",
+            "enum": [
+              "managed",
+              "cli",
+              "arrow-file"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "preview",
+              "stable",
+              "deprecated"
+            ]
+          },
+          "inputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "outputs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "categories",
+        "codes"
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": [
+            "json"
+          ]
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "codes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "severity",
+              "category",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}-[0-9]{3}$"
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              },
+              "category": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "fallback_mode": {
+                "type": "string",
+                "enum": [
+                  "managed",
+                  "cli",
+                  "arrow-file"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "checksum_algorithm",
+        "required_artifacts"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "checksum_algorithm": {
+          "type": "string",
+          "enum": [
+            "sha256"
+          ]
+        },
+        "required_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "severity",
+          "surface",
+          "description"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^BIND-[0-9]{3}$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          },
+          "surface": {
+            "type": "string",
+            "enum": [
+              "managed",
+              "cli",
+              "arrow-file",
+              "provenance",
+              "fixture",
+              "nuget"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "fixture_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "gates"
+      ],
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": [
+            "synthetic-only"
+          ]
+        },
+        "gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "required",
+              "status",
+              "reason"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "fail",
+                  "na"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "nuget_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "package_id",
+        "target_frameworks",
+        "blockers",
+        "notes"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "blocked",
+            "preview",
+            "ready"
+          ]
+        },
+        "package_id": {
+          "type": "string"
+        },
+        "target_frameworks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "path",
+          "description"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

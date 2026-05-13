@@ -1,0 +1,52 @@
+{
+  "validation_state": "fail",
+  "contract_id": "csharp_dotnet_binding_20260513",
+  "contract_version": "1.0.0",
+  "summary": "The binding example fails because provenance is incomplete and the fallback matrix is missing one required mode.",
+  "checks": [
+    {
+      "name": "public-calculator-alignment",
+      "status": "pass"
+    },
+    {
+      "name": "managed-binding-surface",
+      "status": "pass"
+    },
+    {
+      "name": "cli-fallback",
+      "status": "fail",
+      "reason": "Fallback path not declared in the sample."
+    },
+    {
+      "name": "arrow-file-fallback",
+      "status": "pass"
+    },
+    {
+      "name": "provenance-completeness",
+      "status": "fail",
+      "reason": "Checksum and source URL are missing."
+    },
+    {
+      "name": "fixture-gates",
+      "status": "fail",
+      "reason": "Synthetic-only gate could not be verified."
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "BND-002",
+      "severity": "warning",
+      "message": "Managed binding is unavailable; use CLI fallback instead."
+    },
+    {
+      "code": "BND-004",
+      "severity": "error",
+      "message": "Provenance metadata is incomplete."
+    },
+    {
+      "code": "BND-005",
+      "severity": "error",
+      "message": "Fixture gate failed."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "policy": "synthetic-only",
+  "gates": [
+    {
+      "name": "synthetic-content-only",
+      "required": true,
+      "status": "pass",
+      "reason": "No production data, PHI, or implementation code is present."
+    },
+    {
+      "name": "public-calculator-alignment",
+      "required": true,
+      "status": "pass",
+      "reason": "Typed models are aligned to the public calculator contract shape."
+    },
+    {
+      "name": "fallback-coverage",
+      "required": true,
+      "status": "pass",
+      "reason": "Managed, CLI, and Arrow-file fallback paths are declared explicitly."
+    },
+    {
+      "name": "provenance-completeness",
+      "required": true,
+      "status": "pass",
+      "reason": "The bundle carries source, checksum, and artifact-trace fields."
+    },
+    {
+      "name": "nuget-readiness-gate",
+      "required": true,
+      "status": "na",
+      "reason": "Packaging readiness is tracked separately from functional validation."
+    }
+  ]
+}

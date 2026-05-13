@@ -1,0 +1,47 @@
+{
+  "format": "json",
+  "catalog": [
+    {
+      "code": "BIND-001",
+      "severity": "error",
+      "surface": "managed",
+      "description": "Managed binding invocation failed before a typed response could be created.",
+      "retryable": true
+    },
+    {
+      "code": "BIND-002",
+      "severity": "error",
+      "surface": "cli",
+      "description": "CLI fallback could not be launched or returned an invalid payload.",
+      "retryable": true
+    },
+    {
+      "code": "BIND-003",
+      "severity": "error",
+      "surface": "arrow-file",
+      "description": "Arrow-file fallback input or output did not match the declared interchange schema.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-004",
+      "severity": "error",
+      "surface": "provenance",
+      "description": "Provenance metadata is incomplete, unverifiable, or missing a checksum.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-005",
+      "severity": "error",
+      "surface": "fixture",
+      "description": "Fixture gate did not pass the synthetic-only or alignment checks.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-006",
+      "severity": "warning",
+      "surface": "nuget",
+      "description": "NuGet package is not yet marked ready for release.",
+      "retryable": true
+    }
+  ]
+}

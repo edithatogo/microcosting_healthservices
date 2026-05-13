@@ -1,0 +1,36 @@
+{
+  "validation_state": "pass",
+  "contract_id": "csharp_dotnet_binding_20260513",
+  "contract_version": "1.0.0",
+  "summary": "Typed C# request/response models align to the public calculator contract, fallback modes are declared, and provenance is complete.",
+  "checks": [
+    {
+      "name": "public-calculator-alignment",
+      "status": "pass"
+    },
+    {
+      "name": "managed-binding-surface",
+      "status": "pass"
+    },
+    {
+      "name": "cli-fallback",
+      "status": "pass"
+    },
+    {
+      "name": "arrow-file-fallback",
+      "status": "pass"
+    },
+    {
+      "name": "provenance-completeness",
+      "status": "pass"
+    },
+    {
+      "name": "fixture-gates",
+      "status": "pass"
+    }
+  ],
+  "nuget_readiness": {
+    "status": "preview",
+    "package_id": "Mchs.Calculator.Binding"
+  }
+}

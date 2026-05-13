@@ -1,0 +1,17 @@
+{
+  "contract_id": "csharp_dotnet_binding_20260513",
+  "contract_version": "1.0.0",
+  "source_contract": {
+    "name": "public-calculator-contract",
+    "version": "1.0.0",
+    "source_url": "public calculator contract"
+  },
+  "source_manifest_path": "contracts/csharp-dotnet-binding/csharp-dotnet-binding.contract.json",
+  "retrieved_on": "2026-05-13",
+  "sha256": "synthetic-sha256-placeholder",
+  "bytes": 0,
+  "transport_mode": "managed",
+  "fixture_gate_id": "synthetic-only",
+  "package_id": "Mchs.Calculator.Binding",
+  "target_framework": "net8.0"
+}

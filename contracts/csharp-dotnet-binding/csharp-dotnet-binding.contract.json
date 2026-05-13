@@ -1,0 +1,364 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "csharp_dotnet_binding_20260513",
+  "contract_version": "1.0.0",
+  "bundle_type": "synthetic",
+  "binding": {
+    "language": "C#",
+    "runtime": [
+      ".NET 8.0",
+      ".NET 9.0"
+    ],
+    "package_id": "Mchs.Calculator.Binding",
+    "assembly_name": "Mchs.Calculator.Binding",
+    "request_models": [
+      {
+        "name": "CalculatorRequest",
+        "purpose": "Typed request model for the public calculator contract.",
+        "fields": [
+          {
+            "name": "InputSet",
+            "type": "string",
+            "required": true,
+            "notes": "Synthetic selector for a named input shape."
+          },
+          {
+            "name": "Payload",
+            "type": "object",
+            "required": true,
+            "notes": "Synthetic calculator input payload."
+          },
+          {
+            "name": "Provenance",
+            "type": "BindingProvenance",
+            "required": false,
+            "notes": "Optional trace context for fixture and package provenance."
+          }
+        ]
+      },
+      {
+        "name": "ArrowFileRequest",
+        "purpose": "Typed request model for Arrow-file fallback execution.",
+        "fields": [
+          {
+            "name": "ArrowPath",
+            "type": "string",
+            "required": true,
+            "notes": "Arrow IPC file that carries the request batch."
+          },
+          {
+            "name": "OutputPath",
+            "type": "string",
+            "required": true,
+            "notes": "Destination path for the response Arrow file."
+          }
+        ]
+      }
+    ],
+    "response_models": [
+      {
+        "name": "CalculatorResponse",
+        "purpose": "Typed response model for calculator results and binding diagnostics.",
+        "fields": [
+          {
+            "name": "Result",
+            "type": "object",
+            "required": true,
+            "notes": "Synthetic calculator result payload."
+          },
+          {
+            "name": "Diagnostics",
+            "type": "BindingDiagnostic[]",
+            "required": true,
+            "notes": "Structured diagnostics for transport and contract checks."
+          },
+          {
+            "name": "Errors",
+            "type": "BindingError[]",
+            "required": true,
+            "notes": "Structured binding errors if execution fails."
+          },
+          {
+            "name": "Provenance",
+            "type": "BindingProvenance",
+            "required": true,
+            "notes": "Traceability for source, mode, and checksum chain."
+          }
+        ]
+      },
+      {
+        "name": "BindingReadinessResponse",
+        "purpose": "Typed status model for NuGet and fixture readiness.",
+        "fields": [
+          {
+            "name": "NuGetStatus",
+            "type": "string",
+            "required": true,
+            "notes": "Blocked, preview, or ready."
+          },
+          {
+            "name": "FixtureGateSummary",
+            "type": "object",
+            "required": true,
+            "notes": "Summarizes synthetic fixture gate results."
+          }
+        ]
+      }
+    ]
+  },
+  "public_calculator_contract": {
+    "name": "public-calculator-contract",
+    "version": "1.0.0",
+    "alignment_mode": "shape-aligned",
+    "source": "public calculator contract",
+    "notes": "The binding contract mirrors the public calculator request/response shape but does not embed calculation semantics."
+  },
+  "invocation_modes": [
+    {
+      "name": "managed-binding",
+      "transport": "managed",
+      "status": "stable",
+      "inputs": [
+        "CalculatorRequest"
+      ],
+      "outputs": [
+        "CalculatorResponse",
+        "BindingDiagnostic[]",
+        "BindingError[]"
+      ],
+      "notes": "Primary typed C# invocation path."
+    },
+    {
+      "name": "cli-fallback",
+      "transport": "cli",
+      "status": "stable",
+      "inputs": [
+        "CalculatorRequest",
+        "BindingProvenance"
+      ],
+      "outputs": [
+        "CalculatorResponse",
+        "BindingDiagnostic[]",
+        "BindingError[]"
+      ],
+      "notes": "Uses the public calculator CLI when the managed binding is unavailable or explicitly disabled."
+    },
+    {
+      "name": "arrow-file-fallback",
+      "transport": "arrow-file",
+      "status": "preview",
+      "inputs": [
+        "ArrowFileRequest"
+      ],
+      "outputs": [
+        "CalculatorResponse",
+        "BindingDiagnostic[]",
+        "BindingError[]"
+      ],
+      "notes": "Uses Arrow IPC files for batch-oriented fallback and cross-process transport."
+    }
+  ],
+  "diagnostics": {
+    "format": "json",
+    "categories": [
+      "contract-alignment",
+      "transport",
+      "fallback",
+      "provenance",
+      "fixture",
+      "packaging"
+    ],
+    "codes": [
+      {
+        "code": "BND-001",
+        "severity": "error",
+        "category": "contract-alignment",
+        "message": "Typed request or response model is not aligned to the public calculator contract."
+      },
+      {
+        "code": "BND-002",
+        "severity": "warning",
+        "category": "transport",
+        "message": "Managed binding is unavailable; using CLI fallback instead.",
+        "fallback_mode": "cli"
+      },
+      {
+        "code": "BND-003",
+        "severity": "warning",
+        "category": "transport",
+        "message": "Arrow-file fallback is being used for batch interchange.",
+        "fallback_mode": "arrow-file"
+      },
+      {
+        "code": "BND-004",
+        "severity": "error",
+        "category": "provenance",
+        "message": "Provenance chain is incomplete or checksum data is missing."
+      },
+      {
+        "code": "BND-005",
+        "severity": "error",
+        "category": "fixture",
+        "message": "Synthetic fixture gate failed."
+      },
+      {
+        "code": "BND-006",
+        "severity": "warning",
+        "category": "packaging",
+        "message": "NuGet package readiness is not ready for release yet."
+      }
+    ]
+  },
+  "provenance": {
+    "fields": [
+      "contract_id",
+      "contract_version",
+      "source_contract",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "fixture_gate_id",
+      "transport_mode",
+      "package_id",
+      "target_framework"
+    ],
+    "checksum_algorithm": "sha256",
+    "required_artifacts": [
+      "contract_json",
+      "schema_json",
+      "example_fixtures",
+      "nuget_manifest"
+    ]
+  },
+  "errors": [
+    {
+      "code": "BIND-001",
+      "severity": "error",
+      "surface": "managed",
+      "description": "Managed binding invocation failed before a typed response could be created.",
+      "retryable": true
+    },
+    {
+      "code": "BIND-002",
+      "severity": "error",
+      "surface": "cli",
+      "description": "CLI fallback could not be launched or returned an invalid payload.",
+      "retryable": true
+    },
+    {
+      "code": "BIND-003",
+      "severity": "error",
+      "surface": "arrow-file",
+      "description": "Arrow-file fallback input or output did not match the declared interchange schema.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-004",
+      "severity": "error",
+      "surface": "provenance",
+      "description": "Provenance metadata is incomplete, unverifiable, or missing a checksum.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-005",
+      "severity": "error",
+      "surface": "fixture",
+      "description": "Fixture gate did not pass the synthetic-only or alignment checks.",
+      "retryable": false
+    },
+    {
+      "code": "BIND-006",
+      "severity": "warning",
+      "surface": "nuget",
+      "description": "NuGet package is not yet marked ready for release.",
+      "retryable": true
+    }
+  ],
+  "fixture_gates": {
+    "policy": "synthetic-only",
+    "gates": [
+      {
+        "name": "synthetic-content-only",
+        "required": true,
+        "status": "pass",
+        "reason": "No production data, PHI, or implementation code is present."
+      },
+      {
+        "name": "public-calculator-alignment",
+        "required": true,
+        "status": "pass",
+        "reason": "Typed request and response models are aligned to the public calculator contract shape."
+      },
+      {
+        "name": "fallback-coverage",
+        "required": true,
+        "status": "pass",
+        "reason": "Managed, CLI, and Arrow-file fallback paths are declared explicitly."
+      },
+      {
+        "name": "provenance-completeness",
+        "required": true,
+        "status": "pass",
+        "reason": "The contract includes source, checksum, and artifact-trace fields."
+      },
+      {
+        "name": "nuget-readiness-gate",
+        "required": true,
+        "status": "na",
+        "reason": "Packaging readiness is tracked separately from functional validation."
+      }
+    ]
+  },
+  "nuget_readiness": {
+    "status": "preview",
+    "package_id": "Mchs.Calculator.Binding",
+    "target_frameworks": [
+      "net8.0",
+      "net9.0"
+    ],
+    "blockers": [
+      "Packaging manifest is synthetic only.",
+      "Managed implementation assembly is not part of this contract bundle."
+    ],
+    "notes": "The contract records readiness metadata so the binding can graduate to NuGet without changing the surface contract."
+  },
+  "examples": [
+    {
+      "name": "validation-pass",
+      "path": "contracts/csharp-dotnet-binding/examples/validation.pass.json",
+      "description": "Synthetic pass example for contract alignment, fallback coverage, and provenance completeness."
+    },
+    {
+      "name": "validation-fail",
+      "path": "contracts/csharp-dotnet-binding/examples/validation.fail.json",
+      "description": "Synthetic fail example for missing provenance, misaligned models, or missing fallback coverage."
+    },
+    {
+      "name": "diagnostics",
+      "path": "contracts/csharp-dotnet-binding/examples/diagnostics.json",
+      "description": "Synthetic diagnostics catalog for transport, provenance, fixture, and packaging problems."
+    },
+    {
+      "name": "provenance",
+      "path": "contracts/csharp-dotnet-binding/examples/provenance.json",
+      "description": "Synthetic provenance manifest for the binding contract and example fixtures."
+    },
+    {
+      "name": "errors",
+      "path": "contracts/csharp-dotnet-binding/examples/errors.json",
+      "description": "Synthetic error catalog with stable binding error codes."
+    },
+    {
+      "name": "fixture-gates",
+      "path": "contracts/csharp-dotnet-binding/examples/fixture-gates.json",
+      "description": "Synthetic fixture gate manifest showing required validation gates."
+    },
+    {
+      "name": "nuget-readiness",
+      "path": "contracts/csharp-dotnet-binding/examples/nuget-readiness.json",
+      "description": "Synthetic NuGet readiness status for the binding package."
+    }
+  ]
+}
