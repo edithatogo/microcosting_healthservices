@@ -1,9 +1,9 @@
 {
   "track_id": "expert_panel_remediation_20260512",
   "type": "chore",
-  "status": "new",
+  "status": "complete",
   "track_class": "governance",
-  "current_state": "roadmap-only",
+  "current_state": "complete",
   "primary_contract": "expert-panel remediation backlog and priority gate",
   "dependencies": [
     "docs/reviews/20260512-expert-panel/synthesis.md",
