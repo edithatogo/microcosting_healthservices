@@ -1,9 +1,9 @@
 {
   "track_id": "end_to_end_validated_canary_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "complete",
   "track_class": "calculator",
-  "current_state": "roadmap-only",
+  "current_state": "canary-specified",
   "primary_contract": "one stream/year validated lifecycle evidence package",
   "dependencies": [
     "reference_data_manifest_schema_20260512",
