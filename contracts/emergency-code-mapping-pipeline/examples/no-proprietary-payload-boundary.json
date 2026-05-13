@@ -1,0 +1,25 @@
+{
+  "boundary_id": "emergency_code_mapping_pipeline_no_proprietary_payload_20260512",
+  "classification": "synthetic",
+  "contains_phi": false,
+  "boundary_status": "declared",
+  "allowed_payloads": [
+    "schema metadata",
+    "manifest metadata",
+    "dry-run summaries",
+    "diagnostics",
+    "local-only reference descriptors"
+  ],
+  "excluded_payloads": [
+    "proprietary mapping tables",
+    "code rows",
+    "grouping logic",
+    "patient data",
+    "operational extracts",
+    "vendor-specific executable payloads"
+  ],
+  "enforcement": {
+    "mode": "reject-on-restricted-content",
+    "notes": "Any restricted payload or silent crosswalk is out of scope for committed fixtures."
+  }
+}

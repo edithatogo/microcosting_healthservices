@@ -1,0 +1,117 @@
+{
+  "summary_id": "emergency_code_mapping_pipeline_dry_run_20260512",
+  "bundle_id": "synthetic_udg_emergency_bundle_v1",
+  "target_classification": "UDG",
+  "input_record_count": 6,
+  "mapped_count": 2,
+  "unmapped_count": 1,
+  "deprecated_count": 1,
+  "invalid_count": 1,
+  "version_incompatible_count": 1,
+  "records": [
+    {
+      "record_id": "SRC-001",
+      "source_fields": {
+        "arrival_mode": "ambulance",
+        "presenting_status": "admitted",
+        "triage_band": "2",
+        "episode_context": "synthetic"
+      },
+      "mapped_output": {
+        "target_classification": "UDG",
+        "mapped_code": "UDG-SYN-01"
+      },
+      "mapping_status": "mapped"
+    },
+    {
+      "record_id": "SRC-002",
+      "source_fields": {
+        "arrival_mode": "walk-in",
+        "presenting_status": "discharged",
+        "triage_band": "4",
+        "episode_context": "synthetic"
+      },
+      "mapped_output": {
+        "target_classification": "UDG",
+        "mapped_code": "UDG-SYN-02"
+      },
+      "mapping_status": "mapped"
+    },
+    {
+      "record_id": "SRC-003",
+      "source_fields": {
+        "arrival_mode": "unknown",
+        "presenting_status": "reviewed",
+        "triage_band": "3",
+        "episode_context": "synthetic"
+      },
+      "mapping_status": "unmapped",
+      "reason": "No declared mapping rule for the synthetic source combination."
+    },
+    {
+      "record_id": "SRC-004",
+      "source_fields": {
+        "arrival_mode": "historic",
+        "presenting_status": "transferred",
+        "triage_band": "1",
+        "episode_context": "synthetic"
+      },
+      "mapping_status": "deprecated",
+      "reason": "Source value is marked deprecated in the bundle manifest."
+    },
+    {
+      "record_id": "SRC-005",
+      "source_fields": {
+        "arrival_mode": "",
+        "presenting_status": "admitted",
+        "triage_band": "9",
+        "episode_context": "synthetic"
+      },
+      "mapping_status": "invalid",
+      "reason": "Source field set failed validation."
+    },
+    {
+      "record_id": "SRC-006",
+      "source_fields": {
+        "arrival_mode": "ambulance",
+        "presenting_status": "admitted",
+        "triage_band": "2",
+        "episode_context": "synthetic"
+      },
+      "mapping_status": "version_incompatible",
+      "reason": "Requested pricing year does not fall inside the bundle window."
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "mapping_bundle_version_ok",
+      "severity": "info",
+      "message": "Bundle version is declared and diffable."
+    },
+    {
+      "code": "mapped_records_present",
+      "severity": "info",
+      "message": "At least one source record mapped to a synthetic target code."
+    },
+    {
+      "code": "unmapped_source_code",
+      "severity": "warning",
+      "message": "One or more source combinations remain unmapped by design."
+    },
+    {
+      "code": "deprecated_source_value",
+      "severity": "warning",
+      "message": "One source value is flagged as deprecated."
+    },
+    {
+      "code": "invalid_source_value",
+      "severity": "error",
+      "message": "One source record failed field-set validation."
+    },
+    {
+      "code": "version_incompatible",
+      "severity": "error",
+      "message": "One source record requested a pricing year outside the bundle window."
+    }
+  ]
+}

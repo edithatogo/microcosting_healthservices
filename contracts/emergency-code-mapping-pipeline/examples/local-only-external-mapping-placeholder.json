@@ -1,0 +1,19 @@
+{
+  "reference_id": "emergency_code_mapping_pipeline_local_reference_20260512",
+  "reference_type": "external-mapping-table",
+  "access_mode": "local-only",
+  "mapping_source_kind": "user-supplied-local-placeholder",
+  "local_reference_uri": "local-synthetic://emergency-code-mapping-pipeline/external-mapping-table",
+  "bundle_id": "synthetic_aecc_emergency_bundle_v1",
+  "target_classification": "AECC",
+  "checksums": {
+    "reference_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000005"
+  },
+  "provenance": {
+    "source_manifest_path": "contracts/emergency-code-mapping-pipeline/examples/local-only-external-mapping-placeholder.json",
+    "source_url": "local-synthetic://emergency-code-mapping-pipeline/external-mapping-table",
+    "retrieved_on": "2026-05-12",
+    "mapping_source_uri": "local-synthetic://emergency-code-mapping-pipeline/external-mapping-table"
+  },
+  "notes": "This placeholder records that a user may provide an external mapping asset locally. It does not include the external mapping table, proprietary code rows, or any executable mapping logic."
+}

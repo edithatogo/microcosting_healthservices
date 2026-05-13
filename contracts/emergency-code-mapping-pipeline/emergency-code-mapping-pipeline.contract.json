@@ -1,0 +1,292 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_code_mapping_pipeline_20260512",
+  "tool": {
+    "name": "nwau_py.emergency_code_mapping_pipeline",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.emergency_code_mapping_pipeline"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic metadata-only contract. Source tables, proprietary mapping payloads, grouping logic, and production extracts are intentionally excluded."
+  },
+  "commands": [
+    {
+      "name": "list_emergency_code_mapping_bundles",
+      "mode": "mapping-bundle-manifest",
+      "status": "stable",
+      "inputs": [
+        "bundle_scope",
+        "pricing_year",
+        "target_classification",
+        "metadata_only"
+      ],
+      "outputs": [
+        "bundle_manifests",
+        "bundle_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic mapping bundle manifests for UDG and AECC target windows without embedding source tables or code rows."
+    },
+    {
+      "name": "validate_emergency_code_mapping_bundle",
+      "mode": "compatibility-validation",
+      "status": "preview",
+      "inputs": [
+        "bundle_id",
+        "pricing_year",
+        "source_field_set",
+        "target_classification",
+        "validation_basis"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Validate that a bundle declares supported source fields, target classification, pricing-year window, provenance, and checksums."
+    },
+    {
+      "name": "emit_emergency_code_mapping_dry_run",
+      "mode": "dry-run-summary",
+      "status": "preview",
+      "inputs": [
+        "bundle_id",
+        "input_sample",
+        "target_classification",
+        "dry_run_mode"
+      ],
+      "outputs": [
+        "mapping_summary",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Produce a dry-run summary of mapped, unmapped, deprecated, invalid, and version-incompatible records without changing source data."
+    },
+    {
+      "name": "describe_no_proprietary_payload_boundary",
+      "mode": "boundary-check",
+      "status": "stable",
+      "inputs": [
+        "boundary_profile",
+        "access_mode"
+      ],
+      "outputs": [
+        "boundary_report",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Declare the no-proprietary-payload boundary for synthetic fixtures and confirm restricted source content stays excluded."
+    },
+    {
+      "name": "resolve_local_external_mapping_reference",
+      "mode": "local-reference-resolution",
+      "status": "preview",
+      "inputs": [
+        "local_reference_uri",
+        "reference_type",
+        "access_mode"
+      ],
+      "outputs": [
+        "reference_manifest",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Record a user-supplied local-only external mapping placeholder without bundling the restricted mapping table itself."
+    }
+  ],
+  "mapping_bundle_manifest_schema": {
+    "version": "1.0",
+    "description": "Versioned manifest shape for emergency code mapping bundles. Each manifest is metadata only and declares the source field set, target classification, year window, provenance, checksums, and validation status.",
+    "required_fields": [
+      "bundle_id",
+      "bundle_version",
+      "target_classification",
+      "pricing_years",
+      "source_fields",
+      "source_field_set_version",
+      "provenance",
+      "checksums",
+      "validation_status"
+    ],
+    "field_definitions": [
+      {
+        "name": "bundle_id",
+        "type": "string",
+        "purpose": "Stable identifier for the mapping bundle."
+      },
+      {
+        "name": "bundle_version",
+        "type": "string",
+        "purpose": "Bundle release version used for deterministic diffing."
+      },
+      {
+        "name": "target_classification",
+        "type": "string",
+        "purpose": "Declared target classification, such as UDG or AECC."
+      },
+      {
+        "name": "pricing_years",
+        "type": "array[string]",
+        "purpose": "Supported pricing-year windows for the bundle."
+      },
+      {
+        "name": "source_fields",
+        "type": "array[string]",
+        "purpose": "Declared source emergency-care fields that feed the mapping pipeline."
+      },
+      {
+        "name": "source_field_set_version",
+        "type": "string",
+        "purpose": "Version label for the declared source field set."
+      },
+      {
+        "name": "provenance",
+        "type": "object",
+        "purpose": "Metadata for source manifest paths, source URLs, retrieval date, and local-only reference location."
+      },
+      {
+        "name": "checksums",
+        "type": "object",
+        "purpose": "Checksums for the manifest and any user-supplied local reference metadata."
+      },
+      {
+        "name": "validation_status",
+        "type": "string",
+        "purpose": "Declared validation state such as pass, fail, or unknown."
+      }
+    ]
+  },
+  "mapping_bundle_record_types": [
+    {
+      "id": "mapping_bundle_manifest",
+      "label": "Mapping bundle manifest",
+      "purpose": "Metadata-only declaration of a versioned emergency mapping bundle, including source field set, target class, validity years, and provenance."
+    },
+    {
+      "id": "mapping_bundle_summary",
+      "label": "Mapping bundle summary",
+      "purpose": "Synthetic dry-run summary of mapped, unmapped, deprecated, invalid, and version-incompatible records."
+    },
+    {
+      "id": "diagnostic_record",
+      "label": "Diagnostic record",
+      "purpose": "Synthetic diagnostics for version, field, provenance, and boundary checks."
+    },
+    {
+      "id": "no_proprietary_payload_boundary_record",
+      "label": "No proprietary payload boundary record",
+      "purpose": "Explicit boundary declaration for fixtures that must not contain proprietary mapping payloads, source code rows, or production exports."
+    },
+    {
+      "id": "local_mapping_reference",
+      "label": "Local mapping reference",
+      "purpose": "Local placeholder for a user-supplied mapping table, file, or service endpoint."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only bundle",
+      "severity": "error",
+      "description": "Reject bundles that embed proprietary mapping payloads, source code rows, or grouping logic."
+    },
+    {
+      "id": "explicit_bundle_version",
+      "label": "Explicit bundle version",
+      "severity": "error",
+      "description": "Require each bundle to declare a stable version and supported pricing-year window."
+    },
+    {
+      "id": "source_field_set_declared",
+      "label": "Declared source field set",
+      "severity": "error",
+      "description": "Require each manifest to declare the source emergency-care fields it maps from."
+    },
+    {
+      "id": "target_classification_declared",
+      "label": "Declared target classification",
+      "severity": "error",
+      "description": "Require each bundle to declare whether it targets UDG or AECC outputs."
+    },
+    {
+      "id": "no_implicit_crosswalk",
+      "label": "No implicit crosswalk",
+      "severity": "error",
+      "description": "Do not infer UDG or AECC mappings unless a declared source bundle or local reference is present."
+    },
+    {
+      "id": "checksum_required",
+      "label": "Checksum required",
+      "severity": "error",
+      "description": "Require source-manifest or local-reference checksums so synthetic fixtures remain diffable and auditable."
+    },
+    {
+      "id": "boundary_declared",
+      "label": "Declared payload boundary",
+      "severity": "error",
+      "description": "Require every fixture bundle to declare that proprietary payloads, licensed tables, and restricted exports are absent."
+    },
+    {
+      "id": "local_reference_only",
+      "label": "Local-only external reference",
+      "severity": "warning",
+      "description": "Record external mapping assets only as local placeholders and do not bundle restricted content."
+    }
+  ],
+  "outputs": {
+    "bundle_manifest_format": "json",
+    "validation_report_format": "json",
+    "diagnostic_format": "json",
+    "mapping_summary_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "contract_id",
+      "bundle_id",
+      "pricing_year",
+      "target_classification",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "license_boundary",
+      "mapping_source_uri",
+      "mapping_source_kind"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "mapping-bundle-manifest",
+      "path": "contracts/emergency-code-mapping-pipeline/examples/mapping-bundle-manifest.json",
+      "description": "Synthetic versioned manifest covering UDG and AECC mapping bundles with checksums, source fields, and provenance."
+    },
+    {
+      "name": "dry-run-mapping-summary",
+      "path": "contracts/emergency-code-mapping-pipeline/examples/dry-run-mapping-summary.json",
+      "description": "Synthetic dry-run summary showing mapped, unmapped, deprecated, invalid, and version-incompatible records."
+    },
+    {
+      "name": "diagnostics",
+      "path": "contracts/emergency-code-mapping-pipeline/examples/diagnostics.json",
+      "description": "Synthetic diagnostics report for boundary, provenance, unknown-code, and validation checks."
+    },
+    {
+      "name": "local-only-external-mapping-placeholder",
+      "path": "contracts/emergency-code-mapping-pipeline/examples/local-only-external-mapping-placeholder.json",
+      "description": "Synthetic local-only placeholder for a user-supplied external mapping table or service."
+    },
+    {
+      "name": "no-proprietary-payload-boundary",
+      "path": "contracts/emergency-code-mapping-pipeline/examples/no-proprietary-payload-boundary.json",
+      "description": "Synthetic boundary declaration that excludes proprietary payloads and restricted mappings."
+    }
+  ]
+}

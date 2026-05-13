@@ -1,0 +1,60 @@
+{
+  "diagnostic_id": "emergency_code_mapping_pipeline_diagnostics_20260512",
+  "bundle_id": "synthetic_aecc_emergency_bundle_v1",
+  "target_classification": "AECC",
+  "checks": [
+    {
+      "check_id": "no_proprietary_payload_boundary",
+      "severity": "error",
+      "status": "pass",
+      "evidence": "No licensed mapping tables, code rows, or production extracts are present in the committed fixtures."
+    },
+    {
+      "check_id": "manifest_checksum_present",
+      "severity": "error",
+      "status": "pass",
+      "evidence": "Synthetic checksum placeholders are declared for manifest and local reference metadata."
+    },
+    {
+      "check_id": "local_only_external_mapping_reference",
+      "severity": "warning",
+      "status": "pass",
+      "evidence": "External mapping assets are represented only as a local placeholder URI."
+    },
+    {
+      "check_id": "unknown_source_code",
+      "severity": "warning",
+      "status": "warn",
+      "evidence": "At least one synthetic source code is intentionally left unrecognized to test diagnostics."
+    },
+    {
+      "check_id": "unmapped_source_code",
+      "severity": "warning",
+      "status": "warn",
+      "evidence": "At least one synthetic source combination has no declared mapping rule."
+    },
+    {
+      "check_id": "deprecated_source_code",
+      "severity": "warning",
+      "status": "warn",
+      "evidence": "At least one synthetic source code is marked deprecated."
+    },
+    {
+      "check_id": "invalid_source_code",
+      "severity": "error",
+      "status": "fail",
+      "evidence": "At least one synthetic source record fails field-set validation."
+    },
+    {
+      "check_id": "pricing_year_compatibility",
+      "severity": "error",
+      "status": "pass",
+      "evidence": "The selected bundle declares a supported pricing-year window."
+    }
+  ],
+  "summary": {
+    "pass": 4,
+    "warn": 3,
+    "fail": 1
+  }
+}

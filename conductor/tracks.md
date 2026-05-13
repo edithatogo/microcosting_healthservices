@@ -254,7 +254,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Emergency Code Mapping Pipeline**
+- [x] **Track: Emergency Code Mapping Pipeline**
 *Link: [./tracks/emergency_code_mapping_pipeline_20260512/](./tracks/emergency_code_mapping_pipeline_20260512/)*
 *Gate: add versioned, provenance-aware mapping bundles for source emergency fields to UDG or AECC outputs without inventing unsupported crosswalks.*
 

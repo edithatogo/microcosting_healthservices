@@ -1,0 +1,72 @@
+{
+  "manifest_id": "emergency_code_mapping_pipeline_manifest_20260512",
+  "manifest_version": "1.0",
+  "bundles": [
+    {
+      "bundle_id": "synthetic_udg_emergency_bundle_v1",
+      "bundle_version": "1.0.0",
+      "target_classification": "UDG",
+      "pricing_years": [
+        "2024-25"
+      ],
+      "source_fields": [
+        "arrival_mode",
+        "presenting_status",
+        "triage_band",
+        "episode_context"
+      ],
+      "source_field_set_version": "2025.1",
+      "validation_status": "pass",
+      "checksums": {
+        "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000001",
+        "source_reference_sha256": "0000000000000000000000000000000000000000000000000000000000000002"
+      },
+      "provenance": {
+        "source_manifest_path": "contracts/emergency-code-mapping-pipeline/examples/mapping-bundle-manifest.json",
+        "source_url": "local-synthetic://emergency-code-mapping-pipeline/udg-bundle",
+        "retrieved_on": "2026-05-12",
+        "mapping_source_kind": "synthetic-local-manifest",
+        "mapping_source_uri": "local-synthetic://emergency-code-mapping-pipeline/udg-bundle"
+      }
+    },
+    {
+      "bundle_id": "synthetic_aecc_emergency_bundle_v1",
+      "bundle_version": "1.0.0",
+      "target_classification": "AECC",
+      "pricing_years": [
+        "2025-26"
+      ],
+      "source_fields": [
+        "arrival_mode",
+        "presenting_status",
+        "triage_band",
+        "episode_context"
+      ],
+      "source_field_set_version": "2025.1",
+      "validation_status": "pass",
+      "checksums": {
+        "manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000003",
+        "source_reference_sha256": "0000000000000000000000000000000000000000000000000000000000000004"
+      },
+      "provenance": {
+        "source_manifest_path": "contracts/emergency-code-mapping-pipeline/examples/mapping-bundle-manifest.json",
+        "source_url": "local-synthetic://emergency-code-mapping-pipeline/aecc-bundle",
+        "retrieved_on": "2026-05-12",
+        "mapping_source_kind": "synthetic-local-manifest",
+        "mapping_source_uri": "local-synthetic://emergency-code-mapping-pipeline/aecc-bundle"
+      }
+    }
+  ],
+  "notes": "Synthetic manifest only. The checksums and source references are placeholders for metadata validation and do not point to proprietary content.",
+  "license_boundary": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "declared_exclusions": [
+      "proprietary mapping tables",
+      "code rows",
+      "grouper logic",
+      "patient data",
+      "operational extracts"
+    ]
+  }
+}
