@@ -1,0 +1,120 @@
+# Plan: Rust Core GA
+
+This plan uses **depth-2 parallelism** via subagent delegation per the
+[Subagent Orchestration](../../subagent-orchestration.md) and
+[Subagent Execution Plan template](../../templates/track-templates/subagent-execution-plan.md)
+patterns.
+
+
+## Phase 1: Roadmap and Priority Freeze [sequential — coordinator must complete first]
+
+- [ ] Task: Create the dedicated Rust Core GA roadmap.
+    - [ ] Define phases from governance freeze to GA promotion.
+    - [ ] Define evidence gates for contracts, parity, release, docs, and security.
+    - [ ] Identify Scala/Spark, Swift, Stata, and MATLAB as deferred tracks.
+- [ ] Task: Update Conductor registry priorities.
+    - [ ] Add Rust Core GA as an immediate priority track.
+    - [ ] Mark current open language-interoperability tracks as deferred behind Rust Core GA.
+- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 1: Roadmap and Priority Freeze' (Protocol in workflow.md)
+
+## Phase 2: Contract Foundation [sequential — coordinator verifies before fan-out]
+
+- [ ] Task: Promote versioned contracts to Rust-core blocking prerequisites.
+    - [ ] Confirm calculator contract schemas.
+    - [ ] Confirm source manifest schemas.
+    - [ ] Confirm formula, parameter, coding-set, diagnostics, and provenance schemas.
+- [ ] Task: Define stream/year promotion statuses.
+    - [ ] Add blocked, canary, opt-in, release-candidate, and GA statuses.
+    - [ ] Require unsupported streams to fail closed.
+- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2: Contract Foundation' (Protocol in workflow.md)
+
+---
+
+## Phases 3–5: Parallel Workstreams [depth-2 — 4 sub-agents run simultaneously]
+
+After Phase 1–2 checkpoint, the coordinator delegates four independent workstreams
+to parallel sub-agents. Each workstream may use its own sub-agents (depth 3) for
+independent deliverables.
+
+All workstreams run in parallel. Each reports handoff to the coordinator upon
+completion.
+
+### Workstream A: Rust Kernel + Required Delivery Surfaces
+
+Goal: Implement the Rust workspace crates and the required GA delivery surfaces.
+
+| Sub-agent | Role | Owned Files | Acceptance |
+|-----------|------|-------------|------------|
+| A1: Core types & formulas | worker | `rust/crates/nwau-core/src/` (types, kernels, registries, diagnostics, provenance) | Crate compiles; can execute synthetic fixture via `cargo test` |
+| A2: CLI/file execution | worker | `rust/crates/nwau-core/src/{cli,file_io,manifest}.rs` | CLI binary produces deterministic Parquet/CSV from synthetic input |
+| A3: C ABI crate | worker | `rust/crates/nwau-c-abi/src/lib.rs` | `cdylib` builds; extern "C" functions match header spec |
+| A4: Python binding | worker | `rust/crates/nwau-py/src/lib.rs` | Maturin builds; Python can call Rust via `nwau_py_rust` |
+| A5: Arrow/Parquet batch | worker | `rust/crates/nwau-core/src/{arrow,parquet}.rs` | Round-trip synthetic fixture via Arrow IPC |
+| A6: Stream/year canary | worker | `rust/crates/nwau-core/src/streams/{acute_2025}.rs` | One end-to-end canary passes synthetic fixture through full pipeline |
+
+Model preference: Frontier model for A1 (architecture); `gpt-5.4-mini` for A2–A6.
+
+### Workstream B: Surface Contracts (Canonical → CLI/File → HTTP API → MCP → OpenAI)
+
+Goal: Define all canonical and surface contracts for GA.
+
+| Sub-agent | Role | Owned Files | Acceptance |
+|-----------|------|-------------|------------|
+| B1: Canonical contract schemas | worker | `contracts/canonical/{calculator,diagnostics,provenance,support-status,evidence}.schema.json` | JSON Schema validates against synthetic pass/fail fixtures |
+| B2: CLI/File contract | worker | `contracts/cli-file/{commands,exit-codes,manifests}.md` + examples | Documents all commands, exit codes, and file schemas |
+| B3: HTTP API OpenAPI 3.1 | worker | `contracts/http-api/openapi.yaml` + examples | OpenAPI 3.1 validates; sync + async examples included |
+| B4: MCP contract | worker | `contracts/mcp/{tools,resources}.md` + examples | Tool schemas reference canonical schemas; no formula logic |
+| B5: OpenAI tool adapter | worker | `contracts/openai-adapter/{tool-definitions,examples}.md` | Tool definitions match canonical schemas; no LLM endpoint emulation |
+
+Model preference: Frontier model for B1 (schema); `gpt-5.4-mini` for B2–B5.
+
+### Workstream C: Parity, Coverage, and CI/CD
+
+Goal: Build the validation ladder and harden CI/CD for GA release.
+
+| Sub-agent | Role | Owned Files | Acceptance |
+|-----------|------|-------------|------------|
+| C1: Python baseline parity | worker/validator | `tests/test_rust_parity/*.py` | Rust output matches Python reference for synthetic fixtures |
+| C2: SAS/Excel parity scaffold | worker/validator | `tests/test_rust_parity/test_sas_parity.py` + gap record | Comparison report structure exists; gaps recorded |
+| C3: Coverage gates | validator | `.github/workflows/coverage.yml` + scripts | >90% coverage enforced for GA crates; uploads to Codecov |
+| C4: CI/CD hardening | worker/release | `.github/workflows/{rust-ci,release,security}.yml` | Formatting, linting, docs, tests, security scans pass on CI |
+| C5: Release evidence automation | worker/release | `.github/workflows/release.yml` + scripts | SBOM, provenance, signed tags, release notes automated |
+
+Model preference: `gpt-5.4-mini` for C1–C3; frontier model for C4–C5.
+
+### Workstream D: Governance, Documentation, and Deferred Tracking
+
+Goal: Handle audience language strategy, Starlight docs, and deferred tracking.
+
+| Sub-agent | Role | Owned Files | Acceptance |
+|-----------|------|-------------|------------|
+| D1: Audience language strategy | worker/docs | `docs/roadmaps/audience-language-strategy.md` + track plan | Strategy doc exists; tracks aligned |
+| D2: Starlight docs updates | docs | `docs-site/src/content/docs/2026/governance/` | Docs reflect Rust-core GA priority and deferred surfaces |
+| D3: Deferred-track alignment | worker | `conductor/tracks.md` + deferred track metadata | Deferred tracks have correct metadata and gate references |
+| D4: Support status documentation | docs | `docs-site/src/content/docs/2026/governance/support-status.mdx` | Blocked/canary/opt-in/RC/GA statuses documented |
+
+Model preference: `gpt-5.4-mini` for D1–D4.
+
+---
+
+## Phase 6: Integration — Release Candidate and GA [sequential — coordinator integrates]
+
+After all four workstreams complete and hand off:
+
+- [ ] Task: Integrate workstream outputs.
+    - [ ] Merge all sub-agent changes; resolve conflicts.
+    - [ ] Verify Rust workspace compiles and all tests pass.
+    - [ ] Verify surface contracts validate against canonical schemas.
+    - [ ] Verify CI/CD pipelines pass end-to-end.
+- [ ] Task: Run conductor-review across all changed surfaces.
+    - [ ] Apply high-confidence fixes.
+    - [ ] Rerun validation.
+- [ ] Task: Harden release evidence.
+    - [ ] Add strict Rust formatting, linting, docs, tests, coverage, and security gates.
+    - [ ] Add reproducible release artefacts, SBOM, provenance, tags, and release notes.
+    - [ ] Keep Starlight documentation aligned with package metadata and homepage support claims.
+- [ ] Task: Promote one stream/year to release-candidate, then GA.
+    - [ ] Attach evidence bundle to the release.
+    - [ ] Keep rollback and Python fallback procedures documented and tested.
+    - [ ] Mark unsupported streams with explicit non-GA status.
+- [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 6: Release Candidate and GA' (Protocol in workflow.md)

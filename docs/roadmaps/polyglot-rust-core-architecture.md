@@ -7,6 +7,11 @@ core workstream. It is intentionally roadmap-only: the current validated
 runtime remains Python-first, and this document does not claim that Rust is
 implemented or default today.
 
+The execution path to GA is defined in the
+[Rust Core GA roadmap](./rust-core-ga.md). That roadmap is the immediate
+priority and defers non-essential adapter expansion until the core reaches
+release-candidate status.
+
 The intended end state is a single Rust calculator core with thin delivery
 surfaces for Python, Rust, R, Julia, C#/.NET, Go, TypeScript/WASM, Kotlin/Native, C
 ABI, SQL/DuckDB, SAS interoperability, CLI/file workflows, web, and Power
@@ -198,6 +203,8 @@ Required evidence:
 - Do not treat canary evidence from one calculator stream as a proxy for all
   streams.
 - Do not move a stream forward if source traceability is incomplete.
+- Do not expand deferred language adapters before the Rust Core GA required
+  surfaces are release-candidate ready.
 
 ## Roadmap statement
 

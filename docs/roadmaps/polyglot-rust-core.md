@@ -3,6 +3,15 @@
 This roadmap documents the current Python-first state, the intended Rust-core
 target state, and the sequencing tracks that govern the transition.
 
+## Immediate priority
+
+Rust Core GA is now the immediate priority. See
+[Rust Core GA](./rust-core-ga.md) for the execution roadmap from governance
+freeze through release-candidate and GA promotion. Current open language
+adapter tracks are deferred until the Rust core reaches release-candidate
+status and the required Rust crate, CLI/file, Python binding, C ABI, and
+Arrow/Parquet surfaces are stable.
+
 ## Current state
 
 - Python remains the validated runtime path for published calculator behavior.
@@ -32,6 +41,18 @@ target state, and the sequencing tracks that govern the transition.
 | Source-manifest | [Reference Data Manifest Schema](../../conductor/tracks/reference_data_manifest_schema_20260512/spec.md) | Defines the year-scoped manifest shape that records sources, gaps, provenance, and validation status. |
 | Formula-bundle | [Formula and Parameter Bundle Pipeline](../../conductor/tracks/formula_parameter_bundle_pipeline_20260512/spec.md) | Provides the extraction, versioning, and validation pipeline for formula and parameter bundles. |
 | Validation-gate | [Pricing-Year Validation Gates](../../conductor/tracks/pricing_year_validation_gates_20260512/spec.md) | Prevents unsupported support claims until the required source and fixture evidence exists. |
+| GA | [Rust Core GA](../../conductor/tracks/rust_core_ga_20260513/spec.md) | Makes Rust GA the immediate priority, defers lower-priority adapters, and defines the evidence gates for release-candidate and GA promotion. |
+| Contract | [Canonical Contract Foundation](../../conductor/tracks/canonical_contract_foundation_20260513/spec.md) | Defines canonical schemas before CLI/file, API, MCP, OpenAI adapter, and language surfaces. |
+| Contract | [CLI/File Contracts](../../conductor/tracks/cli_file_contracts_20260513/spec.md) | Defines the stable batch and automation boundary for Rust Core GA. |
+| Contract | [HTTP API Contract](../../conductor/tracks/http_api_contract_20260513/spec.md) | Defines the OpenAPI 3.1 domain API over canonical schemas. |
+| Contract | [MCP Contract](../../conductor/tracks/mcp_contract_20260513/spec.md) | Defines a Rust-backed agent-facing MCP server with tools and resources over canonical schemas. |
+| Adapter | [OpenAI Tool Adapter](../../conductor/tracks/openai_tool_adapter_20260513/spec.md) | Defines a thin OpenAI tool adapter without making the calculator an LLM endpoint. |
+| Governance | [Audience Language Strategy](../../conductor/tracks/audience_language_strategy_20260513/spec.md) | Prioritizes researcher and enterprise-engineer surfaces and blocks unsupported language sprawl. |
+| Domain | [HWAU Terminology Migration](../../conductor/tracks/hwau_terminology_migration_20260513/spec.md) | Uses HWAU as the generic weighted activity unit concept while retaining NWAU as Australian source terminology. |
+| Reference-data | [State and Local Price Registry](../../conductor/tracks/state_local_price_registry_20260513/spec.md) | Sources national, state, local, and discounted price schedules over time with provenance. |
+| Reference-data | [NSW Funding Model](../../conductor/tracks/nsw_funding_model_20260513/spec.md) | Models NSW State Price per NWAU/HWAU, LHD/SHN applicability, adjustments, and provenance. |
+| Reference-data | [Jurisdiction Funding Model Registry](../../conductor/tracks/jurisdiction_funding_model_registry_20260513/spec.md) | Covers Australian state and territory funding models, including ACT and NT, with source-status handling. |
+| Output | [Parallel Valuation Outputs](../../conductor/tracks/parallel_valuation_outputs_20260513/spec.md) | Produces HWAU-only, national, state, local, and discounted valuations in parallel. |
 
 ## Sequencing guidance
 
