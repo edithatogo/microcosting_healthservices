@@ -1,0 +1,7 @@
+{
+  "example_id": "docs_surface",
+  "source_surface": "docs",
+  "target_surface": "release",
+  "dependency_kind": "metadata-only",
+  "notes": ["Documentation may point at release metadata without embedding release logic."]
+}

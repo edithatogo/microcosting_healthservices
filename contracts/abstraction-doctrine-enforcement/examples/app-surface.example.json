@@ -1,0 +1,7 @@
+{
+  "example_id": "app_surface",
+  "source_surface": "app",
+  "target_surface": "binding",
+  "dependency_kind": "metadata-only",
+  "notes": ["Apps orchestrate service or binding calls and do not duplicate formula logic."]
+}

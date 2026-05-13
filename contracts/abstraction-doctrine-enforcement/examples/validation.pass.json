@@ -1,0 +1,7 @@
+{
+  "example_id": "validation_pass",
+  "source_surface": "binding",
+  "target_surface": "formula",
+  "dependency_kind": "metadata-only",
+  "compatible": true
+}

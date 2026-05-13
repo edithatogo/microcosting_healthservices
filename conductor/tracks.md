@@ -272,7 +272,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Abstraction Doctrine Enforcement**
+- [x] **Track: Abstraction Doctrine Enforcement**
 *Link: [./tracks/abstraction_doctrine_enforcement_20260512/](./tracks/abstraction_doctrine_enforcement_20260512/)*
 *Gate: make formula, parameter, registry, classifier, binding, app, and documentation boundaries explicit and enforceable before implementing more surfaces.*
 

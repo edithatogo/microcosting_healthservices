@@ -1,0 +1,7 @@
+{
+  "example_id": "release_surface",
+  "source_surface": "release",
+  "target_surface": "docs",
+  "dependency_kind": "metadata-only",
+  "notes": ["Release metadata may enumerate documentation surfaces as evidence."]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/abstraction-doctrine-enforcement/abstraction-doctrine-enforcement.schema.json",
+  "title": "Abstraction doctrine enforcement contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "contract_id", "tool", "privacy", "surfaces"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "contract_id": {"type": "string"},
+    "tool": {"type": "object"},
+    "privacy": {
+      "type": "object",
+      "required": ["classification", "contains_phi"],
+      "properties": {
+        "classification": {"type": "string", "const": "synthetic"},
+        "contains_phi": {"type": "boolean", "const": false}
+      }
+    },
+    "surfaces": {"type": "array", "items": {"type": "string"}},
+    "forbidden_shortcuts": {"type": "array", "items": {"type": "string"}},
+    "commands": {"type": "array"},
+    "examples": {"type": "array"}
+  }
+}

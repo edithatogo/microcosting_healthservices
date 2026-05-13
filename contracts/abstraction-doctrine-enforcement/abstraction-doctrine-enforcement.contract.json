@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "abstraction_doctrine_enforcement_20260512",
+  "tool": {
+    "name": "nwau_py.abstraction_doctrine",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.abstraction_doctrine"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Metadata-only doctrine contract; no proprietary formula, classifier, mapping, app, or release payloads are embedded."
+  },
+  "surfaces": [
+    "formula",
+    "parameter",
+    "classifier",
+    "fixture",
+    "binding",
+    "docs",
+    "app",
+    "release"
+  ],
+  "forbidden_shortcuts": [
+    "direct-dependency",
+    "crosswalk-assumption",
+    "formula-duplication"
+  ],
+  "commands": [
+    {
+      "name": "describe_abstraction_doctrine",
+      "mode": "boundary-registry",
+      "status": "stable",
+      "outputs": ["surfaces", "boundary_matrix", "forbidden_shortcuts"]
+    },
+    {
+      "name": "validate_abstraction_dependency",
+      "mode": "boundary-validation",
+      "status": "stable",
+      "inputs": ["source_surface", "target_surface", "dependency_kind"],
+      "outputs": ["boundary", "diagnostics"]
+    }
+  ],
+  "examples": [
+    "contracts/abstraction-doctrine-enforcement/examples/boundary-registry.manifest.json",
+    "contracts/abstraction-doctrine-enforcement/examples/validation.pass.json",
+    "contracts/abstraction-doctrine-enforcement/examples/validation.fail.json",
+    "contracts/abstraction-doctrine-enforcement/examples/no-crosswalk-assumption.diagnostic.json",
+    "contracts/abstraction-doctrine-enforcement/examples/docs-surface.example.json",
+    "contracts/abstraction-doctrine-enforcement/examples/app-surface.example.json",
+    "contracts/abstraction-doctrine-enforcement/examples/release-surface.example.json"
+  ]
+}

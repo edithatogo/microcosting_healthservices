@@ -1,0 +1,8 @@
+{
+  "example_id": "no_crosswalk_assumption",
+  "source_surface": "classifier",
+  "target_surface": "fixture",
+  "dependency_kind": "crosswalk",
+  "compatible": false,
+  "reason": "Crosswalk assumptions must be explicit source-backed metadata, not inferred implementation behavior."
+}

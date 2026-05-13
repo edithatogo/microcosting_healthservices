@@ -1,0 +1,6 @@
+{
+  "example_id": "boundary_registry_manifest",
+  "surface_count": 8,
+  "dependency_kind": "metadata-only",
+  "surfaces": ["formula", "parameter", "classifier", "fixture", "binding", "docs", "app", "release"]
+}

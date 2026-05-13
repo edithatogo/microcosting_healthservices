@@ -1,0 +1,8 @@
+{
+  "example_id": "validation_fail",
+  "source_surface": "binding",
+  "target_surface": "formula",
+  "dependency_kind": "direct",
+  "compatible": false,
+  "reason": "Direct implementation dependencies are forbidden."
+}
