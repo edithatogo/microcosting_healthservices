@@ -1,9 +1,9 @@
 {
   "track_id": "public_appropriate_use_docs_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "complete",
   "track_class": "publication",
-  "current_state": "roadmap-only",
+  "current_state": "content-contract-complete",
   "primary_contract": "public appropriate-use and validation-status documentation",
   "dependencies": [
     "validation-vocabulary.md",
