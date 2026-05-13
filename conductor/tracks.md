@@ -302,25 +302,25 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Scala/Spark Binding**
+- [x] **Track: Scala/Spark Binding**
 *Link: [./tracks/scala_spark_binding_20260513/](./tracks/scala_spark_binding_20260513/)*
 *Gate: support Spark SQL and lakehouse workflows through Arrow/Parquet, service, or SQL boundaries without duplicating formula logic.*
 
 ---
 
-- [ ] **Track: Swift Binding**
+- [x] **Track: Swift Binding**
 *Link: [./tracks/swift_binding_20260513/](./tracks/swift_binding_20260513/)*
 *Gate: support Apple-platform and native clients through C ABI, service, or file contracts without duplicating formula logic.*
 
 ---
 
-- [ ] **Track: Stata Interoperability**
+- [x] **Track: Stata Interoperability**
 *Link: [./tracks/stata_interop_binding_20260513/](./tracks/stata_interop_binding_20260513/)*
 *Gate: support health-economics Stata workflows through file, CLI, or service contracts without duplicating formula logic.*
 
 ---
 
-- [ ] **Track: MATLAB Interoperability**
+- [x] **Track: MATLAB Interoperability**
 *Link: [./tracks/matlab_interop_binding_20260513/](./tracks/matlab_interop_binding_20260513/)*
 *Gate: support numerical and legacy MATLAB workflows through file, CLI, service, or C ABI contracts without duplicating formula logic.*
 
