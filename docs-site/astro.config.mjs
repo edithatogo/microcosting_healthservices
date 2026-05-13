@@ -74,6 +74,7 @@ export default defineConfig({
             'governance/streamlit-delivery',
             'governance/downstream-packaging-plans',
             'governance/go-binding',
+            'governance/java-jvm-binding',
             'governance/csharp-dotnet-binding',
             'governance/web-and-power-platform-delivery',
             'governance/release-policy',

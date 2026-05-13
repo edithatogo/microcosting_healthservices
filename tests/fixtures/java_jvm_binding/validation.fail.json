@@ -1,0 +1,28 @@
+{
+  "contract_id": "java_jvm_binding_20260512",
+  "diagnostics": {
+    "checks": [
+      {
+        "name": "publication_claims",
+        "status": "fail"
+      },
+      {
+        "name": "formula_duplication",
+        "status": "fail"
+      }
+    ],
+    "fixture_id": "jvm-publication-overclaim",
+    "format": "json",
+    "validation_status": "fail"
+  },
+  "fallback": "arrow/parquet file interop",
+  "provenance": {
+    "checksum_algorithm": "sha256",
+    "fixture_id": "jvm-publication-overclaim",
+    "notes": "synthetic negative example",
+    "source_basis": "contract bundle"
+  },
+  "reason": "Overclaims Gradle/Maven publication or duplicates formula logic instead of treating JVM as a thin boundary.",
+  "result": "fail",
+  "strategy": "service boundary"
+}
