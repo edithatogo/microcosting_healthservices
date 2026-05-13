@@ -1,0 +1,47 @@
+{
+  "manifest_version": "1.0",
+  "manifest_id": "precomputed_emergency_output_manifest_20260512",
+  "integration_id": "emergency_grouper_integration_20260512",
+  "pricing_year": "2026-27",
+  "stream_type": "emergency",
+  "classification_variant": "UDG",
+  "output_mode": "precomputed",
+  "output_status": "synthetic",
+  "output_summary": {
+    "records_total": 3,
+    "records_compatible": 3,
+    "records_unmapped": 0,
+    "records_incompatible": 0
+  },
+  "outputs": [
+    {
+      "episode_ref": "synthetic-episode-001",
+      "classification_label": "synthetic-udg-a",
+      "result_state": "compatible"
+    },
+    {
+      "episode_ref": "synthetic-episode-002",
+      "classification_label": "synthetic-udg-b",
+      "result_state": "compatible"
+    },
+    {
+      "episode_ref": "synthetic-episode-003",
+      "classification_label": "synthetic-udg-c",
+      "result_state": "compatible"
+    }
+  ],
+  "compatibility": {
+    "state": "pass",
+    "notes": "Precomputed official classifications are supplied outside the repository and represented here only by safe synthetic metadata."
+  },
+  "provenance": {
+    "source_manifest_path": "local-only/precomputed-output-manifest.json",
+    "source_url": "https://example.invalid/emergency-grouper/precomputed-output-manifest",
+    "retrieved_on": "2026-05-12T00:00:00Z",
+    "sha256": "synthetic-precomputed-output-manifest-sha256",
+    "bytes": 0,
+    "classification_basis": "precomputed_official_classification",
+    "local_reference_uri": "local-only/precomputed-output-manifest.json",
+    "license_boundary": "no-proprietary-payload"
+  }
+}

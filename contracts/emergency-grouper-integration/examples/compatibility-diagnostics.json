@@ -1,0 +1,58 @@
+{
+  "diagnostic_version": "1.0",
+  "diagnostic_id": "compatibility_diagnostics_20260512",
+  "integration_id": "emergency_grouper_integration_20260512",
+  "pricing_year": "2026-27",
+  "stream_type": "emergency",
+  "subject": {
+    "subject_type": "precomputed-output-manifest",
+    "subject_id": "precomputed_emergency_output_manifest_20260512"
+  },
+  "checks": [
+    {
+      "id": "metadata_only",
+      "severity": "error",
+      "status": "pass",
+      "message": "No proprietary grouper logic, licensed tables, or PHI are embedded in the committed fixture."
+    },
+    {
+      "id": "pricing_year_alignment",
+      "severity": "error",
+      "status": "pass",
+      "message": "The declared pricing year aligns with the synthetic manifest window."
+    },
+    {
+      "id": "local_reference_only",
+      "severity": "warning",
+      "status": "pass",
+      "message": "External grouper or service references are recorded only as local placeholders."
+    },
+    {
+      "id": "no_silent_udg_aecc_translation",
+      "severity": "error",
+      "status": "pass",
+      "message": "No implicit UDG or AECC translation is inferred from the fixtures."
+    }
+  ],
+  "summary": {
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown",
+    "overall_state": "pass"
+  },
+  "provenance": {
+    "command": "validate_emergency_grouper_compatibility",
+    "integration_id": "emergency_grouper_integration_20260512",
+    "reference_id": "precomputed_emergency_output_manifest_20260512",
+    "pricing_year": "2026-27",
+    "stream_type": "emergency",
+    "source_manifest_path": "contracts/emergency-grouper-integration/examples/precomputed-output-manifest.json",
+    "source_url": "https://example.invalid/emergency-grouper/compatibility-diagnostics",
+    "retrieved_on": "2026-05-12T00:00:00Z",
+    "sha256": "synthetic-compatibility-diagnostics-sha256",
+    "bytes": 0,
+    "classification_basis": "compatibility_diagnostics_only",
+    "local_reference_uri": "local-only/precomputed-output-manifest.json",
+    "license_boundary": "no-proprietary-payload"
+  }
+}

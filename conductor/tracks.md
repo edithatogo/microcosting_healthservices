@@ -260,7 +260,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Emergency Grouper Integration**
+- [x] **Track: Emergency Grouper Integration**
 *Link: [./tracks/emergency_grouper_integration_20260512/](./tracks/emergency_grouper_integration_20260512/)*
 *Gate: support precomputed and externally derived UDG/AECC outputs through a validated classifier interface and local tool/service integration.*
 

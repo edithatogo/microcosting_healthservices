@@ -1,0 +1,25 @@
+{
+  "reference_version": "1.0",
+  "reference_id": "external_local_grouper_service_reference_20260512",
+  "integration_id": "emergency_grouper_integration_20260512",
+  "reference_type": "service",
+  "access_mode": "local-only",
+  "service_kind": "local-command-or-service",
+  "tool_name": "synthetic-emergency-grouper",
+  "tool_version": "0.0.0-local",
+  "table_version": "not-bundled",
+  "pricing_year": "2026-27",
+  "stream_type": "emergency",
+  "local_reference_uri": "local-only/emergency-grouper-service-reference.json",
+  "boundary": "no-proprietary-payload",
+  "provenance": {
+    "source_manifest_path": "local-only/emergency-grouper-service-reference.json",
+    "source_url": "https://example.invalid/emergency-grouper/service-reference",
+    "retrieved_on": "2026-05-12T00:00:00Z",
+    "sha256": "synthetic-external-service-reference-sha256",
+    "bytes": 0,
+    "classification_basis": "local_only_external_reference",
+    "local_reference_uri": "local-only/emergency-grouper-service-reference.json",
+    "license_boundary": "no-proprietary-payload"
+  }
+}

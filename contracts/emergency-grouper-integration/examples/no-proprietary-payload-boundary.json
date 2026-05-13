@@ -1,0 +1,41 @@
+{
+  "boundary_version": "1.0",
+  "boundary_id": "no_proprietary_payload_boundary_20260512",
+  "integration_id": "emergency_grouper_integration_20260512",
+  "boundary_state": "declared",
+  "allowed_content": [
+    "synthetic precomputed output manifests",
+    "local-only grouper or service references",
+    "compatibility diagnostics",
+    "boundary metadata"
+  ],
+  "excluded_content": [
+    "proprietary grouper logic",
+    "licensed tables",
+    "production outputs",
+    "PHI",
+    "private study data",
+    "operational extracts"
+  ],
+  "rules": [
+    "Do not commit proprietary grouper logic or licensed classification tables.",
+    "Do not commit production emergency outputs or patient-level records.",
+    "Do not silently convert UDG to AECC or AECC to UDG without declared provenance.",
+    "Keep external references local-only and metadata-only."
+  ],
+  "provenance": {
+    "command": "describe_no_proprietary_payload_boundary",
+    "integration_id": "emergency_grouper_integration_20260512",
+    "reference_id": "no_proprietary_payload_boundary_20260512",
+    "pricing_year": "2026-27",
+    "stream_type": "emergency",
+    "source_manifest_path": "contracts/emergency-grouper-integration/examples/no-proprietary-payload-boundary.json",
+    "source_url": "https://example.invalid/emergency-grouper/boundary",
+    "retrieved_on": "2026-05-12T00:00:00Z",
+    "sha256": "synthetic-no-proprietary-payload-boundary-sha256",
+    "bytes": 0,
+    "classification_basis": "boundary_declaration",
+    "local_reference_uri": "local-only/no-proprietary-payload-boundary.json",
+    "license_boundary": "no-proprietary-payload"
+  }
+}

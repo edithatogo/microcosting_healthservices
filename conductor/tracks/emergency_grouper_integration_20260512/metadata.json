@@ -1,18 +1,42 @@
 {
   "track_id": "emergency_grouper_integration_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "complete",
   "track_class": "classifier",
-  "current_state": "roadmap-only",
-  "primary_contract": "Track emergency_grouper_integration_20260512 contract",
-  "dependencies": [],
-  "completion_evidence": [
-    "docs",
-    "workflows",
-    "tests"
+  "current_state": "implemented-metadata-integration",
+  "primary_contract": "nwau_py.emergency_grouper integration boundary for precomputed UDG/AECC outputs and licensed external grouper or mapping-service workflows, with registry-driven era selection and provenance capture",
+  "dependencies": [
+    "emergency_udg_aecc_transition_registry_20260512",
+    "emergency_code_mapping_pipeline_20260512"
   ],
-  "publication_status": "not-applicable",
+  "completion_evidence": [
+    "interface contract docs",
+    "adapter and compatibility tests",
+    "provenance records",
+    "workflow documentation",
+    "review notes"
+  ],
+  "publication_status": "not-ready",
+  "validation_status": "validated-targeted",
+  "licensing_caveats": [
+    "Do not embed or redistribute licensed emergency grouper tables, manuals, or mapping bundles unless the source license explicitly permits it.",
+    "Do not invent UDG-to-AECC crosswalks or silently convert between eras without registry-backed provenance and declared source evidence.",
+    "Keep user-supplied or locally licensed reference artifacts outside the repository unless they are synthetic or otherwise redistributable."
+  ],
+  "evidence_surfaces": [
+    "metadata.json",
+    "spec.md",
+    "plan.md",
+    "index.md",
+    "nwau_py/emergency_grouper.py",
+    "contracts/emergency-grouper-integration/",
+    "tests/test_emergency_grouper_integration_track.py",
+    "adapter tests",
+    "workflow documentation",
+    "provenance records",
+    "registry and mapping pipeline outputs"
+  ],
   "created_at": "2026-05-12T00:00:00Z",
-  "updated_at": "2026-05-12T00:00:00Z",
-  "description": "Add an emergency classification grouper or mapping-service integration roadmap for UDG/AECC derivation where a licensed or official tool is available."
+  "updated_at": "2026-05-13T00:00:00Z",
+  "description": "Define a safe emergency classification grouper integration roadmap for UDG/AECC derivation through precomputed inputs or licensed external command, service, or file-exchange workflows."
 }

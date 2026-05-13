@@ -1,0 +1,193 @@
+{
+  "schema_version": "1.0",
+  "integration_id": "emergency_grouper_integration_20260512",
+  "tool": {
+    "name": "nwau_py.emergency_grouper",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.emergency_grouper"
+  },
+  "schema": {
+    "path": "contracts/emergency-grouper-integration/emergency-grouper-integration.schema.json"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic metadata-only contract. Precomputed outputs, local-only grouper/service references, and restricted classification payloads are intentionally excluded."
+  },
+  "commands": [
+    {
+      "name": "list_precomputed_emergency_outputs",
+      "mode": "precomputed-output-manifest",
+      "status": "stable",
+      "inputs": [
+        "precomputed_output_scope",
+        "pricing_year",
+        "stream_type",
+        "metadata_only"
+      ],
+      "outputs": [
+        "output_manifests",
+        "output_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic precomputed emergency classification output manifests without embedding grouper payloads."
+    },
+    {
+      "name": "validate_emergency_grouper_compatibility",
+      "mode": "compatibility-diagnostics",
+      "status": "preview",
+      "inputs": [
+        "integration_reference_id",
+        "pricing_year",
+        "stream_type",
+        "compatibility_profile"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Check compatibility between a precomputed output or external grouper/service reference and the requested pricing year and emergency stream."
+    },
+    {
+      "name": "resolve_local_emergency_grouper_reference",
+      "mode": "local-reference-resolution",
+      "status": "preview",
+      "inputs": [
+        "local_reference_uri",
+        "reference_type",
+        "access_mode"
+      ],
+      "outputs": [
+        "reference_manifest",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Record a user-supplied local-only external grouper or service reference without bundling restricted content."
+    },
+    {
+      "name": "describe_no_proprietary_payload_boundary",
+      "mode": "boundary-check",
+      "status": "stable",
+      "inputs": [
+        "boundary_profile",
+        "access_mode"
+      ],
+      "outputs": [
+        "boundary_report",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Declare that proprietary grouper logic, licensed tables, and production extracts remain excluded from the committed fixtures."
+    }
+  ],
+  "integration_surface_types": [
+    {
+      "id": "precomputed_output_manifest",
+      "label": "Precomputed output manifest",
+      "purpose": "Metadata-only declaration of emergency classification outputs that were produced outside the repository and committed only as safe synthetic references."
+    },
+    {
+      "id": "local_only_external_grouper_service_reference",
+      "label": "Local-only external grouper or service reference",
+      "purpose": "Local placeholder for a user-supplied grouper binary, command-line integration, file-exchange adapter, or service endpoint."
+    },
+    {
+      "id": "compatibility_diagnostics_record",
+      "label": "Compatibility diagnostics record",
+      "purpose": "Synthetic validation and boundary diagnostics for year, stream, provenance, and local-reference checks."
+    },
+    {
+      "id": "no_proprietary_payload_boundary_record",
+      "label": "No proprietary payload boundary record",
+      "purpose": "Explicit boundary declaration for fixtures that must not contain proprietary payloads, licensed tables, or restricted groupers."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only contract",
+      "severity": "error",
+      "description": "Reject contract entries that embed proprietary grouper logic, licensed tables, production extracts, or PHI."
+    },
+    {
+      "id": "precomputed_output_declared",
+      "label": "Declared precomputed output",
+      "severity": "error",
+      "description": "Require precomputed output examples to declare the pricing year, stream type, and synthetic output summary."
+    },
+    {
+      "id": "local_reference_only",
+      "label": "Local-only external reference",
+      "severity": "warning",
+      "description": "Record external grouper and service assets only as local placeholders and do not bundle the restricted content itself."
+    },
+    {
+      "id": "pricing_year_alignment",
+      "label": "Pricing-year alignment",
+      "severity": "error",
+      "description": "Require declared emergency outputs and references to match the selected pricing-year window."
+    },
+    {
+      "id": "no_silent_udg_aecc_translation",
+      "label": "No silent UDG/AECC translation",
+      "severity": "error",
+      "description": "Do not infer UDG or AECC conversions unless a declared source manifest or local reference is supplied."
+    },
+    {
+      "id": "boundary_declared",
+      "label": "Declared payload boundary",
+      "severity": "error",
+      "description": "Require every fixture bundle to declare that proprietary payloads and licensed classification content are absent."
+    }
+  ],
+  "outputs": {
+    "output_manifest_format": "json",
+    "validation_report_format": "json",
+    "diagnostic_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "integration_id",
+      "manifest_id",
+      "reference_id",
+      "pricing_year",
+      "stream_type",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "classification_basis",
+      "local_reference_uri",
+      "license_boundary"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "precomputed-output-manifest",
+      "path": "contracts/emergency-grouper-integration/examples/precomputed-output-manifest.json",
+      "description": "Synthetic manifest for precomputed emergency classification outputs with provenance and compatibility metadata."
+    },
+    {
+      "name": "external-local-grouper-service-reference",
+      "path": "contracts/emergency-grouper-integration/examples/external-local-grouper-service-reference.json",
+      "description": "Synthetic local-only placeholder for a user-supplied emergency grouper or service reference."
+    },
+    {
+      "name": "compatibility-diagnostics",
+      "path": "contracts/emergency-grouper-integration/examples/compatibility-diagnostics.json",
+      "description": "Synthetic diagnostics report covering pricing-year, stream, provenance, and boundary checks."
+    },
+    {
+      "name": "no-proprietary-payload-boundary",
+      "path": "contracts/emergency-grouper-integration/examples/no-proprietary-payload-boundary.json",
+      "description": "Synthetic declaration of the no-proprietary-payload boundary for emergency grouper integration fixtures."
+    }
+  ]
+}
