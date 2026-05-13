@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ar_drg_version_parity_fixtures_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "fixture_id": "ar_drg_version_parity_synthetic_2026",
+  "fixture_kind": "synthetic",
+  "workflow_mode": "precomputed",
+  "license_boundary": "metadata-only",
+  "version_window": {
+    "pricing_year": "2026",
+    "ar_drg_version": "v12.0",
+    "icd_10_am_version": "12th edition",
+    "achi_version": "12th edition",
+    "acs_version": "12th edition"
+  },
+  "local_path_hint": "tests/fixtures/derived/ar_drg_version_parity/2026/manifest.json",
+  "excluded_payload": [
+    "licensed tables",
+    "grouped episode outputs",
+    "patient data",
+    "grouper internals"
+  ]
+}

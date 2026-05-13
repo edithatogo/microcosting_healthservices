@@ -242,7 +242,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: AR-DRG Version Parity Fixtures**
+- [x] **Track: AR-DRG Version Parity Fixtures**
 *Link: [./tracks/ar_drg_version_parity_fixtures_20260512/](./tracks/ar_drg_version_parity_fixtures_20260512/)*
 *Gate: validate version-specific AR-DRG grouping and admitted acute NWAU behavior with safe synthetic and local licensed fixtures.*
 

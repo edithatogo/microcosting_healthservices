@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ar_drg_version_parity_fixtures_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "boundary": {
+    "contains_proprietary_payloads": false,
+    "allowed_content": [
+      "version labels",
+      "local path hints",
+      "synthetic fixture metadata",
+      "diagnostics"
+    ],
+    "disallowed_content": [
+      "licensed classification tables",
+      "grouped episode outputs",
+      "grouper internals",
+      "patient data"
+    ]
+  }
+}

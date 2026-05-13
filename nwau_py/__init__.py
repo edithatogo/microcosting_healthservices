@@ -19,6 +19,9 @@ __all__ = [
     "ARDRGMappingCompatibilityResult",
     "ARDRGMappingRecord",
     "ARDRGMappingRegistryError",
+    "ARDRGParityFixtureCompatibilityResult",
+    "ARDRGParityFixtureError",
+    "ARDRGParityFixtureRecord",
     "ClassificationRequirement",
     "ClassificationValidationError",
     "ClassificationValidationResult",
@@ -32,6 +35,8 @@ __all__ = [
     "LicensedProductManifestRecord",
     "LicensedProductWorkflowError",
     "ar_drg_mapping_registry",
+    "ar_drg_version_parity_fixtures",
+    "build_ar_drg_parity_fixture_reference",
     "build_classification_requirement",
     "build_licensed_product_asset_reference",
     "build_licensed_product_manifest_record",
@@ -39,11 +44,13 @@ __all__ = [
     "coding_set_registry",
     "diagnose_missing_licensed_assets",
     "ensure_ar_drg_mapping_compatibility",
+    "ensure_ar_drg_parity_fixture_scope",
     "ensure_coding_set_compatibility",
     "ensure_commit_safe_exclusion",
     "ensure_licensed_product_compatibility",
     "formula_parameter_bundle",
     "get_ar_drg_mapping_record",
+    "get_ar_drg_parity_fixture_record",
     "get_classification_name",
     "get_classification_requirement",
     "get_classification_version",
@@ -70,15 +77,19 @@ __all__ = [
     "is_local_only_licensed_path",
     "licensed_product_workflow",
     "list_ar_drg_mapping_records",
+    "list_ar_drg_parity_fixture_records",
     "list_coding_set_families",
     "list_licensed_product_manifest_records",
     "normalize_classification_system",
+    "register_ar_drg_local_licensed_parity_fixture_reference",
+    "register_ar_drg_synthetic_parity_fixture",
     "resolve_licensed_product_env_path",
     "score_readmission",
     "validate_aecc_input",
     "validate_amhcc_input",
     "validate_ar_drg_input",
     "validate_ar_drg_mapping_compatibility",
+    "validate_ar_drg_parity_fixture_scope",
     "validate_ar_drg_version_binding",
     "validate_classification_input",
     "validate_classification_version",
@@ -106,6 +117,7 @@ _LAZY_ATTRS = {
     "NEP_BY_YEAR": (".pricing_constants", "NEP_BY_YEAR"),
     "coding_set_registry": (".coding_set_registry", None),
     "ar_drg_mapping_registry": (".ar_drg_mapping_registry", None),
+    "ar_drg_version_parity_fixtures": (".ar_drg_version_parity_fixtures", None),
     "CodingSetCompatibilityResult": (
         ".coding_set_registry",
         "CodingSetCompatibilityResult",
@@ -127,9 +139,29 @@ _LAZY_ATTRS = {
         ".ar_drg_mapping_registry",
         "ARDRGMappingRegistryError",
     ),
+    "ARDRGParityFixtureCompatibilityResult": (
+        ".ar_drg_version_parity_fixtures",
+        "ARDRGParityFixtureCompatibilityResult",
+    ),
+    "ARDRGParityFixtureError": (
+        ".ar_drg_version_parity_fixtures",
+        "ARDRGParityFixtureError",
+    ),
+    "ARDRGParityFixtureRecord": (
+        ".ar_drg_version_parity_fixtures",
+        "ARDRGParityFixtureRecord",
+    ),
     "ensure_ar_drg_mapping_compatibility": (
         ".ar_drg_mapping_registry",
         "ensure_ar_drg_mapping_compatibility",
+    ),
+    "build_ar_drg_parity_fixture_reference": (
+        ".ar_drg_version_parity_fixtures",
+        "build_ar_drg_parity_fixture_reference",
+    ),
+    "ensure_ar_drg_parity_fixture_scope": (
+        ".ar_drg_version_parity_fixtures",
+        "ensure_ar_drg_parity_fixture_scope",
     ),
     "ensure_coding_set_compatibility": (
         ".coding_set_registry",
@@ -158,6 +190,10 @@ _LAZY_ATTRS = {
         ".ar_drg_mapping_registry",
         "get_expected_coding_set_versions",
     ),
+    "get_ar_drg_parity_fixture_record": (
+        ".ar_drg_version_parity_fixtures",
+        "get_ar_drg_parity_fixture_record",
+    ),
     "get_supported_coding_set_years": (
         ".coding_set_registry",
         "get_supported_coding_set_years",
@@ -168,10 +204,18 @@ _LAZY_ATTRS = {
         ".ar_drg_mapping_registry",
         "list_ar_drg_mapping_records",
     ),
+    "list_ar_drg_parity_fixture_records": (
+        ".ar_drg_version_parity_fixtures",
+        "list_ar_drg_parity_fixture_records",
+    ),
     "list_coding_set_families": (".coding_set_registry", "list_coding_set_families"),
     "validate_ar_drg_mapping_compatibility": (
         ".ar_drg_mapping_registry",
         "validate_ar_drg_mapping_compatibility",
+    ),
+    "validate_ar_drg_parity_fixture_scope": (
+        ".ar_drg_version_parity_fixtures",
+        "validate_ar_drg_parity_fixture_scope",
     ),
     "validate_ar_drg_version_binding": (
         ".ar_drg_mapping_registry",
@@ -306,6 +350,14 @@ _LAZY_ATTRS = {
     "validate_licensed_product_compatibility": (
         ".licensed_product_workflow",
         "validate_licensed_product_compatibility",
+    ),
+    "register_ar_drg_synthetic_parity_fixture": (
+        ".ar_drg_version_parity_fixtures",
+        "register_ar_drg_synthetic_parity_fixture",
+    ),
+    "register_ar_drg_local_licensed_parity_fixture_reference": (
+        ".ar_drg_version_parity_fixtures",
+        "register_ar_drg_local_licensed_parity_fixture_reference",
     ),
 }
 

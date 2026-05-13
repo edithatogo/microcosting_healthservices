@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ar_drg_version_parity_fixtures_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "fixture_id": "ar_drg_version_parity_local_licensed_2026",
+  "fixture_kind": "local-licensed-reference",
+  "workflow_mode": "external-reference",
+  "license_boundary": "local-only",
+  "grouper_version": "v12.0-local",
+  "local_path_hint": "archive/ihacpa/raw/2026/licensed/ar_drg/parity/manifest.json",
+  "payload": "not committed"
+}

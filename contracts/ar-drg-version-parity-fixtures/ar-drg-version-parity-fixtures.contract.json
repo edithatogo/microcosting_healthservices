@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ar_drg_version_parity_fixtures_20260512",
+  "tool": {
+    "name": "nwau_py.ar_drg_version_parity_fixtures",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.ar_drg_version_parity_fixtures"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Metadata-only fixture contract. Local licensed parity packs stay user-supplied."
+  },
+  "surfaces": [
+    "synthetic parity fixture manifest",
+    "local licensed parity placeholder",
+    "compatibility diagnostics",
+    "no proprietary payload boundary"
+  ],
+  "rules": [
+    "Do not commit grouped episode outputs from licensed groupers.",
+    "Do not commit licensed ICD-10-AM, ACHI, ACS, or AR-DRG tables.",
+    "Reject fixtures reused across incompatible pricing-year or version scopes."
+  ],
+  "examples": [
+    "examples/parity-fixture-manifest.json",
+    "examples/local-licensed-parity-placeholder.json",
+    "examples/diagnostics.json",
+    "examples/no-proprietary-payload-boundary.json"
+  ]
+}

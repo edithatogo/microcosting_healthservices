@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "ar_drg_version_parity_fixtures_20260512",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false
+  },
+  "diagnostics": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "synthetic_fixture_metadata_only",
+        "status": "pass",
+        "message": "Synthetic parity fixture manifests do not include grouped outputs."
+      },
+      {
+        "id": "local_licensed_placeholder",
+        "status": "pass",
+        "message": "Licensed parity fixtures are referenced by local path only."
+      },
+      {
+        "id": "version_scope_checked",
+        "status": "pass",
+        "message": "Pricing year, AR-DRG, ICD-10-AM, ACHI, and ACS versions are checked together."
+      }
+    ]
+  }
+}
