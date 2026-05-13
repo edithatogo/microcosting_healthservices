@@ -26,6 +26,9 @@ patterns.
 - [ ] Task: Define stream/year promotion statuses.
     - [ ] Add blocked, canary, opt-in, release-candidate, and GA statuses.
     - [ ] Require unsupported streams to fail closed.
+- [ ] Task: Define support status and release evidence prerequisites.
+    - [ ] Add machine-readable support statuses across streams, years, jurisdictions, surfaces, runtimes, and languages.
+    - [ ] Add release evidence bundle requirements before release-candidate or GA promotion.
 - [ ] Task: Conductor - Automated Review and Checkpoint 'Phase 2: Contract Foundation' (Protocol in workflow.md)
 
 ---

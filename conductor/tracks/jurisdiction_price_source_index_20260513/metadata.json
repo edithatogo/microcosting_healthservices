@@ -1,0 +1,17 @@
+{
+  "track_id": "jurisdiction_price_source_index_20260513",
+  "type": "feature",
+  "status": "new",
+  "track_class": "reference-data",
+  "priority": "immediate",
+  "current_state": "planned",
+  "primary_contract": "docs/roadmaps/jurisdiction-price-source-index.md",
+  "dependencies": [
+    "state_local_price_registry_20260513",
+    "jurisdiction_funding_model_registry_20260513",
+    "support_status_matrix_20260513"
+  ],
+  "created_at": "2026-05-13T00:00:00Z",
+  "updated_at": "2026-05-13T00:00:00Z",
+  "description": "Create a source index for jurisdiction price models before extracting values."
+}

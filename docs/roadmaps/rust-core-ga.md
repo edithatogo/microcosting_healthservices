@@ -183,16 +183,19 @@ GA gates:
 1. Create the Rust Core GA Conductor track.
 2. Freeze language-adapter expansion behind the Rust Core GA track.
 3. Define the audience language strategy for researchers and enterprise engineers.
-4. Export and validate canonical contract schemas.
-5. Define CLI/file contracts.
-6. Define the HTTP API contract.
-7. Define the MCP contract.
-8. Define the OpenAI tool adapter as a thin integration layer.
-9. Implement the Rust workspace and one representative stream/year canary.
-10. Add parity validation against Python and available SAS/Excel artefacts.
-11. Harden required delivery surfaces.
-12. Promote one stream/year to release-candidate.
-13. Promote to GA only after evidence and release automation pass.
+4. Define the support status matrix.
+5. Export and validate canonical contract schemas.
+6. Define CLI/file contracts.
+7. Define the HTTP API contract.
+8. Define the MCP contract.
+9. Define the OpenAI tool adapter as a thin integration layer.
+10. Define the jurisdiction price source index.
+11. Implement the Rust workspace and one representative stream/year canary.
+12. Add parity validation against Python and available SAS/Excel artefacts.
+13. Harden required delivery surfaces.
+14. Attach release evidence bundles.
+15. Promote one stream/year to release-candidate.
+16. Promote to GA only after evidence and release automation pass.
 
 ## Parallel implementation lanes
 

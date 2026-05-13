@@ -296,6 +296,12 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
+- [ ] **Track: Support Status Matrix**
+*Link: [./tracks/support_status_matrix_20260513/](./tracks/support_status_matrix_20260513/)*
+*Gate: Define machine-readable support statuses for stream, year, jurisdiction, surface, runtime, and language claims before public docs or release metadata can mark support as complete.*
+
+---
+
 - [ ] **Track: CLI/File Contracts**
 *Link: [./tracks/cli_file_contracts_20260513/](./tracks/cli_file_contracts_20260513/)*
 *Gate: Define stable CLI commands, exit codes, stdin/stdout/stderr behavior, JSON manifests, Arrow/Parquet batch files, diagnostics, and provenance before promoting Rust execution surfaces.*
@@ -338,6 +344,12 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
+- [ ] **Track: Jurisdiction Price Source Index**
+*Link: [./tracks/jurisdiction_price_source_index_20260513/](./tracks/jurisdiction_price_source_index_20260513/)*
+*Gate: Build a source index for NSW, VIC, QLD, WA, SA, TAS, ACT, and NT before extracting or committing jurisdiction price values.*
+
+---
+
 - [ ] **Track: NSW Funding Model**
 *Link: [./tracks/nsw_funding_model_20260513/](./tracks/nsw_funding_model_20260513/)*
 *Gate: Model NSW State Price per NWAU/HWAU, LHD/SHN service agreement notes, adjustments, blocked years, and provenance before applying NSW-specific valuations.*
@@ -353,6 +365,24 @@ content alone is not sufficient evidence for marking a track complete.
 - [ ] **Track: Parallel Valuation Outputs**
 *Link: [./tracks/parallel_valuation_outputs_20260513/](./tracks/parallel_valuation_outputs_20260513/)*
 *Gate: Produce HWAU-only, national, state, local, and discounted valuation outputs in parallel from the same normalized activity result across CLI/file, API, MCP, and OpenAI adapter surfaces.*
+
+---
+
+- [ ] **Track: Rust Crate Boundaries and HWAU Rename**
+*Link: [./tracks/rust_crate_boundary_rename_20260513/](./tracks/rust_crate_boundary_rename_20260513/)*
+*Gate: Plan crate boundaries and NWAU-to-HWAU migration with compatibility aliases before renaming active Rust implementation paths.*
+
+---
+
+- [ ] **Track: GitHub Pages API Architecture**
+*Link: [./tracks/github_pages_api_architecture_20260513/](./tracks/github_pages_api_architecture_20260513/)*
+*Gate: Document that GitHub Pages hosts docs/static WASM demos only, while API-backed demos require an external or local backend.*
+
+---
+
+- [ ] **Track: Release Evidence Bundle**
+*Link: [./tracks/release_evidence_bundle_20260513/](./tracks/release_evidence_bundle_20260513/)*
+*Gate: Define required release evidence bundles before any stream, jurisdiction, or surface can be promoted to release-candidate or GA.*
 
 ---
 
