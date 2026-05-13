@@ -26,7 +26,7 @@ def test_ahpcs_model_track_files_exist():
 def test_ahpcs_model_tracks_md_is_open():
     registry = _read_text(TRACKS)
     assert "AHPCS Costing Process Model" in registry
-    assert "- [ ] **Track: AHPCS Costing Process Model**" in registry
+    assert "- [x] **Track: AHPCS Costing Process Model**" in registry
 
 
 def test_model_doc_defines_cost_ledger():

@@ -26,7 +26,7 @@ def test_cost_bucket_registry_track_files_exist():
 def test_cost_bucket_registry_tracks_md_is_open():
     registry = _read_text(TRACKS)
     assert "Cost Bucket Registry" in registry
-    assert "- [ ] **Track: Cost Bucket Registry**" in registry
+    assert "- [x] **Track: Cost Bucket Registry**" in registry
 
 
 def test_schema_doc_defines_required_fields():
