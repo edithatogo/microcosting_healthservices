@@ -38,7 +38,7 @@ Common release gates apply to every surface:
 | NuGet / C# | .NET package and managed wrapper | `preview` | Release when the .NET wrapper remains thin, binary compatibility is documented, and signed package publishing is repeatable. |
 | Go | Go module, preferably thin wrapper over C ABI or CLI/file contract | `private` | Release when cross-compilation is stable, no duplicated business logic exists, and the module can be tested end-to-end in CI. |
 | TypeScript / WASM | npm package plus WASM bundle | `preview` | Release when browser and Node smoke tests pass, bundle size and loading behavior are controlled, and the WASM artifact remains deterministic. |
-| Kotlin/Native | Kotlin/Native package Native artifact, Kotlin/Native over C ABI, service, or file contract | `private` | Release when the Kotlin adapter is thin, CI covers the supported Native runtime range, and the packaging path is reproducible. |
+| Kotlin/Native | Native artifact over C ABI, service, or file contract | `private` | Release when the Kotlin adapter is thin, CI covers the supported native target range, and the packaging path is reproducible. |
 | Scala / Spark | Spark package, Spark SQL integration, or lakehouse file/service adapter | `private` | Release when Spark fixtures pass, schema evolution is pinned, and no formula logic is implemented in Spark jobs. |
 | Swift | Swift Package Manager package over C ABI, service, or file contract | `private` | Release when Apple-platform fixtures pass and native packaging does not create duplicated calculator behavior. |
 | Stata | Stata ado/do examples or package over file, CLI, or service contract | `private` | Release when health-economics examples pass shared fixtures and remain boundary-only. |
@@ -71,7 +71,7 @@ R and Julia are thin consumers. Their release gate is not "can the package be
 built" but "does the package stay thin, stay reproducible, and stay fixture-
 equivalent to Python/Rust across supported inputs."
 
-### NuGet, Go, and JVM
+### NuGet, Go, and native adapters
 
 These ecosystems should consume the shared core through the narrowest viable
 boundary. Prefer a generated or adapter-based release over reimplementing the
@@ -128,8 +128,8 @@ Recommended order of promotion:
 2. Rust crate and CLI/file contract reach release-candidate together.
 3. C ABI and TypeScript/WASM follow once the core ABI and diagnostics are
    stable.
-4. R, Julia, NuGet/C#, Go, and JVM follow after the thin-wrapper contract is
-   proven across fixture suites.
+4. R, Julia, NuGet/C#, Go, Kotlin/Native, and other adapters follow after the
+   thin-wrapper contract is proven across fixture suites.
 5. SQL/DuckDB, SAS interop, web demos, and Power Platform remain boundary-only
    until their host integration paths are approved.
 

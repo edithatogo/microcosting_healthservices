@@ -183,7 +183,8 @@ Required evidence:
 - R, Julia, C#/.NET, Go, TypeScript/WASM, Kotlin/Native, C ABI, SQL/DuckDB, SAS,
   CLI/file, web, and Power Platform surfaces are downstream consumers of the
   shared contract.
-- Kotlin is the preferred authored Kotlin/Native surface. Kotlin/Native is the preferred authored Kotlin surface; Java/JVM support is not part of this track.
+- Kotlin/Native is the preferred authored Kotlin surface. Java/JVM support is
+  not part of the initial Kotlin binding track.
 - Scala/Spark, Swift, Stata, and MATLAB are future contract consumers where
   their communities justify the maintenance cost.
 - A surface may be primary, thin, orchestration-only, or file/CLI mediated, but

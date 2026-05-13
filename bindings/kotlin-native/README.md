@@ -1,7 +1,7 @@
 # Kotlin/Native binding scaffold
 
 This scaffold is Kotlin/Native-first. It is intended for consumers who want
-Kotlin ergonomics without a Native runtime dependency.
+Kotlin ergonomics without a JVM runtime dependency.
 
 ## Boundary
 
@@ -12,13 +12,13 @@ Kotlin ergonomics without a Native runtime dependency.
 
 ## Non-goals
 
-- No Native runtime dependency.
-- No Kotlin/Native-authored binding.
-- No C ABI bridge as the initial path.
-- No Kotlin/Native package publication claim.
+- No JVM runtime dependency.
+- No Java-authored binding.
+- No duplicated formula implementation.
+- No Kotlin/Native artifact publication claim.
 
 ## Build note
 
-Kotlin/Native avoids a Native runtime artifact. Kotlin build tools may still need
-a compiler toolchain during development, depending on the chosen build system.
-The product boundary should not require Java or a JVM.
+Kotlin/Native avoids a JVM runtime artifact. Kotlin build tools still need a
+compiler toolchain during development, depending on the chosen build system. The
+product boundary should not require Java or a JVM.

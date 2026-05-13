@@ -11,7 +11,7 @@
         "status": "pass"
       }
     ],
-    "fixture_id": "jvm-arrow-parquet-pass",
+    "fixture_id": "kotlin-native-arrow-parquet-pass",
     "format": "json",
     "validation_status": "pass"
   },
@@ -19,7 +19,7 @@
   "formula_logic_location": "rust core",
   "provenance": {
     "checksum_algorithm": "sha256",
-    "fixture_id": "jvm-arrow-parquet-pass",
+    "fixture_id": "kotlin-native-arrow-parquet-pass",
     "notes": "synthetic example",
     "source_basis": "contract bundle"
   },

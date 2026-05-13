@@ -23,7 +23,7 @@
       {
         "id": "build_readiness",
         "status": "fail",
-        "message": "Kotlin/Native package readiness is blocked until Kotlin/Native toolchain metadata are pinned."
+        "message": "Kotlin/Native artifact readiness is blocked until native target metadata is pinned."
       }
     ],
     "summary": {

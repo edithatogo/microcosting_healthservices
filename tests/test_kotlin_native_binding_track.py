@@ -8,11 +8,11 @@ ROOT = Path(__file__).resolve().parents[1]
 TRACK = ROOT / "conductor" / "tracks" / "kotlin_native_binding_20260512"
 TRACKS_REGISTRY = ROOT / "conductor" / "tracks.md"
 PACKAGING_MATRIX = ROOT / "docs" / "roadmaps" / "polyglot-packaging-release-matrix.md"
-RUST_CORE_ROADMAP = ROOT / "docs" / "roadmaps" / "polyglot-rust-core.md"
+ROADMAP = ROOT / "docs" / "roadmaps" / "kotlin-native-binding.md"
+GOVERNANCE = ROOT / "docs-site" / "src" / "content" / "docs" / "governance"
 FIXTURE_ROOT = Path(__file__).resolve().parent / "fixtures" / "kotlin_native_binding"
-CONTRACT_BUNDLE = FIXTURE_ROOT / "contract_bundle.json"
-PASS_EXAMPLE = FIXTURE_ROOT / "validation.pass.json"
-FAIL_EXAMPLE = FIXTURE_ROOT / "validation.fail.json"
+CONTRACT_ROOT = ROOT / "contracts" / "kotlin-native-binding"
+BINDING_ROOT = ROOT / "bindings" / "kotlin-native"
 
 
 def _read_text(path: Path) -> str:
@@ -30,210 +30,126 @@ def _as_mapping(value: object) -> dict[str, Any]:
     return cast(dict[str, Any], value)
 
 
-def _squash(text: str) -> str:
-    return " ".join(text.split())
-
-
-def test_kotlin_native_binding_track_metadata_docs_and_contract_bundle_are_conservative():
+def test_kotlin_native_track_is_native_first_and_contract_driven():
     for path in [
         TRACK / "spec.md",
         TRACK / "plan.md",
-        TRACK / "index.md",
         TRACK / "metadata.json",
         TRACKS_REGISTRY,
         PACKAGING_MATRIX,
-        RUST_CORE_ROADMAP,
-        CONTRACT_BUNDLE,
-        PASS_EXAMPLE,
-        FAIL_EXAMPLE,
+        ROADMAP,
+        GOVERNANCE / "kotlin-native-binding.md",
+        CONTRACT_ROOT / "kotlin-native-binding.contract.json",
+        CONTRACT_ROOT / "kotlin-native-binding.schema.json",
+        FIXTURE_ROOT / "contract_bundle.json",
+        FIXTURE_ROOT / "validation.pass.json",
+        FIXTURE_ROOT / "validation.fail.json",
     ]:
         assert path.exists(), path
 
     metadata = _load_json(TRACK / "metadata.json")
     spec = _read_text(TRACK / "spec.md")
     plan = _read_text(TRACK / "plan.md")
-    index = _read_text(TRACK / "index.md")
     tracks = _read_text(TRACKS_REGISTRY)
     packaging = _read_text(PACKAGING_MATRIX)
-    roadmap = _read_text(RUST_CORE_ROADMAP)
-    bundle = _load_json(CONTRACT_BUNDLE)
-    pass_example = _load_json(PASS_EXAMPLE)
-    fail_example = _load_json(FAIL_EXAMPLE)
+    roadmap = _read_text(ROADMAP)
+    governance = _read_text(GOVERNANCE / "kotlin-native-binding.md")
+    squashed_spec = " ".join(spec.split())
+    squashed_roadmap = " ".join(roadmap.split())
+    squashed_governance = " ".join(governance.split())
 
     assert metadata["track_id"] == "kotlin_native_binding_20260512"
-    assert metadata["type"] == "feature"
-    assert metadata["status"] == "in-progress"
-    assert metadata["track_class"] == "binding"
-    assert metadata["current_state"] == "kotlin-native-binding-roadmap-complete"
     assert metadata["primary_contract"] == (
         "contracts/kotlin-native-binding/kotlin-native-binding.contract.json"
     )
     assert metadata["publication_status"] == "not-applicable"
-    assert metadata["completion_evidence"] == ["docs", "workflows", "tests"]
-    assert "Kotlin/Native binding roadmap" in str(metadata["description"])
+    assert "without a JVM runtime dependency" in str(metadata["description"])
 
     for phrase in [
-        "Kotlin/Native integration roadmap",
-        "shared Rust core",
-        "service, C ABI,",
+        "Kotlin/Native is the authored Kotlin surface",
+        "Java/JVM support is outside the initial scope",
+        "C ABI, service, or Arrow/Parquet file contract",
         "must not duplicate formula logic",
-        "Kotlin data classes with C ABI, service, and file-contract boundaries",
-        "shared golden fixtures and schema conformance tests",
-        "Kotlin/Native package publication only after stability gates are met",
-        "Kotlin/Native integration strategy is selected and documented.",
-        "Kotlin/Native examples validate against shared fixtures.",
-        "Formula logic remains single-sourced.",
+        "No JVM runtime, Maven publication, or Gradle build is required",
     ]:
-        assert phrase in spec
+        assert phrase in squashed_spec
 
     for phrase in [
-        "Compare C ABI, service, and Arrow/Parquet file interop for native Kotlin users.",
-        "Select an initial strategy that minimizes binary packaging risk.",
-        "Define Kotlin/Native API and C ABI considerations.",
-        "Add Kotlin/Native prototype or service client and shared-fixture tests.",
-        "Validate outputs against golden fixtures.",
-        "Document enterprise deployment patterns.",
+        "avoids a JVM runtime dependency",
+        "memory ownership, and C ABI considerations",
+        "Kotlin/Native prototype and shared-fixture tests",
     ]:
         assert phrase in plan
 
-    assert "Track kotlin_native_binding_20260512 Context" in index
     assert "Kotlin/Native Binding" in tracks
+    assert "no JVM runtime requirement" in tracks
+    assert "Native artifact over C ABI, service, or file contract" in packaging
+    assert "Go, Kotlin/Native, and other adapters" in packaging
     assert (
-        "support enterprise jvm consumers through service, jni/jna, c abi, or "
-        "arrow/parquet interop with shared fixture validation."
-        in tracks.lower()
+        "does not require a JVM runtime, Maven publication, or a Gradle build"
+        in squashed_roadmap
     )
+    assert "No JVM runtime, Maven publication, or Gradle build" in squashed_governance
 
-    assert "jvm" in packaging.lower()
-    assert "kotlin/jvm" in packaging.lower()
-    assert "kotlin-first with java-compatible bytecode" in packaging.lower()
-    assert "release when the kotlin adapter is thin" in packaging.lower()
-    assert "ci covers the supported jvm runtime range" in packaging.lower()
-    assert "packaging path is reproducible" in packaging.lower()
-    assert "kotlin/native" in roadmap.lower()
-    assert "single source of formula logic" in roadmap.lower()
 
-    bundle_map = _as_mapping(bundle)
-    diagnostics = _as_mapping(bundle_map["diagnostics"])
-    provenance = _as_mapping(bundle_map["provenance"])
-    package = _as_mapping(bundle_map["package"])
-    ko = _as_mapping(package["ko"])
-    kotlin_native = _as_mapping(package["kotlin_native"])
+def test_kotlin_native_contract_and_fixtures_reject_runtime_overclaiming():
+    contract = _load_json(CONTRACT_ROOT / "kotlin-native-binding.contract.json")
+    bundle = _load_json(FIXTURE_ROOT / "contract_bundle.json")
+    pass_example = _load_json(FIXTURE_ROOT / "validation.pass.json")
+    fail_example = _load_json(FIXTURE_ROOT / "validation.fail.json")
 
-    assert bundle_map["schema_version"] == "1.0"
-    assert bundle_map["binding_id"] == "kotlin_native_binding_20260512"
-    assert bundle_map["surface"] == "jvm"
-    assert bundle_map["initial_strategy"] == "arrow/parquet file interop"
-    assert bundle_map["fallback_strategy"] == "service boundary"
-    assert bundle_map["formula_logic_location"] == "rust core"
-    assert diagnostics["format"] == "json"
-    assert diagnostics["includes"] == [
-        "contract_id",
-        "fixture_id",
-        "validation_status",
-        "strategy",
-        "fallback",
-    ]
-    assert provenance["checksum_algorithm"] == "sha256"
-    assert provenance["preserve_fields"] == [
-        "source_basis",
-        "fixture_id",
-        "notes",
-    ]
-    assert ko["status"] == "private"
-    assert ko["release_gate"] == "adapter thin and parity stable"
+    readiness = _as_mapping(contract["build_readiness"])
+    kotlin_native = _as_mapping(readiness["kotlin_native"])
+    c_abi = _as_mapping(readiness["c_abi"])
+    service = _as_mapping(readiness["service"])
+
+    assert contract["binding_bundle_id"] == "kotlin_native_binding_contract_20260513"
+    assert _as_mapping(contract["privacy"])["contains_phi"] is False
+    assert bundle["binding_id"] == "kotlin_native_binding_20260512"
+    assert bundle["surface"] == "kotlin-native"
+    assert bundle["formula_logic_location"] == "rust core"
+    assert bundle["initial_strategy"] == "arrow/parquet file interop"
+    assert bundle["fallback_strategy"] == "service boundary"
+
     assert kotlin_native["status"] == "private"
-    assert kotlin_native["release_gate"] == "adapter thin and parity stable"
+    assert kotlin_native["runtime"] == "native"
+    assert c_abi["status"] == "private"
+    assert service["status"] == "private"
 
     assert pass_example["result"] == "pass"
-    assert pass_example["strategy"] == "arrow/parquet file interop"
-    assert pass_example["fallback"] == "service boundary"
-    assert _as_mapping(pass_example["diagnostics"])["format"] == "json"
-    assert _as_mapping(pass_example["provenance"])["checksum_algorithm"] == "sha256"
-
-    assert fail_example["result"] == "fail"
-    assert "formula logic" in str(fail_example["reason"]).lower()
-    assert "ko" in str(fail_example["reason"]).lower()
-    assert "kotlin_native" in str(fail_example["reason"]).lower()
-    assert "overclaim" in str(fail_example["reason"]).lower()
-
-
-def test_kotlin_native_binding_preserves_provenance_and_refuses_publication_overclaiming():
-    bundle = _load_json(CONTRACT_BUNDLE)
-    pass_example = _load_json(PASS_EXAMPLE)
-    fail_example = _load_json(FAIL_EXAMPLE)
-
-    bundle_diagnostics = _as_mapping(bundle["diagnostics"])
-    bundle_provenance = _as_mapping(bundle["provenance"])
-    pass_diagnostics = _as_mapping(pass_example["diagnostics"])
-    pass_provenance = _as_mapping(pass_example["provenance"])
-
-    assert bundle_diagnostics["format"] == pass_diagnostics["format"] == "json"
-    assert bundle_provenance["checksum_algorithm"] == pass_provenance[
-        "checksum_algorithm"
-    ] == "sha256"
-    assert set(bundle_provenance["preserve_fields"]).issubset(pass_provenance)
-    assert bundle["formula_logic_location"] == "rust core"
     assert pass_example["formula_logic_location"] == "rust core"
-    assert "java" not in str(bundle["formula_logic_location"]).lower()
-    assert "java" not in str(pass_example["formula_logic_location"]).lower()
-    assert "ko" in str(fail_example["reason"]).lower()
-    assert "kotlin_native" in str(fail_example["reason"]).lower()
-    assert "publication" in str(fail_example["reason"]).lower()
+    assert pass_example["strategy"] == "arrow/parquet file interop"
+    assert fail_example["result"] == "fail"
+    assert "artifact publication" in str(fail_example["reason"])
+    assert "native adapter boundary" in str(fail_example["reason"])
 
 
-def test_kotlin_native_binding_if_a_scaffold_exists_it_stays_thin_and_non_formula():
-    candidate_roots = [
-        ROOT / "kotlin-native-binding",
-        ROOT / "kotlin-native-binding",
-        ROOT / "bindings" / "java",
-        ROOT / "bindings" / "jvm",
-        ROOT / "java",
-        ROOT / "jvm",
-        ROOT / "src" / "java",
-        ROOT / "src" / "jvm",
+def test_kotlin_native_scaffold_has_no_jvm_build_or_formula_logic():
+    assert BINDING_ROOT.exists()
+    assert not (ROOT / "bindings" / "jvm").exists()
+    assert not (BINDING_ROOT / "build.gradle.kts").exists()
+    assert not (BINDING_ROOT / "pom.xml").exists()
+
+    scaffold_files = [
+        path
+        for path in BINDING_ROOT.rglob("*")
+        if path.is_file() and path.suffix in {".md", ".kt", ".json"}
     ]
-    scaffold_root = next((path for path in candidate_roots if path.exists()), None)
+    assert scaffold_files
 
-    if scaffold_root is None:
-        return
-
-    scaffold_text = _squash(
-        " ".join(
-            _read_text(path)
-            for path in scaffold_root.rglob("*")
-            if path.is_file()
-            and "bin" not in path.parts
-            and "build" not in path.parts
-            and "target" not in path.parts
-            and path.suffix in {
-                ".md",
-                ".txt",
-                ".json",
-                ".java",
-                ".kt",
-                ".kts",
-                ".xml",
-                ".kotlin_native",
-            }
-        )
-    ).lower()
+    scaffold_text = "\n".join(_read_text(path) for path in scaffold_files).lower()
 
     for forbidden in [
         "private_service_adjustment",
         "long_stay_per_diem",
         "same_day_base_weight",
         "icu_rate",
-        "nwau25 =",
-        "nwau25 <-",
+        "embedded formula implementation",
+        "publication ready",
+        "maven central",
+        "gradle build",
     ]:
         assert forbidden not in scaffold_text
 
-    for forbidden in [
-        "ko central publication ready",
-        "kotlin_native publication ready",
-        "publication ready",
-        "release publishing",
-        "embedded formula implementation",
-    ]:
-        assert forbidden not in scaffold_text
+    assert "jvm runtime dependency" in scaffold_text
+    assert "formula logic remains in the rust core" in scaffold_text

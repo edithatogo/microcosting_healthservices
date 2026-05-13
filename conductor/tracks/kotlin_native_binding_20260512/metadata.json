@@ -17,5 +17,5 @@
   "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
   "updated_at": "2026-05-13T00:00:00Z",
-  "description": "Finalize a Kotlin/Native binding roadmap for enterprise data platforms through service, C ABI, or file interop."
+  "description": "Finalize a Kotlin/Native binding roadmap for native consumers through C ABI, service, or file interop without a JVM runtime dependency."
 }

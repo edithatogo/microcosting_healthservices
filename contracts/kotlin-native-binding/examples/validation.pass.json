@@ -23,7 +23,7 @@
       {
         "id": "build_readiness",
         "status": "pass",
-        "message": "Kotlin/Native package readiness are declared for Java 17 and Kotlin 1.9."
+        "message": "Kotlin/Native artifact readiness is private and requires no JVM runtime."
       }
     ],
     "summary": {

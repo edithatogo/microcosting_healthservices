@@ -298,7 +298,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 - [x] **Track: Kotlin/Native Binding**
 *Link: [./tracks/kotlin_native_binding_20260512/](./tracks/kotlin_native_binding_20260512/)*
-*Gate: support enterprise Kotlin/Native consumers through service, C ABI, or Arrow/Parquet interop with shared fixture validation.*
+*Gate: support native Kotlin consumers through C ABI, service, or Arrow/Parquet interop with shared fixture validation and no JVM runtime requirement.*
 
 ---
 

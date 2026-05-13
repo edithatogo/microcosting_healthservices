@@ -4,7 +4,7 @@ This directory contains synthetic fixtures for the Kotlin/Native binding workstr
 
 ## Scope
 
-The bundle describes a versioned binding contract for calculator request and response models, a primary Arrow/Parquet file surface, service fallback path, diagnostics, stable errors, fixture gates, and Kotlin/Native package readiness.
+The bundle describes a versioned binding contract for calculator request and response models, C ABI and Arrow/Parquet file surfaces, service fallback, diagnostics, stable errors, fixture gates, and Kotlin/Native artifact readiness.
 
 The contract is aligned to the public calculator boundary in `microcosting_healthservices/nwau_py/contracts.py` and keeps the binding layer thin:
 
@@ -28,4 +28,5 @@ The contract is aligned to the public calculator boundary in `microcosting_healt
 - Keep all committed examples synthetic and metadata only.
 - Do not add formula logic, generated calculator kernels, PHI, or proprietary tables.
 - Keep Arrow and Parquet fallback metadata declarative.
-- Keep Kotlin/Native models compatible with Kotlin/Native package consumers without committing platform-specific build outputs.
+- Keep Kotlin/Native models compatible with native consumers without committing platform-specific build outputs.
+- Do not require a JVM runtime, Maven publication, or Gradle build for this track.

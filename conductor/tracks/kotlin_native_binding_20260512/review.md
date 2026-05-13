@@ -6,9 +6,9 @@
    at `contracts/kotlin-native-binding/kotlin-native-binding.contract.json`.
 2. Resolved - The track includes fixture-backed tests, live contract examples,
    and a Kotlin/Native scaffold.
-3. Resolved - The roadmap and governance docs choose Arrow/Parquet first,
-   service fallback, and C ABI deferral. Kotlin/Native package publication remains
-   future-gated and is not implied as ready.
+3. Resolved - The roadmap and governance docs choose Kotlin/Native over C ABI
+   plus Arrow/Parquet file interop, with service fallback. Java/JVM integration
+   is deferred outside this track.
 
 ## Blockers
 
@@ -27,7 +27,7 @@
 
 - The Kotlin scaffold is transport-only and does not invoke a real calculator
   backend yet.
-- C ABI and Kotlin/Native package work remain gated until reproducible packaging and
-  runtime matrices exist.
+- Kotlin/Native artifact publication remains gated until reproducible packaging
+  and native runtime matrices exist.
 - Formula behavior remains owned by the shared core; Kotlin/Native stays an
   adapter surface.

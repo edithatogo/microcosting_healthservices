@@ -11,18 +11,18 @@
         "status": "fail"
       }
     ],
-    "fixture_id": "jvm-publication-overclaim",
+    "fixture_id": "kotlin-native-publication-overclaim",
     "format": "json",
     "validation_status": "fail"
   },
   "fallback": "service boundary",
   "provenance": {
     "checksum_algorithm": "sha256",
-    "fixture_id": "jvm-publication-overclaim",
+    "fixture_id": "kotlin-native-publication-overclaim",
     "notes": "synthetic negative example",
     "source_basis": "contract bundle"
   },
-  "reason": "Overclaims Kotlin/Native package publication or duplicates formula logic instead of treating JVM as a thin boundary.",
+  "reason": "Overclaims Kotlin/Native artifact publication or duplicates formula logic instead of staying a native adapter boundary.",
   "result": "fail",
   "strategy": "arrow/parquet file interop"
 }
