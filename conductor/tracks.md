@@ -362,7 +362,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Public Appropriate-Use Documentation**
+- [x] **Track: Public Appropriate-Use Documentation**
 *Link: [./tracks/public_appropriate_use_docs_20260512/](./tracks/public_appropriate_use_docs_20260512/)*
 *Gate: publish conservative docs for validation status, appropriate use, policy caveats, source licensing, and non-endorsement before broad promotion.*
 
