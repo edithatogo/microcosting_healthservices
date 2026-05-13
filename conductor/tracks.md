@@ -350,7 +350,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Expert Panel Remediation**
+- [x] **Track: Expert Panel Remediation**
 *Link: [./tracks/expert_panel_remediation_20260512/](./tracks/expert_panel_remediation_20260512/)*
 *Gate: convert simulated expert-panel findings into explicit track dependencies, gate notes, and remediation priorities before implementing lower-priority bindings or publication expansion.*
 
