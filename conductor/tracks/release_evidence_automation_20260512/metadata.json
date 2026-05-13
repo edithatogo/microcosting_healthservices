@@ -1,9 +1,9 @@
 {
   "track_id": "release_evidence_automation_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "complete",
   "track_class": "publication",
-  "current_state": "roadmap-only",
+  "current_state": "spec-and-tests-complete",
   "primary_contract": "machine-readable release and publication evidence report",
   "dependencies": [
     "release_supply_chain_governance_20260504",
