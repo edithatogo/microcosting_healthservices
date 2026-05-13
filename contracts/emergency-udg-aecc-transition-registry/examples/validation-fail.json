@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "command": "emergency-transition-registry validate-compatibility --entry udg_transition_window_2025_26 --year 2026-27 --stream emergency_service",
+  "pricing_year": "2026-27",
+  "stream_type": "emergency_service",
+  "registry_entry_id": "udg_transition_window_2025_26",
+  "compatibility_profile_id": "udg_shadow_transition_2025_26",
+  "status": "fail",
+  "exit_code": 1,
+  "checks": [
+    {
+      "id": "registry_entry_present",
+      "status": "pass",
+      "message": "Registry entry udg_transition_window_2025_26 exists in the synthetic registry fixture."
+    },
+    {
+      "id": "supported_pricing_year",
+      "status": "fail",
+      "message": "Target pricing year 2026-27 falls outside the declared UDG support window."
+    },
+    {
+      "id": "stream_scope_match",
+      "status": "fail",
+      "message": "The emergency_service stream is not covered by the selected UDG record."
+    },
+    {
+      "id": "no_silent_translation",
+      "status": "pass",
+      "message": "The fixture does not infer AECC from UDG without an explicit mapping reference."
+    },
+    {
+      "id": "no_proprietary_payload",
+      "status": "pass",
+      "message": "No proprietary payload, licensed table rows, or grouper output is embedded."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 2
+  },
+  "diagnostics": [
+    {
+      "code": "unsupported_pricing_year",
+      "severity": "error",
+      "message": "No declared UDG support window covers pricing year 2026-27."
+    },
+    {
+      "code": "stream_mismatch",
+      "severity": "error",
+      "message": "The selected UDG record only supports emergency_department inputs."
+    }
+  ],
+  "compatibility_basis": {
+    "classification_system": "UDG",
+    "supported_years": [
+      "2025-26"
+    ],
+    "supported_streams": [
+      "emergency_department"
+    ],
+    "mode": "metadata_only",
+    "notes": "Synthetic failure example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic failure example only."
+  }
+}

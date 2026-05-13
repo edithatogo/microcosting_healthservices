@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "command": "emergency-transition-registry validate-compatibility --entry aecc_active_window_2026_27 --year 2026-27 --stream emergency_department",
+  "pricing_year": "2026-27",
+  "stream_type": "emergency_department",
+  "registry_entry_id": "aecc_active_window_2026_27",
+  "compatibility_profile_id": "aecc_active_2026_27",
+  "status": "pass",
+  "exit_code": 0,
+  "checks": [
+    {
+      "id": "registry_entry_present",
+      "status": "pass",
+      "message": "Registry entry aecc_active_window_2026_27 exists in the synthetic registry fixture."
+    },
+    {
+      "id": "supported_pricing_year",
+      "status": "pass",
+      "message": "Target pricing year 2026-27 falls within the declared AECC support window."
+    },
+    {
+      "id": "stream_scope_match",
+      "status": "pass",
+      "message": "The emergency_department stream is allowed by the selected AECC record."
+    },
+    {
+      "id": "no_silent_translation",
+      "status": "pass",
+      "message": "No translation from UDG to AECC was inferred; the record already declares AECC."
+    },
+    {
+      "id": "no_proprietary_payload",
+      "status": "pass",
+      "message": "No proprietary payload, licensed table rows, or grouper output is embedded."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0
+  },
+  "compatibility_basis": {
+    "classification_system": "AECC",
+    "supported_years": [
+      "2026-27"
+    ],
+    "supported_streams": [
+      "emergency_department",
+      "emergency_service"
+    ],
+    "mode": "metadata_only",
+    "notes": "Synthetic pass example only."
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic success example only."
+  }
+}

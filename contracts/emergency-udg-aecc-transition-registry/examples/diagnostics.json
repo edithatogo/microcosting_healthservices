@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "entry_id": "emergency-transition-registry-diagnostics",
+  "entry_type": "diagnostic_record",
+  "diagnostics": {
+    "status": "fail",
+    "checks": [
+      {
+        "id": "missing_classification_input",
+        "status": "fail",
+        "message": "Emergency inputs must explicitly declare UDG or AECC before compatibility validation can run."
+      },
+      {
+        "id": "no_silent_translation",
+        "status": "pass",
+        "message": "UDG is not silently translated to AECC unless an explicit mapping reference is provided."
+      },
+      {
+        "id": "metadata_only",
+        "status": "pass",
+        "message": "No licensed table rows, grouper logic, or restricted payloads are embedded in the committed fixture."
+      },
+      {
+        "id": "boundary_declared",
+        "status": "pass",
+        "message": "The no-proprietary-payload boundary is explicitly declared in the contract bundle."
+      }
+    ],
+    "summary": {
+      "passed": 3,
+      "failed": 1
+    },
+    "notes": "Synthetic diagnostics example only."
+  },
+  "provenance": {
+    "command": "emergency-transition-registry validate --metadata-only",
+    "source_manifest_path": "manifests/diagnostics.json",
+    "source_url": "https://example.invalid/ihacpa/emergency",
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic-sha256-emergency-transition-registry-diagnostics",
+    "bytes": 1408,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic diagnostics example only."
+  }
+}

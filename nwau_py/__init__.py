@@ -9,6 +9,12 @@ from __future__ import annotations
 from importlib import import_module
 
 __all__ = [
+    "EMERGENCY_CLASSIFICATION_REQUIRED_FIELDS",
+    "EMERGENCY_CLASSIFICATION_SOURCE_REFS",
+    "EMERGENCY_CLASSIFICATION_SYSTEMS",
+    "EMERGENCY_CLASSIFICATION_VERSION_MATRIX",
+    "EMERGENCY_STREAMS",
+    "EMERGENCY_TRANSITION_PERIODS",
     "NEC26",
     "NEC26_SOURCE",
     "NEC_BY_YEAR",
@@ -30,6 +36,11 @@ __all__ = [
     "CodingSetPolicy",
     "CodingSetRegistryError",
     "CodingSetVersion",
+    "EmergencyClassificationCompatibilityResult",
+    "EmergencyClassificationRecord",
+    "EmergencyClassificationRegistryError",
+    "EmergencyClassificationVersion",
+    "EmergencyTransitionPeriod",
     "LicensedProductAssetReference",
     "LicensedProductCompatibilityResult",
     "LicensedProductManifestRecord",
@@ -43,10 +54,12 @@ __all__ = [
     "classification_validation",
     "coding_set_registry",
     "diagnose_missing_licensed_assets",
+    "emergency_transition_registry",
     "ensure_ar_drg_mapping_compatibility",
     "ensure_ar_drg_parity_fixture_scope",
     "ensure_coding_set_compatibility",
     "ensure_commit_safe_exclusion",
+    "ensure_emergency_classification_compatibility",
     "ensure_licensed_product_compatibility",
     "formula_parameter_bundle",
     "get_ar_drg_mapping_record",
@@ -58,10 +71,18 @@ __all__ = [
     "get_coding_set_policy",
     "get_coding_set_restriction",
     "get_coding_set_version",
+    "get_emergency_classification_name",
+    "get_emergency_classification_record",
+    "get_emergency_classification_status",
+    "get_emergency_classification_version",
+    "get_emergency_supported_years",
+    "get_emergency_transition_period",
+    "get_emergency_transition_years",
     "get_expected_ar_drg_version",
     "get_expected_classification_version",
     "get_expected_coding_set_version",
     "get_expected_coding_set_versions",
+    "get_expected_emergency_classification_version",
     "get_licensed_product_manifest_record",
     "get_nec",
     "get_nep",
@@ -79,8 +100,11 @@ __all__ = [
     "list_ar_drg_mapping_records",
     "list_ar_drg_parity_fixture_records",
     "list_coding_set_families",
+    "list_emergency_classification_records",
+    "list_emergency_transition_periods",
     "list_licensed_product_manifest_records",
     "normalize_classification_system",
+    "normalize_emergency_classification_system",
     "register_ar_drg_local_licensed_parity_fixture_reference",
     "register_ar_drg_synthetic_parity_fixture",
     "resolve_licensed_product_env_path",
@@ -94,6 +118,8 @@ __all__ = [
     "validate_classification_input",
     "validate_classification_version",
     "validate_coding_set_compatibility",
+    "validate_emergency_classification_compatibility",
+    "validate_emergency_input",
     "validate_licensed_product_compatibility",
     "validate_required_classification_fields",
     "validate_tier_2_input",
@@ -118,6 +144,7 @@ _LAZY_ATTRS = {
     "coding_set_registry": (".coding_set_registry", None),
     "ar_drg_mapping_registry": (".ar_drg_mapping_registry", None),
     "ar_drg_version_parity_fixtures": (".ar_drg_version_parity_fixtures", None),
+    "emergency_transition_registry": (".emergency_transition_registry", None),
     "CodingSetCompatibilityResult": (
         ".coding_set_registry",
         "CodingSetCompatibilityResult",
@@ -151,6 +178,50 @@ _LAZY_ATTRS = {
         ".ar_drg_version_parity_fixtures",
         "ARDRGParityFixtureRecord",
     ),
+    "EMERGENCY_CLASSIFICATION_REQUIRED_FIELDS": (
+        ".emergency_transition_registry",
+        "EMERGENCY_CLASSIFICATION_REQUIRED_FIELDS",
+    ),
+    "EMERGENCY_CLASSIFICATION_SOURCE_REFS": (
+        ".emergency_transition_registry",
+        "EMERGENCY_CLASSIFICATION_SOURCE_REFS",
+    ),
+    "EMERGENCY_CLASSIFICATION_SYSTEMS": (
+        ".emergency_transition_registry",
+        "EMERGENCY_CLASSIFICATION_SYSTEMS",
+    ),
+    "EMERGENCY_CLASSIFICATION_VERSION_MATRIX": (
+        ".emergency_transition_registry",
+        "EMERGENCY_CLASSIFICATION_VERSION_MATRIX",
+    ),
+    "EMERGENCY_STREAMS": (
+        ".emergency_transition_registry",
+        "EMERGENCY_STREAMS",
+    ),
+    "EMERGENCY_TRANSITION_PERIODS": (
+        ".emergency_transition_registry",
+        "EMERGENCY_TRANSITION_PERIODS",
+    ),
+    "EmergencyClassificationCompatibilityResult": (
+        ".emergency_transition_registry",
+        "EmergencyClassificationCompatibilityResult",
+    ),
+    "EmergencyClassificationRecord": (
+        ".emergency_transition_registry",
+        "EmergencyClassificationRecord",
+    ),
+    "EmergencyClassificationRegistryError": (
+        ".emergency_transition_registry",
+        "EmergencyClassificationRegistryError",
+    ),
+    "EmergencyClassificationVersion": (
+        ".emergency_transition_registry",
+        "EmergencyClassificationVersion",
+    ),
+    "EmergencyTransitionPeriod": (
+        ".emergency_transition_registry",
+        "EmergencyTransitionPeriod",
+    ),
     "ensure_ar_drg_mapping_compatibility": (
         ".ar_drg_mapping_registry",
         "ensure_ar_drg_mapping_compatibility",
@@ -167,6 +238,10 @@ _LAZY_ATTRS = {
         ".coding_set_registry",
         "ensure_coding_set_compatibility",
     ),
+    "ensure_emergency_classification_compatibility": (
+        ".emergency_transition_registry",
+        "ensure_emergency_classification_compatibility",
+    ),
     "get_ar_drg_mapping_record": (
         ".ar_drg_mapping_registry",
         "get_ar_drg_mapping_record",
@@ -182,6 +257,38 @@ _LAZY_ATTRS = {
         "get_coding_set_restriction",
     ),
     "get_coding_set_version": (".coding_set_registry", "get_coding_set_version"),
+    "get_emergency_classification_name": (
+        ".emergency_transition_registry",
+        "get_emergency_classification_name",
+    ),
+    "get_emergency_classification_record": (
+        ".emergency_transition_registry",
+        "get_emergency_classification_record",
+    ),
+    "get_emergency_classification_version": (
+        ".emergency_transition_registry",
+        "get_emergency_classification_version",
+    ),
+    "get_emergency_classification_status": (
+        ".emergency_transition_registry",
+        "get_emergency_classification_status",
+    ),
+    "get_emergency_supported_years": (
+        ".emergency_transition_registry",
+        "get_emergency_supported_years",
+    ),
+    "get_emergency_transition_period": (
+        ".emergency_transition_registry",
+        "get_emergency_transition_period",
+    ),
+    "get_emergency_transition_years": (
+        ".emergency_transition_registry",
+        "get_emergency_transition_years",
+    ),
+    "get_expected_emergency_classification_version": (
+        ".emergency_transition_registry",
+        "get_expected_emergency_classification_version",
+    ),
     "get_expected_coding_set_version": (
         ".coding_set_registry",
         "get_expected_coding_set_version",
@@ -209,6 +316,18 @@ _LAZY_ATTRS = {
         "list_ar_drg_parity_fixture_records",
     ),
     "list_coding_set_families": (".coding_set_registry", "list_coding_set_families"),
+    "list_emergency_classification_records": (
+        ".emergency_transition_registry",
+        "list_emergency_classification_records",
+    ),
+    "list_emergency_transition_periods": (
+        ".emergency_transition_registry",
+        "list_emergency_transition_periods",
+    ),
+    "normalize_emergency_classification_system": (
+        ".emergency_transition_registry",
+        "normalize_emergency_classification_system",
+    ),
     "validate_ar_drg_mapping_compatibility": (
         ".ar_drg_mapping_registry",
         "validate_ar_drg_mapping_compatibility",
@@ -224,6 +343,14 @@ _LAZY_ATTRS = {
     "validate_coding_set_compatibility": (
         ".coding_set_registry",
         "validate_coding_set_compatibility",
+    ),
+    "validate_emergency_classification_compatibility": (
+        ".emergency_transition_registry",
+        "validate_emergency_classification_compatibility",
+    ),
+    "validate_emergency_input": (
+        ".emergency_transition_registry",
+        "validate_emergency_input",
     ),
     "classification_validation": (".classification_validation", None),
     "ClassificationRequirement": (
@@ -273,7 +400,10 @@ _LAZY_ATTRS = {
         ".classification_validation",
         "normalize_classification_system",
     ),
-    "validate_aecc_input": (".classification_validation", "validate_aecc_input"),
+    "validate_aecc_input": (
+        ".classification_validation",
+        "validate_aecc_input",
+    ),
     "validate_amhcc_input": (".classification_validation", "validate_amhcc_input"),
     "validate_ar_drg_input": (".classification_validation", "validate_ar_drg_input"),
     "validate_classification_input": (
@@ -289,7 +419,10 @@ _LAZY_ATTRS = {
         "validate_required_classification_fields",
     ),
     "validate_tier_2_input": (".classification_validation", "validate_tier_2_input"),
-    "validate_udg_input": (".classification_validation", "validate_udg_input"),
+    "validate_udg_input": (
+        ".classification_validation",
+        "validate_udg_input",
+    ),
     "licensed_product_workflow": (".licensed_product_workflow", None),
     "LicensedProductAssetReference": (
         ".licensed_product_workflow",

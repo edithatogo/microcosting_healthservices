@@ -248,7 +248,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Emergency UDG/AECC Transition Registry**
+- [x] **Track: Emergency UDG/AECC Transition Registry**
 *Link: [./tracks/emergency_udg_aecc_transition_registry_20260512/](./tracks/emergency_udg_aecc_transition_registry_20260512/)*
 *Gate: model UDG, AECC, transition periods, emergency stream compatibility, and pricing-year applicability before accepting emergency classification inputs as interchangeable.*
 

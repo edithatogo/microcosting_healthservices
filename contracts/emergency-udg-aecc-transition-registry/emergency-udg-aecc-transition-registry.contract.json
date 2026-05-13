@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "tool": {
+    "name": "nwau_py.emergency_transition_registry",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.emergency_transition_registry"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic metadata-only contract. UDG and AECC source tables, mappings, and grouper payloads are intentionally excluded."
+  },
+  "commands": [
+    {
+      "name": "list_emergency_transition_records",
+      "mode": "registry-entries",
+      "status": "stable",
+      "inputs": [
+        "registry_scope",
+        "pricing_year",
+        "stream_type",
+        "metadata_only"
+      ],
+      "outputs": [
+        "registry_entries",
+        "registry_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic UDG, AECC, and transition-window records without embedding proprietary tables or code rows."
+    },
+    {
+      "name": "validate_emergency_transition_compatibility",
+      "mode": "compatibility-validation",
+      "status": "preview",
+      "inputs": [
+        "registry_entry_id",
+        "pricing_year",
+        "stream_type",
+        "validation_basis"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Validate a selected year and stream against the declared UDG or AECC support window and reject silent translation."
+    },
+    {
+      "name": "describe_no_proprietary_payload_boundary",
+      "mode": "boundary-check",
+      "status": "stable",
+      "inputs": [
+        "boundary_profile",
+        "access_mode"
+      ],
+      "outputs": [
+        "boundary_report",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Declare what the committed fixtures may include and confirm that proprietary payloads remain absent."
+    },
+    {
+      "name": "resolve_local_emergency_mapping_reference",
+      "mode": "local-reference-resolution",
+      "status": "preview",
+      "inputs": [
+        "local_reference_uri",
+        "reference_type",
+        "access_mode"
+      ],
+      "outputs": [
+        "reference_manifest",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Record a user-supplied local mapping or grouper reference without committing the restricted content itself."
+    }
+  ],
+  "registry_entry_types": [
+    {
+      "id": "transition_window_record",
+      "label": "Transition window record",
+      "purpose": "Metadata-only declaration of a UDG or AECC pricing-year window and stream scope."
+    },
+    {
+      "id": "versioned_classification_record",
+      "label": "Versioned classification record",
+      "purpose": "Metadata-only UDG or AECC version label with explicit pricing-year applicability."
+    },
+    {
+      "id": "stream_compatibility_record",
+      "label": "Stream compatibility record",
+      "purpose": "Declared compatibility for emergency department and emergency service inputs."
+    },
+    {
+      "id": "diagnostic_record",
+      "label": "Diagnostic record",
+      "purpose": "Synthetic validation or boundary diagnostics for the emergency transition registry."
+    },
+    {
+      "id": "no_proprietary_payload_boundary_record",
+      "label": "No proprietary payload boundary record",
+      "purpose": "Explicit boundary declaration for synthetic fixtures that excludes licensed tables, source code rows, and grouper payloads."
+    },
+    {
+      "id": "local_mapping_reference",
+      "label": "Local mapping reference",
+      "purpose": "Local placeholder for a user-supplied official mapping or validated local mapping asset."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only registry",
+      "severity": "error",
+      "description": "Reject registry entries that embed licensed table rows, proprietary mapping content, or grouper logic."
+    },
+    {
+      "id": "explicit_version_window",
+      "label": "Explicit version window",
+      "severity": "error",
+      "description": "Require each UDG or AECC record to declare the pricing years in which it is valid."
+    },
+    {
+      "id": "stream_scope_match",
+      "label": "Stream scope match",
+      "severity": "error",
+      "description": "Require the requested emergency stream to be covered by the selected record before compatibility passes."
+    },
+    {
+      "id": "no_silent_translation",
+      "label": "No silent translation",
+      "severity": "error",
+      "description": "Do not infer AECC from UDG or UDG from AECC unless an official mapping or validated local mapping reference is supplied."
+    },
+    {
+      "id": "boundary_declared",
+      "label": "Declared payload boundary",
+      "severity": "error",
+      "description": "Require every fixture bundle to declare that proprietary payloads and licensed code rows are absent."
+    },
+    {
+      "id": "referential_consistency",
+      "label": "Referential consistency",
+      "severity": "warning",
+      "description": "Require diagnostics and validation records to reference committed synthetic entries or local placeholders."
+    }
+  ],
+  "outputs": {
+    "registry_format": "json",
+    "validation_report_format": "json",
+    "diagnostic_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "registry_id",
+      "registry_entry_id",
+      "pricing_year",
+      "stream_type",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "classification_basis",
+      "mapping_reference_uri",
+      "license_boundary"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "versioned-transition-registry",
+      "path": "contracts/emergency-udg-aecc-transition-registry/examples/versioned-transition-registry.json",
+      "description": "Synthetic registry snapshot with explicit UDG and AECC version windows and stream compatibility metadata."
+    },
+    {
+      "name": "validation-pass",
+      "path": "contracts/emergency-udg-aecc-transition-registry/examples/validation-pass.json",
+      "description": "Synthetic compatibility validation example that passes for a supported pricing year and stream."
+    },
+    {
+      "name": "validation-fail",
+      "path": "contracts/emergency-udg-aecc-transition-registry/examples/validation-fail.json",
+      "description": "Synthetic compatibility validation example that fails for an unsupported pricing year and stream combination."
+    },
+    {
+      "name": "diagnostics",
+      "path": "contracts/emergency-udg-aecc-transition-registry/examples/diagnostics.json",
+      "description": "Synthetic diagnostics example covering missing classification, no-silent-translation, and metadata-only checks."
+    },
+    {
+      "name": "no-proprietary-payload-boundary",
+      "path": "contracts/emergency-udg-aecc-transition-registry/examples/no-proprietary-payload-boundary.json",
+      "description": "Synthetic boundary declaration for fixtures that must not contain proprietary payloads or licensed code rows."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "entry_id": "no-proprietary-payload-boundary",
+  "entry_type": "no_proprietary_payload_boundary_record",
+  "boundary": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "contains_restricted_payload": false,
+    "allowed_content": [
+      "version labels",
+      "pricing-year windows",
+      "stream compatibility labels",
+      "source URLs",
+      "retrieval dates",
+      "checksums",
+      "local placeholder references"
+    ],
+    "disallowed_content": [
+      "UDG source tables",
+      "AECC source tables",
+      "mapping rows",
+      "grouper logic",
+      "grouper binaries",
+      "patient data",
+      "operational extracts"
+    ],
+    "local_only_roots": [
+      "archive/ihacpa/raw/",
+      "archive/ihacpa/local/"
+    ],
+    "translation_policy": "no_silent_translation"
+  },
+  "notes": "Synthetic boundary declaration only. Restricted payloads stay local and out of the committed contract bundle."
+}

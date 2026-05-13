@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "emergency_udg_aecc_transition_registry_20260512",
+  "command": "emergency-transition-registry list --pricing-year 2026-27 --stream emergency_department --metadata-only",
+  "mode": "registry-entries",
+  "status": "success",
+  "discovered_at": "2026-05-12T00:00:00Z",
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic registry snapshot for contract testing."
+  },
+  "summary": {
+    "registry_entries": 3,
+    "proprietary_payloads": 0,
+    "licensed_table_rows": 0
+  },
+  "registry_entries": [
+    {
+      "entry_id": "udg_transition_window_2025_26",
+      "entry_type": "transition_window_record",
+      "classification_system": "UDG",
+      "version_label": "Synthetic UDG transition window",
+      "supported_pricing_years": [
+        "2025-26"
+      ],
+      "stream_scope": [
+        "emergency_department"
+      ],
+      "transition_mode": "shadow",
+      "status": "metadata_only",
+      "source_ref": {
+        "source_manifest_path": "manifests/udg-transition-window.json",
+        "source_url": "https://example.invalid/ihacpa/emergency/udg"
+      },
+      "notes": "Synthetic metadata-only UDG record. No UDG table rows or proprietary payloads are included."
+    },
+    {
+      "entry_id": "aecc_active_window_2026_27",
+      "entry_type": "versioned_classification_record",
+      "classification_system": "AECC",
+      "version_label": "Synthetic AECC active window",
+      "supported_pricing_years": [
+        "2026-27"
+      ],
+      "stream_scope": [
+        "emergency_department",
+        "emergency_service"
+      ],
+      "transition_mode": "active",
+      "status": "metadata_only",
+      "source_ref": {
+        "source_manifest_path": "manifests/aecc-active-window.json",
+        "source_url": "https://example.invalid/ihacpa/emergency/aecc"
+      },
+      "notes": "Synthetic metadata-only AECC record. No AECC table rows or proprietary payloads are included."
+    },
+    {
+      "entry_id": "emergency_stream_compatibility_profile",
+      "entry_type": "stream_compatibility_record",
+      "label": "Emergency stream compatibility profile",
+      "allowed_streams": [
+        "emergency_department",
+        "emergency_service"
+      ],
+      "disallowed_streams": [
+        "inpatient",
+        "outpatient"
+      ],
+      "status": "metadata_only",
+      "notes": "Stream compatibility is declared separately from pricing validation."
+    }
+  ],
+  "compatibility_profiles": [
+    {
+      "profile_id": "udg_shadow_transition_2025_26",
+      "supported_years": [
+        "2025-26"
+      ],
+      "supported_streams": [
+        "emergency_department"
+      ],
+      "basis": "synthetic_example",
+      "state_when_supported": "pass"
+    },
+    {
+      "profile_id": "aecc_active_2026_27",
+      "supported_years": [
+        "2026-27"
+      ],
+      "supported_streams": [
+        "emergency_department",
+        "emergency_service"
+      ],
+      "basis": "synthetic_example",
+      "state_when_supported": "pass"
+    }
+  ],
+  "outputs": {
+    "registry_catalog_path": "contracts/emergency-udg-aecc-transition-registry/examples/versioned-transition-registry.json",
+    "review_required": true,
+    "write_mode": "deferred"
+  }
+}
