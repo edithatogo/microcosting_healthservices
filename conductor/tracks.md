@@ -296,25 +296,25 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Java/JVM Binding**
+- [~] **Track: Kotlin/JVM Binding**
 *Link: [./tracks/java_jvm_binding_20260512/](./tracks/java_jvm_binding_20260512/)*
 *Gate: support enterprise JVM consumers through service, JNI/JNA, C ABI, or Arrow/Parquet interop with shared fixture validation.*
 
 ---
 
-- [ ] **Track: SQL and DuckDB Integration**
+- [x] **Track: SQL and DuckDB Integration**
 *Link: [./tracks/duckdb_sql_binding_20260512/](./tracks/duckdb_sql_binding_20260512/)*
 *Gate: support analytical SQL workflows through table schemas and shared-core execution without hand-copied SQL formulas.*
 
 ---
 
-- [ ] **Track: SAS Interoperability**
+- [x] **Track: SAS Interoperability**
 *Link: [./tracks/sas_interop_binding_20260512/](./tracks/sas_interop_binding_20260512/)*
 *Gate: support SAS reference comparison and import/export workflows without creating a separate SAS formula implementation.*
 
 ---
 
-- [ ] **Track: Power Platform Binding**
+- [x] **Track: Power Platform Binding**
 *Link: [./tracks/power_platform_binding_20260512/](./tracks/power_platform_binding_20260512/)*
 *Gate: publish Power Platform orchestration as a managed solution/custom connector consumer of the shared calculator contract, never as a formula implementation.*
 
