@@ -320,31 +320,31 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Cost Bucket Registry**
+- [x] **Track: Cost Bucket Registry**
 *Link: [./tracks/cost_bucket_registry_20260512/](./tracks/cost_bucket_registry_20260512/)*
 *Gate: represent public IHACPA/NHCDC cost bucket definitions, mappings, caveats, and local overlay references without bundling confidential submissions.*
 
 ---
 
-- [ ] **Track: NHCDC Cost Report Ingestion**
+- [x] **Track: NHCDC Cost Report Ingestion**
 *Link: [./tracks/nhcdc_cost_report_ingestion_20260512/](./tracks/nhcdc_cost_report_ingestion_20260512/)*
 *Gate: ingest public NHCDC cost report appendices and data request specifications with provenance while distinguishing aggregate reports from patient-level costing data.*
 
 ---
 
-- [ ] **Track: AHPCS Costing Process Model**
+- [x] **Track: AHPCS Costing Process Model**
 *Link: [./tracks/ahpcs_costing_process_model_20260512/](./tracks/ahpcs_costing_process_model_20260512/)*
 *Gate: model AHPCS costing-process concepts as validation aids for costing studies without claiming official compliance certification.*
 
 ---
 
-- [ ] **Track: Cost Bucket Analytics Tutorials**
+- [x] **Track: Cost Bucket Analytics Tutorials**
 *Link: [./tracks/cost_bucket_analytics_tutorials_20260512/](./tracks/cost_bucket_analytics_tutorials_20260512/)*
 *Gate: publish synthetic and public-safe cost bucket tutorials for benchmarking, cost-versus-NWAU studies, and local mapping overlays.*
 
 ---
 
-- [ ] **Track: Roadmap Portfolio Governance Backfill**
+- [x] **Track: Roadmap Portfolio Governance Backfill**
 *Link: [./tracks/roadmap_portfolio_governance_backfill_20260512/](./tracks/roadmap_portfolio_governance_backfill_20260512/)*
 *Gate: backfill class, dependency, explicit contract, current-state, and completion-evidence metadata across the expanded Conductor roadmap before further broad implementation claims.*
 
