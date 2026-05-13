@@ -1,0 +1,51 @@
+{
+  "binding_bundle_id": "go_binding_contract_20260513",
+  "entry_id": "go-binding-diagnostics-pass",
+  "entry_type": "diagnostic_record",
+  "diagnostics": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "contract_alignment",
+        "status": "pass",
+        "message": "Go request and response fields align with the public calculator contract."
+      },
+      {
+        "id": "cli_arrow_primary",
+        "status": "pass",
+        "message": "CLI and Arrow-file handoff are the primary paths."
+      },
+      {
+        "id": "service_fallback",
+        "status": "pass",
+        "message": "Service fallback is declared."
+      },
+      {
+        "id": "fixture_gates_synthetic_only",
+        "status": "pass",
+        "message": "Committed fixtures stay synthetic and metadata only."
+      }
+    ],
+    "summary": {
+      "passed": 4,
+      "failed": 0,
+      "blocked": 0
+    },
+    "notes": "Synthetic diagnostics metadata only."
+  },
+  "provenance": {
+    "command": "go-binding validate-diagnostics-pass",
+    "binding_bundle_id": "go_binding_contract_20260513",
+    "source_manifest_path": "contracts/go-binding/examples/diagnostics.pass.json",
+    "source_url": "https://example.invalid/contracts/go-binding",
+    "retrieved_on": "2026-05-13",
+    "sha256": "synthetic-sha256-go-binding-diagnostics-pass",
+    "bytes": 1736,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic diagnostics pass example only."
+  }
+}

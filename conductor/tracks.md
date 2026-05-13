@@ -290,7 +290,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Go Binding**
+- [x] **Track: Go Binding**
 *Link: [./tracks/go_binding_20260512/](./tracks/go_binding_20260512/)*
 *Gate: support Go services and data pipelines through shared-core or file/service contracts without formula duplication.*
 

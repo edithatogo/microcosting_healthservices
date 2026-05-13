@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "binding_id": "go_binding_20260512",
+  "surface": "go",
+  "initial_strategy": "cli-arrow-file interop",
+  "fallback_strategy": "service boundary",
+  "formula_logic_location": "rust core",
+  "go_module_status": "future-only",
+  "diagnostics": {
+    "format": "json",
+    "includes": [
+      "contract_id",
+      "fixture_id",
+      "validation_status",
+      "strategy",
+      "fallback"
+    ]
+  },
+  "provenance": {
+    "checksum_algorithm": "sha256",
+    "preserve_fields": [
+      "source_basis",
+      "fixture_id",
+      "notes"
+    ]
+  },
+  "go_module": {
+    "status": "future-only",
+    "release_gate": "contract and parity stable"
+  }
+}

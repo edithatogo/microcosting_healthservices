@@ -1,11 +1,14 @@
 {
   "track_id": "go_binding_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "in-progress",
   "track_class": "binding",
-  "current_state": "roadmap-only",
-  "primary_contract": "Track go_binding_20260512 contract",
-  "dependencies": [],
+  "current_state": "go-binding-roadmap-complete",
+  "primary_contract": "contracts/go-binding/go-binding.contract.json",
+  "dependencies": [
+    "polyglot_rust_core_roadmap_20260512",
+    "abstraction_doctrine_enforcement_20260512"
+  ],
   "completion_evidence": [
     "docs",
     "workflows",
@@ -13,6 +16,6 @@
   ],
   "publication_status": "not-applicable",
   "created_at": "2026-05-12T00:00:00Z",
-  "updated_at": "2026-05-12T00:00:00Z",
+  "updated_at": "2026-05-13T00:00:00Z",
   "description": "Finalize the Go binding roadmap for services, CLIs, and data-pipeline integration."
 }

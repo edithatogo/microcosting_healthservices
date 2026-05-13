@@ -13,3 +13,13 @@ Provide a Go integration path for services, command-line tools, and data-pipelin
 - Go roadmap identifies the initial supported integration strategy.
 - Go examples validate against shared fixtures.
 - No formula logic is implemented in Go.
+
+## Strategy Notes
+
+- Initial path: CLI / Arrow-file interop.
+- Fallback path: gRPC / service.
+- Deferred path: cgo C ABI, only after ABI stability and cross-compilation
+  requirements are documented and met.
+- The Go surface may define request and response structs aligned to the public
+  contract, but it may not duplicate any formula logic from the shared Rust
+  core.

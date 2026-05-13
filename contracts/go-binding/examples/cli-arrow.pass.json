@@ -1,0 +1,81 @@
+{
+  "binding_bundle_id": "go_binding_contract_20260513",
+  "entry_id": "go-binding-cli-arrow-pass",
+  "entry_type": "go_binding_execution",
+  "request": {
+    "schema_version": "1.0",
+    "calculator_id": "outpatients",
+    "pricing_year": "2025",
+    "input_schema_version": "1.0",
+    "output_schema_version": "1.0",
+    "mode": "arrow-file",
+    "input_path": "./fixtures/outpatients/input.arrow",
+    "output_path": "./fixtures/outpatients/output.arrow",
+    "arrow_input_path": "./fixtures/outpatients/input.arrow",
+    "arrow_output_path": "./fixtures/outpatients/output.arrow",
+    "correlation_id": "go-binding-cli-arrow-pass",
+    "metadata": {
+      "source": "synthetic",
+      "transport": "arrow-file"
+    },
+    "fixture_gate": "local_only_licensed_assets"
+  },
+  "response": {
+    "schema_version": "1.0",
+    "calculator_id": "outpatients",
+    "pricing_year": "2025",
+    "mode": "arrow-file",
+    "success": true,
+    "status": "fallback-pass",
+    "message": "CLI/Arrow-file fallback accepted for batch handoff.",
+    "warnings": [
+      "Arrow-file fallback is for offline or batch use and must stay transport-only."
+    ],
+    "errors": [],
+    "diagnostics": {
+      "status": "pass",
+      "checks": [
+        {
+          "id": "fallback_mode_declared",
+          "status": "pass",
+          "message": "The Arrow-file fallback mode is explicitly declared."
+        },
+        {
+          "id": "file_boundary_inspectable",
+          "status": "pass",
+          "message": "The local file boundary is inspectable and fixture-testable."
+        },
+        {
+          "id": "no_formula_duplication",
+          "status": "pass",
+          "message": "The example does not introduce calculator logic."
+        }
+      ],
+      "summary": {
+        "passed": 3,
+        "failed": 0,
+        "blocked": 0
+      },
+      "notes": "Synthetic diagnostics example only."
+    },
+    "provenance": {
+      "command": "go-binding validate-cli-arrow-pass",
+      "binding_bundle_id": "go_binding_contract_20260513",
+      "source_manifest_path": "contracts/go-binding/examples/cli-arrow.pass.json",
+      "source_url": "https://example.invalid/contracts/go-binding",
+      "retrieved_on": "2026-05-13",
+      "sha256": "synthetic-sha256-go-binding-cli-arrow-pass",
+      "bytes": 2408,
+      "checksum_algorithm": "sha256"
+    },
+    "output_path": "./fixtures/outpatients/output.arrow",
+    "arrow_output_path": "./fixtures/outpatients/output.arrow",
+    "fixture_gate_state": "pass",
+    "module_readiness_state": "ready"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic CLI and Arrow-file fallback example only."
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "binding_bundle_id": "go_binding_contract_20260513",
+  "entry_id": "go-binding-diagnostics-fail",
+  "entry_type": "diagnostic_record",
+  "diagnostics": {
+    "status": "fail",
+    "checks": [
+      {
+        "id": "fixture_gate_blocked",
+        "status": "blocked",
+        "message": "The selected fixture gate is not open for release promotion."
+      },
+      {
+        "id": "module_not_ready",
+        "status": "fail",
+        "message": "The Go module is still scaffold-ready rather than ready."
+      },
+      {
+        "id": "error_codes_present",
+        "status": "pass",
+        "message": "Failure conditions emit explicit machine-readable error codes."
+      }
+    ],
+    "summary": {
+      "passed": 1,
+      "failed": 1,
+      "blocked": 1
+    },
+    "notes": "Synthetic diagnostics failure example only."
+  },
+  "provenance": {
+    "command": "go-binding validate-diagnostics-fail",
+    "binding_bundle_id": "go_binding_contract_20260513",
+    "source_manifest_path": "contracts/go-binding/examples/diagnostics.fail.json",
+    "source_url": "https://example.invalid/contracts/go-binding",
+    "retrieved_on": "2026-05-13",
+    "sha256": "synthetic-sha256-go-binding-diagnostics-fail",
+    "bytes": 1760,
+    "checksum_algorithm": "sha256"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic diagnostics failure example only."
+  }
+}
