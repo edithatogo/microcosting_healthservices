@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "diagnostic_id": "compatibility_diagnostics_udg_aecc_transition_20260512",
+  "fixture_id": "synthetic_udg_transition_parity_2024_25",
+  "fixture_type": "synthetic",
+  "classifier_family": "UDG",
+  "classifier_version": "2024.1",
+  "mapping_table_version": "2024.1",
+  "pricing_year": "2024-25",
+  "stream": "emergency",
+  "compatibility_state": "pass",
+  "checks": [
+    {
+      "id": "family_year_alignment",
+      "status": "pass",
+      "severity": "error",
+      "message": "The fixture declares a UDG family and a UDG-era pricing year."
+    },
+    {
+      "id": "transition_authority_declared",
+      "status": "pass",
+      "severity": "error",
+      "message": "The fixture explicitly names UDG as the authority for the comparison being run."
+    },
+    {
+      "id": "downstream_nwau_declared",
+      "status": "pass",
+      "severity": "error",
+      "message": "The fixture declares the emergency NWAU pathway that should follow from the class result."
+    },
+    {
+      "id": "local_official_placeholder_is_local_only",
+      "status": "pass",
+      "severity": "warning",
+      "message": "The local official fixture is represented as a placeholder only and must stay inside the licensed environment."
+    },
+    {
+      "id": "no_proprietary_payload_boundary",
+      "status": "pass",
+      "severity": "error",
+      "message": "No proprietary mapping tables, raw official payloads, or production extracts are present."
+    }
+  ],
+  "warnings": [
+    "Local official fixtures are intentionally unresolved in shared repositories.",
+    "Transition-year comparisons must always declare the authoritative family."
+  ],
+  "notes": "Synthetic diagnostics confirm the fixture manifest is compatible with the declared pricing year and that the local official placeholder remains local-only."
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "summary_id": "downstream_nwau_behavior_summary_2024_25",
+  "fixture_id": "synthetic_udg_transition_parity_2024_25",
+  "fixture_type": "synthetic",
+  "classifier_family": "UDG",
+  "pricing_year": "2024-25",
+  "stream": "emergency",
+  "nwau_path": "emergency_udg_pricing_path",
+  "behavior_summary": [
+    {
+      "rule": "Matching family and pricing year",
+      "effect": "The declared emergency class is allowed to feed the pricing-year-specific NWAU pathway."
+    },
+    {
+      "rule": "Mixed family-year input",
+      "effect": "Validation fails before downstream NWAU behavior is inferred."
+    },
+    {
+      "rule": "Transition-year fixture",
+      "effect": "The declared authoritative family controls the comparison for the fixture."
+    }
+  ],
+  "compatibility_state": "pass",
+  "notes": "This summary describes downstream emergency NWAU behavior without reproducing licensed class tables or proprietary outputs."
+}

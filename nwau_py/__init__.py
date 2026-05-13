@@ -9,6 +9,10 @@ from __future__ import annotations
 from importlib import import_module
 
 __all__ = [
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ASSERTION_MODES",
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ROWS",
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_TYPES",
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_VERSION_MATRIX",
     "EMERGENCY_CLASSIFICATION_REQUIRED_FIELDS",
     "EMERGENCY_CLASSIFICATION_SOURCE_REFS",
     "EMERGENCY_CLASSIFICATION_SYSTEMS",
@@ -45,6 +49,9 @@ __all__ = [
     "CodingSetRegistryError",
     "CodingSetVersion",
     "EmergencyClassificationCompatibilityResult",
+    "EmergencyClassificationParityFixtureCompatibilityResult",
+    "EmergencyClassificationParityFixtureError",
+    "EmergencyClassificationParityFixtureRecord",
     "EmergencyClassificationRecord",
     "EmergencyClassificationRegistryError",
     "EmergencyClassificationVersion",
@@ -68,6 +75,7 @@ __all__ = [
     "ar_drg_version_parity_fixtures",
     "build_ar_drg_parity_fixture_reference",
     "build_classification_requirement",
+    "build_emergency_classification_parity_fixture_reference",
     "build_emergency_code_mapping_asset_reference",
     "build_emergency_code_mapping_bundle_record",
     "build_emergency_external_reference",
@@ -79,6 +87,7 @@ __all__ = [
     "classification_validation",
     "coding_set_registry",
     "diagnose_missing_licensed_assets",
+    "emergency_classification_parity_fixtures",
     "emergency_code_mapping_pipeline",
     "emergency_grouper",
     "emergency_transition_registry",
@@ -87,6 +96,7 @@ __all__ = [
     "ensure_coding_set_compatibility",
     "ensure_commit_safe_exclusion",
     "ensure_emergency_classification_compatibility",
+    "ensure_emergency_classification_parity_fixture_scope",
     "ensure_emergency_code_mapping_bundle_compatibility",
     "ensure_emergency_grouper_compatibility",
     "ensure_licensed_product_compatibility",
@@ -101,6 +111,7 @@ __all__ = [
     "get_coding_set_restriction",
     "get_coding_set_version",
     "get_emergency_classification_name",
+    "get_emergency_classification_parity_fixture_record",
     "get_emergency_classification_record",
     "get_emergency_classification_status",
     "get_emergency_classification_version",
@@ -130,6 +141,7 @@ __all__ = [
     "list_ar_drg_mapping_records",
     "list_ar_drg_parity_fixture_records",
     "list_coding_set_families",
+    "list_emergency_classification_parity_fixture_records",
     "list_emergency_classification_records",
     "list_emergency_code_mapping_bundle_records",
     "list_emergency_transition_periods",
@@ -138,6 +150,8 @@ __all__ = [
     "normalize_emergency_classification_system",
     "register_ar_drg_local_licensed_parity_fixture_reference",
     "register_ar_drg_synthetic_parity_fixture",
+    "register_emergency_local_official_classification_parity_fixture_reference",
+    "register_emergency_synthetic_classification_parity_fixture",
     "resolve_licensed_product_env_path",
     "score_readmission",
     "summarize_emergency_code_mapping_dry_run",
@@ -151,6 +165,7 @@ __all__ = [
     "validate_classification_version",
     "validate_coding_set_compatibility",
     "validate_emergency_classification_compatibility",
+    "validate_emergency_classification_parity_fixture_scope",
     "validate_emergency_code_mapping_bundle_compatibility",
     "validate_emergency_grouper_compatibility",
     "validate_emergency_input",
@@ -179,6 +194,66 @@ _LAZY_ATTRS = {
     "ar_drg_mapping_registry": (".ar_drg_mapping_registry", None),
     "ar_drg_version_parity_fixtures": (".ar_drg_version_parity_fixtures", None),
     "emergency_transition_registry": (".emergency_transition_registry", None),
+    "emergency_classification_parity_fixtures": (
+        ".emergency_classification_parity_fixtures",
+        None,
+    ),
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ASSERTION_MODES": (
+        ".emergency_classification_parity_fixtures",
+        "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ASSERTION_MODES",
+    ),
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ROWS": (
+        ".emergency_classification_parity_fixtures",
+        "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_ROWS",
+    ),
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_TYPES": (
+        ".emergency_classification_parity_fixtures",
+        "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_TYPES",
+    ),
+    "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_VERSION_MATRIX": (
+        ".emergency_classification_parity_fixtures",
+        "EMERGENCY_CLASSIFICATION_PARITY_FIXTURE_VERSION_MATRIX",
+    ),
+    "EmergencyClassificationParityFixtureCompatibilityResult": (
+        ".emergency_classification_parity_fixtures",
+        "EmergencyClassificationParityFixtureCompatibilityResult",
+    ),
+    "EmergencyClassificationParityFixtureError": (
+        ".emergency_classification_parity_fixtures",
+        "EmergencyClassificationParityFixtureError",
+    ),
+    "EmergencyClassificationParityFixtureRecord": (
+        ".emergency_classification_parity_fixtures",
+        "EmergencyClassificationParityFixtureRecord",
+    ),
+    "build_emergency_classification_parity_fixture_reference": (
+        ".emergency_classification_parity_fixtures",
+        "build_emergency_classification_parity_fixture_reference",
+    ),
+    "ensure_emergency_classification_parity_fixture_scope": (
+        ".emergency_classification_parity_fixtures",
+        "ensure_emergency_classification_parity_fixture_scope",
+    ),
+    "get_emergency_classification_parity_fixture_record": (
+        ".emergency_classification_parity_fixtures",
+        "get_emergency_classification_parity_fixture_record",
+    ),
+    "list_emergency_classification_parity_fixture_records": (
+        ".emergency_classification_parity_fixtures",
+        "list_emergency_classification_parity_fixture_records",
+    ),
+    "register_emergency_local_official_classification_parity_fixture_reference": (
+        ".emergency_classification_parity_fixtures",
+        "register_emergency_local_official_classification_parity_fixture_reference",
+    ),
+    "register_emergency_synthetic_classification_parity_fixture": (
+        ".emergency_classification_parity_fixtures",
+        "register_emergency_synthetic_classification_parity_fixture",
+    ),
+    "validate_emergency_classification_parity_fixture_scope": (
+        ".emergency_classification_parity_fixtures",
+        "validate_emergency_classification_parity_fixture_scope",
+    ),
     "emergency_code_mapping_pipeline": (".emergency_code_mapping_pipeline", None),
     "emergency_grouper": (".emergency_grouper", None),
     "EMERGENCY_GROUPER_REFERENCE_TYPES": (

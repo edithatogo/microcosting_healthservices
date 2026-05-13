@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "boundary_id": "no_proprietary_payload_boundary_20260512",
+  "boundary_type": "no_proprietary_payload",
+  "classification": "synthetic",
+  "contains_phi": false,
+  "allowed_contents": [
+    "fixture metadata",
+    "synthetic source fields",
+    "compatibility diagnostics",
+    "downstream NWAU behavior summaries",
+    "local-only placeholders"
+  ],
+  "prohibited_contents": [
+    "licensed mapping tables",
+    "raw official reference payloads",
+    "production extracts",
+    "patient data",
+    "classifier internals"
+  ],
+  "enforcement": {
+    "mode": "block_on_restricted_payloads",
+    "scope": "committed_examples"
+  },
+  "notes": "This boundary keeps the committed contract fixtures safe for local development and review while preserving the line between synthetic metadata and licensed official assets."
+}

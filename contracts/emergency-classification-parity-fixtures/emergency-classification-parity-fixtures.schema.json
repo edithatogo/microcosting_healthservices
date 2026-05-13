@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/emergency-classification-parity-fixtures/emergency-classification-parity-fixtures.schema.json",
+  "title": "Emergency classification parity fixtures contract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "contract_id", "privacy"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "tool": {
+      "type": "object"
+    },
+    "schema": {
+      "type": "object"
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["classification", "contains_phi"],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "const": "synthetic"
+        },
+        "contains_phi": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "commands": {
+      "type": "array"
+    },
+    "fixture_manifest_schema": {
+      "type": "object"
+    },
+    "compatibility_diagnostics_schema": {
+      "type": "object"
+    },
+    "downstream_nwau_behavior_summary_schema": {
+      "type": "object"
+    },
+    "fixture_surface_types": {
+      "type": "array"
+    },
+    "compatibility_rules": {
+      "type": "array"
+    },
+    "outputs": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "examples": {
+      "type": "array"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "fixture_id": "synthetic_udg_transition_parity_2024_25",
+  "fixture_version": "1.0",
+  "fixture_type": "synthetic",
+  "classifier_family": "UDG",
+  "classifier_version": "2024.1",
+  "mapping_table_version": "2024.1",
+  "pricing_year": "2024-25",
+  "stream": "emergency",
+  "raw_source_fields": {
+    "arrival_mode": "walk_in",
+    "triage_category": "2",
+    "presentation_time_band": "after_hours",
+    "care_location": "emergency_department",
+    "visit_type": "new_presentation"
+  },
+  "expected_class_result": {
+    "classification_label": "UDG parity class",
+    "comparison_mode": "precomputed",
+    "transition_authority": "UDG",
+    "derived_assertion_supported": true
+  },
+  "expected_nwau_outputs": {
+    "pricing_year": "2024-25",
+    "nwau_path": "emergency_udg_pricing_path",
+    "behavior_summary": "The declared UDG class feeds the emergency NWAU pathway for the 2024-25 pricing year."
+  },
+  "validation_status": "pass",
+  "provenance": {
+    "source_manifest_path": "contracts/emergency-classification-parity-fixtures/examples/synthetic-fixture-manifest.json",
+    "source_url": null,
+    "retrieved_on": "2026-05-12",
+    "sha256": "synthetic",
+    "bytes": 0,
+    "license_boundary": "synthetic-only"
+  }
+}

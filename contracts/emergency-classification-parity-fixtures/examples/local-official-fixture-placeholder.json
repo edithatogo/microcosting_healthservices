@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "fixture_id": "local_official_aecc_reference_placeholder_2025_26",
+  "fixture_version": "1.0",
+  "fixture_type": "local_official",
+  "classifier_family": "AECC",
+  "classifier_version": "2025.0",
+  "mapping_table_version": "2025.0",
+  "pricing_year": "2025-26",
+  "stream": "emergency",
+  "local_only": true,
+  "local_reference_uri": "file:///LOCAL-ONLY/licensed/emergency-classification/aecc-reference-fixture.json",
+  "placeholder_state": "not_published",
+  "raw_source_fields": {
+    "arrival_mode": "licensed-local-only",
+    "triage_category": "redacted",
+    "presentation_time_band": "redacted"
+  },
+  "expected_class_result": {
+    "classification_label": "AECC reference held locally",
+    "comparison_mode": "local-only",
+    "transition_authority": "AECC"
+  },
+  "expected_nwau_outputs": {
+    "pricing_year": "2025-26",
+    "nwau_path": "emergency_aecc_pricing_path",
+    "behavior_summary": "The reference fixture stays inside the licensed workspace and is only used to confirm the local AECC pricing-year pathway."
+  },
+  "validation_status": "unknown",
+  "provenance": {
+    "source_manifest_path": "contracts/emergency-classification-parity-fixtures/examples/local-official-fixture-placeholder.json",
+    "source_url": null,
+    "retrieved_on": "2026-05-12",
+    "sha256": "local-only-placeholder",
+    "bytes": 0,
+    "license_boundary": "local-only"
+  }
+}

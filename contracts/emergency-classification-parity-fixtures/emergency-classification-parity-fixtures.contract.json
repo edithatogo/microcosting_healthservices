@@ -1,0 +1,388 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "emergency_classification_parity_fixtures_20260512",
+  "tool": {
+    "name": "nwau_py.emergency_classification_parity_fixtures",
+    "package": "nwau_py",
+    "entry_point": "nwau_py.emergency_classification_parity_fixtures"
+  },
+  "schema": {
+    "path": "contracts/emergency-classification-parity-fixtures/emergency-classification-parity-fixtures.schema.json"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic metadata-only contract. Local-only official fixtures stay user-supplied and are not published outside the licensed environment."
+  },
+  "commands": [
+    {
+      "name": "list_emergency_classification_fixture_manifests",
+      "mode": "fixture-manifest",
+      "status": "stable",
+      "inputs": [
+        "fixture_scope",
+        "pricing_year",
+        "classifier_family",
+        "metadata_only"
+      ],
+      "outputs": [
+        "fixture_manifests",
+        "fixture_summary",
+        "provenance"
+      ],
+      "notes": "List synthetic emergency classification fixture manifests without embedding proprietary classifier payloads."
+    },
+    {
+      "name": "validate_emergency_classification_compatibility",
+      "mode": "compatibility-diagnostics",
+      "status": "preview",
+      "inputs": [
+        "fixture_id",
+        "pricing_year",
+        "stream",
+        "classifier_family",
+        "classifier_version",
+        "mapping_table_version",
+        "validation_basis"
+      ],
+      "outputs": [
+        "validation_report",
+        "compatibility_state",
+        "diagnostics"
+      ],
+      "notes": "Check UDG or AECC family alignment, declared transition windows, and compatibility with the requested pricing year."
+    },
+    {
+      "name": "summarize_downstream_emergency_nwau_behavior",
+      "mode": "downstream-nwau-summary",
+      "status": "preview",
+      "inputs": [
+        "fixture_id",
+        "pricing_year",
+        "stream",
+        "output_basis"
+      ],
+      "outputs": [
+        "behavior_summary",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Describe the downstream emergency NWAU effect that follows from the declared classification result without exposing licensed payloads."
+    },
+    {
+      "name": "resolve_local_official_fixture_reference",
+      "mode": "local-official-reference-resolution",
+      "status": "preview",
+      "inputs": [
+        "local_reference_uri",
+        "reference_type",
+        "access_mode"
+      ],
+      "outputs": [
+        "reference_manifest",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Record a local-only official fixture placeholder for a licensed environment without bundling restricted content."
+    },
+    {
+      "name": "describe_no_proprietary_payload_boundary",
+      "mode": "boundary-check",
+      "status": "stable",
+      "inputs": [
+        "boundary_profile",
+        "access_mode"
+      ],
+      "outputs": [
+        "boundary_report",
+        "diagnostics",
+        "provenance"
+      ],
+      "notes": "Declare that proprietary mapping tables, raw official reference payloads, and production extracts remain excluded from committed fixtures."
+    }
+  ],
+  "fixture_manifest_schema": {
+    "version": "1.0",
+    "description": "Versioned manifest shape for emergency classification parity fixtures. Each manifest is metadata only and declares the fixture type, classifier family, mapping version, pricing year, stream, raw source fields, expected class result, downstream NWAU behavior, and provenance.",
+    "required_fields": [
+      "fixture_id",
+      "fixture_version",
+      "fixture_type",
+      "classifier_family",
+      "classifier_version",
+      "mapping_table_version",
+      "pricing_year",
+      "stream",
+      "raw_source_fields",
+      "expected_class_result",
+      "expected_nwau_outputs",
+      "validation_status",
+      "provenance"
+    ],
+    "field_definitions": [
+      {
+        "name": "fixture_id",
+        "type": "string",
+        "purpose": "Stable identifier for the parity fixture."
+      },
+      {
+        "name": "fixture_version",
+        "type": "string",
+        "purpose": "Fixture release version used for deterministic diffing."
+      },
+      {
+        "name": "fixture_type",
+        "type": "string",
+        "purpose": "Declared fixture class, either synthetic or local_official."
+      },
+      {
+        "name": "classifier_family",
+        "type": "string",
+        "purpose": "Declared emergency classification family, such as UDG or AECC."
+      },
+      {
+        "name": "classifier_version",
+        "type": "string",
+        "purpose": "Classifier version bound to the fixture."
+      },
+      {
+        "name": "mapping_table_version",
+        "type": "string",
+        "purpose": "Mapping-table version bound to the fixture."
+      },
+      {
+        "name": "pricing_year",
+        "type": "string",
+        "purpose": "Pricing year that determines the authoritative emergency classification behavior."
+      },
+      {
+        "name": "stream",
+        "type": "string",
+        "purpose": "Declared emergency stream or episode scope under test."
+      },
+      {
+        "name": "raw_source_fields",
+        "type": "object",
+        "purpose": "Synthetic source fields that drive classification without embedding proprietary tables."
+      },
+      {
+        "name": "expected_class_result",
+        "type": "object",
+        "purpose": "Expected emergency classification result or comparison outcome."
+      },
+      {
+        "name": "expected_nwau_outputs",
+        "type": "object",
+        "purpose": "Expected downstream emergency NWAU-facing behavior for the declared pricing year."
+      },
+      {
+        "name": "validation_status",
+        "type": "string",
+        "purpose": "Declared validation state such as pass, fail, or unknown."
+      },
+      {
+        "name": "provenance",
+        "type": "object",
+        "purpose": "Metadata for source manifest paths, source URLs, retrieval date, local-only reference location, and checksums."
+      }
+    ]
+  },
+  "compatibility_diagnostics_schema": {
+    "version": "1.0",
+    "description": "Versioned diagnostics shape for compatibility checks across UDG and AECC fixtures. Reports family-year alignment, transition-year authority, downstream NWAU behavior, and boundary checks.",
+    "required_fields": [
+      "diagnostic_id",
+      "fixture_id",
+      "pricing_year",
+      "stream",
+      "compatibility_state",
+      "checks"
+    ],
+    "field_definitions": [
+      {
+        "name": "diagnostic_id",
+        "type": "string",
+        "purpose": "Stable identifier for the diagnostics report."
+      },
+      {
+        "name": "compatibility_state",
+        "type": "string",
+        "purpose": "Declared compatibility state such as pass, fail, or unknown."
+      },
+      {
+        "name": "checks",
+        "type": "array[object]",
+        "purpose": "Structured compatibility checks with outcomes and explanatory notes."
+      }
+    ]
+  },
+  "downstream_nwau_behavior_summary_schema": {
+    "version": "1.0",
+    "description": "Versioned summary shape for downstream emergency NWAU behavior. Captures how the declared class result affects the pricing-year pathway without exposing restricted payloads.",
+    "required_fields": [
+      "summary_id",
+      "fixture_id",
+      "pricing_year",
+      "stream",
+      "nwau_path",
+      "behavior_summary"
+    ],
+    "field_definitions": [
+      {
+        "name": "summary_id",
+        "type": "string",
+        "purpose": "Stable identifier for the downstream NWAU behavior summary."
+      },
+      {
+        "name": "nwau_path",
+        "type": "string",
+        "purpose": "Declared downstream emergency NWAU pathway."
+      },
+      {
+        "name": "behavior_summary",
+        "type": "array[object]",
+        "purpose": "Structured behavior statements describing the expected pricing-year effect."
+      }
+    ]
+  },
+  "fixture_surface_types": [
+    {
+      "id": "synthetic_fixture_manifest",
+      "label": "Synthetic fixture manifest",
+      "purpose": "Metadata-only declaration of a parity fixture, including family, pricing year, source fields, expected classification, and downstream NWAU behavior."
+    },
+    {
+      "id": "local_only_official_fixture_placeholder",
+      "label": "Local-only official fixture placeholder",
+      "purpose": "Local placeholder for a user-supplied official reference fixture that must remain inside the licensed environment."
+    },
+    {
+      "id": "compatibility_diagnostics_record",
+      "label": "Compatibility diagnostics record",
+      "purpose": "Synthetic validation and boundary diagnostics for family-year alignment, transition-year authority, and local-only handling."
+    },
+    {
+      "id": "downstream_nwau_behavior_summary_record",
+      "label": "Downstream NWAU behavior summary",
+      "purpose": "Synthetic summary of the emergency NWAU-facing effect that follows from the declared classification outcome."
+    },
+    {
+      "id": "no_proprietary_payload_boundary_record",
+      "label": "No proprietary payload boundary record",
+      "purpose": "Explicit boundary declaration for fixtures that must not contain proprietary mapping payloads, licensed tables, or restricted outputs."
+    }
+  ],
+  "compatibility_rules": [
+    {
+      "id": "metadata_only",
+      "label": "Metadata-only fixtures",
+      "severity": "error",
+      "description": "Reject fixtures that embed proprietary classifier payloads, licensed tables, or production extracts."
+    },
+    {
+      "id": "fixture_type_declared",
+      "label": "Declared fixture type",
+      "severity": "error",
+      "description": "Require each fixture to declare whether it is synthetic or local_official."
+    },
+    {
+      "id": "family_version_alignment",
+      "label": "Family and version alignment",
+      "severity": "error",
+      "description": "Require each fixture to declare a classifier family, classifier version, and mapping-table version that agree with the selected pricing year."
+    },
+    {
+      "id": "pricing_year_alignment",
+      "label": "Pricing-year alignment",
+      "severity": "error",
+      "description": "Reject fixtures that mix UDG and AECC families across incompatible pricing-year windows unless a transition rule is explicitly declared."
+    },
+    {
+      "id": "transition_authority_declared",
+      "label": "Declared transition authority",
+      "severity": "error",
+      "description": "Require transition-year fixtures to declare which classifier family is authoritative for the comparison being run."
+    },
+    {
+      "id": "downstream_nwau_declared",
+      "label": "Declared downstream NWAU behavior",
+      "severity": "error",
+      "description": "Require each manifest to state the downstream emergency NWAU effect that corresponds to the expected class result."
+    },
+    {
+      "id": "local_reference_only",
+      "label": "Local-only official reference",
+      "severity": "warning",
+      "description": "Record official fixtures only as local placeholders or metadata-only descriptors and do not commit the restricted payload itself."
+    },
+    {
+      "id": "boundary_declared",
+      "label": "Declared payload boundary",
+      "severity": "error",
+      "description": "Require every fixture bundle to declare that proprietary payloads, licensed tables, and restricted outputs are absent."
+    },
+    {
+      "id": "no_implicit_crosswalk",
+      "label": "No implicit UDG/AECC crosswalk",
+      "severity": "error",
+      "description": "Do not infer UDG or AECC behavior unless the fixture explicitly declares the family, version, and transition authority."
+    }
+  ],
+  "outputs": {
+    "fixture_manifest_format": "json",
+    "validation_report_format": "json",
+    "diagnostic_format": "json",
+    "downstream_nwau_behavior_summary_format": "json",
+    "compatible_state": "pass",
+    "incompatible_state": "fail",
+    "unresolved_state": "unknown"
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "contract_id",
+      "fixture_id",
+      "fixture_type",
+      "pricing_year",
+      "stream",
+      "classifier_family",
+      "classifier_version",
+      "mapping_table_version",
+      "source_manifest_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "local_reference_uri",
+      "license_boundary"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "synthetic-fixture-manifest",
+      "path": "contracts/emergency-classification-parity-fixtures/examples/synthetic-fixture-manifest.json",
+      "description": "Synthetic parity fixture manifest with raw source fields, expected class result, downstream NWAU behavior, and provenance."
+    },
+    {
+      "name": "local-official-fixture-placeholder",
+      "path": "contracts/emergency-classification-parity-fixtures/examples/local-official-fixture-placeholder.json",
+      "description": "Local-only official fixture placeholder for a licensed environment that must not be redistributed."
+    },
+    {
+      "name": "compatibility-diagnostics",
+      "path": "contracts/emergency-classification-parity-fixtures/examples/compatibility-diagnostics.json",
+      "description": "Synthetic diagnostics report covering family-year alignment, transition authority, downstream NWAU, and boundary checks."
+    },
+    {
+      "name": "downstream-emergency-nwau-behavior-summary",
+      "path": "contracts/emergency-classification-parity-fixtures/examples/downstream-emergency-nwau-behavior-summary.json",
+      "description": "Synthetic summary of the emergency NWAU effect that follows from the declared classification result."
+    },
+    {
+      "name": "no-proprietary-payload-boundary",
+      "path": "contracts/emergency-classification-parity-fixtures/examples/no-proprietary-payload-boundary.json",
+      "description": "Synthetic boundary declaration that excludes proprietary payloads, licensed tables, and restricted outputs."
+    }
+  ]
+}

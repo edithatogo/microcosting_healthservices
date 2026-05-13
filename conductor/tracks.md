@@ -266,9 +266,9 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Emergency Classification Parity Fixtures**
+- [x] **Track: Emergency Classification Parity Fixtures**
 *Link: [./tracks/emergency_classification_parity_fixtures_20260512/](./tracks/emergency_classification_parity_fixtures_20260512/)*
-*Gate: validate UDG/AECC version-specific mapping and downstream emergency NWAU behavior with safe synthetic and local official fixtures.*
+*Gate: validate UDG/AECC parity fixtures only after the emergency transition registry, mapping pipeline, and grouper integration are in place, and keep synthetic and local-only licensed fixtures separate from redistributed content.*
 
 ---
 
