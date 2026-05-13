@@ -3,3 +3,4 @@
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
 - [Metadata](./metadata.json)
+- [Appropriate-Use Documentation](./appropriate_use_docs.md)
