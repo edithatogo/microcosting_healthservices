@@ -1,9 +1,9 @@
 {
   "track_id": "roadmap_portfolio_governance_backfill_20260512",
   "type": "chore",
-  "status": "new",
-  "track_class": "binding",
-  "current_state": "roadmap-only",
+  "status": "complete",
+  "track_class": "governance",
+  "current_state": "complete",
   "primary_contract": "Track roadmap_portfolio_governance_backfill_20260512 contract",
   "dependencies": [],
   "completion_evidence": [
