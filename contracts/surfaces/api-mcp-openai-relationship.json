@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-05-13T00:00:00Z",
+  "canonical_logic_owner": "rust-core",
+  "relationships": [
+    {
+      "surface": "http-api",
+      "role": "domain transport",
+      "owns_calculator_logic": false,
+      "schema_source": "contracts/canonical"
+    },
+    {
+      "surface": "mcp",
+      "role": "agent transport",
+      "owns_calculator_logic": false,
+      "schema_source": "contracts/canonical"
+    },
+    {
+      "surface": "openai-tool-adapter",
+      "role": "generated tool adapter",
+      "owns_calculator_logic": false,
+      "schema_source": "contracts/canonical",
+      "emulates_llm_endpoint": false
+    }
+  ],
+  "rules": [
+    "API, MCP, and OpenAI tools must not own formula logic.",
+    "OpenAI tool definitions are generated from canonical schemas.",
+    "The calculator service must not claim to emulate an LLM endpoint."
+  ]
+}

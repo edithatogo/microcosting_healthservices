@@ -1,0 +1,167 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-05-13T00:00:00Z",
+  "entries": [
+    {
+      "id": "runtime.rust-core",
+      "dimension": "runtime",
+      "subject": "Rust core",
+      "status": "planned",
+      "ready_for_implementation": true,
+      "owned_by": "Cline/deepseek",
+      "blocking_dependencies": [
+        "canonical_contract_foundation_20260513",
+        "support_status_matrix_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/rust-core-ga.md",
+        "validation": "planned"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "surface.cli-file",
+      "dimension": "surface",
+      "subject": "CLI/file",
+      "status": "planned",
+      "ready_for_implementation": true,
+      "owned_by": "Cline/deepseek",
+      "blocking_dependencies": [
+        "canonical_contract_foundation_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/core-contract-surfaces.md",
+        "validation": "planned"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "surface.mcp",
+      "dimension": "surface",
+      "subject": "Rust-backed MCP",
+      "status": "planned",
+      "ready_for_implementation": true,
+      "owned_by": "Cline/deepseek",
+      "blocking_dependencies": [
+        "canonical_contract_foundation_20260513",
+        "mcp_contract_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/core-contract-surfaces.md",
+        "validation": "planned"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "surface.http-api",
+      "dimension": "surface",
+      "subject": "HTTP API",
+      "status": "planned",
+      "ready_for_implementation": true,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "canonical_contract_foundation_20260513",
+        "http_api_contract_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/core-contract-surfaces.md",
+        "validation": "planned"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "language.csharp-dotnet",
+      "dimension": "language",
+      "subject": "C#/.NET",
+      "status": "planned",
+      "ready_for_implementation": true,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "http_api_contract_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/audience-language-strategy.md",
+        "validation": "planned"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "language.scala-spark",
+      "dimension": "language",
+      "subject": "Scala/Spark",
+      "status": "no_new_development",
+      "ready_for_implementation": false,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "rust_core_ga_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/audience-language-strategy.md",
+        "validation": "deferred"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "language.swift",
+      "dimension": "language",
+      "subject": "Swift",
+      "status": "no_new_development",
+      "ready_for_implementation": false,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "rust_core_ga_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/audience-language-strategy.md",
+        "validation": "deferred"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "language.go",
+      "dimension": "language",
+      "subject": "Go",
+      "status": "no_new_development",
+      "ready_for_implementation": false,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "rust_core_ga_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/audience-language-strategy.md",
+        "validation": "deferred"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "language.matlab",
+      "dimension": "language",
+      "subject": "MATLAB",
+      "status": "no_new_development",
+      "ready_for_implementation": false,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [
+        "rust_core_ga_20260513"
+      ],
+      "evidence": {
+        "source": "docs/roadmaps/audience-language-strategy.md",
+        "validation": "deferred"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "surface.sql-duckdb",
+      "dimension": "surface",
+      "subject": "SQL/DuckDB",
+      "status": "historical",
+      "ready_for_implementation": false,
+      "owned_by": "unassigned",
+      "blocking_dependencies": [],
+      "evidence": {
+        "source": "conductor/tracks.md",
+        "validation": "deprioritized"
+      },
+      "updated_at": "2026-05-13T00:00:00Z"
+    }
+  ]
+}

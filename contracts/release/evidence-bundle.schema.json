@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/release/evidence-bundle.schema.json",
+  "title": "Release evidence bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "release_id",
+    "git_commit",
+    "git_tag",
+    "packages",
+    "supported_scope",
+    "source_manifests",
+    "schema_versions",
+    "fixture_results",
+    "parity_reports",
+    "coverage",
+    "sbom",
+    "security",
+    "provenance",
+    "known_limitations",
+    "rollback"
+  ],
+  "properties": {
+    "release_id": {
+      "type": "string"
+    },
+    "git_commit": {
+      "type": "string"
+    },
+    "git_tag": {
+      "type": "string"
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supported_scope": {
+      "type": "object"
+    },
+    "source_manifests": {
+      "type": "array"
+    },
+    "schema_versions": {
+      "type": "object"
+    },
+    "fixture_results": {
+      "type": "array"
+    },
+    "parity_reports": {
+      "type": "array"
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "threshold",
+        "actual"
+      ]
+    },
+    "sbom": {
+      "type": "object"
+    },
+    "security": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "known_limitations": {
+      "type": "array"
+    },
+    "rollback": {
+      "type": "object"
+    }
+  }
+}

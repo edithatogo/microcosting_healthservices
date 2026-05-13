@@ -1,0 +1,22 @@
+{
+  "coverage": {
+    "actual": 91.2,
+    "threshold": 90.0
+  },
+  "fixture_results": [],
+  "git_commit": "synthetic",
+  "git_tag": "v0.0.0-synthetic",
+  "known_limitations": [],
+  "packages": [
+    "mchs-core"
+  ],
+  "parity_reports": [],
+  "provenance": {},
+  "release_id": "synthetic-release",
+  "rollback": {},
+  "sbom": {},
+  "schema_versions": {},
+  "security": {},
+  "source_manifests": [],
+  "supported_scope": {}
+}

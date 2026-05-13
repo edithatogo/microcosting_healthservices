@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/contracts/support/support-status.schema.json",
+  "title": "Support status entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "dimension",
+    "subject",
+    "status",
+    "evidence",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "dimension": {
+      "type": "string",
+      "enum": [
+        "stream",
+        "year",
+        "jurisdiction",
+        "surface",
+        "runtime",
+        "language",
+        "release"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "unsupported",
+        "blocked",
+        "planned",
+        "canary",
+        "opt_in",
+        "release_candidate",
+        "ga",
+        "no_new_development",
+        "historical"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "validation"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "validation": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "blocking_dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "ready_for_implementation": {
+      "type": "boolean",
+      "default": false
+    },
+    "owned_by": {
+      "type": "string",
+      "default": "unassigned"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
