@@ -368,7 +368,7 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [ ] **Track: Release Evidence Automation**
+- [x] **Track: Release Evidence Automation**
 *Link: [./tracks/release_evidence_automation_20260512/](./tracks/release_evidence_automation_20260512/)*
 *Gate: make release, package, tag, docs, workflow, and registry publication claims machine-checkable before expanding publication targets.*
 
