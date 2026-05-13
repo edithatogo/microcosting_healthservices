@@ -45,6 +45,6 @@
   "privacy": {
     "classification": "synthetic",
     "contains_phi": false,
-    "notes": "Synthetic stable error example for Kotlin and Java callers."
+    "notes": "Synthetic stable error example for Kotlin and Kotlin callers."
   }
 }

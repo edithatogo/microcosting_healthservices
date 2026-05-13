@@ -85,7 +85,7 @@
         "context",
         "provenance"
       ],
-      "notes": "Stable error envelope for Kotlin and Java callers when validation, transport, or fixture gates fail."
+      "notes": "Stable error envelope for Kotlin and Kotlin callers when validation, transport, or fixture gates fail."
     }
   ],
   "surfaces": [
@@ -122,7 +122,7 @@
       "label": "Error surface",
       "transport": "json",
       "role": "observability",
-      "notes": "Stable error envelope exposed to Kotlin and Java callers."
+      "notes": "Stable error envelope exposed to Kotlin and Kotlin callers."
     },
     {
       "id": "fixture_gate_surface",
@@ -244,24 +244,24 @@
   ],
   "build_readiness": {
     "maven": {
-      "status": "ready",
+      "status": "private",
       "coordinates": "com.mchs:calculator-jvm-binding:1.0.0-SNAPSHOT",
       "minimum_java": "17",
       "packaging": "jar",
-      "notes": "Ready for a Maven Java library module that can publish the JVM binding models and client stubs."
+      "notes": "Future-only Maven-compatible module that can publish the JVM binding models and client stubs."
     },
     "gradle": {
-      "status": "ready",
-      "plugin": "java-library",
-      "minimum_kotlin": "1.9",
+      "status": "private",
+      "plugin": "org.jetbrains.kotlin.jvm",
+      "minimum_kotlin": "2.2",
       "kotlin_dsl": true,
-      "notes": "Ready for a Gradle build that can host Kotlin and Java sources together."
+      "notes": "Future-only Gradle build that can host Kotlin and Java sources together."
     },
     "jvm": {
-      "status": "ready",
+      "status": "private",
       "bytecode_target": "17",
       "test_framework": "JUnit 5",
-      "notes": "Target the modern JVM baseline that works cleanly with Kotlin and Java consumers."
+      "notes": "Target the modern JVM baseline that uses Kotlin-first code with Java-compatible bytecode boundaries."
     }
   },
   "provenance": {

@@ -11,7 +11,7 @@
         "status": "pass"
       }
     ],
-    "fixture_id": "jvm-service-pass",
+    "fixture_id": "jvm-arrow-parquet-pass",
     "format": "json",
     "validation_status": "pass"
   },
@@ -19,10 +19,10 @@
   "formula_logic_location": "rust core",
   "provenance": {
     "checksum_algorithm": "sha256",
-    "fixture_id": "jvm-service-pass",
+    "fixture_id": "jvm-arrow-parquet-pass",
     "notes": "synthetic example",
     "source_basis": "contract bundle"
   },
   "result": "pass",
-  "strategy": "service boundary"
+  "strategy": "arrow/parquet file interop"
 }

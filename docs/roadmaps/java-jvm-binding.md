@@ -25,7 +25,7 @@ production-ready binding.
 
 ## Decision
 
-Start with **Arrow / Parquet file interop** as the initial Java/JVM strategy.
+Start with **Arrow / Parquet file interop** as the initial Kotlin/JVM strategy.
 
 Use **service boundary** as the fallback when a caller needs online
 request/response behavior, multi-step orchestration, or a persistent
@@ -60,7 +60,7 @@ binary packaging rules are stable enough to justify native embedding.
   floating-point drift.
 - Expose checked or well-typed failures for validation and contract problems;
   do not encode business-rule fallback logic inside exceptions.
-- Keep time, locale, and encoding rules explicit so Kotlin and Java callers
+- Keep time, locale, and encoding rules explicit so Kotlin and Kotlin callers
   observe the same serialized shape.
 - Make schema and version fields first-class so Arrow / Parquet evolution can
   be negotiated without changing formula logic.

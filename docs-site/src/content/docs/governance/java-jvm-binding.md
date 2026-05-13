@@ -1,8 +1,8 @@
 ---
-title: Java/JVM binding
+title: Kotlin/JVM binding
 ---
 
-# Java/JVM binding
+# Kotlin/JVM binding
 
 This page defines the governance posture for the Kotlin-first JVM workstream. The
 JVM binding is a downstream adapter, not a new source of calculator truth. It
@@ -18,12 +18,12 @@ Kotlin-first form without changing the underlying semantics.
 - Avoid claims about supported packaging, native integration, or language
   interop until those gates are documented.
 
-The goal is a predictable adapter that fits existing Java ecosystems while
+The goal is a predictable adapter that fits existing JVM ecosystems while
 keeping the calculator rules centralized in the shared contract.
 
 ## Service boundary
 
-The service boundary is the supported entrypoint for Java callers while the
+The service boundary is the supported entrypoint for Kotlin callers while the
 binding matures.
 
 - Public service methods define the supported request and response surface.
@@ -64,7 +64,7 @@ service boundary needed to reach it.
 
 ## Kotlin API and Java interop considerations
 
-The JVM surface should work for both Kotlin and Java callers without forcing
+The JVM surface should work for both Kotlin and Kotlin callers without forcing
 either language into awkward patterns.
 
 - Use package names and class names that are stable and predictable for Java
@@ -82,7 +82,7 @@ default.
 
 ## Future Maven and Gradle gating
 
-Maven and Gradle publication is future-gated.
+Gradle and Maven publication is future-gated.
 
 Planned gates include:
 

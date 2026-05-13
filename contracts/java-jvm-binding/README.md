@@ -1,4 +1,4 @@
-# Java/JVM binding contract fixtures
+# Kotlin/JVM binding contract fixtures
 
 This directory contains synthetic fixtures for the Kotlin/Java JVM binding workstream.
 

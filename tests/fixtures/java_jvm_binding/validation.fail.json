@@ -15,7 +15,7 @@
     "format": "json",
     "validation_status": "fail"
   },
-  "fallback": "arrow/parquet file interop",
+  "fallback": "service boundary",
   "provenance": {
     "checksum_algorithm": "sha256",
     "fixture_id": "jvm-publication-overclaim",
@@ -24,5 +24,5 @@
   },
   "reason": "Overclaims Gradle/Maven publication or duplicates formula logic instead of treating JVM as a thin boundary.",
   "result": "fail",
-  "strategy": "service boundary"
+  "strategy": "arrow/parquet file interop"
 }

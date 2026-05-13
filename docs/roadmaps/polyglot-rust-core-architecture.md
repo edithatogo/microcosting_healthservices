@@ -183,6 +183,10 @@ Required evidence:
 - R, Julia, C#/.NET, Go, TypeScript/WASM, Java/JVM, C ABI, SQL/DuckDB, SAS,
   CLI/file, web, and Power Platform surfaces are downstream consumers of the
   shared contract.
+- Kotlin is the preferred authored JVM surface. Java compatibility is a bytecode
+  and interoperability constraint, not a reason to author a Java-first binding.
+- Scala/Spark, Swift, Stata, and MATLAB are future contract consumers where
+  their communities justify the maintenance cost.
 - A surface may be primary, thin, orchestration-only, or file/CLI mediated, but
   none of those categories may reintroduce duplicated formula logic.
 

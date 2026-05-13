@@ -38,7 +38,11 @@ Common release gates apply to every surface:
 | NuGet / C# | .NET package and managed wrapper | `preview` | Release when the .NET wrapper remains thin, binary compatibility is documented, and signed package publishing is repeatable. |
 | Go | Go module, preferably thin wrapper over C ABI or CLI/file contract | `private` | Release when cross-compilation is stable, no duplicated business logic exists, and the module can be tested end-to-end in CI. |
 | TypeScript / WASM | npm package plus WASM bundle | `preview` | Release when browser and Node smoke tests pass, bundle size and loading behavior are controlled, and the WASM artifact remains deterministic. |
-| JVM | JAR/Maven artifact, with JNI/JNA or service bridge as needed | `private` | Release when the JVM adapter is thin, CI covers the supported Java runtime range, and the packaging path is reproducible. |
+| Kotlin/JVM | Gradle/Maven JVM artifact, Kotlin-first with Java-compatible bytecode | `private` | Release when the Kotlin adapter is thin, CI covers the supported JVM runtime range, and the packaging path is reproducible. |
+| Scala / Spark | Spark package, Spark SQL integration, or lakehouse file/service adapter | `private` | Release when Spark fixtures pass, schema evolution is pinned, and no formula logic is implemented in Spark jobs. |
+| Swift | Swift Package Manager package over C ABI, service, or file contract | `private` | Release when Apple-platform fixtures pass and native packaging does not create duplicated calculator behavior. |
+| Stata | Stata ado/do examples or package over file, CLI, or service contract | `private` | Release when health-economics examples pass shared fixtures and remain boundary-only. |
+| MATLAB | MATLAB scripts/toolbox over file, CLI, service, or C ABI contract | `private` | Release when numerical examples pass shared fixtures and no MATLAB formula implementation is introduced. |
 | C ABI | Shared library plus stable headers | `preview` | Release when exported symbols are versioned, headers are frozen for the supported ABI window, and backward-compatibility tests pass. |
 | SQL / DuckDB | Extension, SQL UDF package, or embedded integration | `preview` | Release when SQL fixtures round-trip through the same Rust core and explainability/diagnostics remain consistent with the host engine. |
 | SAS interop | File-based exchange assets, adapter scripts, or integration bundle | `private` | Release only if the interface stays boundary-only, the exchange contract is fixed, and the artifact can be validated without proprietary formula duplication. |
