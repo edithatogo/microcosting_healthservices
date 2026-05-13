@@ -95,13 +95,14 @@ CMTY_MH_ARTIFACTS: list[CommunityMHArtifact] = [
         "NEP25_SAS_NWAU_calculator",
         "NEP25_SAS_NWAU_calculator/calculators",
     ),
-    CommunityMHArtifact(
-        year="2026",
-        pricing_status="shadow",
-        excel_workbooks=[
-            "archive/ihacpa/raw/2026/excel/"
-            "nwau26_calculator_for_mental_health_activity_community.xlsb"
-        ],
+    _y(
+        "2026",
+        "active",
+        "NEP26_SAS_NWAU_calculator",
+        "NEP26_SAS_NWAU_calculator/calculators",
+        suf="26",
+        excel="archive/ihacpa/raw/2026/excel/"
+        "nwau26_calculator_for_mental_health_activity_community.xlsb",
     ),
 ]
 

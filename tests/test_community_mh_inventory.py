@@ -52,25 +52,11 @@ def test_inventory_adm_price_weights_refer_to_existing_files():
             )
 
 
-def test_nep25_active_and_nep26_shadow_pricing():
-    """NEP25 is active; NEP26 remains conservatively shadow-priced."""
-    nep25 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2025")
-    assert nep25.pricing_status == "active"
-    nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
-    assert nep26.pricing_status == "shadow"
-
-
-def test_nep26_archived_paths_match_naming():
-    """NEP26 path strings must match the archived naming convention exactly."""
-    nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
-    assert nep26.sas_templates == []
-    assert nep26.sas_calculators == []
-    assert nep26.adm_price_weights == []
-    assert nep26.cmty_price_weights == []
-    assert nep26.excel_workbooks == [
-        "archive/ihacpa/raw/2026/excel/"
-        "nwau26_calculator_for_mental_health_activity_community.xlsb"
-    ]
+def test_nep25_nep26_are_active_pricing():
+    """NEP25 and NEP26 are active pricing years for community MH."""
+    for year in ("2025", "2026"):
+        art = next(a for a in CMTY_MH_ARTIFACTS if a.year == year)
+        assert art.pricing_status == "active", f"{year} should be active"
 
 
 def test_nep21_nep24_are_shadow_pricing():
@@ -92,6 +78,14 @@ def test_nep22_has_excel_workbook():
         assert Path(wb).exists(), f"Excel workbook not found: {wb}"
 
 
+def test_nep26_has_excel_workbook():
+    """NEP26 has a community MH Excel workbook in the raw archive."""
+    nep26 = next(a for a in CMTY_MH_ARTIFACTS if a.year == "2026")
+    assert len(nep26.excel_workbooks) >= 1
+    for wb in nep26.excel_workbooks:
+        assert Path(wb).exists(), f"Excel workbook not found: {wb}"
+
+
 def test_amhcc_prefix_convention_documented():
     """AMHCC prefix '1' = admitted, '2' = community."""
     for artifact in CMTY_MH_ARTIFACTS:
@@ -100,8 +94,7 @@ def test_amhcc_prefix_convention_documented():
 
 
 def test_all_artifacts_have_user_guide_field():
-    """Every inventory entry must record user-guide availability (even if
-    marked as unavailable)."""
+    """Every inventory entry must record user-guide availability."""
     for artifact in CMTY_MH_ARTIFACTS:
         assert isinstance(artifact.user_guide_available, bool)
 
@@ -114,15 +107,12 @@ def test_no_mh_calculator_before_nep21():
 
 
 def test_get_inventory_by_year_found():
-    """get_inventory_by_year returns the correct artifact for a known year."""
-    for year in ("2025",):
+    """get_inventory_by_year returns the correct artifact for known years."""
+    for year in ("2025", "2026"):
         art = get_inventory_by_year(year)
         assert art is not None
         assert art.year == year
         assert art.pricing_status == "active"
-    nep26 = get_inventory_by_year("2026")
-    assert nep26 is not None
-    assert nep26.pricing_status == "shadow"
 
 
 def test_get_inventory_by_year_not_found():
@@ -135,7 +125,7 @@ def test_get_active_years():
     """get_active_years returns only years with active pricing status."""
     active = get_active_years()
     assert "2025" in active
-    assert "2026" not in active
+    assert "2026" in active
     assert all(y not in active for y in get_shadow_years())
 
 
@@ -146,5 +136,6 @@ def test_get_shadow_years():
     assert "2022" in shadow
     assert "2023" in shadow
     assert "2024" in shadow
-    assert "2026" in shadow
+    assert "2026" not in shadow
+    assert "2025" not in shadow
     assert all(y not in shadow for y in get_active_years())
