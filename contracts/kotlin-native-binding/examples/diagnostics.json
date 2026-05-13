@@ -1,0 +1,48 @@
+{
+  "binding_bundle_id": "kotlin_native_binding_contract_20260513",
+  "entry_id": "binding-diagnostics",
+  "entry_type": "diagnostic_record",
+  "diagnostics": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "transport_selection_diagnostic",
+        "status": "pass",
+        "message": "The binding selected Arrow as the fallback transport after the service path was unavailable."
+      },
+      {
+        "id": "provenance_diagnostic",
+        "status": "pass",
+        "message": "The response recorded source contract, checksum, calculator, pricing year, and transport provenance."
+      },
+      {
+        "id": "fixture_gate_diagnostic",
+        "status": "pass",
+        "message": "The example remained metadata only and did not expose proprietary payloads."
+      }
+    ],
+    "summary": {
+      "passed": 3,
+      "failed": 0
+    },
+    "notes": "Synthetic diagnostics example only."
+  },
+  "provenance": {
+    "command": "kotlin-native-binding diagnose --transport arrow",
+    "source_contract_path": "contracts/kotlin-native-binding/kotlin-native-binding.contract.json",
+    "source_url": "https://example.invalid/contracts/kotlin-native-binding/kotlin-native-binding.contract.json",
+    "retrieved_on": "2026-05-13",
+    "sha256": "synthetic-sha256-kotlin-native-binding-diagnostics",
+    "bytes": 1288,
+    "checksum_algorithm": "sha256",
+    "calculator_id": "acute",
+    "pricing_year": "2026",
+    "transport_used": "arrow",
+    "fallback_used": true
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic diagnostics metadata only."
+  }
+}

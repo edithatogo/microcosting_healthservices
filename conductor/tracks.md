@@ -296,31 +296,31 @@ content alone is not sufficient evidence for marking a track complete.
 
 ---
 
-- [x] **Track: Kotlin/JVM Binding**
-*Link: [./tracks/java_jvm_binding_20260512/](./tracks/java_jvm_binding_20260512/)*
-*Gate: support enterprise JVM consumers through service, JNI/JNA, C ABI, or Arrow/Parquet interop with shared fixture validation.*
+- [x] **Track: Kotlin/Native Binding**
+*Link: [./tracks/kotlin_native_binding_20260512/](./tracks/kotlin_native_binding_20260512/)*
+*Gate: support enterprise Kotlin/Native consumers through service, C ABI, or Arrow/Parquet interop with shared fixture validation.*
 
 ---
 
-- [x] **Track: Scala/Spark Binding**
+- [ ] **Track: Scala/Spark Binding**
 *Link: [./tracks/scala_spark_binding_20260513/](./tracks/scala_spark_binding_20260513/)*
 *Gate: support Spark SQL and lakehouse workflows through Arrow/Parquet, service, or SQL boundaries without duplicating formula logic.*
 
 ---
 
-- [x] **Track: Swift Binding**
+- [ ] **Track: Swift Binding**
 *Link: [./tracks/swift_binding_20260513/](./tracks/swift_binding_20260513/)*
 *Gate: support Apple-platform and native clients through C ABI, service, or file contracts without duplicating formula logic.*
 
 ---
 
-- [x] **Track: Stata Interoperability**
+- [ ] **Track: Stata Interoperability**
 *Link: [./tracks/stata_interop_binding_20260513/](./tracks/stata_interop_binding_20260513/)*
 *Gate: support health-economics Stata workflows through file, CLI, or service contracts without duplicating formula logic.*
 
 ---
 
-- [x] **Track: MATLAB Interoperability**
+- [ ] **Track: MATLAB Interoperability**
 *Link: [./tracks/matlab_interop_binding_20260513/](./tracks/matlab_interop_binding_20260513/)*
 *Gate: support numerical and legacy MATLAB workflows through file, CLI, service, or C ABI contracts without duplicating formula logic.*
 

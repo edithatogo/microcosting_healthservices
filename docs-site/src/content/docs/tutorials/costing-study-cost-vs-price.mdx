@@ -17,28 +17,45 @@ Once notional funding has been estimated from activity data, the next analytical
 | **Efficient price (NEP)** | The national price that would be paid for that activity under ABF, representing an efficient level of reimbursement. |
 | **Cost / price ratio** | Observed cost divided by notional NEP. A ratio > 1.0 suggests cost exceeds reimbursement; < 1.0 suggests reimbursement exceeds cost. |
 
-## 1. Prepare the cost data
+## 1. Prepare the activity and cost data
 
 ```python
 import pandas as pd
+import numpy as np
+from nwau_py.calculators import calculate_acute, AcuteParams
+from nwau_py.pricing_constants import get_nep
 
-costs = pd.DataFrame({
-    "jurisdiction": ["NSW", "VIC", "QLD"],
-    "stream": ["acute", "acute", "acute"],
-    "observed_cost": [142_000_000, 118_000_000, 97_000_000],
+np.random.seed(1)
+n = 30
+synthetic = pd.DataFrame({
+    "DRG": np.random.choice(["E62A", "E62B", "F62A", "F62B", "G02A"], size=n),
+    "LOS": np.random.randint(1, 12, size=n),
+    "ICU_HOURS": np.random.choice([0, 0, 0, 0, 2, 6], size=n),
+    "ICU_OTHER": 0,
+    "PAT_SAMEDAY_FLAG": 0,
+    "PAT_PRIVATE_FLAG": 0,
 })
-
-# load the NEP estimates from the previous tutorial
-nep = pd.read_csv("notional_funding_by_stream.csv")
+synthetic["ObservedCost"] = (
+    synthetic["LOS"] * np.random.uniform(1200, 2200, size=n)
+    + np.random.normal(0, 500, size=n)
+).clip(500)
 ```
 
-## 2. Merge and compute ratios
+The synthetic dataset adds an `ObservedCost` column — modelled as a function of length of stay with noise — representing the recorded cost per episode.
+
+## 2. Calculate notional funding and cost ratio
 
 ```python
-merged = pd.merge(costs, nep, on=["jurisdiction", "stream"], how="inner")
-merged["cost_price_ratio"] = (merged["observed_cost"] / merged["total_nep"]).round(3)
+result = calculate_acute(synthetic, AcuteParams())
+nep = get_nep("2025")
+result["NotionalFunding"] = (result["NWAU25"] * nep).round(2)
 
-merged[["jurisdiction", "observed_cost", "total_nep", "cost_price_ratio"]]
+merged = result[["DRG", "LOS", "NWAU25", "ObservedCost", "NotionalFunding"]].copy()
+merged["cost_price_ratio"] = (
+    merged["ObservedCost"] / merged["NotionalFunding"].replace(0, np.nan)
+).round(4)
+
+merged.head(8)
 ```
 
 ## 3. Interpret the results
@@ -52,17 +69,16 @@ for _, row in merged.iterrows():
         else "NEP exceeds cost" if ratio < 0.95
         else "near parity"
     )
-    print(f"{row['jurisdiction']} {row['stream']}: ratio={ratio} ({signal})")
+    print(f"{row['DRG']}: ratio={ratio} ({signal})")
 ```
 
 ### Ratio bands (suggested thresholds)
 
 | Ratio | Interpretation |
 |-------|---------------|
-| < 0.90 | Likely over-funded — reimbursement well above observed cost. |
-| 0.90 – 1.10 | Near parity — observed cost and efficient price are broadly aligned. |
-| 1.10 – 1.30 | Moderate gap — cost exceeds reimbursement; may warrant efficiency review. |
-| > 1.30 | Large gap — significant cost pressure; structural or data-quality issues likely. |
+| < 0.80 | Cost well below efficient price — may indicate high efficiency or under-counting of costs. |
+| 0.80 – 1.20 | Cost near the efficient benchmark — typical range for well-priced services. |
+| > 1.20 | Cost exceeds efficient price — may indicate inefficiency, complex case mix, or inadequate funding. |
 
 <Aside type="caution">
   These threshold bands are illustrative. Jurisdictions with different
@@ -72,10 +88,11 @@ for _, row in merged.iterrows():
 
 ## Caveats
 
+- **Synthetic data**: This example uses toy data. Real costing studies must use validated, AHPCS-compliant observed costs.
+- **Risk adjustment**: No case-mix or risk adjustment is applied here. Real studies should adjust for remoteness, indigenous status, and complexity.
 - **Jurisdiction variation**: Costing maturity, data quality, and scope definitions differ across states and territories. Cross-jurisdictional comparisons should be interpreted with care.
-- **Stream aggregation**: Broad streams (e.g. "acute admitted") can mask within-stream variation across DRGs or patient cohorts.
 - **Year alignment**: Ensure the cost data and NEP pricing year are aligned — mismatched financial years will produce misleading ratios.
-- **Non-ABF activity**: Some activity may be funded outside the ABF framework (block grants, S100, etc.) and will not appear in NEP estimates.
+- **Episode-level noise**: Single-episode cost ratios are noisy; aggregate to DRG, stream, or hospital level for reliable benchmarking.
 
 ## What to try next
 

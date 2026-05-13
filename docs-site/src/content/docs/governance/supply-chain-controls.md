@@ -11,4 +11,4 @@ artifact signing before the release claim expands.
 GitHub Actions checks have passed before a release claim is treated as ready to
 merge or publish.
 
-See the canonical source in [Conductor supply-chain-controls.md](../../../../conductor/supply-chain-controls.md).
+See the canonical source in [Conductor supply-chain-controls.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/supply-chain-controls.md).

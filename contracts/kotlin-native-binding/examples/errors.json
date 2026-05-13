@@ -1,0 +1,50 @@
+{
+  "binding_bundle_id": "kotlin_native_binding_contract_20260513",
+  "entry_id": "binding-errors",
+  "entry_type": "error_record",
+  "errors": [
+    {
+      "code": "KOTLIN_NATIVE_BINDING_001",
+      "message": "calculator request is missing required public-contract fields",
+      "retryable": false,
+      "context": {
+        "missing_fields": [
+          "pricing_year",
+          "output_schema_version"
+        ],
+        "calculator_id": "acute"
+      }
+    },
+    {
+      "code": "KOTLIN_NATIVE_BINDING_003",
+      "message": "service unavailable and no declared fallback could be used",
+      "retryable": true,
+      "context": {
+        "transport_attempted": [
+          "service",
+          "arrow",
+          "parquet"
+        ],
+        "calculator_id": "acute"
+      }
+    }
+  ],
+  "provenance": {
+    "command": "kotlin-native-binding errors --stable",
+    "source_contract_path": "contracts/kotlin-native-binding/kotlin-native-binding.contract.json",
+    "source_url": "https://example.invalid/contracts/kotlin-native-binding/kotlin-native-binding.contract.json",
+    "retrieved_on": "2026-05-13",
+    "sha256": "synthetic-sha256-kotlin-native-binding-errors",
+    "bytes": 1184,
+    "checksum_algorithm": "sha256",
+    "calculator_id": "acute",
+    "pricing_year": "2026",
+    "transport_used": "none",
+    "fallback_used": false
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Synthetic stable error example for Kotlin and Kotlin callers."
+  }
+}

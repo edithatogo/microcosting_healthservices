@@ -69,4 +69,4 @@ See also the C ABI consumer guide in
 [tutorials/c-abi-consumers](../tutorials/c-abi-consumers.mdx).
 
 See the canonical source in
-[Conductor downstream-packaging-plans.md](../../../../conductor/downstream-packaging-plans.md).
+[Conductor downstream-packaging-plans.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/downstream-packaging-plans.md).

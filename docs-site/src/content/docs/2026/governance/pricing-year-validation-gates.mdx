@@ -1,0 +1,96 @@
+---
+title: Pricing-year validation gates
+slug: 2026/governance/pricing-year-validation-gates
+---
+
+This page defines the conservative language and evidence gates used when a
+pricing year moves from source discovery to a claim that it is supported.
+Treat every claim as year-specific, calculator-specific, and evidence-backed.
+
+## Status taxonomy
+
+Use the narrowest status that matches the evidence on hand.
+
+| Status | Meaning | Minimum evidence | Permitted wording |
+| --- | --- | --- | --- |
+| `source-discovered` | The upstream source has been identified, but the manifest is not complete. | Source URL or scanner output. | "discovered", "identified" |
+| `source-only` | Source records exist, but extraction or fixture evidence is incomplete. | Strict reference-data manifest with source artifacts and explicit gaps. | "source-recorded", "not validated" |
+| `schema-complete` | Required manifest fields load under the strict schema. | Passing manifest schema check. | "schema-complete" |
+| `gap-explicit` | Known missing source, extraction, or fixture evidence is recorded as gaps. | Structured unresolved gap records. | "gap-recorded" |
+| `partially-validated` | Some calculators or streams have fixture evidence, but the year is not fully validated. | Fixture packs and scoped parity notes. | "partially validated for the stated scope" |
+| `validated` | Maintainers have accepted the evidence bundle for the claim being made. | Reviewable parity or validation record plus dated maintainer sign-off. | "validated", "supported for the stated scope" |
+| `deprecated` | The year remains in the record for history, but new support claims should not be made. | Deprecation note and replacement year or successor path. | "deprecated", "historical" |
+
+Do not introduce local synonyms such as `planned`, `documented`, or
+`fixture-tested` into manifests. If those concepts are useful in prose, map them
+back to one of the canonical manifest statuses above.
+
+## Transition evidence
+
+Move a pricing year only when the evidence bundle changes, not when the
+narrative becomes more optimistic.
+
+| Transition | Required evidence |
+| --- | --- |
+| `source-discovered` -> `source-only` | Strict source manifest with at least one source artifact and explicit gaps. |
+| `source-only` -> `schema-complete` | The manifest loads under the strict schema and canonical path check. |
+| `schema-complete` -> `gap-explicit` | Known missing source, extraction, or fixture evidence is encoded as structured gaps. |
+| `gap-explicit` -> `partially-validated` | Scoped fixture packs or parity records exist for the stated calculator or stream. |
+| `partially-validated` -> `validated` | Maintainer review of the full evidence bundle, including fixture results, source citations, and any parity notes. |
+| `validated` -> `deprecated` | Explicit deprecation note that explains why the claim no longer applies and what supersedes it. |
+
+If a transition spans multiple calculators, each calculator still needs its own
+evidence bundle. Do not inherit support from a neighboring year or sibling
+calculator.
+
+## Support-claim rules
+
+* Only use `supported` when the status is `validated` for the stated scope.
+* Prefer `partially-validated` when fixture evidence is real but the full year
+  or calculator family is not validated.
+* Prefer `source-only` or `gap-explicit` when the source exists but executable
+  behavior or fixtures are incomplete.
+* Never treat a source archive entry, a roadmap item, or a manifest stub as
+  support by itself.
+* Never generalize from one calculator family to another. A year can be
+  validated for one surface and still be unvalidated for another.
+* When describing overlap years, say what is current and what is transitional.
+  Do not imply that both states are equally supported unless the evidence says
+  so.
+
+## Maintainer workflow
+
+1. Identify the year, calculator family, and claim type before writing any
+   public wording.
+2. Collect the evidence bundle: source citation, manifest or contract entry,
+   implementation diff, fixture output, and validation record.
+3. Run `funding-calculator validate-year <year>` and assign the narrowest
+   canonical status that the evidence supports.
+4. Update the relevant governance page, release note, or manifest with the same
+   status language.
+5. Ask a maintainer to review any transition into `validated` or `deprecated`.
+6. Keep the wording conservative until the evidence is complete and the claim
+   has been reviewed.
+
+If the evidence is incomplete, stop at the highest accurate status and record
+what is missing.
+
+## Conservative wording
+
+Use wording that describes the present evidence, not the desired end state.
+
+* Say "the docs record" instead of "the docs prove".
+* Say "the code path exists" instead of "the year is supported".
+* Say "validation evidence is recorded" instead of "parity is complete".
+* Say "current claim" or "current record" when the statement may change after a
+  future review.
+* Avoid absolute language such as "complete", "fully supported", or "ready for
+  all use cases" unless a separate governance page explicitly authorizes that
+  claim.
+
+## Related governance pages
+
+* [Validation vocabulary](/2026/governance/validation-vocabulary/)
+* [Reference data manifests](/2026/governance/reference-data-manifests/)
+* [Public calculator contract](/2026/governance/public-calculator-contract/)
+* [Release policy](/2026/governance/release-policy/)

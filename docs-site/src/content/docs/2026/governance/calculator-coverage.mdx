@@ -1,0 +1,116 @@
+---
+title: Calculator coverage
+slug: 2026/governance/calculator-coverage
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This page summarizes the current source-to-code coverage story. It is a public
+docs view of the current implementation state, not a promise that every source
+artifact has been translated into executable code.
+
+Historical pricing specifications, price weights, calculator artifacts, and
+NHCDC/costing evidence are tracked separately. The public archive reaches back
+to 2012-13 for pricing specifications, but calculator support is only claimed
+when an explicit calculator artifact and validation status exist. NHCDC or
+other costing materials are useful provenance, but they do not imply calculator
+support.
+
+Classification input coverage is tracked separately from executable calculator
+coverage. The phase 1 matrix work is documenting AR-DRG, AECC, UDG, Tier 2,
+and AMHCC family transitions and licensed-input constraints. An initial shared
+preflight validator exists in `nwau_py.classification_validation`, but this page
+does not claim it is wired into calculator or CLI entry points end-to-end yet.
+For admitted acute, AR-DRG outcomes are versioned outputs of ICD-10-AM, ACHI,
+and ACS-coded episodes processed through licensed grouping tables or software;
+the registry docs track compatibility and provenance, not a proprietary
+grouper reimplementation.
+
+<CardGrid>
+  <Card title="Historical pricing specs">
+    The source record reaches back to 2012-13 for NEP determinations and
+    national pricing model technical specifications. That year is caveated and
+    is not treated as proof of a public calculator artifact.
+  </Card>
+
+  <Card title="2026-27 scope">
+    NEP26 support exists and the 2026-27 calculator set is listed in the
+    repository documentation, but this page does not claim parity validation
+    against extracted IHACPA outputs unless tests explicitly establish it.
+    Classification version impacts are clear: admitted acute moves to
+    AR-DRG v12.0 from v11.0 through the licensed grouping workflow, and
+    non-admitted moves to Tier 2 v10.0 from v7.
+    AECC v1.1, AMHCC v1, AN-SNAP v5, and UDG v1.3 are unchanged from the
+    previous year.
+  </Card>
+
+  <Card title="Implemented calculator families">
+    Acute, ED, MH, subacute, outpatients, and adjustment logic are the active
+    executable surfaces in the repository today. Admitted and community mental
+    health remain separate validation surfaces underneath that family label.
+  </Card>
+
+  <Card title="Adjustment helpers">
+    HAC, AHR, and complexity are currently modeled inside the adjustment
+    pipeline, not as separate calculator binaries.
+  </Card>
+
+  <Card title="Source archive status">
+    The archive manifest spans 2013-14 through 2026-27 and currently has 94
+    entries, 92 of which are downloaded.
+  </Card>
+</CardGrid>
+
+## Historical source matrix
+
+| Artifact family | Status | Notes |
+| --- | --- | --- |
+| Pricing specifications | Documented | 2012-13 is the earliest confirmed year. It is a source-record year, not an implied calculator year. |
+| Calculator artifacts | Implemented or gap-recorded | Public calculator downloads and executable surfaces are tracked separately from pricing specs. |
+| Price weights | Documented or fixture-backed | Recorded as part of the year-specific pricing record, not as calculator support by themselves. |
+| NHCDC / costing evidence | Documented | Useful for costing-study interpretation and provenance, but not calculator parity evidence. |
+| AR-DRG grouping metadata | Documented | Versioned inputs and licensed grouping assets are tracked as provenance, not as a proprietary grouper implementation. |
+| Validation status | Explicit | Use discovered, archived, extracted, implemented, fixture-tested, validated, and deprecated as the support gate. |
+
+## Executable calculator matrix
+
+| Family or helper | Status | Notes |
+| --- | --- | --- |
+| Acute | Implemented | Current Python surface; Rust acute 2025 remains opt-in. 2026-27 classification impacts are AR-DRG v12.0 for admitted acute through licensed versioned grouping tables or software, and Tier 2 v10.0 for non-admitted. |
+| Emergency department | Implemented | Current Python surface. |
+| Mental health | Implemented | Current Python surface. |
+| Community mental health | Implemented with validation gaps | Separate Python contract and calculator surface. NEP21-NEP24 are shadow-pricing inventory years; NEP25 is active. NEP26 exists for 2026-27 documentation coverage, but parity validation is not claimed unless tests prove it. Official golden fixtures are gap-recorded. |
+| Subacute | Implemented | Current Python surface. |
+| Outpatients | Implemented | Current Python surface. |
+| Adjustment | Implemented | Includes HAC, AHR, and complexity outputs. |
+| Complexity | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| HAC | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| AHR | Implemented as helper | Part of adjustment rather than a standalone calculator. |
+| 2021-22 SAS Box page | Documented gap | Explicit `box-html-only` entry in the source archive. |
+| 2022-23 SAS Box page | Documented gap | Explicit `box-html-only` entry in the source archive. |
+
+## What this means
+
+The repository can already explain its current calculator surface clearly:
+
+1. The core executable paths are present and tested.
+2. Historical pricing specs, price weights, and calculator artifacts are kept
+   distinct from NHCDC/costing evidence.
+3. The remaining source gaps are recorded instead of being silently implied as
+   missing or complete.
+
+## Related pages
+
+<CardGrid>
+  <LinkCard title="Source archive" href="/governance/source-archive/">
+    Manifest completeness, gaps, and archival policy.
+  </LinkCard>
+
+  <LinkCard title="Rust core architecture" href="/governance/rust-core-architecture/">
+    The intended future kernel and adapter boundaries.
+  </LinkCard>
+
+  <LinkCard title="Public readiness" href="/governance/public-readiness/">
+    How to describe implemented versus planned behavior safely.
+  </LinkCard>
+</CardGrid>

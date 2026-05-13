@@ -29,4 +29,4 @@ required fields, and error model.
 
 The companion JSON Schema lives at `/contracts/public-calculator-contract.v1.schema.json`.
 
-See the canonical source in [Conductor tech-stack.md](../../../../conductor/tech-stack.md).
+See the canonical source in [Conductor tech-stack.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/tech-stack.md).

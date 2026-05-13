@@ -1,0 +1,306 @@
+{
+  "schema_version": "1.0",
+  "binding_bundle_id": "kotlin_native_binding_contract_20260513",
+  "tool": {
+    "name": "funding-calculator-kotlin-native-binding",
+    "package": "com.mchs.calculator.binding",
+    "entry_point": "com.mchs.calculator.binding.CalculatorClient"
+  },
+  "privacy": {
+    "classification": "synthetic",
+    "contains_phi": false,
+    "notes": "Metadata-only Kotlin/Native binding contract. It describes Kotlin-first request/response models without embedding calculator kernels, proprietary tables, or patient-level data."
+  },
+  "calculator_contract_alignment": {
+    "source_contract": "microcosting_healthservices.nwau_py.contracts.CalculatorContract",
+    "aligned_fields": [
+      "schema_version",
+      "calculator_id",
+      "pricing_year",
+      "input_schema_version",
+      "output_schema_version",
+      "required_input_columns",
+      "required_output_columns"
+    ],
+    "compatibility_policy": "Keep request and response model names stable across Kotlin/Native consumers, and fail closed when the public calculator contract version or required column set changes."
+  },
+  "request_response_models": [
+    {
+      "id": "calculator_request_model",
+      "label": "Calculator request model",
+      "kind": "request",
+      "fields": [
+        "schema_version",
+        "calculator_id",
+        "pricing_year",
+        "input_schema_version",
+        "output_schema_version",
+        "request_id",
+        "input_rows",
+        "transport_preference",
+        "provenance"
+      ],
+      "notes": "Represents a typed Kotlin-first request for a public calculator run or binding invocation."
+    },
+    {
+      "id": "calculator_response_model",
+      "label": "Calculator response model",
+      "kind": "response",
+      "fields": [
+        "schema_version",
+        "calculator_id",
+        "pricing_year",
+        "status",
+        "output_rows",
+        "diagnostics",
+        "fallback_used",
+        "transport_used",
+        "provenance"
+      ],
+      "notes": "Represents a typed Kotlin-first response that can carry service or fallback results with diagnostics."
+    },
+    {
+      "id": "binding_diagnostic_model",
+      "label": "Binding diagnostic model",
+      "kind": "diagnostic",
+      "fields": [
+        "diagnostic_version",
+        "diagnostic_id",
+        "status",
+        "checks",
+        "summary",
+        "provenance"
+      ],
+      "notes": "Captures transport choice, schema drift, fixture-gate results, and other adapter-visible diagnostics."
+    },
+    {
+      "id": "binding_error_model",
+      "label": "Binding error model",
+      "kind": "error",
+      "fields": [
+        "error_version",
+        "error_code",
+        "message",
+        "retryable",
+        "context",
+        "provenance"
+      ],
+      "notes": "Stable error envelope for Kotlin and Kotlin callers when validation, transport, or fixture gates fail."
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "service_binding",
+      "label": "Service binding",
+      "transport": "http+json",
+      "role": "primary",
+      "notes": "Primary request/response path for calculator execution through the public service surface."
+    },
+    {
+      "id": "arrow_fallback_surface",
+      "label": "Arrow fallback surface",
+      "transport": "arrow-ipc",
+      "role": "fallback",
+      "notes": "Deterministic fallback for cross-language bulk interchange and native-friendly table exchange."
+    },
+    {
+      "id": "parquet_fallback_surface",
+      "label": "Parquet fallback surface",
+      "transport": "parquet",
+      "role": "fallback",
+      "notes": "Persisted fallback for offline fixture replay, batch validation, and round-trip parity checks."
+    },
+    {
+      "id": "diagnostics_surface",
+      "label": "Diagnostics surface",
+      "transport": "json",
+      "role": "observability",
+      "notes": "Machine-readable diagnostics for binding selection, contract drift, and fixture-gate outcomes."
+    },
+    {
+      "id": "error_surface",
+      "label": "Error surface",
+      "transport": "json",
+      "role": "observability",
+      "notes": "Stable error envelope exposed to Kotlin and Kotlin callers."
+    },
+    {
+      "id": "fixture_gate_surface",
+      "label": "Fixture gate surface",
+      "transport": "json",
+      "role": "validation",
+      "notes": "Declared gates that keep synthetic pass and fail examples reproducible."
+    }
+  ],
+  "transport_fallbacks": [
+    {
+      "id": "service_first",
+      "priority": 1,
+      "transport": "service",
+      "when": "The public calculator service is available and the contract version matches the caller request.",
+      "output_contract": "calculator_response_model",
+      "notes": "Use the service path first when the runtime can satisfy the request directly."
+    },
+    {
+      "id": "arrow_second",
+      "priority": 2,
+      "transport": "arrow",
+      "when": "Bulk tabular exchange is needed or the service path is unavailable but a binary table exchange is still possible.",
+      "output_contract": "calculator_response_model",
+      "notes": "Use Arrow to preserve typed tabular exchange across Kotlin/Native consumers."
+    },
+    {
+      "id": "parquet_third",
+      "priority": 3,
+      "transport": "parquet",
+      "when": "The binding needs persisted offline interchange, reproducible replay, or file-backed fixture parity.",
+      "output_contract": "calculator_response_model",
+      "notes": "Use Parquet only as the deterministic file-backed fallback."
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "contract_alignment_diagnostic",
+      "severity": "error",
+      "trigger": "The Kotlin/Native model drops a public calculator contract field or renames a required boundary field.",
+      "output": "validation diagnostics with schema drift details and the missing field list."
+    },
+    {
+      "id": "transport_selection_diagnostic",
+      "severity": "info",
+      "trigger": "The binding chooses service, Arrow, or Parquet based on runtime availability or payload shape.",
+      "output": "selection diagnostics that explain which transport was used and why."
+    },
+    {
+      "id": "fixture_gate_diagnostic",
+      "severity": "warning",
+      "trigger": "A fixture gate is satisfied only partially or a synthetic example is missing a declared companion fixture.",
+      "output": "fixture-gate diagnostics with pass, fail, or blocked status."
+    },
+    {
+      "id": "provenance_diagnostic",
+      "severity": "info",
+      "trigger": "A request or response records provenance from a source contract or interchange file.",
+      "output": "provenance diagnostics that preserve source path, checksum, and transport metadata."
+    }
+  ],
+  "errors": [
+    {
+      "code": "KOTLIN_NATIVE_BINDING_001",
+      "message": "calculator request is missing required public-contract fields",
+      "retryable": false,
+      "notes": "Use this when the binding cannot map a Kotlin/Native request to the public calculator contract."
+    },
+    {
+      "code": "KOTLIN_NATIVE_BINDING_002",
+      "message": "unsupported calculator or pricing year for the Kotlin/Native binding",
+      "retryable": false,
+      "notes": "Use this when the caller requests a calculator or pricing year outside the declared boundary."
+    },
+    {
+      "code": "KOTLIN_NATIVE_BINDING_003",
+      "message": "service unavailable and no declared fallback could be used",
+      "retryable": true,
+      "notes": "Use this when the service path fails and both Arrow and Parquet fallback paths are unavailable."
+    },
+    {
+      "code": "KOTLIN_NATIVE_BINDING_004",
+      "message": "fixture gate rejected the synthetic binding example",
+      "retryable": false,
+      "notes": "Use this when a pass or fail example violates the declared metadata-only fixture policy."
+    }
+  ],
+  "fixture_gates": [
+    {
+      "id": "metadata_only",
+      "status": "pass",
+      "description": "Committed fixtures remain synthetic and metadata only.",
+      "evidence": "No calculator kernels, proprietary tables, or PHI are included in the bundle."
+    },
+    {
+      "id": "public_contract_alignment",
+      "status": "pass",
+      "description": "The Kotlin/Native binding models remain aligned to the public calculator contract fields.",
+      "evidence": "Request and response model fields include schema version, calculator_id, pricing_year, and column boundaries."
+    },
+    {
+      "id": "deterministic_transport_order",
+      "status": "pass",
+      "description": "Transport fallback order is explicit and deterministic.",
+      "evidence": "Service, Arrow, and Parquet are ordered by priority in the contract."
+    },
+    {
+      "id": "golden_fixture_parity",
+      "status": "pass",
+      "description": "Pass and fail examples are paired with stable diagnostics and error envelopes.",
+      "evidence": "The bundle includes dedicated pass, fail, diagnostics, and error examples."
+    },
+    {
+      "id": "build_toolchain_readiness",
+      "status": "pass",
+      "description": "Kotlin/Native package readiness is declared without committing generated binaries.",
+      "evidence": "The build-readiness section records Kotlin, C ABI, and Native target expectations."
+    }
+  ],
+  "build_readiness": {
+    "ko": {
+      "status": "private",
+      "coordinates": "com.mchs:calculator-kotlin-native-binding:1.0.0-SNAPSHOT",
+      "minimum_java": "17",
+      "packaging": "jar",
+      "notes": "Future-only Kotlin/Native-compatible module that can publish the Kotlin/Native binding models and client stubs."
+    },
+    "kotlin_native": {
+      "status": "private",
+      "plugin": "org.jetbrains.kotlin.jvm",
+      "minimum_kotlin": "2.2",
+      "kotlin_dsl": true,
+      "notes": "Future-only Kotlin/Native build that can host Kotlin/Native sources together."
+    },
+    "jvm": {
+      "status": "private",
+      "bytecode_target": "17",
+      "test_framework": "JUnit 5",
+      "notes": "Target the modern JVM baseline that uses Kotlin-first code with C ABI-compatible native boundary boundaries."
+    }
+  },
+  "provenance": {
+    "fields": [
+      "command",
+      "binding_bundle_id",
+      "source_contract_path",
+      "source_url",
+      "retrieved_on",
+      "sha256",
+      "bytes",
+      "calculator_id",
+      "pricing_year",
+      "transport_used",
+      "fallback_used",
+      "local_placeholder_path"
+    ],
+    "checksum_algorithm": "sha256"
+  },
+  "examples": [
+    {
+      "name": "validation-pass",
+      "path": "contracts/kotlin-native-binding/examples/validation.pass.json",
+      "description": "Synthetic pass example showing aligned JVM request and response models, declared fallback order, and ready build metadata."
+    },
+    {
+      "name": "validation-fail",
+      "path": "contracts/kotlin-native-binding/examples/validation.fail.json",
+      "description": "Synthetic fail example showing model drift, missing fixture evidence, and blocked build readiness."
+    },
+    {
+      "name": "diagnostics",
+      "path": "contracts/kotlin-native-binding/examples/diagnostics.json",
+      "description": "Synthetic diagnostics example showing transport selection and provenance capture."
+    },
+    {
+      "name": "errors",
+      "path": "contracts/kotlin-native-binding/examples/errors.json",
+      "description": "Synthetic stable error example for Kotlin/Native consumers."
+    }
+  ]
+}

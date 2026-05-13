@@ -1,0 +1,151 @@
+---
+title: Governance
+slug: 2026/governance
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This section mirrors the project governance and documentation policy from the
+Conductor docs, but it is curated for the public docs front door. Use it to
+find the current source of truth for contracts, validation, and delivery rules.
+
+<CardGrid>
+  <LinkCard title="Product" href="/governance/product/">
+    Mission, audience, and scope.
+  </LinkCard>
+
+  <LinkCard title="Tech stack" href="/governance/tech-stack/">
+    The supported runtime, docs platform, and package baseline.
+  </LinkCard>
+
+  <LinkCard title="Workflow" href="/governance/workflow/">
+    Validation gates and phase-checkpoint rules.
+  </LinkCard>
+
+  <LinkCard title="Validation vocabulary" href="/governance/validation-vocabulary/">
+    The terms used for parity and source claims.
+  </LinkCard>
+
+  <LinkCard title="Data governance" href="/governance/data-governance/">
+    Synthetic and de-identified data rules.
+  </LinkCard>
+
+  <LinkCard title="Calculator coverage" href="/governance/calculator-coverage/">
+    Which calculators and helpers are implemented today.
+  </LinkCard>
+
+  <LinkCard title="Source archive" href="/governance/source-archive/">
+    What source material is downloaded and what remains missing.
+  </LinkCard>
+
+  <LinkCard title="IHACPA source scanner" href="/governance/ihacpa-source-scanner/">
+    How source discovery, gap records, and review-first manifests work.
+  </LinkCard>
+
+  <LinkCard title="Reference data manifests" href="/governance/reference-data-manifests/">
+    How year-scoped source manifests record provenance, gaps, and validation status.
+  </LinkCard>
+
+  <LinkCard title="Formula and parameter bundle pipeline" href="/governance/formula-parameter-bundle-pipeline/">
+    How source discovery becomes extracted, versioned, validated bundle data.
+  </LinkCard>
+
+  <LinkCard title="Coding-set version registry" href="/governance/coding-set-version-registry/">
+    How pricing years track public metadata, licensed products, and local validation inputs.
+  </LinkCard>
+
+  <LinkCard title="AR-DRG ICD/ACHI/ACS mapping registry" href="/governance/ar-drg-icd-achi-acs-mapping-registry/">
+    How admitted-acute DRG provenance, licensed grouping assets, and costing-study caveats are tracked.
+  </LinkCard>
+
+  <LinkCard title="Pricing-year validation gates" href="/governance/pricing-year-validation-gates/">
+    Status taxonomy, transition evidence, and support-claim rules for year-specific claims.
+  </LinkCard>
+
+  <LinkCard title="Pricing-year diff tooling" href="/governance/pricing-year-diff-tooling/">
+    Manifest-backed year comparisons for release notes and validation planning.
+  </LinkCard>
+
+  <LinkCard title="Public calculator contract" href="/governance/public-calculator-contract/">
+    The runtime-neutral contract that adapters consume.
+  </LinkCard>
+
+  <LinkCard title="Contract schema" href="/contracts/public-calculator-contract.v1.schema.json">
+    The machine-readable form of the contract.
+  </LinkCard>
+
+  <LinkCard title="Versioning" href="/versions/">
+    How the pricing-year docs are organized.
+  </LinkCard>
+
+  <LinkCard title="Starlight extensions" href="/governance/starlight-extensions/">
+    Which Starlight plugins are in use and which are optional.
+  </LinkCard>
+
+  <LinkCard title="Rust core architecture" href="/governance/rust-core-architecture/">
+    The intended future kernel and adapter boundaries.
+  </LinkCard>
+
+  <LinkCard title="Polyglot Rust core roadmap" href="/governance/polyglot-rust-core-roadmap/">
+    The Python-first to Rust-core promotion lifecycle, binding surfaces, and release gates.
+  </LinkCard>
+
+  <LinkCard title="Reference generation" href="/governance/reference-generation/">
+    How docs should describe implemented behavior.
+  </LinkCard>
+
+  <LinkCard title="Public readiness" href="/governance/public-readiness/">
+    Contributor, security, and citation guidance.
+  </LinkCard>
+
+  <LinkCard title="Streamlit delivery" href="/governance/streamlit-delivery/">
+    The analyst-facing Python delivery surface.
+  </LinkCard>
+
+  <LinkCard title="Downstream packaging plans" href="/governance/downstream-packaging-plans/">
+    R, Julia, C#, Go, and Power Platform packaging rules.
+  </LinkCard>
+
+  <LinkCard title="Go binding" href="/governance/go-binding/">
+    The Go adapter boundary, cross-compilation caveats, and module-gating plan.
+  </LinkCard>
+
+  <LinkCard title="Kotlin/Native binding" href="/governance/kotlin-native-binding/">
+    The Kotlin/Native adapter boundary, JNI/JNA deferral, and Maven/Gradle gating plan.
+  </LinkCard>
+
+  <LinkCard title="C#/.NET binding" href="/governance/csharp-dotnet-binding/">
+    The .NET adapter boundary, Power Platform adjacency, and NuGet gating.
+  </LinkCard>
+
+  <LinkCard title="Web and Power Platform delivery" href="/governance/web-and-power-platform-delivery/">
+    Browser and Power Platform contract boundaries.
+  </LinkCard>
+
+  <LinkCard title="Release policy" href="/governance/release-policy/">
+    What must be true before a release claim is made.
+  </LinkCard>
+
+  <LinkCard title="Supply-chain controls" href="/governance/supply-chain-controls/">
+    Dependency, provenance, and artifact controls.
+  </LinkCard>
+</CardGrid>
+
+## Reading order
+
+<CardGrid>
+  <Card title="1. Start with the contract">
+    Read product, tech stack, workflow, and validation vocabulary first.
+  </Card>
+
+  <Card title="2. Then check the boundary">
+    Review the calculator coverage, source archive, and Rust architecture pages
+    to understand what is actually implemented.
+  </Card>
+
+  <Card title="3. Finish with delivery">
+    The formula and parameter bundle pipeline, pricing-year validation gates,
+    public readiness, release policy, and supply-chain controls define how the
+    docs become publishable.
+  </Card>
+</CardGrid>

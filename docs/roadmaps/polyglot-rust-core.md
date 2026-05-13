@@ -14,9 +14,9 @@ target state, and the sequencing tracks that govern the transition.
 
 - A shared Rust calculator core becomes the single source of formula logic.
 - Thin bindings and adapters expose that core to Python, Rust, R, Julia,
-  C#/.NET, Go, TypeScript/WASM, Java/JVM, C ABI, SQL/DuckDB, SAS interop,
+  C#/.NET, Go, TypeScript/WASM, Kotlin/Native, C ABI, SQL/DuckDB, SAS interop,
   CLI/file workflows, web surfaces, and Power Platform orchestration.
-- Additional FOSS-facing roadmap surfaces include Kotlin-first JVM, Scala/Spark,
+- Additional FOSS-facing roadmap surfaces include Kotlin/Native, Scala/Spark,
   Swift, Stata, and MATLAB. These are contract/file/service consumers, not
   independent formula implementations.
 - Python remains supported while parity evidence is incomplete.

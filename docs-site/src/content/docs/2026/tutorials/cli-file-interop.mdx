@@ -1,0 +1,177 @@
+---
+title: CLI and file interop
+description: Use the shared CLI and file boundaries for shell scripts,
+  notebooks, R, Julia, Power Platform, SAS-adjacent workflows, and batch
+  systems.
+sidebar:
+  label: CLI/file interop
+slug: 2026/tutorials/cli-file-interop
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page is the practical companion to the downstream packaging plan. The
+core rule is simple: keep calculation logic in the shared engine, and use the
+CLI plus files as the interop boundary for downstream tools.
+
+<Aside type="caution" title="Synthetic data only">
+  These examples use synthetic or de-identified fixtures. Do not adapt them
+  for patient-level storage, policy decisions, or other sensitive workflows.
+</Aside>
+
+## Supported interop pattern
+
+The same pattern should work across shell scripts, notebooks, R, Julia,
+Power Platform, SAS-adjacent workflows, and batch systems:
+
+1. Prepare a file with explicit columns and versioned metadata.
+2. Call the shared CLI from the host environment.
+3. Read back the output file and keep presentation logic in the host tool.
+
+That pattern keeps each downstream surface thin and avoids copying formulas
+into wrappers just to make the local experience easier.
+
+## Shell
+
+Shell scripts are the simplest integration layer.
+
+* Use the shell to stage inputs, invoke the CLI, and move files.
+* Keep any parsing or summarising logic outside the calculator boundary.
+* Prefer explicit output paths so logs can point to the exact artifact that was
+  produced.
+* Use shell wrappers for automation, not for formula translation.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+CLI="${MCHS_CLI:-path/to/shared-cli}"
+INPUT="work/batch_input.csv"
+OUTPUT="work/batch_output.csv"
+
+"$CLI" acute "$INPUT" --year 2025 --output "$OUTPUT"
+```
+
+## Notebooks
+
+Notebooks are good for exploration, but the notebook should remain an
+orchestrator.
+
+* Use notebook cells to stage files and inspect results.
+* Record the CLI command, input filename, output filename, and fixture version
+  in the notebook output.
+* Avoid storing sensitive intermediate results in notebook state longer than
+  needed.
+* If you need repeatability, write the notebook so it can be run end to end
+  from a clean working directory.
+
+## R
+
+R should use a thin wrapper over the shared CLI and file contract.
+
+* Use CSV for the current executable prototype.
+* Move to Arrow or Parquet only when the shared file contract is ready.
+* Keep R Markdown and Quarto examples synthetic and wrapper-only.
+* Do not reimplement adjustment rules or validation logic in R.
+
+## Julia
+
+Julia should follow the same wrapper-first pattern.
+
+* Use `DataFrames.jl` for local shaping.
+* Use CSV for the current prototype and Arrow for the target interchange
+  format.
+* Keep Julia code focused on calling the shared CLI and presenting the output.
+* Do not duplicate calculator formulas in Julia just to avoid a CLI call.
+
+## Power Platform
+
+Power Platform should connect through a custom connector or another secured
+service boundary.
+
+* Use the connector to move files or invoke a service that owns the calculator
+  logic.
+* Keep the Power Platform layer focused on orchestration and presentation.
+* Do not try to recreate the calculation engine in Power Fx or flow logic.
+
+## SAS-adjacent workflows
+
+SAS-adjacent workflows should remain file based.
+
+* Use external process calls, import/export steps, or scheduler handoffs to
+  reach the shared CLI.
+* Keep the SAS layer limited to data preparation and report assembly.
+* Treat any SAS macros or scripts as wrappers, not as a second calculator.
+
+## Batch systems
+
+Batch systems should treat the CLI as the executable unit.
+
+* Pass inputs and outputs through scheduler-managed storage, object storage,
+  or another controlled file location.
+* Record the job ID, input artifact, output artifact, and CLI version in the
+  batch logs.
+* Keep batch templates deterministic so reruns are easy to compare.
+
+## CSV compatibility today
+
+CSV is the current executable interop format.
+
+* Use stable column names and keep their meaning documented.
+* Write headers explicitly and avoid locale-dependent formatting.
+* Keep the file small enough for the downstream environment to read
+  consistently.
+* Prefer plain text values for identifiers, codes, and validation flags.
+
+## Arrow and Parquet as the target
+
+Arrow is the preferred target for columnar batch interchange, with Parquet as
+the durable file format target when the shared contract is ready.
+
+* Use the same schema across runtimes.
+* Keep schema evolution explicit and versioned.
+* Do not silently change field names or field meanings.
+* If a workflow cannot read Arrow yet, keep the fallback CSV contract aligned
+  with the same columns.
+
+## Diagnostics and provenance
+
+Every downstream run should be explainable.
+
+* Capture the CLI version, date, input file, output file, and fixture set.
+* Keep validation warnings and non-fatal diagnostics alongside the job record.
+* Save file hashes or other provenance markers when the environment supports
+  them.
+* Make it clear which artifact is authoritative when multiple intermediate
+  files exist.
+
+## Privacy
+
+Privacy rules apply before and after the CLI call.
+
+* Do not treat browsers, notebooks, or local temp directories as trusted data
+  stores.
+* Keep patient-level data out of screenshots, caches, and ad hoc exports.
+* Use synthetic fixtures for documentation and demos.
+* Reduce stored data to the minimum needed for the task and delete temporary
+  artifacts when they are no longer required.
+
+## No formula duplication
+
+The wrapper boundary must stay clean.
+
+* Do not duplicate calculator formulas in the host language.
+* Do not mirror validation logic just because the host tool can do it.
+* Keep derived values in the shared engine unless a documented post-processing
+  step is explicitly part of the contract.
+* Treat any wrapper-only calculation as a maintenance risk and a contract
+  drift risk.
+
+## Quick checklist
+
+* Can the host tool call the shared CLI without hiding the command line?
+* Are the input and output files versioned and easy to inspect?
+* Is the current format CSV, with Arrow or Parquet planned as the target?
+* Are diagnostics and provenance stored with the job record?
+* Is sensitive data kept out of caches and notebook state?
+* Is the wrapper free of duplicated formulas?

@@ -1,0 +1,124 @@
+---
+title: Public calculator contract
+slug: 2026/governance/public-calculator-contract
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+The public calculator contract is the runtime-neutral boundary that adapters
+and delivery surfaces must consume. It is intentionally narrow so the public
+docs can explain what the calculator accepts and returns without duplicating
+formula logic.
+
+<CardGrid>
+  <Card title="Contract version">
+    Version `1.0` is the current public contract baseline.
+  </Card>
+
+  <Card title="Calculator identifiers">
+    Stable lower-case names such as `acute` identify the calculator surface.
+  </Card>
+
+  <Card title="Pricing years">
+    Use the four-digit IHACPA label form, for example `2025`.
+  </Card>
+</CardGrid>
+
+## Batch schema
+
+The contract is batch-first. Adapters accept a batch envelope and return a
+batch result envelope. The row payloads stay runtime-neutral so Python, Rust,
+and future bindings can share the same public shape.
+
+### Request envelope
+
+* `calculator`: lower-case calculator identifier such as `acute`.
+* `pricing_year`: four-digit IHACPA year label such as `2025`.
+* `rows`: array of input row objects.
+* `reference`: year-scoped reference values required by the calculator.
+* `adjustments`: batch-scoped adjustment inputs or override factors.
+
+Each row must include the required input columns for the requested calculator.
+Adapters may ignore extra fields only when those fields do not affect contract
+validation.
+
+### Response envelope
+
+* `calculator`
+* `pricing_year`
+* `results`: row-aligned outputs, including any row-level validation errors.
+* `batch_errors`: non-row-scoped errors such as unsupported calculators,
+  missing reference bundles, or contract-level failures.
+
+## Acute contract
+
+### Required inputs
+
+* `DRG`
+* `LOS`
+* `ICU_HOURS`
+* `ICU_OTHER`
+* `PAT_SAMEDAY_FLAG`
+* `PAT_PRIVATE_FLAG`
+
+### Required outputs
+
+* `NWAU25` for pricing year `2025`
+
+## Validation shape
+
+* Contract violations should surface structured, explainable errors.
+* Missing or invalid contract values should be rejected during contract
+  construction.
+* Missing input or output columns should surface explicit boundary errors.
+
+## Error mapping
+
+Adapters should map contract failures into stable, machine-readable codes and
+preserve the field path or row index whenever they can.
+
+| Contract condition | Suggested code | Notes |
+| --- | --- | --- |
+| Missing required batch field or row column | `missing_required_field` | Include the field path and row index. |
+| Value has the wrong type or format | `invalid_value` | Include the field path and expected shape. |
+| Calculator is not supported | `unsupported_calculator` | Use before any core execution starts. |
+| Pricing year is not supported | `unsupported_pricing_year` | Use when the year is outside the published contract surface. |
+| Required reference data is missing | `missing_reference_bundle` | Use when the adapter cannot resolve the shared reference payload. |
+| Rust path is present but not opted in | `experimental_calculator_disabled` | Keep the Python fallback available. |
+| Core execution raises an unexpected failure | `internal_calculator_error` | Keep stack traces out of user-facing docs. |
+
+## Adapter mapping
+
+Adapters may parse inputs, validate the contract, select the requested year,
+and format outputs.
+
+Adapters must not:
+
+* embed calculator math,
+* hide source-bundle lookup behavior, or
+* change the core schema for different delivery surfaces.
+
+This same contract should remain consumable by Rust, Python, C#, web, Power
+Platform, R, Julia, Go, and TypeScript surfaces without changing the core
+schema.
+
+## Generation readiness
+
+This contract shape is a good candidate for later OpenAPI or client model
+generation because it already exposes explicit schema versions, supported
+identifiers, required columns, and structured validation errors.
+
+The machine-readable schema is published alongside this page at
+`/contracts/public-calculator-contract.v1.schema.json`.
+
+## Related pages
+
+<CardGrid>
+  <LinkCard title="Versioning" href="/versions/">
+    See the versioned docs surface that sits above this contract.
+  </LinkCard>
+
+  <LinkCard title="Starlight extensions" href="/governance/starlight-extensions/">
+    See the plugin guidance for future API-doc generation.
+  </LinkCard>
+</CardGrid>

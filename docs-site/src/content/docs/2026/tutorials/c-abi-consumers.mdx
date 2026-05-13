@@ -1,0 +1,123 @@
+---
+title: C ABI consumers
+description: Guidance for native consumers that call the shared engine through a
+  C ABI without duplicating formulas.
+sidebar:
+  label: C ABI consumers
+slug: 2026/tutorials/c-abi-consumers
+---
+
+This page describes the contract for native consumers that embed or call the
+shared engine through a C ABI. The goal is a stable boundary, not a second
+implementation of calculator logic.
+
+## Core posture
+
+* Keep the C boundary thin and explicit.
+* Treat the shared engine as the only source of formula and validation logic.
+* Prefer a secured service boundary when the native embedding story is not
+  stable.
+* Use the C ABI for orchestration, transport, and integration only.
+
+## FFI safety
+
+* Expose only documented, versioned functions.
+* Avoid passing ownership-sensitive language objects across the boundary.
+* Make every output shape deterministic and easy to free from the caller side.
+* Do not rely on undefined lifetime behavior, borrowed pointers that outlive
+  their source buffers, or hidden thread affinity rules.
+* Keep the native wrapper small enough that the safety contract can be audited
+  alongside the release notes.
+
+## Memory ownership
+
+* Document which side allocates each buffer, string, and result object.
+* Provide paired free functions for every heap-allocated value exported by the
+  ABI.
+* Prefer caller-provided buffers for simple outputs when that reduces lifetime
+  ambiguity.
+* If Arrow buffers are exchanged, keep the ownership rules aligned with the
+  Arrow contract and the wrapper's allocator strategy.
+* Never leak ownership conventions into the application layer or institutional
+  runtime.
+
+## Error handling
+
+* Return structured error codes, not ad hoc panics or process aborts.
+* Include a stable code, a short message, and enough context for diagnosis
+  without exposing sensitive data.
+* Map internal failures into documented ABI errors at the boundary.
+* Fail closed when inputs are invalid or when the ABI version is unsupported.
+* Keep error translation in the wrapper so the shared engine remains
+  language-neutral.
+
+## Arrow boundary
+
+* Use Arrow as the preferred tabular interchange boundary when the data shape
+  is columnar or batch-oriented.
+* Keep the Arrow schema fixed and versioned alongside the ABI contract.
+* Avoid reshaping Arrow data into native structs just to re-export it later.
+* If a workflow cannot use Arrow directly, keep the fallback format equally
+  explicit and versioned.
+* Do not introduce a second data contract in the native wrapper.
+
+## Institutional embedding
+
+* Treat embedding as an institutional integration problem, not just a language
+  binding problem.
+* Define where the wrapper runs, who owns upgrades, and how the binary is
+  distributed and audited.
+* Make support boundaries explicit for release, rollback, and incident response.
+* Keep the integration posture compatible with enterprise deployment controls,
+  including pinned artifacts and controlled runtime environments.
+* Prefer a service boundary when an institution cannot guarantee the wrapper's
+  deployment, patching, or observability requirements.
+
+## Versioning
+
+* Version the ABI independently from implementation internals.
+* Record compatibility guarantees for both the function surface and any Arrow
+  schema used at the boundary.
+* Treat breaking changes as coordinated releases, not silent updates.
+* Keep version checks at the edge so older consumers can detect unsupported
+  binaries before use.
+* Publish the minimum supported ABI version together with the shared engine
+  release notes.
+
+## Fixture parity
+
+* Validate the C ABI against the same synthetic fixture set used by the shared
+  engine.
+* Keep fixture outputs byte-for-byte or field-for-field comparable where the
+  data model allows it.
+* Use the same canonical cases for native, Arrow, and service-boundary paths.
+* When a fixture fails, treat it as a contract regression, not a cosmetic
+  wrapper issue.
+* Do not add wrapper-only fixtures that drift from the canonical shared set.
+
+## No formula duplication
+
+* Do not port calculator formulas into the C wrapper for convenience.
+* Do not mirror validation logic in native glue code.
+* Keep transformation code limited to marshaling, version checks, and error
+  translation.
+* If the wrapper needs derived values, compute them in the shared engine or in
+  a documented pre/post-processing step that does not change the canonical
+  calculation.
+
+## Practical checklist
+
+* Confirm the ABI version and Arrow schema before loading the binary.
+* Verify ownership and free-function pairs for every exported result type.
+* Run the shared synthetic fixtures through the C ABI path.
+* Confirm that error codes are stable and documented.
+* Keep the wrapper thin enough that the institutional support model is still
+  obvious.
+
+## What this page is not
+
+* It is not a place to reimplement calculator logic.
+* It is not a license to expose raw internal pointers.
+* It is not a substitute for a secured service boundary when native embedding
+  is not appropriate.
+* It is not a second contract for formulas, validation, or fixture generation.

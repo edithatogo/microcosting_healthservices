@@ -7,7 +7,7 @@ Generated artifacts stay out of version control.
 Historical pricing specifications are tracked separately from calculator
 artifacts, price weights, and NHCDC/costing evidence.
 
-See the canonical source in [Conductor source-archive.md](../../../../conductor/source-archive.md).
+See the canonical source in [Conductor source-archive.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/source-archive.md).
 
 ## Archive summary
 

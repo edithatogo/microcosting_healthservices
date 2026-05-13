@@ -38,7 +38,7 @@ Common release gates apply to every surface:
 | NuGet / C# | .NET package and managed wrapper | `preview` | Release when the .NET wrapper remains thin, binary compatibility is documented, and signed package publishing is repeatable. |
 | Go | Go module, preferably thin wrapper over C ABI or CLI/file contract | `private` | Release when cross-compilation is stable, no duplicated business logic exists, and the module can be tested end-to-end in CI. |
 | TypeScript / WASM | npm package plus WASM bundle | `preview` | Release when browser and Node smoke tests pass, bundle size and loading behavior are controlled, and the WASM artifact remains deterministic. |
-| Kotlin/JVM | Gradle/Maven JVM artifact, Kotlin-first with Java-compatible bytecode | `private` | Release when the Kotlin adapter is thin, CI covers the supported JVM runtime range, and the packaging path is reproducible. |
+| Kotlin/Native | Kotlin/Native package Native artifact, Kotlin/Native over C ABI, service, or file contract | `private` | Release when the Kotlin adapter is thin, CI covers the supported Native runtime range, and the packaging path is reproducible. |
 | Scala / Spark | Spark package, Spark SQL integration, or lakehouse file/service adapter | `private` | Release when Spark fixtures pass, schema evolution is pinned, and no formula logic is implemented in Spark jobs. |
 | Swift | Swift Package Manager package over C ABI, service, or file contract | `private` | Release when Apple-platform fixtures pass and native packaging does not create duplicated calculator behavior. |
 | Stata | Stata ado/do examples or package over file, CLI, or service contract | `private` | Release when health-economics examples pass shared fixtures and remain boundary-only. |

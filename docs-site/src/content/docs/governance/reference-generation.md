@@ -15,4 +15,4 @@ Rules:
 Generated docs that summarize behavior should link back to the relevant validation record or fixture pack.
 
 See the canonical source in
-[Conductor reference-generation.md](../../../../conductor/reference-generation.md).
+[Conductor reference-generation.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/reference-generation.md).

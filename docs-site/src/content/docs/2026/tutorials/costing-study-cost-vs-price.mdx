@@ -1,0 +1,101 @@
+---
+title: Comparing Observed Costs to Efficient Prices
+description: Bring together observed cost data and national efficient prices to
+  analyse cost recovery and price signals across mental health service streams.
+sidebar:
+  label: Cost vs. Price Analysis
+slug: 2026/tutorials/costing-study-cost-vs-price
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Once notional funding has been estimated from activity data, the next analytical step is to compare those price signals against **observed costs** — typically sourced from general ledger, costing system extracts, or NHCDC submissions. This comparison reveals which service streams are over- or under-funded relative to the efficient price.
+
+## Cost vs. price: the concepts
+
+| Term | Definition |
+|------|------------|
+| **Observed cost** | The actual expenditure incurred to deliver a service stream (e.g. admitted acute mental health). |
+| **Efficient price (NEP)** | The national price that would be paid for that activity under ABF, representing an efficient level of reimbursement. |
+| **Cost / price ratio** | Observed cost divided by notional NEP. A ratio > 1.0 suggests cost exceeds reimbursement; \< 1.0 suggests reimbursement exceeds cost. |
+
+## 1. Prepare the activity and cost data
+
+```python
+import pandas as pd
+import numpy as np
+from nwau_py.calculators import calculate_acute, AcuteParams
+from nwau_py.pricing_constants import get_nep
+
+np.random.seed(1)
+n = 30
+synthetic = pd.DataFrame({
+    "DRG": np.random.choice(["E62A", "E62B", "F62A", "F62B", "G02A"], size=n),
+    "LOS": np.random.randint(1, 12, size=n),
+    "ICU_HOURS": np.random.choice([0, 0, 0, 0, 2, 6], size=n),
+    "ICU_OTHER": 0,
+    "PAT_SAMEDAY_FLAG": 0,
+    "PAT_PRIVATE_FLAG": 0,
+})
+synthetic["ObservedCost"] = (
+    synthetic["LOS"] * np.random.uniform(1200, 2200, size=n)
+    + np.random.normal(0, 500, size=n)
+).clip(500)
+```
+
+The synthetic dataset adds an `ObservedCost` column — modelled as a function of length of stay with noise — representing the recorded cost per episode.
+
+## 2. Calculate notional funding and cost ratio
+
+```python
+result = calculate_acute(synthetic, AcuteParams())
+nep = get_nep("2025")
+result["NotionalFunding"] = (result["NWAU25"] * nep).round(2)
+
+merged = result[["DRG", "LOS", "NWAU25", "ObservedCost", "NotionalFunding"]].copy()
+merged["cost_price_ratio"] = (
+    merged["ObservedCost"] / merged["NotionalFunding"].replace(0, np.nan)
+).round(4)
+
+merged.head(8)
+```
+
+## 3. Interpret the results
+
+```python
+for _, row in merged.iterrows():
+    ratio = row["cost_price_ratio"]
+    signal = (
+        "cost exceeds NEP"
+        if ratio > 1.05
+        else "NEP exceeds cost" if ratio < 0.95
+        else "near parity"
+    )
+    print(f"{row['DRG']}: ratio={ratio} ({signal})")
+```
+
+### Ratio bands (suggested thresholds)
+
+| Ratio | Interpretation |
+|-------|---------------|
+| \< 0.80 | Cost well below efficient price — may indicate high efficiency or under-counting of costs. |
+| 0.80 – 1.20 | Cost near the efficient benchmark — typical range for well-priced services. |
+| > 1.20 | Cost exceeds efficient price — may indicate inefficiency, complex case mix, or inadequate funding. |
+
+<Aside type="caution">
+  These threshold bands are illustrative. Jurisdictions with different
+  cost structures (rural vs metropolitan, public vs private mix) may need
+  adjusted bands.
+</Aside>
+
+## Caveats
+
+* **Synthetic data**: This example uses toy data. Real costing studies must use validated, AHPCS-compliant observed costs.
+* **Risk adjustment**: No case-mix or risk adjustment is applied here. Real studies should adjust for remoteness, indigenous status, and complexity.
+* **Jurisdiction variation**: Costing maturity, data quality, and scope definitions differ across states and territories. Cross-jurisdictional comparisons should be interpreted with care.
+* **Year alignment**: Ensure the cost data and NEP pricing year are aligned — mismatched financial years will produce misleading ratios.
+* **Episode-level noise**: Single-episode cost ratios are noisy; aggregate to DRG, stream, or hospital level for reliable benchmarking.
+
+## What to try next
+
+* [Stream-Level Cost Benchmarking](/2026/tutorials/costing-study-stream-benchmarking/) – disaggregate by care stream and benchmark against NHCDC reference costs.

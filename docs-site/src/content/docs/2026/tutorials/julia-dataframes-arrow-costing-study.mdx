@@ -1,0 +1,104 @@
+---
+title: Julia DataFrames and Arrow costing-study workflow
+description: Use synthetic fixtures from Julia with DataFrames.jl around the
+  shared CLI today, with Arrow as the target interchange format.
+sidebar:
+  label: Julia costing-study workflow
+slug: 2026/tutorials/julia-dataframes-arrow-costing-study
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+This page documents the initial Julia binding posture for costing-study
+reports. The selected strategy is a thin CLI/file wrapper with CSV as the
+current executable prototype. `DataFrames.jl` can handle local tabular shaping,
+and `Arrow.jl` is the target for fixture interchange and bulk file exchange
+once the shared file contract supports it. The calculator formulas remain in
+the shared engine.
+
+<Aside type="caution" title="Synthetic fixtures only">
+  The examples on this page use synthetic fixture data. Do not use them for
+  policy decisions, submissions, or patient-level workflows.
+</Aside>
+
+## Installation posture
+
+The initial Julia path is an internal-use integration, not a General
+Registry-ready package claim.
+
+* Install the shared calculator core in the same environment or as a local CLI
+  dependency.
+* Use Julia packages for data shaping, report rendering, and file exchange.
+* Treat any Julia package as a thin wrapper only.
+* Revisit C ABI, `ccall`, or `jlrs` only if a native runtime boundary becomes
+  necessary later.
+
+## Recommended report flow
+
+1. Load synthetic costing-study fixtures into a `DataFrame`.
+2. Validate the required columns in the report script.
+3. Shape the batch input and write a CSV file for the current executable
+   prototype.
+4. Call the shared CLI through the Julia wrapper.
+5. Read the output CSV back into a `DataFrame` and render summary tables or
+   charts.
+
+```julia
+using CSV
+using DataFrames
+
+inputs = CSV.read("fixtures/synthetic_costing_inputs.csv", DataFrame)
+
+required_cols = [:calculator, :pricing_year, :DRG, :LOS, :ICU_HOURS]
+missing_cols = setdiff(required_cols, names(inputs))
+if !isempty(missing_cols)
+    error("Missing required columns: $(join(string.(missing_cols), \", \"))")
+end
+
+batch_input = copy(inputs)
+batch_input[!, :calculator] = fill("acute", nrow(batch_input))
+batch_input[!, :pricing_year] = fill(2025, nrow(batch_input))
+
+CSV.write("work/batch_input.csv", batch_input)
+
+function run_costing_cli(input_path::AbstractString, output_path::AbstractString)
+    run(`$(get(ENV, "MCHS_CLI", "path/to/shared-cli")) acute $input_path --year 2025 --output $output_path`)
+end
+
+run_costing_cli("work/batch_input.csv", "work/batch_output.csv")
+
+results = CSV.read("work/batch_output.csv", DataFrame)
+first(select(results, :DRG, :pricing_year, :NWAU25, :validation_status), 5)
+```
+
+The same pattern works inside a Julia script, notebook, or report generator
+because the report simply prepares fixture-backed input, invokes the shared
+engine, and formats the returned outputs.
+
+## Selected strategy
+
+* Use `DataFrames.jl` for in-memory manipulation and presentation.
+* Use CSV for the current executable CLI/file prototype.
+* Use `Arrow.jl` for future fixture and batch interchange after the shared
+  Arrow contract is implemented.
+* Use a thin wrapper over the shared CLI boundary.
+* Keep the calculator logic out of Julia so the implementation stays
+  contract-driven.
+
+## Limitations
+
+* The Julia layer must not reimplement formulas, adjustment logic, or
+  validation rules.
+* The wrapper depends on a local runtime install, so portability still follows
+  the shared CLI.
+* This path is batch-oriented, not a substitute for a native interactive
+  calculator API.
+* Output parity should be checked against shared fixtures before any result is
+  presented as authoritative.
+* General Registry readiness is not claimed here.
+
+## What to try next
+
+* Use the shared synthetic fixture pack to build a reusable Julia report
+  template.
+* Add automated checks once the package skeleton and stable fixture set exist.

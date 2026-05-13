@@ -1,0 +1,142 @@
+---
+title: IHACPA Source Scanner
+slug: 2026/governance/ihacpa-source-scanner
+---
+
+The IHACPA source scanner discovers public source pages and downloadable
+artifacts for future pricing years. It records what was found, what was missing,
+and what still needs manual review before anything is committed.
+
+Use this page as the operational contract for discovery workflows. It does not
+claim calculator parity, release readiness, or validation coverage by itself.
+
+## Usage
+
+The scanner is organized around two commands:
+
+* `funding-calculator sources scan` discovers relevant IHACPA pages and
+  artifacts and emits a reviewable draft result.
+* `funding-calculator sources add-year <year>` creates or updates the
+  pricing-year manifest from reviewed scanner output.
+
+Recommended workflow:
+
+1. Run the scan and capture the draft output.
+2. Review the discovered sources and gap records before any file is written.
+3. Classify each source with the right category and policy status.
+4. Commit only the reviewed manifest and notes.
+
+Dry-run mode should be used whenever the intent is to inspect a draft without
+writing committed files. Dry-run output should still include the full discovery
+set, source categories, and gap records so that reviewers can compare it against
+the current manifest.
+
+## Source categories
+
+Source category is a required review field. It should describe the artifact, not
+the page layout or hosting platform.
+
+| Category | Typical examples | Handling |
+| --- | --- | --- |
+| Determination | NEP / NEC determination pages, pricing-year notices | Capture the source URL and effective year. |
+| Technical specification | Rule books, methodological notes, and specification PDFs | Record the published artifact and its retrieval metadata. |
+| Price weights | Weight tables, supplementary workbooks, pricing schedules | Keep the source association explicit so year-scoped manifests stay reviewable. |
+| Calculators | NWAU calculators and downloadable calculator bundles | Treat as executable reference material, not as proof of parity. |
+| Costing evidence | Costing reports, NHCDC references, study material | Track provenance separately from calculator support claims. |
+| Classification resources | Code tables, classification guides, mapping references | Preserve the source lineage and year scope. |
+| Gap record | Missing, inaccessible, or intentionally withheld artifact | Record the absence explicitly instead of implying availability. |
+
+Do not infer a source category from filename alone. If the content spans more
+than one category, record the dominant category and note the overlap.
+
+## Gap records
+
+Gap records are first-class manifest entries. They are required when the scanner
+finds a reference page but cannot obtain the underlying artifact, or when the
+artifact is present but unusable for policy reasons.
+
+Record a gap when:
+
+* The link returns 404, 403, or another inaccessible status.
+* The page exists but the downloadable artifact is missing.
+* The source is only available as HTML metadata with no redistributable file.
+* The material exists but cannot be committed because it is licensed or
+  otherwise non-redistributable.
+
+Each gap record should include:
+
+* The source URL or reference page URL.
+* The expected artifact name or description.
+* The observed failure mode.
+* The source category.
+* The review decision, if one has already been made.
+
+Gap records are not validation failures. They are traceable inventory records
+that explain why the manifest is incomplete.
+
+## Licensed and non-redistributable material
+
+Some IHACPA material can be discovered and referenced but not safely checked in.
+In those cases:
+
+* Keep the reference URL, retrieval timestamp, and source category.
+* Record the policy reason for not committing the artifact.
+* Do not copy protected files into the repository unless redistribution is
+  allowed.
+* Do not imply that a licensed artifact is part of the public golden set.
+
+If only a hosted page is public and the downloadable content is restricted, the
+page should be recorded and the restricted asset should become a gap record or a
+policy-restricted reference entry.
+
+## Manual review
+
+The scanner output is review material, not an automatic approval.
+
+Manual review should confirm:
+
+* The source category is correct.
+* The artifact is public or intentionally excluded for policy reasons.
+* The gap record explains any missing or inaccessible source.
+* The year scope matches the discovered material.
+* The resulting manifest does not overstate implementation status.
+
+Reviewers should prefer explicit notes over assumptions. If a source is
+ambiguous, record the ambiguity instead of resolving it silently.
+
+## Non-network CI
+
+CI should validate the parser and manifest logic without depending on live IHACPA
+availability.
+
+Required CI posture:
+
+* Use checked-in fixtures or synthetic HTML.
+* Do not require live network access.
+* Verify unchanged-source detection and gap-record handling.
+* Fail closed if a test needs a live site or an unstubbed remote response.
+
+This keeps CI deterministic and prevents availability drift from masquerading as
+regression-free coverage.
+
+## No validation overclaims
+
+Discovery is not validation.
+
+Do not use scanner output to claim:
+
+* Calculator parity.
+* Release readiness.
+* Comprehensive source coverage.
+* Correctness of the underlying policy calculations.
+
+Use conservative wording instead:
+
+* "discovered"
+* "recorded"
+* "drafted"
+* "gap recorded"
+* "reviewed"
+
+If a future docs page describes validation status, it should point to fixture
+evidence or explicit test results rather than discovery alone.

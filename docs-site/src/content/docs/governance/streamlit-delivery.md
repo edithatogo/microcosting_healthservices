@@ -13,4 +13,4 @@ Rules:
 - Route any real-data workflow through a secured service boundary.
 - Treat Streamlit as a convenience surface, not a source of calculator truth.
 
-See the canonical source in [Conductor streamlit-delivery.md](../../../../conductor/streamlit-delivery.md).
+See the canonical source in [Conductor streamlit-delivery.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/streamlit-delivery.md).

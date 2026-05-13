@@ -19,53 +19,66 @@ This tutorial walks through the calculation of **notional equivalent funding (NE
 - `nwau_py >= 0.6.0` installed
 - Basic familiarity with activity-based funding (ABF) concepts
 
-## 1. Load the package and data
+## 1. Load packages and prepare data
 
 ```python
 import pandas as pd
-from nwau_py.costing import CostingEngine
-from nwau_py.loaders import load_sample_activity
+import numpy as np
+from nwau_py.calculators import calculate_acute, AcuteParams
+from nwau_py.pricing_constants import get_nep
 
-engine = CostingEngine(pricing_year=2025)
-activity = load_sample_activity(source="synthetic_2025")
+np.random.seed(42)
+n = 20
+activity = pd.DataFrame({
+    "DRG": np.random.choice(["E62A", "E62B", "F62A", "F62B", "G02A"], size=n),
+    "LOS": np.random.randint(1, 15, size=n),
+    "ICU_HOURS": np.random.choice([0, 0, 0, 0, 2, 4, 8], size=n),
+    "ICU_OTHER": 0,
+    "PAT_SAMEDAY_FLAG": np.random.choice([0, 1], size=n, p=[0.8, 0.2]),
+    "PAT_PRIVATE_FLAG": np.random.choice([0, 1], size=n, p=[0.85, 0.15]),
+})
 ```
 
-The `load_sample_activity` helper returns a DataFrame with columns for episode-level DRG, length of stay, separation mode, and patient demographic indicators.
+The synthetic DataFrame contains episode-level DRG codes, length of stay, ICU hours, and patient demographic flags — the columns the acute calculator expects.
 
-## 2. Price each episode
+## 2. Calculate NWAU and notional funding
 
 ```python
-priced = engine.price_activity(
-    activity,
-    price_type="nep",           # National Efficient Price
-    include_weights=True,
-    include_price=True,
-)
+result = calculate_acute(activity, AcuteParams())
+nep = get_nep("2025")
 
-priced[["episode_id", "drg", "weight", "nep_price"]].head()
+result["NotionalFunding"] = (result["NWAU25"] * nep).round(2)
+result[["DRG", "LOS", "NWAU25", "NotionalFunding"]].head()
 ```
 
-The engine applies the NEP pricer table for the selected year, returning a weight per DRG and the corresponding episode-level price.
+The `calculate_acute` function assigns an NWAU value per episode based on DRG and length of stay. Multiplying each episode's NWAU by the national efficient price gives the notional equivalent funding.
 
-## 3. Aggregate to notional funding
+## 3. Aggregate to stream summary
 
 ```python
-notional_funding = (
-    priced.groupby(["jurisdiction", "stream"])["nep_price"]
-    .agg(["count", "sum", "mean"])
-    .round(2)
-)
+notional_funding = pd.DataFrame({
+    "Episodes": len(result),
+    "Total NWAU": result["NWAU25"].sum().round(4),
+    "Mean NWAU": result["NWAU25"].mean().round(4),
+    "Total Notional Funding": result["NotionalFunding"].sum().round(2),
+    "Mean Notional Funding": result["NotionalFunding"].mean().round(2),
+}, index=["Acute"])
 
-notional_funding.columns = ["episodes", "total_nep", "mean_nep_per_episode"]
 notional_funding
 ```
 
-This produces a jurisdiction-by-stream table showing the **total notional funding** that would be implied at the national price.
+This shows the aggregate NWAU and notional funding for the synthetic acute cohort.
+
+<Aside type="caution" title="Notional funding is not actual funding">
+  Notional funding (NWAU × NEP) is a benchmark, not actual hospital
+  funding. Real funding depends on jurisdiction activity-based pricing
+  policies, block grants, cross-border arrangements, and other adjustments.
+</Aside>
 
 ## 4. Export for downstream use
 
 ```python
-notional_funding.to_csv("notional_funding_by_stream.csv")
+notional_funding.to_csv("notional_funding_summary.csv")
 ```
 
 ## What to try next

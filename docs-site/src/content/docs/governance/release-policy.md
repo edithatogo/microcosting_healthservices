@@ -27,4 +27,4 @@ not as a replacement for the validated Python package.
 GitHub Actions must pass before a release claim is treated as ready to merge
 or publish.
 
-See the canonical source in [Conductor release-policy.md](../../../../conductor/release-policy.md).
+See the canonical source in [Conductor release-policy.md](https://github.com/edithatogo/microcosting_healthservices/blob/master/conductor/release-policy.md).

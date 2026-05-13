@@ -1,0 +1,48 @@
+---
+title: Versioning
+slug: 2026/versions
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+This site uses Starlight Versions to make pricing-year documentation explicit.
+The goal is to keep the public docs organized by release or pricing year
+without turning the site into a pile of unversioned notes.
+
+<CardGrid>
+  <Card title="Current version">
+    2025 is the active versioned documentation set in this repository today.
+  </Card>
+
+  <Card title="Versioning model">
+    Versioned pages are routed through the Starlight Versions plugin while the
+    unversioned governance pages explain the current policy and contract.
+  </Card>
+
+  <Card title="Navigation">
+    Use the version switcher in the docs header and the links below to move
+    between version-specific content.
+  </Card>
+</CardGrid>
+
+## Available versions
+
+<CardGrid>
+  <LinkCard title="2025" href="/versions/2025/">
+    Current pricing-year documentation, release guidance, and calculator notes.
+  </LinkCard>
+</CardGrid>
+
+## How to read versioned docs
+
+1. Start with the versioned page that matches your pricing year or release.
+2. Use the governance pages for stable repo policy and implementation rules.
+3. Treat the versioned docs as the public contract for that year, not as a
+   substitute for source archive provenance.
+
+## Versioning guidance
+
+* Keep versioned pages short and explicit.
+* Link back to the canonical governance pages instead of duplicating rules.
+* Add new version entries only when the project actually publishes a new
+  calculator release or pricing year.

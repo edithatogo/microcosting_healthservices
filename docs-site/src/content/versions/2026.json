@@ -1,0 +1,99 @@
+{
+  "sidebar": [
+    {
+      "label": "Overview",
+      "items": [
+        "index",
+        "versions",
+        "versions/2025",
+        "migration/legacy-docs"
+      ]
+    },
+    {
+      "label": "Tutorials",
+      "items": [
+        {
+          "label": "Costing Studies",
+          "items": [
+            "tutorials/costing-study-nwau-nep",
+            "tutorials/costing-study-cost-vs-price",
+            "tutorials/costing-study-stream-benchmarking"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Coverage",
+      "items": [
+        "governance/calculator-coverage",
+        "governance/public-calculator-contract",
+        "governance/source-archive"
+      ]
+    },
+    {
+      "label": "Reference",
+      "items": [
+        "reference/calculators",
+        "reference/glossary"
+      ]
+    },
+    {
+      "label": "Governance",
+      "items": [
+        {
+          "label": "Project",
+          "items": [
+            "governance/product",
+            "governance/tech-stack",
+            "governance/workflow",
+            "governance/validation-vocabulary",
+            "governance/data-governance"
+          ]
+        },
+        {
+          "label": "Pipelines & Data",
+          "items": [
+            "governance/formula-parameter-bundle-pipeline",
+            "governance/ihacpa-source-scanner",
+            "governance/reference-data-manifests",
+            "governance/pricing-year-validation-gates",
+            "governance/pricing-year-diff-tooling",
+            "governance/coding-set-version-registry",
+            "governance/ar-drg-icd-achi-acs-mapping-registry"
+          ]
+        },
+        {
+          "label": "Coverage & Contracts",
+          "items": [
+            "governance/calculator-coverage",
+            "governance/public-calculator-contract",
+            "governance/source-archive",
+            "governance/reference-generation",
+            "governance/public-readiness"
+          ]
+        },
+        {
+          "label": "Bindings",
+          "items": [
+            "governance/rust-core-architecture",
+            "governance/polyglot-rust-core-roadmap",
+            "governance/go-binding",
+            "governance/kotlin-native-binding",
+            "governance/csharp-dotnet-binding",
+            "governance/web-and-power-platform-delivery",
+            "governance/streamlit-delivery",
+            "governance/downstream-packaging-plans"
+          ]
+        },
+        {
+          "label": "Operations",
+          "items": [
+            "governance/release-policy",
+            "governance/supply-chain-controls",
+            "governance/starlight-extensions"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+---
+title: Starlight extensions
+slug: 2026/governance/starlight-extensions
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Starlight is deliberately extensible. This page records the extensions that are
+already in use and the ones that are worth considering if the docs surface
+expands.
+
+<CardGrid>
+  <Card title="Already in use">
+    `starlight-versions` for versioned docs and `starlight-links-validator` for
+    link checking.
+  </Card>
+
+  <Card title="Recommended only when needed">
+    `starlight-openapi` for generated API docs, `starlight-typedoc` for
+    TypeScript surfaces, and `starlight-blog` if release notes should live in
+    the docs site.
+  </Card>
+
+  <Card title="Not recommended by default">
+    Algolia DocSearch, unless the default Pagefind search becomes insufficient
+    for the repository’s size or use case.
+  </Card>
+</CardGrid>
+
+## Recommended extensions
+
+| Extension | Why it matters | Current stance |
+| --- | --- | --- |
+| `starlight-versions` | Makes pricing-year docs explicit and navigable. | Installed and in use. |
+| `starlight-links-validator` | Catches broken internal docs links early. | Installed and in use. |
+| `starlight-openapi` | Useful if the repo publishes OpenAPI-backed API docs. | Recommended later if public API docs become first-class. |
+| `starlight-typedoc` | Useful if a TypeScript binding surface is documented. | Recommended only if a TypeScript surface becomes real. |
+| `starlight-blog` | Useful if release notes or announcements move into docs. | Optional. |
+| `starlight-image-zoom` | Useful for diagrams and screenshots in dense docs. | Optional. |
+
+## Current recommendation
+
+For this repository, keep the docs stack small and specific:
+
+1. Keep `starlight-versions`.
+2. Keep `starlight-links-validator`.
+3. Add `starlight-openapi` only if the public calculator contract becomes an
+   OpenAPI-backed published surface.
+4. Add `starlight-typedoc` only if a TypeScript binding surface is committed to
+   the docs site.
+5. Leave Algolia DocSearch out unless Pagefind stops meeting the search need.
+
+## Related pages
+
+<CardGrid>
+  <LinkCard title="Versioning" href="/versions/">
+    How versioned docs are organized in this site.
+  </LinkCard>
+
+  <LinkCard title="Tech stack" href="/governance/tech-stack/">
+    The pinned docs-site baseline and upgrade policy.
+  </LinkCard>
+</CardGrid>

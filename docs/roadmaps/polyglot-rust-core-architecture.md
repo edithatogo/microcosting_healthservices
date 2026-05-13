@@ -8,7 +8,7 @@ runtime remains Python-first, and this document does not claim that Rust is
 implemented or default today.
 
 The intended end state is a single Rust calculator core with thin delivery
-surfaces for Python, Rust, R, Julia, C#/.NET, Go, TypeScript/WASM, Java/JVM, C
+surfaces for Python, Rust, R, Julia, C#/.NET, Go, TypeScript/WASM, Kotlin/Native, C
 ABI, SQL/DuckDB, SAS interoperability, CLI/file workflows, web, and Power
 Platform consumers.
 
@@ -180,11 +180,10 @@ Required evidence:
 
 - Python remains the validated public baseline until a stream is promoted.
 - Rust is the target core, not a separate formula source.
-- R, Julia, C#/.NET, Go, TypeScript/WASM, Java/JVM, C ABI, SQL/DuckDB, SAS,
+- R, Julia, C#/.NET, Go, TypeScript/WASM, Kotlin/Native, C ABI, SQL/DuckDB, SAS,
   CLI/file, web, and Power Platform surfaces are downstream consumers of the
   shared contract.
-- Kotlin is the preferred authored JVM surface. Java compatibility is a bytecode
-  and interoperability constraint, not a reason to author a Java-first binding.
+- Kotlin is the preferred authored Kotlin/Native surface. Kotlin/Native is the preferred authored Kotlin surface; Java/JVM support is not part of this track.
 - Scala/Spark, Swift, Stata, and MATLAB are future contract consumers where
   their communities justify the maintenance cost.
 - A surface may be primary, thin, orchestration-only, or file/CLI mediated, but

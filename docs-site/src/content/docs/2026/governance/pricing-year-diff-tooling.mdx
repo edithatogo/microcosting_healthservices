@@ -1,0 +1,64 @@
+---
+title: Pricing-year diff tooling
+slug: 2026/governance/pricing-year-diff-tooling
+---
+
+The pricing-year diff tool compares two repository-local reference-data
+manifests. It is a review aid for release notes, source audits, and validation
+planning. It is not a support claim by itself.
+
+Use the installed command:
+
+```bash
+funding-calculator diff-year <from-year> <to-year>
+```
+
+By default the command emits markdown for human review. Add `--json` when the
+result needs to feed automation, archival evidence, or release-note assembly.
+
+## What the diff compares
+
+The current implementation compares manifest-backed evidence:
+
+| Dimension | Meaning |
+| --- | --- |
+| Constants | NEP, NEC, and other year-scoped constant records. |
+| Coding sets | Classification versions and year-specific notes. |
+| Source artifacts | Artifact ids, kinds, URLs, checksums, byte counts, and local paths. |
+| Validation status | Current-year flags, validation notes, and parity-claim metadata. |
+| Gaps | Added, removed, and changed unresolved evidence gaps. |
+
+Large tabular data should be summarized by changed keys or stream. Do not dump
+full tables into release notes unless a reviewer explicitly needs that detail.
+
+## Release-note workflow
+
+1. Run `funding-calculator diff-year 2025 2026` for human review.
+2. Run `funding-calculator diff-year 2025 2026 --json` for archival or
+   automation.
+3. Separate source changes from implementation changes before drafting release
+   notes.
+4. Link unresolved gaps to validation or extraction follow-up work.
+5. Avoid implying that a changed source is implemented or validated unless a
+   separate validation record proves it.
+
+## Source changes versus implementation changes
+
+Source changes are upstream pricing-year inputs: constants, parameters,
+classification versions, source artifacts, validation status, and published
+reference records.
+
+Implementation changes are code, adapters, parsers, serializers, bindings,
+documentation generators, or runtime behavior.
+
+When both change, describe them separately. If output moves but the source diff
+does not explain why, treat that as an implementation question until evidence
+settles it.
+
+## Conservative wording
+
+Use neutral terms such as "changed", "added", "removed", "introduced", and
+"gap recorded".
+
+Do not use "fixed", "validated", "supported", "complete", or "ready" unless the
+diff is linked to validation evidence that justifies that stronger claim.

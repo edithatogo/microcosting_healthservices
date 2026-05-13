@@ -7,95 +7,135 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-This tutorial builds on the cost-vs-price analysis by breaking results down by **care stream** (acute admitted, community residential, ambulatory, etc.) and comparing each stream against **NHCDC national reference costs**. This is the methodology used in the Australian Hospital Patient Costing System (AHPCS) standards.
+This tutorial builds on the cost-vs-price analysis by breaking results down by **care stream** (acute admitted, ED, mental health, subacute, outpatient) and comparing each stream against **NHCDC national reference costs**. This mirrors the methodology used in the Australian Hospital Patient Costing System (AHPCS) standards.
 
 ## Multi-stream analysis workflow
 
+### 1. Load packages and prepare data
+
 ```python
 import pandas as pd
-from nwau_py.costing import CostingEngine
-from nwau_py.loaders import load_sample_activity, load_sample_costs
-
-engine = CostingEngine(pricing_year=2025)
-activity = load_sample_activity(source="synthetic_2025")
-costs = load_sample_costs(source="synthetic_2025")
-
-# price all streams
-priced = engine.price_activity(activity, price_type="nep", include_price=True)
-
-# merge with costs on (jurisdiction, stream, drg)
-merged = pd.merge(priced, costs, on=["jurisdiction", "stream", "drg"], how="inner")
-```
-
-## 2. Aggregate by stream
-
-```python
-stream_summary = (
-    merged.groupby("stream")
-    .agg(
-        episodes=("episode_id", "count"),
-        total_cost=("observed_cost", "sum"),
-        total_nep=("nep_price", "sum"),
-        total_weight=("weight", "sum"),
-    )
-    .assign(
-        cost_per_episode=lambda x: (x.total_cost / x.episodes).round(2),
-        nep_per_episode=lambda x: (x.total_nep / x.episodes).round(2),
-        cost_price_ratio=lambda x: (x.total_cost / x.total_nep).round(3),
-    )
-    .sort_values("total_cost", ascending=False)
+import numpy as np
+from nwau_py.calculators import (
+    calculate_acute, AcuteParams,
+    calculate_ed,     EDParams,
+    calculate_mh,     MHParams,
+    calculate_subacute, SubacuteParams,
+    calculate_outpatients, OutpatientParams,
 )
+from nwau_py.pricing_constants import get_nep
 
-stream_summary
-```
+np.random.seed(2025)
 
-## 3. Generate a comparison table
+# Acute
+acute_df = pd.DataFrame({
+    "DRG": np.random.choice(["E62A", "E62B", "F62A", "F62B", "G02A"], size=50),
+    "LOS": np.random.randint(1, 10, size=50),
+    "ICU_HOURS": 0, "ICU_OTHER": 0,
+    "PAT_SAMEDAY_FLAG": 0, "PAT_PRIVATE_FLAG": 0,
+})
 
-```python
-stream_summary.style.format({
-    "total_cost": "${:,.0f}",
-    "total_nep": "${:,.0f}",
-    "cost_per_episode": "${:,.0f}",
-    "nep_per_episode": "${:,.0f}",
-    "cost_price_ratio": "{:.2f}",
+# ED
+ed_df = pd.DataFrame({
+    "AECC": np.random.choice(["AECC01", "AECC02", "AECC03", "AECC04"], size=80),
+    "COMPENSABLE_STATUS": 2, "DVA_STATUS": 2,
+})
+
+# Mental health
+mh_df = pd.DataFrame({
+    "AMHCC": np.random.choice(["1A01", "1A02", "1B01", "2A01"], size=30),
+    "LOS": np.random.randint(1, 20, size=30),
+    "STATE": 1, "PAT_PRIVATE_FLAG": 0, "PAT_SAMEDAY_FLAG": 0,
+    "PAT_PUBLIC_FLAG": 1,
+    "priceCat": 1,
+})
+
+# Subacute
+sa_df = pd.DataFrame({
+    "ANSNAP": np.random.choice(["4A01", "4A02", "4B01", "4B02"], size=25),
+    "ADM_DATE": pd.Timestamp("2025-03-01"),
+    "SEP_DATE": pd.Timestamp("2025-03-10"),
+    "LEAVE_DAYS": 0, "BIRTH_DATE": pd.Timestamp("1970-06-15"),
+    "STATE": 1, "PAT_PRIVATE_FLAG": 0, "PAT_PUBLIC_FLAG": 1,
+    "CARE_TYPE": 1,
+})
+
+# Outpatients
+op_df = pd.DataFrame({
+    "TIER2_CLINIC": np.random.choice([20.01, 20.02, 30.01, 40.01], size=60),
+    "SERVICE_DATE": pd.Timestamp("2025-06-01"),
+    "BIRTH_DATE": pd.Timestamp("1980-01-01"),
 })
 ```
 
-The formatted table can be exported directly:
+### 2. Calculate NWAU per stream
 
 ```python
-stream_summary.to_csv("stream_benchmarking_summary.csv")
+result_acute  = calculate_acute(acute_df, AcuteParams())
+result_ed     = calculate_ed(ed_df, EDParams())
+result_mh     = calculate_mh(mh_df, MHParams())
+result_sa     = calculate_subacute(sa_df, SubacuteParams())
+result_op     = calculate_outpatients(op_df, OutpatientParams())
+
+nwau_col = "NWAU25"
+streams = {
+    "Acute":       result_acute,
+    "ED":          result_ed,
+    "MentalHealth": result_mh,
+    "Subacute":    result_sa,
+    "Outpatient":  result_op,
+}
 ```
 
-## 4. NHCDC benchmark comparison
-
-The National Hospital Cost Data Collection (NHCDC) publishes annual reference cost tables. You can overlay those publicly available averages onto your stream results:
+### 3. Calculate notional funding and build comparison table
 
 ```python
-nhcdc_ref = pd.read_csv("nhcdc_2025_reference_costs.csv")
+nep = get_nep("2025")
 
-comparison = pd.merge(
-    stream_summary.reset_index(),
-    nhcdc_ref[["stream", "national_avg_cost_per_episode"]],
-    on="stream",
-    how="left",
-)
+cost_benchmarks = {
+    "Acute":       5_800,
+    "ED":            620,
+    "MentalHealth": 9_200,
+    "Subacute":     7_400,
+    "Outpatient":     520,
+}
 
-comparison["variance_vs_nhcdc"] = (
-    comparison["cost_per_episode"] / comparison["national_avg_cost_per_episode"]
-).round(3)
+rows = []
+for stream_name, df_result in streams.items():
+    total_nwau = df_result[nwau_col].sum()
+    notional_funding = total_nwau * nep
+    n_episodes = len(df_result)
+    synthetic_obs_cost = n_episodes * cost_benchmarks[stream_name]
+    cost_ratio = (synthetic_obs_cost / notional_funding) if notional_funding > 0 else float("inf")
+    rows.append({
+        "Stream":    stream_name,
+        "Episodes":  n_episodes,
+        "Total NWAU":  round(total_nwau, 4),
+        "Notional Funding": round(notional_funding, 2),
+        "Observed Cost":    round(synthetic_obs_cost, 2),
+        "Cost Ratio":       round(cost_ratio, 4),
+    })
 
-comparison
+benchmark_table = pd.DataFrame(rows)
+benchmark_table
 ```
 
-<Aside>
-  NHCDC reference cost tables are published by IHACPA and available from
-  https://ihacpa.gov.au. The AHPCS methodology requires that costed
-  episodes follow the same scope, exclusions, and ABF grouper definitions
-  used in the NHCDC submission cycle.
-</Aside>
+The table shows each stream's aggregate NWAU, notional funding, synthetic observed cost, and cost ratio. Some streams may show `NWAU25 = 0` if the synthetic classification codes do not match the published price-weight tables — this realistically reflects what happens with incomplete reference data.
 
-## AHPCS methodology notes
+### 4. Export the comparison
+
+```python
+benchmark_table.to_csv("stream_benchmarking_summary.csv")
+```
+
+## NHCDC and AHPCS context
+
+- **NHCDC** provides the national cost benchmarks that inform NWAU price weights and the NEP.
+- **AHPCS** ensures methodological consistency in cost allocation across hospitals and jurisdictions.
+- Without AHPCS compliance, inter-hospital cost comparisons may be misleading.
+- In practice, non-admitted and subacute streams use NEC (not NEP) pricing, which has a fixed-plus-variable cost structure.
+
+### AHPCS methodology notes
 
 - **Scope alignment**: Only include episodes that fall within the NHCDC scope. Exclude non-admitted ED, S100 pharmaceuticals, and other out-of-scope activity.
 - **Cost allocation**: Use the AHPCS standard cost buckets (direct, indirect, on-costs) and apply the same overhead allocation ratios used in the NHCDC.
@@ -108,12 +148,20 @@ comparison
   benchmarking outputs.
 </Aside>
 
-<Aside type="caution">
+<Aside type="caution" title="Licensed grouper required">
   If your study uses AR-DRG, document the grouping version and licensed asset
   provenance explicitly. A custom mapping workflow or a public metadata
   registry is not a substitute for the official licensed grouper, and mixed
   versions can change the DRG assignment enough to invalidate a comparison.
 </Aside>
+
+## Caveats for real-world use
+
+1. **Not all streams use NEP** — subacute and non-admitted activity are more commonly priced via NEC (National Efficient Cost), which has a fixed-plus-variable cost structure.
+2. **NHCDC cost data is lagged** — NHCDC data typically reflects costs from 1–2 years prior.
+3. **Risk adjustment** — real benchmarking should adjust for case mix, remoteness, and indigenous status.
+4. **Jurisdiction variation** — states and territories may apply different price multipliers, loadings, and activity funding policies.
+5. **Synthetic data only** — all values shown are illustrative and do not reflect real hospital performance.
 
 ## What to try next
 
