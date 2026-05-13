@@ -1,9 +1,9 @@
 {
   "track_id": "contract_schema_export_20260512",
   "type": "feature",
-  "status": "new",
+  "status": "complete",
   "track_class": "data-contract",
-  "current_state": "roadmap-only",
+  "current_state": "spec-and-tests-complete",
   "primary_contract": "versioned public contract and schema export artifacts",
   "dependencies": [
     "public_api_contract_20260504",
