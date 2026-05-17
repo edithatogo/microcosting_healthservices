@@ -173,9 +173,9 @@ def test_docker_registry_candidate_metadata_is_prepared_not_published():
         root / "contracts" / "mcp" / "registry" / "docker" / "server.yaml"
     ).read_text(encoding="utf-8")
     tools_json = json.loads(
-        (
-            root / "contracts" / "mcp" / "registry" / "docker" / "tools.json"
-        ).read_text(encoding="utf-8")
+        (root / "contracts" / "mcp" / "registry" / "docker" / "tools.json").read_text(
+            encoding="utf-8"
+        )
     )
 
     assert "name: mchs" in server_yaml
