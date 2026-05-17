@@ -1,6 +1,6 @@
 # MCP Registry Submission Decisions
 
-Date: 2026-05-16
+Date: 2026-05-17
 
 ## Current Artifact
 
@@ -11,8 +11,8 @@ Docker is not required.
 
 | Registry | Decision | Evidence |
 | --- | --- | --- |
-| Official MCP Registry | Automated through GitHub OIDC after a package release includes `mchs-mcp`; blocked only until the next release/tag is published. | `contracts/mcp/registry/server.json`; `nwau_py/README.md` contains `mcp-name: io.github.edithatogo/mchs` for PyPI ownership verification; `.github/workflows/publish-mcp-registry.yml` runs `mcp-publisher publish`. |
-| Glama | Prepared as a secondary discovery target after the public release contains the MCP entry point. | Public repository and stdio server metadata exist. |
+| Official MCP Registry | Published. | `mcp-publisher` published `io.github.edithatogo/mchs` version `0.2.2` on 2026-05-17; registry search API returns active/latest metadata for `io.github.edithatogo/mchs`; `nwau-py 0.2.2` is visible on PyPI. |
+| Glama | Eligible through official-registry indexing; no separate authenticated submission completed from this environment. | Glama documentation states it is a superset of the official MCP Registry. Direct Glama API verification was blocked by its edge protection from this environment. |
 | Smithery | Deferred. | No Streamable HTTP endpoint or MCPB bundle exists in this track. |
 | Docker MCP Registry | Deferred. | No Docker image is required or produced for the first MCP release. |
 
@@ -54,13 +54,16 @@ For development from the repository checkout:
 uv run mchs-mcp
 ```
 
-## Submission Blockers
+## Publication Evidence
 
-- Official registry submission is automated with GitHub OIDC. The workflow
-  waits for the tagged `nwau-py` version to appear on PyPI, then runs
-  `mcp-publisher login github-oidc` and `mcp-publisher publish` from the
-  directory containing `server.json`.
-- Public package metadata must be refreshed after the next release that includes
-  the `mchs-mcp` console script.
+- GitHub release: `https://github.com/edithatogo/mchs/releases/tag/v0.2.2`
+- PyPI package: `https://pypi.org/project/nwau-py/0.2.2/`
+- Official MCP Registry search:
+  `https://registry.modelcontextprotocol.io/v0/servers?search=io.github.edithatogo%2Fmchs`
+- MCP Registry publish workflow:
+  `https://github.com/edithatogo/mchs/actions/runs/25981730256`
+
+## Remaining Submission Blockers
+
 - Smithery and Docker registry submission require packaging surfaces that are
   intentionally out of scope for the first stdio release.

@@ -43,13 +43,13 @@ tagged source.
 
 ## Package registry status
 
-As of 2026-05-16:
+As of 2026-05-17:
 
 | Surface | Distribution evidence | Registry state |
 | --- | --- | --- |
-| Python package (`nwau-py`) | `pyproject.toml`, release workflow, and PyPI badge links | **Published** on PyPI |
+| Python package (`nwau-py`) | `pyproject.toml`, release workflow, and PyPI badge links | **Published** on PyPI at `nwau-py 0.2.2` |
 | Conda package (`nwau-py`) | `conda/recipe/meta.yaml` | **Recipe-only** (not yet conda-forge published) |
-| MCP stdio server (`mchs-mcp`) | `nwau_py/mcp_server.py`, `contracts/mcp/registry/server.json`, `.github/workflows/publish-mcp-registry.yml` | **Prepared** for local use; official MCP Registry publication is automated after the next package release containing `mchs-mcp` |
+| MCP stdio server (`mchs-mcp`) | `nwau_py/mcp_server.py`, `contracts/mcp/registry/server.json`, `.github/workflows/publish-mcp-registry.yml` | **Published** to the official MCP Registry as `io.github.edithatogo/mchs` version `0.2.2` |
 | Rust crates (`nwau-core`, `nwau-c-abi`, `nwau-py`) | `rust/crates/*/Cargo.toml` | **Unpublished/Private** (crate code exists locally; two crates set `publish = false`) |
 | `@mchs/wasm-binding` package manifest | `wasm-binding/package.json` | **Private** (`"private": true`) |
 | R / Julia / Scala / Spark / Swift / Stata / MATLAB / Kotlin-Native / Power Platform | Track specs in `conductor/tracks/*` | **Private** / roadmap-only; no registry artifacts claimed |

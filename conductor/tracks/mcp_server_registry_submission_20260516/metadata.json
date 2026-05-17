@@ -4,7 +4,7 @@
   "status": "completed",
   "track_class": "publication",
   "priority": "immediate",
-  "current_state": "complete-with-gaps",
+  "current_state": "complete",
   "primary_contract": "contracts/mcp/README.md",
   "dependencies": [
     "mcp_contract_20260513",
@@ -12,7 +12,7 @@
     "contract_enforcement_harness_20260513"
   ],
   "created_at": "2026-05-16T00:00:00Z",
-  "updated_at": "2026-05-17T00:00:00Z",
+  "updated_at": "2026-05-17T04:52:24Z",
   "description": "Implement a runnable stdio-first MCP server and submit eligible metadata to MCP registries without requiring Docker.",
   "completion_evidence": [
     "nwau_py/mcp_server.py",
@@ -27,5 +27,5 @@
     "README.md",
     "docs/roadmaps/polyglot-packaging-release-matrix.md"
   ],
-  "publication_status": "unpublished"
+  "publication_status": "published"
 }
