@@ -57,7 +57,7 @@ jobs:
                   )
 
           recipe_text = Path("conda/recipe/meta.yaml").read_text(encoding="utf-8")
-          recipe_match = re.search(r'{%\\s*set\\s+version\\s*=\\s*"([^"]+)"\\s*%}', recipe_text)
+          recipe_match = re.search(r'{%\s*set\s+version\s*=\s*"([^"]+)"\s*%}', recipe_text)
           if not recipe_match:
               raise SystemExit("Could not read conda recipe version from conda/recipe/meta.yaml")
           recipe_version = recipe_match.group(1)
