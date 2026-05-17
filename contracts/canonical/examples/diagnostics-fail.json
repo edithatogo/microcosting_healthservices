@@ -1,0 +1,33 @@
+{
+  "diagnostics": [
+    {
+      "severity": "error",
+      "code": "MCHS-ERR-VAL-001",
+      "message": "Field 'age' value 275 exceeds maximum allowed value of 130",
+      "path": "/inputs/age",
+      "value": 275,
+      "rule": "range-check"
+    },
+    {
+      "severity": "error",
+      "code": "MCHS-ERR-VAL-002",
+      "message": "Field 'drgCode' is not a valid AR-DRG code",
+      "path": "/inputs/drgCode",
+      "value": "INVALID",
+      "rule": "enum-check"
+    },
+    {
+      "severity": "warning",
+      "code": "MCHS-WARN-DEP-001",
+      "message": "Stream 'admitted_acute' for year '2024-25' is deprecated; migrate to 2025-26",
+      "path": "/inputs/year",
+      "value": "2024-25",
+      "rule": "deprecation-check"
+    }
+  ],
+  "summary": {
+    "errorCount": 2,
+    "warningCount": 1,
+    "infoCount": 0
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mchs.example.org/schemas/diagnostics.json",
+  "title": "Diagnostics",
+  "description": "Diagnostic and error reporting schema for validation and calculation failures. Supports structured error reporting with severity, location, and provenance.",
+  "type": "object",
+  "properties": {
+    "diagnostics": {
+      "type": "array",
+      "description": "List of diagnostic entries",
+      "items": {
+        "$ref": "#/$defs/diagnosticEntry"
+      },
+      "minItems": 1
+    },
+    "summary": {
+      "type": "object",
+      "description": "Summary counts for the diagnostics batch",
+      "properties": {
+        "errorCount": { "type": "integer", "minimum": 0 },
+        "warningCount": { "type": "integer", "minimum": 0 },
+        "infoCount": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["errorCount", "warningCount", "infoCount"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["diagnostics", "summary"],
+  "additionalProperties": false,
+  "$defs": {
+    "diagnosticEntry": {
+      "type": "object",
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": ["error", "warning", "info"],
+          "description": "Severity level of the diagnostic"
+        },
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error or warning code",
+          "examples": ["MCHS-001", "MCHS-ERR-VAL-001", "MCHS-WARN-DEP-001"]
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description of the issue"
+        },
+        "path": {
+          "type": "string",
+          "description": "JSON Pointer (RFC 6901) to the field in error, if applicable",
+          "examples": ["/inputs/age", "/inputs/drgCode"]
+        },
+        "value": {
+          "description": "The offending value, if available"
+        },
+        "rule": {
+          "type": "string",
+          "description": "Identifier of the validation rule that triggered this diagnostic",
+          "examples": ["range-check", "enum-check", "required-field"]
+        },
+        "provenance": {
+          "$ref": "provenance.schema.json",
+          "description": "Optional provenance metadata for this diagnostic"
+        }
+      },
+      "required": ["severity", "code", "message"],
+      "additionalProperties": false
+    }
+  }
+}

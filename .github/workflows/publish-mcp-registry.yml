@@ -1,0 +1,77 @@
+name: Publish MCP Registry metadata
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to publish, for example v0.2.1
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_REF_NAME: ${{ github.event_name == 'release' && github.event.release.tag_name || github.event.inputs.tag }}
+      RELEASE_REF_TYPE: tag
+    steps:
+      - name: Check out repository at release tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_REF_NAME }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Validate release and MCP Registry metadata
+        run: uv run python .github/scripts/validate_release_metadata.py
+
+      - name: Wait for PyPI package version
+        run: |
+          set -euo pipefail
+          version="${RELEASE_REF_NAME#v}"
+          python - "${version}" <<'PY'
+          import json
+          import sys
+          import time
+          import urllib.request
+
+          version = sys.argv[1]
+          url = "https://pypi.org/pypi/nwau-py/json"
+          for attempt in range(30):
+              with urllib.request.urlopen(url, timeout=20) as response:
+                  payload = json.loads(response.read().decode("utf-8"))
+              if version in payload.get("releases", {}):
+                  print(f"Found nwau-py {version} on PyPI")
+                  raise SystemExit(0)
+              print(f"nwau-py {version} not visible on PyPI yet; attempt {attempt + 1}/30")
+              time.sleep(20)
+          raise SystemExit(f"Timed out waiting for nwau-py {version} on PyPI")
+          PY
+
+      - name: Install mcp-publisher
+        run: |
+          set -euo pipefail
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar -xz -f - mcp-publisher
+
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        working-directory: contracts/mcp/registry
+        run: ../../../mcp-publisher publish

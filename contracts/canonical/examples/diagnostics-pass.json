@@ -1,0 +1,16 @@
+{
+  "diagnostics": [
+    {
+      "severity": "info",
+      "code": "MCHS-INF-001",
+      "message": "Input validated successfully",
+      "path": "",
+      "rule": "schema-validation"
+    }
+  ],
+  "summary": {
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 1
+  }
+}

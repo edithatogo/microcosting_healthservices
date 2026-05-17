@@ -1,0 +1,12 @@
+{
+  "id": "icu-bed-day",
+  "displayName": "ICU Bed-Day",
+  "description": "Missing required fields and invalid enumeration values",
+  "version": "1.2.0",
+  "supportedStreams": ["admitted_acute", "invalid_stream"],
+  "supportedYears": ["20XX-YY"],
+  "inputSchema": {
+    "$ref": "https://mchs.example.org/schemas/inputs/icu-bed-day.json",
+    "format": "json-schema"
+  }
+}

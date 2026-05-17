@@ -32,12 +32,30 @@ The repo uses release drafts for notes and a release workflow to build
 distributions and publish GitHub Releases from tagged commits.
 Tagged releases also trigger Python package publishing to PyPI through
 trusted publishing.
+The Rust GA workflow also publishes Rust artifacts to GitHub Releases,
+but crates.io submission is not wired in this repository yet.
 The conda-forge recipe draft is maintained under `conda/recipe/`; new conda
-packages still need to enter conda-forge through a pull request to
-`conda-forge/staged-recipes` before users can install from the public
-`conda-forge` channel.
+packages are currently recipe-only until a staged-recipes PR is accepted and
+the package appears on the public channel; users should treat conda-forge as
+unpublished until that registry record exists.
 All release claims still depend on the CI and validation gates passing for the
 tagged source.
+
+## Package registry status
+
+As of 2026-05-16:
+
+| Surface | Distribution evidence | Registry state |
+| --- | --- | --- |
+| Python package (`nwau-py`) | `pyproject.toml`, release workflow, and PyPI badge links | **Published** on PyPI |
+| Conda package (`nwau-py`) | `conda/recipe/meta.yaml` | **Recipe-only** (not yet conda-forge published) |
+| MCP stdio server (`mchs-mcp`) | `nwau_py/mcp_server.py`, `contracts/mcp/registry/server.json`, `.github/workflows/publish-mcp-registry.yml` | **Prepared** for local use; official MCP Registry publication is automated after the next package release containing `mchs-mcp` |
+| Rust crates (`nwau-core`, `nwau-c-abi`, `nwau-py`) | `rust/crates/*/Cargo.toml` | **Unpublished/Private** (crate code exists locally; two crates set `publish = false`) |
+| `@mchs/wasm-binding` package manifest | `wasm-binding/package.json` | **Private** (`"private": true`) |
+| R / Julia / Scala / Spark / Swift / Stata / MATLAB / Kotlin-Native / Power Platform | Track specs in `conductor/tracks/*` | **Private** / roadmap-only; no registry artifacts claimed |
+
+Do not state registry submission success (including crates.io, npm, CRAN, NuGet,
+etc.) unless a registry page exists and is linked in evidence.
 
 The repository also contains a Rust workspace scaffold for calculator-core
 migration. Python remains the current validated runtime path until Rust parity
@@ -101,7 +119,7 @@ Published releases are available from PyPI:
 python -m pip install nwau-py
 ```
 
-After the conda-forge staged-recipes submission is accepted, conda users can
+After the conda-forge staged-recipes submission is accepted and the package is publicly available, conda users can
 install with:
 
 ```bash

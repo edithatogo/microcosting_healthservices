@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mchs.example.org/schemas/support-status.json",
+  "title": "Support Status",
+  "description": "Describes the support lifecycle status for a stream/year combination. Indicates whether a stream is active, deprecated, or retired for a given financial year.",
+  "type": "object",
+  "properties": {
+    "stream": {
+      "type": "string",
+      "description": "The AR-DRG stream identifier",
+      "enum": [
+        "admitted_acute",
+        "admitted_non_acute",
+        "emergency_department",
+        "outpatient_clinic",
+        "sub_acute",
+        "mental_health",
+        "community_health",
+        "primary_care"
+      ]
+    },
+    "year": {
+      "type": "string",
+      "description": "Financial year in YYYY-YY format",
+      "pattern": "^\\d{4}-\\d{2}$",
+      "examples": ["2025-26", "2026-27"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "deprecated", "retired"],
+      "description": "Support lifecycle status: active = fully supported; deprecated = still usable but will be removed; retired = no longer supported"
+    },
+    "deprecationMessage": {
+      "type": "string",
+      "description": "Message explaining deprecation or retirement, including migration path if applicable"
+    },
+    "sunsetDate": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when deprecated support ends",
+      "examples": ["2026-06-30"]
+    },
+    "provenance": {
+      "$ref": "provenance.schema.json",
+      "description": "Provenance metadata for this status record"
+    }
+  },
+  "required": ["stream", "year", "status"],
+  "additionalProperties": false
+}

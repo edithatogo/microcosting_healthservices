@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mchs.example.org/schemas/evidence.json",
+  "title": "Evidence Bundle",
+  "description": "Schema for an evidence bundle that accompanies a calculation result. Contains references to data sources, methodology documents, assumptions, and cost weights used in the micro-costing calculation.",
+  "type": "object",
+  "properties": {
+    "bundleId": {
+      "type": "string",
+      "description": "Unique identifier for this evidence bundle",
+      "examples": ["evb-a1b2c3d4", "evb-icu-2025-q2"]
+    },
+    "calculatorId": {
+      "type": "string",
+      "description": "The calculator that produced the result this evidence supports"
+    },
+    "references": {
+      "type": "array",
+      "description": "List of evidence references",
+      "items": {
+        "$ref": "#/$defs/evidenceReference"
+      },
+      "minItems": 0
+    },
+    "costWeightVersion": {
+      "type": "string",
+      "description": "Version identifier of the cost weight schedule used",
+      "examples": ["CW-2025-v2", "IHACPA-NWAU-2025-26"]
+    },
+    "dataSources": {
+      "type": "array",
+      "description": "Data sources used in the calculation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "url": { "type": "string", "format": "uri" }
+        },
+        "required": ["name"],
+        "additionalProperties": false
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Assumptions recorded for this calculation",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": { "type": "string" },
+          "description": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["key", "description"],
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "$ref": "provenance.schema.json",
+      "description": "Provenance metadata for the evidence bundle"
+    }
+  },
+  "required": ["bundleId", "calculatorId", "references", "costWeightVersion"],
+  "additionalProperties": false,
+  "$defs": {
+    "evidenceReference": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Reference identifier",
+          "examples": ["ref-nwa-2025-table-4.2"]
+        },
+        "type": {
+          "type": "string",
+          "enum": ["cost_weight", "methodology", "data_table", "publication", "internal_doc"],
+          "description": "Type of evidence reference"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the referenced document or data"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the evidence source"
+        },
+        "description": {
+          "type": "string",
+          "description": "Free-text description of how this evidence was used"
+        }
+      },
+      "required": ["id", "type", "title"],
+      "additionalProperties": false
+    }
+  }
+}

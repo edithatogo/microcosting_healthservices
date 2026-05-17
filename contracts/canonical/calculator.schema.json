@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mchs.example.org/schemas/calculator.json",
+  "title": "Calculator",
+  "description": "Describes a micro-costing calculator: its identity, supported streams, years, and input schema reference.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique calculator identifier, e.g. 'icu-bed-day'",
+      "examples": ["icu-bed-day", "ed-presentation", "chemotherapy-cycle"]
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable calculator name",
+      "examples": ["ICU Bed-Day", "Emergency Department Presentation", "Chemotherapy Cycle"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what the calculator computes"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the calculator definition",
+      "examples": ["1.0.0", "2.3.1"]
+    },
+    "supportedStreams": {
+      "type": "array",
+      "description": "AR-DRG streams this calculator applies to",
+      "items": {
+        "type": "string",
+        "enum": [
+          "admitted_acute",
+          "admitted_non_acute",
+          "emergency_department",
+          "outpatient_clinic",
+          "sub_acute",
+          "mental_health",
+          "community_health",
+          "primary_care"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "supportedYears": {
+      "type": "array",
+      "description": "Financial years for which the calculator is valid",
+      "items": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}$",
+        "examples": ["2025-26", "2026-27"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "inputSchema": {
+      "$ref": "#/$defs/schemaRef",
+      "description": "Reference to the JSON Schema defining required inputs for this calculator"
+    },
+    "outputSchema": {
+      "$ref": "#/$defs/schemaRef",
+      "description": "Reference to the JSON Schema defining the calculation result structure"
+    }
+  },
+  "required": ["id", "displayName", "supportedStreams", "supportedYears", "inputSchema", "outputSchema"],
+  "additionalProperties": false,
+  "$defs": {
+    "schemaRef": {
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "description": "URI reference to a JSON Schema file",
+          "examples": ["https://mchs.example.org/schemas/inputs/icu-bed-day.json"]
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "json-schema"],
+          "description": "Indicates the format of the referenced schema"
+        }
+      },
+      "required": ["$ref", "format"],
+      "additionalProperties": false
+    }
+  }
+}

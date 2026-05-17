@@ -1,0 +1,46 @@
+{
+  "bundleId": "evb-a1b2c3d4",
+  "calculatorId": "icu-bed-day",
+  "references": [
+    {
+      "id": "ref-nwa-2025-table-4.2",
+      "type": "cost_weight",
+      "title": "National Weighted Activity Unit Schedule 2025-26, Table 4.2",
+      "url": "https://ihacpa.example.gov.au/nwau/2025-26/table-4.2",
+      "description": "Cost weights for ICU AR-DRGs used in the calculation"
+    },
+    {
+      "id": "ref-methodology-v2",
+      "type": "methodology",
+      "title": "ICU Micro-Costing Methodology v2.1",
+      "url": "https://mchs.example.org/methodology/icu-v2.1",
+      "description": "Methodology for allocating staffing and consumable costs"
+    }
+  ],
+  "costWeightVersion": "CW-2025-v2",
+  "dataSources": [
+    {
+      "name": "IHACPA NWAU Schedule",
+      "version": "2025-26",
+      "url": "https://ihacpa.example.gov.au/nwau/2025-26"
+    }
+  ],
+  "assumptions": [
+    {
+      "key": "nurse-patient-ratio",
+      "description": "Assumed nurse-to-patient ratio for ICU",
+      "value": "1:1"
+    },
+    {
+      "key": "bed-occupancy-rate",
+      "description": "Assumed annual bed occupancy rate",
+      "value": "85%"
+    }
+  ],
+  "provenance": {
+    "source": "mchs-calc-engine",
+    "schemaVersion": "1.0.0",
+    "generatedAt": "2025-06-30T14:30:00Z",
+    "generatedBy": "mchs-cli/1.0.0"
+  }
+}

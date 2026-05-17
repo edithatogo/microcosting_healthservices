@@ -1,0 +1,12 @@
+{
+  "bundleId": "evb-a1b2c3d4",
+  "calculatorId": "icu-bed-day",
+  "references": [
+    {
+      "id": "ref-bad",
+      "type": "invalid_type",
+      "title": "Bad evidence reference"
+    }
+  ],
+  "costWeightVersion": "CW-2025-v2"
+}

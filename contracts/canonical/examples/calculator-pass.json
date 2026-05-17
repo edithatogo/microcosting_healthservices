@@ -1,0 +1,16 @@
+{
+  "id": "icu-bed-day",
+  "displayName": "ICU Bed-Day",
+  "description": "Calculates the micro-cost of a single ICU bed-day including staffing, consumables, and overhead allocation",
+  "version": "1.2.0",
+  "supportedStreams": ["admitted_acute"],
+  "supportedYears": ["2025-26", "2026-27"],
+  "inputSchema": {
+    "$ref": "https://mchs.example.org/schemas/inputs/icu-bed-day.json",
+    "format": "json-schema"
+  },
+  "outputSchema": {
+    "$ref": "https://mchs.example.org/schemas/outputs/cost-result.json",
+    "format": "json-schema"
+  }
+}

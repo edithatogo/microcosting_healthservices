@@ -1,0 +1,7 @@
+{
+  "stream": "admitted_acute",
+  "year": "2024-25",
+  "status": "deprecated",
+  "deprecationMessage": "Stream year 2024-25 is deprecated. Please migrate to 2025-26. Deprecated calculators will be retired after 2026-06-30.",
+  "sunsetDate": "2026-06-30"
+}

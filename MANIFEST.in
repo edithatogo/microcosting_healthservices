@@ -1,0 +1,13 @@
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include nwau_py *.py *.md
+recursive-include nwau_py/data *.csv *.json
+recursive-include nwau_py/mcp_assets *.schema.json
+recursive-include excel_calculator/src *.py
+recursive-include excel_calculator/scripts *.py
+prune archive
+prune build
+prune dist
+prune tests
+global-exclude __pycache__ *.py[cod]

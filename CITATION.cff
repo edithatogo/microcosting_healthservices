@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 type: software
 title: "NWAU Calculator: Python Tools for Australian Health-Service Microcosting"
-version: 0.2.1
-date-released: 2026-05-12
+version: 0.2.2
+date-released: 2026-05-17
 authors:
   - family-names: Mordaunt
     given-names: Dylan A
@@ -28,7 +28,7 @@ preferred-citation:
   authors:
     - family-names: Mordaunt
       given-names: Dylan A
-  version: 0.2.1
-  date-released: 2026-05-12
+  version: 0.2.2
+  date-released: 2026-05-17
   repository-code: "https://github.com/edithatogo/mchs"
   url: "https://edithatogo.github.io/mchs/"

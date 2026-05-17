@@ -35,6 +35,8 @@ jobs:
       - name: Check out repository
         if: github.event_name != 'release'
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -61,6 +63,7 @@ jobs:
         if: github.event_name == 'release'
         run: |
           set -euo pipefail
+          shopt -s nullglob
           artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
           if [ ${#artifacts[@]} -eq 0 ]; then
             echo "No release artifacts available for attestation verification."
@@ -94,11 +97,13 @@ jobs:
 
       - name: Verify release artifact checksums
         run: |
-          find dist -maxdepth 1 -type f -printf '%f\n' > dist/files.txt
-          awk '/^(checksums\.txt|.*\.whl|.*\.tar\.gz|.*\.zip)$/ {next} {print}' dist/files.txt | tee dist/unexpected-files.txt
-          test ! -s dist/unexpected-files.txt || {
+          files_list="${RUNNER_TEMP:-/tmp}/publish-dist-files.txt"
+          unexpected_files="${RUNNER_TEMP:-/tmp}/publish-unexpected-files.txt"
+          find dist -maxdepth 1 -type f -printf '%f\n' > "${files_list}"
+          awk '/^(checksums\.txt|sbom\.cdx\.json|.*\.whl|.*\.tar\.gz|.*\.zip)$/ {next} {print}' "${files_list}" | tee "${unexpected_files}"
+          test ! -s "${unexpected_files}" || {
             echo "Unexpected files in dist/ for publish:"
-            cat dist/unexpected-files.txt
+            cat "${unexpected_files}"
             exit 1
           }
           test -f dist/checksums.txt || {
@@ -107,9 +112,11 @@ jobs:
           }
           awk '
             NF == 2 || NF == 3 {
-              file = $(NF)
-              if (file !~ /(\\.whl|\\.tar\\.gz|\\.zip)$/ && file != "checksums.txt") {
-                print "Invalid artifact in checksums manifest: " file
+              raw_file = $(NF)
+              file = raw_file
+              sub(/^dist\//, "", file)
+              if (file !~ /(\\.whl|\\.tar\\.gz|\\.zip|\\.json)$/ && file != "checksums.txt") {
+                print "Invalid artifact in checksums manifest: " raw_file
                 bad = 1
                 next
               }
@@ -135,13 +142,16 @@ jobs:
           fi
           checksum_count="$(awk 'NF == 2 || NF == 3 {
             file = $(NF)
+            sub(/^dist\//, "", file)
             if (file ~ /(\\.whl|\\.tar\\.gz|\\.zip)$/) print file
           }' dist/checksums.txt | sort -u | wc -l | tr -d ' ')"
           for artifact in "${artifacts[@]}"; do
             base="$(basename "${artifact}")"
             if ! awk -v file="${base}" '{
               if (NF == 2 || NF == 3) {
-                if ($(NF) == file) found=1
+                checksum_file = $(NF)
+                sub(/^dist\//, "", checksum_file)
+                if (checksum_file == file) found=1
               }
             } END { exit !found }' dist/checksums.txt > /dev/null; then
               echo "Artifact not listed in checksums: ${base}"
@@ -155,5 +165,17 @@ jobs:
           sha256sum --check dist/checksums.txt
           echo "Artifact checksums verified."
 
+      - name: Validate MCP package artifacts
+        run: uv run python .github/scripts/validate_mcp_package_artifacts.py
+
+      - name: Prepare PyPI upload artifacts
+        run: |
+          set -euo pipefail
+          rm -rf dist-pypi
+          mkdir dist-pypi
+          cp dist/*.whl dist/*.tar.gz dist-pypi/
+
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist-pypi/

@@ -1,5 +1,7 @@
 # nwau_py
 
+<!-- mcp-name: io.github.edithatogo/mchs -->
+
 This package provides utilities for working with IHACPA funding weights.
 
 ## Installation

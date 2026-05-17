@@ -1,0 +1,17 @@
+{
+  "tool": "mchs.calculate",
+  "input": {
+    "calculatorId": "non-existent-calculator",
+    "year": "2025-26",
+    "inputs": {}
+  },
+  "output": {
+    "isError": true,
+    "content": [
+      {
+        "type": "text",
+        "text": "Error MCHS-ERR-NOTFOUND-001: Calculator 'non-existent-calculator' not found. Use mchs.list_calculators to see available calculators."
+      }
+    ]
+  }
+}

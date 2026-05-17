@@ -1,0 +1,66 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.edithatogo/mchs",
+  "title": "MCHS NWAU Calculator",
+  "description": "Stdio MCP server exposing MCHS calculator schemas, validation, support status, and evidence over the canonical Python runtime boundary.",
+  "repository": {
+    "url": "https://github.com/edithatogo/mchs",
+    "source": "github"
+  },
+  "version": "0.2.2",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "nwau-py",
+      "version": "0.2.2",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "tool": "codex",
+      "version": "1.0.0"
+    },
+    "io.github.edithatogo/mchs": {
+      "entrypoint": "mchs-mcp",
+      "dockerRequired": false,
+      "capabilities": {
+        "tools": [
+          "mchs.list_calculators",
+          "mchs.get_schema",
+          "mchs.validate_input",
+          "mchs.calculate",
+          "mchs.explain_result",
+          "mchs.get_evidence"
+        ],
+        "resources": [
+          "mchs://schemas",
+          "mchs://support/status",
+          "mchs://calculators",
+          "mchs://evidence/mcp-server-readiness-20260516"
+        ]
+      },
+      "supportScope": {
+        "runtime": "Python",
+        "transport": "stdio",
+        "years": [
+          "2024",
+          "2025"
+        ],
+        "formulaLogicPolicy": "The MCP server delegates to the canonical runtime and does not duplicate calculator formula logic."
+      },
+      "security": {
+        "networkAccess": "none-required-for-stdio",
+        "dataHandling": "Local process; no telemetry or external submission by the server.",
+        "healthcareCaveat": "Private or restricted healthcare deployments should use an internal registry or catalog."
+      },
+      "knownLimitations": [
+        "Official MCP Registry submission requires mcp-publisher authentication.",
+        "Smithery submission is deferred until Streamable HTTP or MCPB packaging exists.",
+        "Docker MCP Registry submission is deferred because the first release is not containerized."
+      ]
+    }
+  }
+}

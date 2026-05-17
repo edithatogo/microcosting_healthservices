@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  attestations: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -19,6 +20,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -31,15 +34,52 @@ jobs:
       - name: Validate release tag and package version metadata
         run: uv run python .github/scripts/validate_release_metadata.py
 
+      - name: Verify signed tag
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "Verifying tag: ${TAG}"
+          if git verify-tag "${TAG}" 2>/dev/null; then
+            echo "Tag signature verified successfully"
+          else
+            echo "WARNING: Tag is not signed. Consider signing tags for GA releases."
+          fi
+
       - name: Build release artifacts
         run: |
           uv build
+
+      - name: Validate MCP package artifacts
+        run: uv run python .github/scripts/validate_mcp_package_artifacts.py
+
+      - name: Generate SBOM (CycloneDX)
+        run: |
+          uv run pip install cyclonedx-bom 2>/dev/null || true
+          if command -v cyclonedx-py &>/dev/null; then
+            cyclonedx-py --project-name nwau_py --output dist/sbom.cdx.json
+          else
+            echo "SBOM generator not available; generating minimal metadata."
+            project_version="$(uv run python -c 'import tomllib; print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')"
+            cat > dist/sbom.cdx.json << SBOM
+            {
+              "bomFormat": "CycloneDX",
+              "specVersion": "1.5",
+              "version": 1,
+              "metadata": {
+                "component": {
+                  "name": "nwau_py",
+                  "version": "${project_version}",
+                  "type": "library"
+                }
+              }
+            }
+            SBOM
+          fi
 
       - name: Generate artifact checksums
         run: |
           set -euo pipefail
           shopt -s nullglob
-          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip)
+          artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip dist/*.json)
           if [ ${#artifacts[@]} -eq 0 ]; then
             echo "No distributable artifacts found in dist/ to checksum."
             exit 1

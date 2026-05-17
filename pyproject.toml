@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "nwau_py"
-version = "0.2.1"
+version = "0.2.2"
 description = "Utilities for calculating IHACPA National Weighted Activity Units"
 authors = [{name="IHACPA"}]
 readme = "nwau_py/README.md"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.10,<3.15"
 dependencies = [
     "click",
@@ -20,6 +21,7 @@ dependencies = [
     "polars",
     "pyreadstat",
     "pyxlsb",
+    "pyyaml>=6.0.3",
 ]
 
 [dependency-groups]
@@ -55,9 +57,21 @@ docs = [
 
 [project.scripts]
 funding-calculator = "nwau_py.cli.main:cli"
+mchs-mcp = "nwau_py.mcp_server:main"
 
 [tool.setuptools.packages.find]
 where = [".", "excel_calculator/src"]
+include = ["nwau_py*", "excel_calculator*"]
+exclude = ["archive*", "build*", "dist*", "examples*", "scripts*", "tests*"]
+
+[tool.setuptools.package-data]
+nwau_py = [
+    "README.md",
+    "data/*.csv",
+    "data/*.json",
+    "docs/*.md",
+    "mcp_assets/canonical/*.schema.json",
+]
 
 [tool.ruff]
 target-version = "py310"

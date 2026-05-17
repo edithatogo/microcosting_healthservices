@@ -1,0 +1,31 @@
+{
+  "track_id": "mcp_server_registry_submission_20260516",
+  "type": "feature",
+  "status": "completed",
+  "track_class": "publication",
+  "priority": "immediate",
+  "current_state": "complete-with-gaps",
+  "primary_contract": "contracts/mcp/README.md",
+  "dependencies": [
+    "mcp_contract_20260513",
+    "canonical_contract_foundation_20260513",
+    "contract_enforcement_harness_20260513"
+  ],
+  "created_at": "2026-05-16T00:00:00Z",
+  "updated_at": "2026-05-17T00:00:00Z",
+  "description": "Implement a runnable stdio-first MCP server and submit eligible metadata to MCP registries without requiring Docker.",
+  "completion_evidence": [
+    "nwau_py/mcp_server.py",
+    "tests/test_mcp_server.py",
+    "contracts/mcp/registry/server.json",
+    "contracts/mcp/registry/submission-decisions.md",
+    "contracts/mcp/registry/release-execution-v0.2.2.md",
+    ".github/scripts/validate_mcp_package_artifacts.py",
+    ".github/workflows/publish-mcp-registry.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/publish.yml",
+    "README.md",
+    "docs/roadmaps/polyglot-packaging-release-matrix.md"
+  ],
+  "publication_status": "unpublished"
+}

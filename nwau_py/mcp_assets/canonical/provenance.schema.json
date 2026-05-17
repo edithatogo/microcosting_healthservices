@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mchs.example.org/schemas/provenance.json",
+  "title": "Provenance",
+  "description": "Provenance metadata schema. Tracks the origin, version, and lineage of data, schemas, or calculation results within the micro-costing system.",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Name of the source system or data origin",
+      "examples": ["ihacpa-pub", "user-input", "mchs-schema-registry", "derived"]
+    },
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of the schema or contract that produced the data",
+      "examples": ["1.0.0", "2.3.1"]
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the data was generated",
+      "examples": ["2025-06-30T14:30:00Z", "2025-06-30T14:30:00+10:00"]
+    },
+    "generatedBy": {
+      "type": "string",
+      "description": "Identifier of the tool, service, or user that generated the data",
+      "examples": ["mchs-cli/1.0.0", "mchs-api-server/2.1.0", "user-alice"]
+    },
+    "inputDigest": {
+      "type": "string",
+      "description": "Cryptographic hash (SHA-256 hex) of the input data for reproducibility",
+      "examples": ["e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Free-form metadata key-value pairs",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["source", "schemaVersion", "generatedAt", "generatedBy"],
+  "additionalProperties": false
+}

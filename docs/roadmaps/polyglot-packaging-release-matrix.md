@@ -29,26 +29,29 @@ Common release gates apply to every surface:
 
 ## Packaging matrix
 
-| Surface | Artifact/package shape | Current status | Release gate to advance |
-| --- | --- | --- | --- |
-| Python | Wheels and source distribution | `ga` current validated public runtime | Keep as baseline until every promoted surface demonstrates parity against the same fixtures and diagnostics contract. |
-| Rust | Crates | `preview` internal-first binding layer | Promote to `ga` only when the Rust core is the single source of formula logic, the public crate API is stable, and semver/release automation is in place. |
-| R | Package wrapper over the shared core or file contract | `private` | Release when the wrapper is thin, R CI validates the same fixtures, and the package does not embed duplicate formula logic. |
-| Julia | Package wrapper over the shared core or file contract | `private` | Release when Julia CI, artifact install checks, and parity fixtures pass without runtime-specific behavior drift. |
-| NuGet / C# | .NET package and managed wrapper | `preview` | Release when the .NET wrapper remains thin, binary compatibility is documented, and signed package publishing is repeatable. |
-| Go | Go module, preferably thin wrapper over C ABI or CLI/file contract | `private` | Release when cross-compilation is stable, no duplicated business logic exists, and the module can be tested end-to-end in CI. |
-| TypeScript / WASM | npm package plus WASM bundle | `preview` | Release when browser and Node smoke tests pass, bundle size and loading behavior are controlled, and the WASM artifact remains deterministic. |
-| Kotlin/Native | Native artifact over C ABI, service, or file contract | `private` | Release when the Kotlin adapter is thin, CI covers the supported native target range, and the packaging path is reproducible. |
-| Scala / Spark | Spark package, Spark SQL integration, or lakehouse file/service adapter | `private` | Release when Spark fixtures pass, schema evolution is pinned, and no formula logic is implemented in Spark jobs. |
-| Swift | Swift Package Manager package over C ABI, service, or file contract | `private` | Release when Apple-platform fixtures pass and native packaging does not create duplicated calculator behavior. |
-| Stata | Stata ado/do examples or package over file, CLI, or service contract | `private` | Release when health-economics examples pass shared fixtures and remain boundary-only. |
-| MATLAB | MATLAB scripts/toolbox over file, CLI, service, or C ABI contract | `private` | Release when numerical examples pass shared fixtures and no MATLAB formula implementation is introduced. |
-| C ABI | Shared library plus stable headers | `preview` | Release when exported symbols are versioned, headers are frozen for the supported ABI window, and backward-compatibility tests pass. |
-| SQL / DuckDB | Extension, SQL UDF package, or embedded integration | `preview` | Release when SQL fixtures round-trip through the same Rust core and explainability/diagnostics remain consistent with the host engine. |
-| SAS interop | File-based exchange assets, adapter scripts, or integration bundle | `private` | Release only if the interface stays boundary-only, the exchange contract is fixed, and the artifact can be validated without proprietary formula duplication. |
-| CLI / file | CLI binary, batch file contract, and deterministic input/output formats | `ga` for file contract; `preview` for branded CLI distribution | Move CLI distribution to `ga` only after exit codes, stdin/stdout contracts, and batch-file behavior are stable across fixtures. |
-| Web demos | Static demo shell, documentation demo, or hosted sample app | `preview` | Release only as a demo surface that calls the shared artifact or file contract; do not embed a separate formula implementation. |
-| Power Platform managed solutions | Managed solution, connectors, environment variables, and flow/app packaging | `private` | Release when the managed solution boundary is explicit, the service contract is approved, and no formula logic lives inside apps, flows, or low-code expressions. |
+| Surface | Artifact/package shape | Registry evidence state | Current status | Release gate to advance |
+| --- | --- | --- | --- | --- |
+| Python | Wheels and source distribution | Published on PyPI (`nwau-py`) | `ga` current validated public runtime | Keep as baseline until every promoted surface demonstrates parity against the same fixtures and diagnostics contract. |
+| Rust | Crates (`nwau-core`, `nwau-c-abi`, `nwau-py`) | Unpublished; local crates exist, and two of three crates are explicitly `publish = false` | `preview` internal-first binding layer | Promote to `ga` only when the Rust core is the single source of formula logic, the public crate API is stable, and semver/release automation is in place. |
+| R | Package wrapper over the shared core or file contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when the wrapper is thin, R CI validates the same fixtures, and the package does not embed duplicate formula logic. |
+| Julia | Package wrapper over the shared core or file contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when Julia CI, artifact install checks, and parity fixtures pass without runtime-specific behavior drift. |
+| NuGet / C# | .NET package and managed wrapper | Unpublished (no public NuGet evidence) | `preview` | Release when the .NET wrapper remains thin, binary compatibility is documented, and signed package publishing is repeatable. |
+| Go | Go module, preferably thin wrapper over C ABI or CLI/file contract | Unpublished (no public module evidence) | `private` | Release when cross-compilation is stable, no duplicated business logic exists, and the module can be tested end-to-end in CI. |
+| TypeScript / WASM | npm package plus WASM bundle | Private shell only; `wasm-binding/package.json` is `"private": true` and unpublished | `preview` | Release when browser and Node smoke tests pass, bundle size and loading behavior are controlled, and the WASM artifact remains deterministic. |
+| Kotlin/Native | Native artifact over C ABI, service, or file contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when the Kotlin adapter is thin, CI covers the supported native target range, and the packaging path is reproducible. |
+| Scala / Spark | Spark package, Spark SQL integration, or lakehouse file/service adapter | Private / roadmap-only (no registry submission evidence) | `private` | Release when Spark fixtures pass, schema evolution is pinned, and no formula logic is implemented in Spark jobs. |
+| Swift | Swift Package Manager package over C ABI, service, or file contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when Apple-platform fixtures pass and native packaging does not create duplicated calculator behavior. |
+| Stata | Stata ado/do examples or package over file, CLI, or service contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when health-economics examples pass shared fixtures and remain boundary-only. |
+| MATLAB | MATLAB scripts/toolbox over file, CLI, service, or C ABI contract | Private / roadmap-only (no registry submission evidence) | `private` | Release when numerical examples pass shared fixtures and no MATLAB formula implementation is introduced. |
+| C ABI | Shared library plus stable headers | Unpublished local artifacts only | `preview` | Release when exported symbols are versioned, headers are frozen for the supported ABI window, and backward-compatibility tests pass. |
+| SQL / DuckDB | Extension, SQL UDF package, or embedded integration | Unpublished local prototype | `preview` | Release when SQL fixtures round-trip through the same Rust core and explainability/diagnostics remain consistent with the host engine. |
+| MCP server | Stdio MCP server entry point over the canonical MCP contract | Local stdio server implemented; official MCP Registry metadata and GitHub OIDC publication workflow prepared; registry publication waits for a package release that includes `mchs-mcp`; Docker/Smithery deferred | `preview` local-use surface | Publish metadata to the official MCP Registry after the package release includes `mchs-mcp`; consider Glama for public indexing, Smithery only after HTTP or MCPB packaging, and Docker MCP Registry only if containerized distribution is added. |
+| SAS interop | File-based exchange assets, adapter scripts, or integration bundle | Private / roadmap-only (no registry submission evidence) | `private` | Release only if the interface stays boundary-only, the exchange contract is fixed, and the artifact can be validated without proprietary formula duplication. |
+| CLI / file | CLI binary, batch file contract, and deterministic input/output formats | Published as Python CLI entrypoint; branded CLI package remains unpublished | `ga` for file contract; `preview` for branded CLI distribution | Move CLI distribution to `ga` only after exit codes, stdin/stdout contracts, and batch-file behavior are stable across fixtures. |
+| Web demos | Static demo shell, documentation demo, or hosted sample app | Unpublished demo distribution only | `preview` | Release only as a demo surface that calls the shared artifact or file contract; do not embed a separate formula implementation. |
+| Power Platform managed solutions | Managed solution, connectors, environment variables, and flow/app packaging | Private / roadmap-only (no public solution registry evidence) | `private` | Release when the managed solution boundary is explicit, the service contract is approved, and no formula logic lives inside apps, flows, or low-code expressions. |
+
+Registry note: do not assert publication on any surface unless the target registry page is explicitly linked in evidence.
 
 ## Surface-specific notes
 
