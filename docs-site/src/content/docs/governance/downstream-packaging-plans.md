@@ -15,6 +15,8 @@ Rules:
   names, working directory, and CLI command that produced each result.
 - R should start with a thin wrapper over the shared CLI plus CSV file
   exchange, with Arrow/Parquet deferred until the shared file contract exists.
+- R should evaluate `extendr` when native Rust integration is justified by
+  fixture-backed parity and stable ownership boundaries.
 - R Markdown and Quarto examples should use synthetic fixture data and read
   back shared outputs only.
 - Keep the R surface wrapper-only; do not reimplement formulas, adjustment
@@ -58,6 +60,8 @@ Rules:
 - Keep privacy rules consistent across all wrappers: do not store patient-level
   data in browser caches, notebook outputs, or ad hoc local artifacts beyond
   the minimum needed to run the job.
+- Release readiness depends on shared fixture parity, stable contract
+  versioning, and repeatable cross-runtime validation evidence.
 - Release readiness depends on shared fixture parity, stable contract
   versioning, and Arrow-boundary consistency across all downstream surfaces.
 - For C ABI consumers, keep fixture parity with the shared engine, preserve
