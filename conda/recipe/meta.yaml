@@ -32,6 +32,7 @@ requirements:
     - polars
     - pyreadstat
     - pyxlsb
+    - pyyaml
 
 test:
   imports:
