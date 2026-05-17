@@ -53,27 +53,31 @@ jobs:
 
       - name: Generate SBOM (CycloneDX)
         run: |
-          uv run pip install cyclonedx-bom 2>/dev/null || true
-          if command -v cyclonedx-py &>/dev/null; then
-            cyclonedx-py --project-name nwau_py --output dist/sbom.cdx.json
-          else
-            echo "SBOM generator not available; generating minimal metadata."
-            project_version="$(uv run python -c 'import tomllib; print(tomllib.load(open("pyproject.toml","rb"))["project"]["version"])')"
-            cat > dist/sbom.cdx.json << SBOM
-            {
+          uv run python - <<'PY'
+          import json
+          import pathlib
+          import tomllib
+
+          version = tomllib.loads(
+              pathlib.Path("pyproject.toml").read_text(encoding="utf-8")
+          )["project"]["version"]
+          payload = {
               "bomFormat": "CycloneDX",
               "specVersion": "1.5",
               "version": 1,
               "metadata": {
-                "component": {
-                  "name": "nwau_py",
-                  "version": "${project_version}",
-                  "type": "library"
-                }
-              }
-            }
-            SBOM
-          fi
+                  "component": {
+                      "name": "nwau_py",
+                      "version": version,
+                      "type": "library",
+                  }
+              },
+          }
+          pathlib.Path("dist/sbom.cdx.json").write_text(
+              json.dumps(payload, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
 
       - name: Generate artifact checksums
         run: |
