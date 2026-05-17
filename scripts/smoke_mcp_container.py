@@ -3,19 +3,23 @@
 from __future__ import annotations
 
 import json
-import subprocess
+import shutil
+import subprocess  # nosec B404 - intentional Docker smoke-test harness.
 import sys
 
 
 def main() -> int:
     """Run initialize and tools/list against a Docker image command."""
     image = sys.argv[1] if len(sys.argv) > 1 else "mchs-mcp:local"
+    docker = shutil.which("docker")
+    if docker is None:
+        raise RuntimeError("docker executable not found")
     requests = [
         {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}},
         {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}},
     ]
-    proc = subprocess.run(
-        ["docker", "run", "--rm", "-i", image],
+    proc = subprocess.run(  # nosec B603 - command is fixed; image is explicit CLI input.
+        [docker, "run", "--rm", "-i", image],
         input="".join(json.dumps(request) + "\n" for request in requests),
         text=True,
         capture_output=True,
