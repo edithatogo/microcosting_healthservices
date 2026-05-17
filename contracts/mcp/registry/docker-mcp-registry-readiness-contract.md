@@ -45,6 +45,8 @@ because the existing artifact is a local stdio MCP server.
 - A `readme.md` or documentation link suitable for the Docker Registry PR.
 - Submission documentation for the Docker Registry PR, including category, tags,
   title, description, source project URL, pinned commit, and config behavior.
+- The candidate `about.source.commit` value must be replaced with the exact
+  submission commit before opening the upstream Docker MCP Registry PR.
 
 ## Required Validation Evidence
 

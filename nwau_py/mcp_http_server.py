@@ -69,7 +69,7 @@ class McpHttpHandler(BaseHTTPRequestHandler):
 
     server_version = "MCHS-MCP-HTTP/0.1"
 
-    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002
+    def log_message(self, format: str, *args: Any) -> None:
         """Suppress default stderr logging to avoid leaking request context."""
 
     def _write_json(self, status: HTTPStatus, payload: Any) -> None:
@@ -80,7 +80,7 @@ class McpHttpHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def do_GET(self) -> None:  # noqa: N802
+    def do_GET(self) -> None:
         """Serve health and static server-card metadata."""
         if self.path == "/healthz":
             self._write_json(HTTPStatus.OK, health_payload())
@@ -92,7 +92,7 @@ class McpHttpHandler(BaseHTTPRequestHandler):
                 {"error": "not_found", "message": f"No route for {self.path}"},
             )
 
-    def do_POST(self) -> None:  # noqa: N802
+    def do_POST(self) -> None:
         """Serve Streamable HTTP JSON-RPC requests at ``/mcp``."""
         if self.path != "/mcp":
             self._write_json(
