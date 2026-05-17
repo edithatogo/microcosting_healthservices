@@ -18,6 +18,7 @@
     "contracts/mcp/registry/docker/server.yaml",
     "contracts/mcp/registry/docker/tools.json",
     "contracts/mcp/registry/docker/readme.md",
+    "contracts/mcp/registry/docker/local-validation-20260517.md",
     "tests/test_mcp_server.py"
   ],
   "publication_status": "ready-not-published",
