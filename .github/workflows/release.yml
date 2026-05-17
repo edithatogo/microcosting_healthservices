@@ -82,6 +82,7 @@ jobs:
       - name: Generate artifact checksums
         run: |
           set -euo pipefail
+          rm -f dist/.gitignore dist/default.gitignore
           shopt -s nullglob
           artifacts=(dist/*.whl dist/*.tar.gz dist/*.zip dist/*.json)
           if [ ${#artifacts[@]} -eq 0 ]; then

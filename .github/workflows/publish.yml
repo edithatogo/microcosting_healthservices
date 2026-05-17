@@ -97,6 +97,7 @@ jobs:
 
       - name: Verify release artifact checksums
         run: |
+          rm -f dist/.gitignore dist/default.gitignore
           files_list="${RUNNER_TEMP:-/tmp}/publish-dist-files.txt"
           unexpected_files="${RUNNER_TEMP:-/tmp}/publish-unexpected-files.txt"
           find dist -maxdepth 1 -type f -printf '%f\n' > "${files_list}"
