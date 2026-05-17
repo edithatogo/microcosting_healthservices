@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.edithatogo/mchs",
   "title": "MCHS NWAU Calculator",
-  "description": "Stdio MCP server exposing MCHS calculator schemas, validation, support status, and evidence over the canonical Python runtime boundary.",
+  "description": "Stdio MCP server for MCHS schemas, validation, support status, and evidence.",
   "repository": {
     "url": "https://github.com/edithatogo/mchs",
     "source": "github"
