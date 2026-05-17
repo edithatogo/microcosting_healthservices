@@ -111,8 +111,8 @@ def test_mcp_registry_metadata_is_prepared_but_not_overclaimed():
 
 
 def test_pypi_readme_contains_mcp_registry_verification_marker():
-    readme = (
-        mcp_server._project_root() / "nwau_py" / "README.md"
-    ).read_text(encoding="utf-8")
+    readme = (mcp_server._project_root() / "nwau_py" / "README.md").read_text(
+        encoding="utf-8"
+    )
 
     assert "<!-- mcp-name: io.github.edithatogo/mchs -->" in readme
