@@ -14,7 +14,7 @@ Docker is not required.
 | Official MCP Registry | Published. | `mcp-publisher` published `io.github.edithatogo/mchs` version `0.2.2` on 2026-05-17; registry search API returns active/latest metadata for `io.github.edithatogo/mchs`; `nwau-py 0.2.2` is visible on PyPI. |
 | Glama | Eligible through official-registry indexing; no separate authenticated submission completed from this environment. | Glama documentation states it is a superset of the official MCP Registry. Direct Glama API verification was blocked by its edge protection from this environment. |
 | Smithery | Ready for hosted submission, not yet published. | `mchs-mcp-http` provides a Streamable HTTP adapter and `contracts/mcp/registry/smithery/` records the runbook and server-card fallback. No public HTTPS endpoint or Smithery listing is recorded yet. |
-| Docker MCP Registry | Ready for validation and PR, not yet published. | `Dockerfile`, `scripts/smoke_mcp_container.py`, and `contracts/mcp/registry/docker/` provide the local containerized server candidate. Docker Registry validation and PR evidence are not recorded yet. |
+| Docker MCP Registry | Submitted by PR, not yet catalog-published. | `Dockerfile`, `scripts/smoke_mcp_container.py`, and `contracts/mcp/registry/docker/` provide the local containerized server candidate. Docker Registry metadata validation passed and PR `https://github.com/docker/mcp-registry/pull/3595` is open. |
 
 ## Official MCP Registry Basis
 
@@ -67,5 +67,6 @@ uv run mchs-mcp
 
 - Smithery requires public HTTPS hosting and Smithery scan/listing evidence
   before publication can be claimed.
-- Docker MCP Registry requires Docker Registry validation and a PR or merge
-  record before Docker MCP Catalog publication can be claimed.
+- Docker MCP Registry PR `https://github.com/docker/mcp-registry/pull/3595`
+  must merge, or the catalog listing must be visible, before Docker MCP Catalog
+  publication can be claimed.

@@ -1,47 +1,78 @@
-# Docker MCP Registry Local Validation Attempt
+# Docker MCP Registry Local Validation Evidence
 
 Date: 2026-05-17
-Commit under validation: `3a2d07eee5aae3aa03159e1115936c08bb5a5aeb`
+Source commit under validation: `a33823b0b607b42e7bf2782bd9a513b01434e3ce`
+Docker MCP Registry PR: `https://github.com/docker/mcp-registry/pull/3595`
 
-## Attempted Commands
+## Source Repository Validation
 
 ```bash
-docker --version
-task --version
+docker pull python:3.11-slim
 docker build -t mchs-mcp:local .
+python3 scripts/smoke_mcp_container.py mchs-mcp:local
+PYTHONPATH=. uv run pytest tests/test_mcp_server.py
+uv run ruff check nwau_py/mcp_server.py tests/test_mcp_server.py
 ```
 
-## Results
+## Source Repository Results
 
-- Docker is installed: `Docker version 29.4.3, build 055a478ea9`.
-- `task` is not installed in this environment, so Docker MCP Registry upstream
-  validation commands such as `task validate -- --name mchs` and
-  `task build -- --tools mchs` could not be run locally.
-- The Docker build did not reach repository build steps. It blocked while
-  resolving Docker Hub metadata for `python:3.11-slim` through OrbStack.
+- `python:3.11-slim` was pulled successfully.
+- `docker build -t mchs-mcp:local .` completed successfully after slimming the
+  MCP image path to install the package with `--no-deps`.
+- `python3 scripts/smoke_mcp_container.py mchs-mcp:local` passed.
+- `PYTHONPATH=. uv run pytest tests/test_mcp_server.py` passed: `13 passed`.
+- `uv run ruff check nwau_py/mcp_server.py tests/test_mcp_server.py` passed:
+  `All checks passed!`.
 
-Observed build error after canceling the hung build:
+## Docker MCP Registry Validation
+
+The upstream Docker MCP Registry fork was prepared under `servers/mchs/` with:
+
+- `server.yaml`
+- `tools.json`
+- `readme.md`
+
+Validation command:
+
+```bash
+/tmp/task-bin/task validate -- --name mchs
+```
+
+Result:
 
 ```text
-ERROR: failed to solve: Canceled: context canceled
-#2 ERROR: Unavailable: connection error: desc = "transport: Error while dialing: only one connection allowed"
+[pass] Name is valid
+[pass] Directory is valid
+[pass] Title is valid
+[pass] YAML formatting is valid
+[pass] Commit is pinned
+[pass] Secrets are valid
+[pass] Config env is valid
+[pass] License is valid
+[pass] Icon is valid
+[pass] Remote validation skipped (not a remote server)
+[pass] OAuth dynamic configuration is valid
 ```
 
-## Interpretation
+## Docker MCP Registry Build Helper Note
 
-This is an environment/base-image retrieval blocker, not evidence that the
-MCHS Dockerfile is invalid. The next validation attempt should run in an
-environment that can pull `python:3.11-slim` and has the Docker MCP Registry
-`task` tooling installed.
+`/tmp/task-bin/task build -- --tools mchs` launched Docker BuildKit with this
+pinned remote git context:
 
-## Remaining Docker Registry Gates
+```text
+https://github.com/edithatogo/mchs.git#a33823b0b607b42e7bf2782bd9a513b01434e3ce
+```
 
-- Build `mchs-mcp:local` from a clean checkout.
-- Run `python scripts/smoke_mcp_container.py mchs-mcp:local`.
-- Copy `contracts/mcp/registry/docker/*` into the upstream Docker MCP Registry
-  shape under `servers/mchs/`.
-- Replace `about.source.commit: UPDATE_BEFORE_DOCKER_REGISTRY_PR` with the
-  exact submission commit.
-- Run Docker MCP Registry validation tooling.
-- Open the Docker MCP Registry PR and record its URL/status before claiming
-  Docker MCP Catalog publication.
+In this local environment the BuildKit remote git-context process produced no
+further output and had to be cancelled. The same commit and Dockerfile build
+successfully from a clean local checkout, and the resulting image passes the
+MCP container smoke test. This is recorded as a local BuildKit/remote-context
+blocker, not as evidence of an invalid MCHS Dockerfile.
+
+## Submission Evidence
+
+- Fork branch: `https://github.com/edithatogo/mcp-registry/tree/add-mchs-mcp`
+- Docker MCP Registry PR: `https://github.com/docker/mcp-registry/pull/3595`
+
+Docker MCP Catalog publication is not claimed until the PR is merged or the
+catalog listing is visible.

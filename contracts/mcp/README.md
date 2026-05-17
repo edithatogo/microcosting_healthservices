@@ -30,7 +30,7 @@ When a server exists, use this registry order:
 | Target | Use when | Status for MCHS |
 | --- | --- | --- |
 | Official MCP Registry (`registry.modelcontextprotocol.io`) | Public server metadata is ready and points to a public package, container, or remote endpoint. This is the canonical MCP metadata registry. | Published as `io.github.edithatogo/mchs` version `0.2.2`. |
-| Docker MCP Registry / Docker MCP Catalog | The server has a Docker deployment path and should be discoverable through Docker Desktop and Docker Hub tooling. | Readiness implementation exists through `Dockerfile`, `scripts/smoke_mcp_container.py`, and `contracts/mcp/registry/docker/`; submission remains unclaimed until Docker Registry validation and PR evidence exist. |
+| Docker MCP Registry / Docker MCP Catalog | The server has a Docker deployment path and should be discoverable through Docker Desktop and Docker Hub tooling. | Submitted to Docker MCP Registry in PR `https://github.com/docker/mcp-registry/pull/3595`; catalog publication remains unclaimed until merge or visible listing evidence exists. |
 | Glama | The server is open source or publicly reachable and should be indexed, inspected, and tested through a public discovery layer. | Eligible through official MCP Registry indexing; no separate authenticated submission is recorded. |
 | Smithery | The server exposes Streamable HTTP with OAuth where required, or ships a local MCPB bundle for stdio distribution. | Readiness implementation exists through `mchs-mcp-http` and `contracts/mcp/registry/smithery/`; submission remains unclaimed until public HTTPS hosting and Smithery scan/listing evidence exist. |
 
@@ -93,5 +93,7 @@ The Docker-ready local server path is represented by:
 - `contracts/mcp/registry/docker/tools.json`
 - `contracts/mcp/registry/docker/readme.md`
 
-Docker MCP Catalog publication must not be claimed until Docker Registry tooling
-validation and PR or merge evidence are recorded.
+Docker MCP Registry metadata validation passed and PR
+`https://github.com/docker/mcp-registry/pull/3595` is open. Docker MCP Catalog
+publication must not be claimed until merge or visible listing evidence is
+recorded.

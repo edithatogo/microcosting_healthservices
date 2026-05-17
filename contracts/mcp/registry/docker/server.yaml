@@ -10,11 +10,12 @@ meta:
     - calculator
     - mcp
 about:
-  title: MCHS NWAU Calculator MCP
-  description: Stdio MCP server for MCHS schemas, validation, support status, and evidence. It does not claim official IHACPA endorsement and does not bundle private healthcare data.
-  icon: https://www.google.com/s2/favicons?domain=github.com&sz=64
-  source:
-    project: https://github.com/edithatogo/mchs
-    commit: UPDATE_BEFORE_DOCKER_REGISTRY_PR
+  title: MCHS NWAU Calculator
+  description: Stdio MCP server for MCHS calculator schemas, validation, support status, and release evidence. It does not claim official IHACPA endorsement and does not bundle private healthcare data.
+  icon: https://avatars.githubusercontent.com/edithatogo
+source:
+  project: https://github.com/edithatogo/mchs
+  branch: master
+  commit: a33823b0b607b42e7bf2782bd9a513b01434e3ce
 config:
   description: No secrets are required for MCP discovery or read-only metadata calls.
