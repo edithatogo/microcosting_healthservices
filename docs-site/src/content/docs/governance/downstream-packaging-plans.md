@@ -25,6 +25,8 @@ Rules:
   prototype and `DataFrames.jl` plus `Arrow.jl` around the target interchange
   workflow once the shared Arrow contract exists. Treat C ABI, `ccall`, and
   `jlrs` as later options only if native embedding becomes necessary.
+- Julia should evaluate `jlrs` or a `ccall` wrapper only after fixture parity
+  and the Rust core boundary are stable.
 - SAS-adjacent workflows should stay file based and external-process driven.
   Use them for importing fixtures, calling the shared CLI, and exporting
   outputs, not for reimplementing calculator rules inside SAS code.
