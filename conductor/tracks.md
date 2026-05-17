@@ -503,3 +503,15 @@ content alone is not sufficient evidence for marking a track complete.
 - [x] **Track: Contract Schema Export**
 *Link: [./tracks/contract_schema_export_20260512/](./tracks/contract_schema_export_20260512/)*
 *Gate: export versioned schemas for calculator contracts, manifests, evidence, diagnostics, and provenance before implementing broad bindings.*
+
+---
+
+- [x] **Track: Smithery MCP Registry Readiness**
+*Link: [./tracks/smithery_mcp_registry_readiness_20260517/](./tracks/smithery_mcp_registry_readiness_20260517/)*
+*Gate: repository readiness is implemented; do not claim Smithery publication until a public Streamable HTTP endpoint, Smithery scan, and listing evidence exist.*
+
+---
+
+- [x] **Track: Docker MCP Registry Readiness**
+*Link: [./tracks/docker_mcp_registry_readiness_20260517/](./tracks/docker_mcp_registry_readiness_20260517/)*
+*Gate: repository readiness is implemented; do not claim Docker MCP Catalog publication until Docker Registry validation and PR or merge evidence exist.*

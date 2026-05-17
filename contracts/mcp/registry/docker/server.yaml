@@ -1,0 +1,20 @@
+name: mchs
+image: mcp/mchs
+type: server
+meta:
+  category: analytics
+  tags:
+    - healthcare
+    - analytics
+    - nwau
+    - calculator
+    - mcp
+about:
+  title: MCHS NWAU Calculator MCP
+  description: Stdio MCP server for MCHS schemas, validation, support status, and evidence. It does not claim official IHACPA endorsement and does not bundle private healthcare data.
+  icon: https://www.google.com/s2/favicons?domain=github.com&sz=64
+  source:
+    project: https://github.com/edithatogo/mchs
+    commit: 75e678aeef101fc834508087d53ca517650dc85e
+config:
+  description: No secrets are required for MCP discovery or read-only metadata calls.
